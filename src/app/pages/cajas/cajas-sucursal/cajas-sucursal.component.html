@@ -1,0 +1,117 @@
+<div *ngIf="sesionActiva && datosSesion?.cve_sucursal !== cveSucursal">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="a card card-body">
+                <h2>Tienes una sesion abierta en la caja: {{ datosSesion?.descripcion }}</h2>
+                <span>Solo se puede tener una caja abierta por usuario.</span>
+                <span>Si deseas abrir una caja en esta sucursal primero cierra la caja abierta en la sucursal
+                    <strong>{{ datosSesion?.nombre_sucursal }}.</strong></span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="sesionActiva && datosSesion?.cve_sucursal === cveSucursal">
+    <div class="row">
+
+        <div class="col-md-4">
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="a card card-body">
+                <div class="row">
+                    <div class="col-md-2 a">
+                        <mat-icon>point_of_sale</mat-icon>
+                    </div>
+                    <div class="col-8 a">
+                        <h2>{{datosSesion?.descripcion}}</h2>
+                    </div>
+                    <div class="col-2 a">
+                        <button mat-mini-fab class="btnActivo">
+                            <mat-icon>done_outline</mat-icon>
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <h4><strong>Fecha de apertura:</strong> {{ datosSesion?.fecha_apertura | date:'dd/MM/yyyy
+                            hh:mm:ss' }}</h4>
+                    </div>
+
+                    <div class="col-12">
+                        <h4><strong>Actualmente en uso por:</strong> {{ datosSesion?.nombre | uppercase}}</h4>
+                    </div>
+
+                    <ng-container class="row btn-container">
+                        <div class="col-12">
+                            <button type="button" mat-raised-button color="primary" (click)="irCaja()"
+                                class="btnCaja">Continuar
+                                Sesi&oacute;n</button>
+                        </div>
+                    </ng-container>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div *ngIf="!sesionActiva && (listaCajas?.length > 0)">
+    <div class="row">
+        <div class="col-md-4" *ngFor="let caja of listaCajas">
+            <div class="card card-body" >
+
+                <div class="row">
+                    <div class="col-md-2 a">
+                        <mat-icon>point_of_sale</mat-icon>
+                    </div>
+                    <div class="col-md-10 a">
+                        <h2>{{caja?.descripcion}}</h2>
+                    </div>
+                </div>
+
+
+                <div *ngIf="caja?.fecha_cierre !== ''">
+                    <h4 >
+                        <strong>Ultima fecha de cierre: </strong>
+                        {{ caja?.fecha_cierre | date:'dd/MM/yyyy hh:mm:ss'}}
+                    </h4>
+                </div>
+
+                <div *ngIf="caja?.fecha_cierre === ''">
+                    <h4 >&nbsp;&nbsp;</h4>
+                </div>
+
+                <div class="row" class="btn-container">
+                    <div class=" col-12">
+                        <button type="button" mat-raised-button color="primary" 
+                            (click)="iniciarSession(caja)"
+                            class="btnCaja">Nueva Sesi&oacute;n</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!sesionActiva && (listaCajas?.length === 0)">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="a card card-body">
+                <h2>No se encontraron cajas disponibles.</h2>
+            </div>
+        </div>
+    </div>
+</div>

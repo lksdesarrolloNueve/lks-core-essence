@@ -1,0 +1,383 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-body">
+            <h2 class=" text-center">Administraci&oacute;n de Usuarios</h2>
+    </div>
+    </div>
+ 
+    <div class="col-md-9">
+        <div class="card card-body">
+        <form [formGroup]="formUsuarios">
+            <div class="row">
+                <div class="col-6">
+                    <h2 class="text-center" *ngIf="editar">Usuario : {{nombreUsuario}}</h2>
+                </div>
+                <div class="col-2">
+                    <button mat-fab color="primary" *ngIf="!editar" (click)="crudUsuario(1)">
+                        <mat-icon matTooltip="Guardar Usuario">done_outline</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2 ">
+                    <button mat-fab color="primary" *ngIf="editar" (click)="crudUsuario(2)">
+                        <mat-icon matTooltip="Editar Usuario">create</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button mat-fab color="primary" (click)="nuevoUsuario()">
+                        <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 ">
+        <div class="card card-body">
+        <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+            <mat-list-item *ngFor="let usuario of listaUsuarios" (click)="spsUsuarioByUsername(usuario)">
+                <p matListItemTitle>{{usuario.username}}</p>
+            </mat-list-item>
+        </mat-nav-list>
+    </div>
+    </div>
+    <div class="col-md-9 ">
+    <div class="card card-body">
+        <div class="row">
+            <div class="col-12">
+                <mat-tab-group backgroundColor="primary" mat-align-tabs="start">
+                    <mat-tab label="Detalles">
+                        <div class="row">
+                            <div class="col-12">
+                                <form [formGroup]="formUsuarios">
+                                    <p></p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>ID</mat-label>
+                                                <input formControlName="id" matInput [readonly]="true">
+                                                <mat-icon matSuffix>vpn_key</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>Username</mat-label>
+                                                <input formControlName="username" [disabled]="editar" matInput>
+                                                <mat-icon matSuffix>account_circle</mat-icon>
+                                                <ng-template ngFor let-error [ngForOf]="validaciones.username" ngProjectAs="mat-error">
+                                                    <mat-error *ngIf="formUsuarios.get('username').hasError(error.type)">
+                                                        <strong> {{error.message}}</strong>
+                                                    </mat-error>
+                                                </ng-template>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>Email</mat-label>
+                                                <input formControlName="email" matInput>
+                                                <mat-icon matSuffix>email</mat-icon>
+                                                <ng-template ngFor let-error [ngForOf]="validaciones.email" ngProjectAs="mat-error">
+                                                    <mat-error *ngIf="formUsuarios.get('email').hasError(error.type)">
+                                                        <strong> {{error.message}}</strong>
+                                                    </mat-error>
+                                                </ng-template>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>Nombre</mat-label>
+                                                <input formControlName="firstName" matInput>
+                                                <mat-icon matSuffix>edit</mat-icon>
+                                                <ng-template ngFor let-error [ngForOf]="validaciones.firstName" ngProjectAs="mat-error">
+                                                    <mat-error *ngIf="formUsuarios.get('firstName').hasError(error.type)">
+                                                        <strong> {{error.message}}</strong>
+                                                    </mat-error>
+                                                </ng-template>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>Apellido Paterno</mat-label>
+                                                <input formControlName="lastName" matInput>
+                                                <mat-icon matSuffix>edit</mat-icon>
+                                                <ng-template ngFor let-error [ngForOf]="validaciones.lastName" ngProjectAs="mat-error">
+                                                    <mat-error *ngIf="formUsuarios.get('lastName').hasError(error.type)">
+                                                        <strong> {{error.message}}</strong>
+                                                    </mat-error>
+                                                </ng-template>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-slide-toggle formControlName="enabled" color="primary"
+                                                (change)="abrirAdvertencia($event)" [disabled]="!editar">
+                                                Estatus
+                                            </mat-slide-toggle>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-slide-toggle formControlName="emailVerified" color="primary">
+                                                Verificaci&oacute;n de Correo
+                                            </mat-slide-toggle>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>Password</mat-label>
+                                                <input matInput formControlName="password"
+                                                    [type]="hide ? 'password' : 'text'">
+                                                <button mat-icon-button matSuffix (click)="hide = !hide"
+                                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                </button>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>Confirmaci&oacute;n Password</mat-label>
+                                                <input matInput formControlName="confPassword"
+                                                    [type]="hide2 ? 'password' : 'text'" [errorStateMatcher]="matcher">
+                                                <button mat-icon-button matSuffix (click)="hide2 = !hide2"
+                                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                                                    <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                </button>
+                                                <mat-error *ngIf="formUsuarios.hasError('notSame')">
+                                                    Passwords do not match
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-slide-toggle formControlName="temporary" color="primary">
+                                                Temporal
+                                            </mat-slide-toggle>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Roles" [disabled]="!editar">
+                        <div class="row">
+                            <div class="col-12">
+                                <form [formGroup]="formUsuarios">
+                                    <div class="row">
+                                        <!--Combo para la lita de roles-->
+                                        <div class="col-12">
+                                            <mat-selection-list class="scroll-container"
+                                                (selectionChange)="seleccionarRoles($event)"
+                                                [ngStyle]="{'height': '650', 'width':'100%'}" #roles>
+                                                <button mat-raised-button (click)="agregarRol()" color="primary"
+                                                    cdkFocusInitial>Administracion Roles</button>
+                                                <mat-list-option (click)="seleccionarTodosRoles()" [value]="-1"
+                                                    [selected]="allSelectedRol"><strong>SELECCIONAR TODOS LOS
+                                                        ROLES</strong></mat-list-option>
+                                                <div *ngIf="editar === true">
+                                                    <mat-list-option *ngFor="let rol of listaRolesUsuario2"
+                                                        [value]="rol" [selected]="rol.seleccionado">
+                                                        {{rol.name}}
+                                                    </mat-list-option>
+                                                </div>
+                                            </mat-selection-list>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Sucursales" [disabled]="!editar">
+                        <div class="row">
+                            <div class="col-12">
+                                <form [formGroup]="formUsuarios">
+                                    <div class="row">
+                                        <!--Combo para la lita de sucursales-->
+                                        <div class="col-12">
+                                            <mat-selection-list class="scroll-container"
+                                                (selectionChange)="mostrarSucursal($event)"
+                                                [ngStyle]="{'height': '650', 'width':'100%'}" #sucursales>
+                                                <mat-label>Selecciona las Sucursales</mat-label>
+                                                <mat-list-option (click)="seleccionaTodasSuc()" [value]="-1"
+                                                    [selected]="allSelectedSuc"><strong>SELECCIONAR TODAS LAS
+                                                        SUCURSALES</strong></mat-list-option>
+                                                <div *ngIf="editar === true">
+                                                    <mat-list-option *ngFor="let sucursal of listaAgregaSucursales"
+                                                        [value]="sucursal" [selected]="sucursal.seleccionado">
+                                                        {{sucursal.cveSucursal}} / {{sucursal.nombreSucursal}}
+                                                    </mat-list-option>
+                                                </div>
+                                            </mat-selection-list>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="C.Bancos" [disabled]="!editar">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <br>
+                                <form [formGroup]="formPermisosUsiarios">
+                                    <div class="row">
+                                        <!--Combo para la lita de permisos de usuarios a cuentas bancarias-->
+                                        <div class="col-md-3">
+                                            <mat-form-field class="full-width" appearance="outline">
+                                                <mat-label>Cuenta</mat-label>
+                        
+                                                <input type="text" placeholder="Cuenta bancaria" matInput formControlName="cuentaBancOri"
+                                                    [matAutocomplete]="autoCuentaBO">
+                                                <mat-autocomplete autoActiveFirstOption #autoCuentaBO="matAutocomplete"
+                                                    [displayWith]="displayCuentaBancOri">
+                                                    <mat-option *ngFor="let optionCBO of opcionesCuentaBancoOri | async" [value]="optionCBO">
+                                                        {{optionCBO.claveCuenta}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                                <!--Validación-->
+                                                <ng-template ngFor let-error [ngForOf]="validacionesPeriodoPruebas.cuentaBancOri" ngProjectAs="mat-error">
+                                                    <mat-error *ngIf="formPermisosUsiarios.get('cuentaBancOri').hasError(error.type)">
+                                                        <strong> {{error.message}}</strong>
+                                                    </mat-error>
+                                                </ng-template>
+                                            </mat-form-field>
+                                        </div><br />
+
+                                        <div class="col-md-2"><br />
+                                            <mat-slide-toggle 
+                                                [formControl]="estatus"  color="primary" 
+                                                (change)="activarDesactivarPermisosUsuario($event)">
+                                                Estatus
+                                            </mat-slide-toggle>
+                                        </div><br />
+                                        
+                                        <div class="col-md-2"><br />
+                                            <mat-slide-toggle  (ngModelChange)="aplicaCaducidadd($event)"
+                                            [formControl]="aplicaCaducidad" color="primary">
+                                                Aplica Caducidad
+                                            </mat-slide-toggle>
+                                        </div><br />
+
+                                        <div class="col-md-4" *ngIf="showPPrueba">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>Rango del Periodo de fecha de caducidad</mat-label>
+                                                <mat-date-range-input  [formGroup]="formFechas"
+                                                    [rangePicker]="picker">
+                                                    <input matStartDate formControlName="fechainicio" placeholder="Fecha Inicio" >
+                                                    <input matEndDate formControlName="fechadetermino" placeholder="Fecha Fin" >
+                                                </mat-date-range-input>
+                                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                                </mat-datepicker-toggle>
+                                                <mat-date-range-picker #picker></mat-date-range-picker>
+                                
+
+                                             <!--Validación-->
+                                             <ng-template ngFor let-error [ngForOf]="validacionesPeriodoPruebas.fechainicio" ngProjectAs="mat-error">
+                                                <mat-error *ngIf="formFechas.get('fechainicio').hasError(error.type)">
+                                                    <strong> {{error.message}}</strong>
+                                                </mat-error>
+                                            </ng-template>
+
+                                            <!--Validación-->
+                                            <ng-template ngFor let-error [ngForOf]="validacionesPeriodoPruebas.fechadetermino" ngProjectAs="mat-error">
+                                                <mat-error *ngIf="formFechas.get('fechadetermino').hasError(error.type)">
+                                                    <strong> {{error.message}}</strong>
+                                                </mat-error>
+                                            </ng-template>
+
+
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <button color="primary" mat-mini-fab (click)="agregarPermisosUsuarios()">
+                                                <mat-icon>
+                                                    add_circle
+                                                </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <mat-nav-list>
+                                        <mat-list-item *ngFor="let detallePermisosUsu of listaPermisosUsuariosAgregadas">
+                                            <p matListItemTitle>
+                                                
+                                                {{detallePermisosUsu[6]}} - {{detallePermisosUsu[7]}}  /
+                                                {{detallePermisosUsu[2] ? ' Activo ' : ' Inactivo '}}/
+                                                {{detallePermisosUsu[3] ? ' Caducidad ' : '' }} /
+                                                {{detallePermisosUsu[4] | date:'dd-MM-yyyy'}}  /
+                                                {{detallePermisosUsu[5] | date:'dd-MM-yyyy'}} 
+                                            </p>
+                                            <button color="primary" mat-mini-fab matListItemMeta
+                                                aria-label="Example icon-button with a heart icon"
+                                                (click)="eliminarPermisosUsuarios(detallePermisosUsu)">
+                                                <mat-icon>
+                                                    cancel
+                                                </mat-icon>
+                                            </button>
+                                        </mat-list-item>
+                                    </mat-nav-list>
+                                </form>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Sesiones Activas" [disabled]="!editar">
+                        <div class="row">
+                            <div class="col-12 card">
+                                <br />
+                                <div class="row">
+                                    <div class="col-10"></div>
+                                    <div class="col-2"><button mat-mini-fab color="warn" matTooltip="Cerrar todas las sesiones" (click)="cerrarSesion('',2)"><mat-icon>logout</mat-icon></button></div>
+                                </div>
+                                <form [formGroup]="formUsuarios">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <br />
+                                            <div class="mat-elevation-z8 table-responsive">
+                                                <table aria-label="infoSesion" mat-table [dataSource]="dataSourceSesiones"
+                                                    matSort> 
+                                                    <!-- IP Address Column -->
+                                                    <ng-container matColumnDef="ipAddress">
+                                                        <th scope="col" mat-header-cell *matHeaderCellDef>Direcci&oacute;n IP</th>
+                                                        <td mat-cell *matCellDef="let sesiones">
+                                                            {{sesiones.ipAddress}} </td>
+                                                    </ng-container>
+                                                    <!-- Started Column -->
+                                                    <ng-container matColumnDef="start">
+                                                        <th scope="col" mat-header-cell *matHeaderCellDef>Inicio</th>
+                                                        <td mat-cell *matCellDef="let sesiones">
+                                                            {{sesiones.start}} </td>
+                                                    </ng-container>
+                                                    <!-- Ultimo Acceso Column -->
+                                                    <ng-container matColumnDef="lastAccess">
+                                                        <th scope="col" mat-header-cell *matHeaderCellDef>Ultimo Acceso</th>
+                                                        <td mat-cell *matCellDef="let sesiones">
+                                                            {{sesiones.lastAccess}} </td>
+                                                    </ng-container>
+                                                    <!-- Acciones Column -->
+                                                    <ng-container matColumnDef="acciones">
+                                                        <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+                                                        <!-- Boton delete Column -->
+                                                        <td mat-cell *matCellDef="let sesiones">
+                                                            <!-- Boton Editar Column -->
+                                                            <button mat-mini-fab color="primary"
+                                                                (click)="cerrarSesion(sesiones,1)" matTooltip="Cerrar sesi&oacute;n">
+                                                                <mat-icon>logout</mat-icon>
+                                                            </button>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                </table>
+                                            </div>
+                                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                                            aria-label="Select page of users">
+                                        </mat-paginator>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+        <!--Row-->
+    </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<h2 mat-dialog-title>Citatorios A clientes Morosos</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formClieteCitatorios">
+        <div class="row">
+            <!-- Cliente-->
+            <div class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula"> {{lblCliente}}</mat-label>
+                    <input formControlName="cliente" matInput placeholder="No. {{lblClientes}}">
+                </mat-form-field>
+            </div>
+            <!--Tipo de Extrajudicial-->
+            <div class="col-md-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Tipo de Extrajudicial</mat-label>
+                    <input type="text" placeholder="tipoid" matInput formControlName="tipoid" [matAutocomplete]="auto1">
+                    <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="displayFnv">
+                        <mat-option *ngFor="let tipoid of opcionesExtrajudicial | async" [value]="tipoid">
+                            {{tipoid.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tipoid" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formClieteCitatorios.get('tipoid').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Abogado-->
+            <div class="col-md-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Licenciado</mat-label>
+                    <input type="text" placeholder="licenciadoid" matInput formControlName="licenciadoid"
+                        [matAutocomplete]="auto2">
+                    <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="displayFnff">
+                        <mat-option *ngFor="let licenciadoid of opcionesAbogados | async" [value]="licenciadoid">
+                            {{licenciadoid.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.licenciadoid" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formClieteCitatorios.get('licenciadoid').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Fecha-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Fecha:</mat-label>
+                    <input matInput [matDatepicker]="fi" formControlName="fechacontestar">
+                    <mat-datepicker-toggle matSuffix [for]="fi"></mat-datepicker-toggle>
+                    <mat-datepicker #fi></mat-datepicker>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.fechacontestar" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formClieteCitatorios.get('fechacontestar').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Hora contestar-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Hora de Contestar</mat-label>
+                    <input formControlName="horacontestar" type="time" matInput placeholder="">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.horacontestar" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formClieteCitatorios.get('horacontestar').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button (click)="crudExtrajudicial()" mat-raised-button color="primary">{{data.titulo | uppercase}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

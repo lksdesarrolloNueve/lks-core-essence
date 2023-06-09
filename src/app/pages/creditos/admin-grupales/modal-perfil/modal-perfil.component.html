@@ -1,0 +1,73 @@
+<h2 mat-dialog-title>Perfil: {{lblNombre}}</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mat-elevation-z8 perfil-container">
+                <table aria-label="Tabla Ingresos" mat-table [dataSource]="dataSourceIngreso" matSort>
+                    <ng-container matColumnDef="Descripción">
+                        <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>
+                            Descripción
+                        </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let ingresos">
+                            {{ingresos.ingreso}}
+                        </td>
+                        <td style="padding: 16px;" mat-footer-cell *matFooterCellDef> Total </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Monto">
+                        <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>
+                            Monto
+                        </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let ingresos">
+                            {{ingresos.monto_ingreso
+                            |
+                            currency:'MXN'}}
+                        </td>
+                        <td style="padding: 16px;" mat-footer-cell *matFooterCellDef>  {{getTotalIngresos()  | currency:'MXN'}}  </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsIngresos">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsIngresos;">
+                    </tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumnsIngresos; sticky: true"></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mat-elevation-z8 perfil-container">
+                <table aria-label="Tabla Egresos" mat-table [dataSource]="dataSourceEgreso" matSort>
+                    <ng-container matColumnDef="Descripción">
+                        <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>
+                            Descripción
+                        </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let egresos">
+                            {{egresos.descripcion}}
+                        </td>
+                        <td style="padding: 16px;" mat-footer-cell *matFooterCellDef> Total </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Monto">
+                        <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>
+                            Monto
+                        </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let egresos">
+                            {{egresos.monto_egreso
+                            |
+                            currency:'MXN'}}
+                        </td>
+                        <td style="padding: 16px;" mat-footer-cell *matFooterCellDef> 
+                            {{ getTotalEgresos() | currency:'MXN'}} 
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsEgresos">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsEgresos;">
+                    </tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumnsEgresos; sticky: true"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

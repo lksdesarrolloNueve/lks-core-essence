@@ -1,0 +1,87 @@
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Balance</h3>
+
+            <form [formGroup]="formFiltros">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                              
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Fecha</mat-label>
+                                    <input matInput formControlName="fecha"[matDatepicker]="dp">
+                                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp></mat-datepicker>
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formFiltros.get('fecha').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                  </mat-form-field>
+                            </div>
+
+                            <div class="col-md-6">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>Sucursal</mat-label>
+                                    <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                                        [matAutocomplete]="autoSucursal">
+                                    <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                                        [displayWith]="displayFnSucursal">
+                                        <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                                            {{option.nombreSucursal}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formFiltros.get('sucursal').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <mat-checkbox color="primary" formControlName="consolidado" >Consolidado</mat-checkbox>
+                            </div>
+
+                            <div class="col-md-2">
+                                <mat-checkbox color="primary" formControlName="miles">Miles</mat-checkbox>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-checkbox color="primary" formControlName="csv">CSV</mat-checkbox>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-checkbox color="primary" formControlName="nota">Nota Aclaratoria</mat-checkbox>
+                            </div>
+                            <div class="col-md-2">
+                                <button mat-fab color="primary" (click)="spsGeneraBalance()">
+                                    <mat-icon matTooltip="Generar Balance">file_download</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formCategoria">
+        <p></p>
+    <p> 
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha</mat-label>
+            <input matInput formControlName="fecha"  type="text" placeholder="Fecha Alta">
+            <mat-icon matSuffix>today</mat-icon>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field appearance="outline">
+            <mat-label>Clave</mat-label>
+            <input matInput formControlName="clave" MaxLength="4" placeholder="Clave">
+            <mat-icon matSuffix>code</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.clave" ngProjectAs="mat-error">
+                <mat-error *ngIf="formCategoria.get('clave').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field appearance="outline">
+            <mat-label>Descripci&oacute;n</mat-label>
+            <input matInput formControlName="descripcion" MaxLength="200" placeholder="Descripcion">
+            <mat-icon matSuffix>subject</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                <mat-error *ngIf="formCategoria.get('descripcion').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </p>
+    
+    <p>
+        <mat-slide-toggle formControlName="estatus" color="primary">
+            Estatus
+        </mat-slide-toggle>
+    </p>
+</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion===1" (click)="guardarCategoria()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion===2" (click)="actualizarCategoria()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,45 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formActVulnerables">
+        <p></p>
+    <p>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Concepto</mat-label>
+            <textarea formControlName="concepto" matInput placeholder="Concepto Actividad Vul"></textarea>
+            <mat-icon matSuffix>description</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.concepto" ngProjectAs="mat-error">
+                <mat-error *ngIf="formActVulnerables.get('concepto').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>  
+        </mat-form-field>
+    </p>
+
+
+    <p>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Detalle</mat-label>
+            <textarea formControlName="detalle" matInput placeholder="Detalle de Actividad Vulnerable"></textarea>
+            <mat-icon matSuffix>article</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.detalle" ngProjectAs="mat-error">
+                <mat-error *ngIf="formActVulnerables.get('detalle').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template> 
+        </mat-form-field>
+    </p>
+
+    <p>
+        <mat-slide-toggle formControlName="estatus" color="primary"> Estatus </mat-slide-toggle>
+
+    </p>
+</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+
+    <button *ngIf="accion === 1" (click)="guardarActividadVul()" mat-raised-button color="primary">Guardar</button>
+
+    <button *ngIf="accion === 2" (click)="editarActividadvul()" mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

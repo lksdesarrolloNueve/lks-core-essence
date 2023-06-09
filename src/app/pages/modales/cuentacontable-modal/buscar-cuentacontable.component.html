@@ -1,0 +1,34 @@
+<h2 mat-dialog-title class="text-center">Buscar Cuentas Contables</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formCuentaConta">
+        <p></p>
+        <div class="row">
+            <div class="col-12">
+                <p>
+                    <!----- Filtro -------->
+                    <mat-form-field class="full-width" appearance="outline" class="full-width">
+                        <mat-label>Cuenta Contable</mat-label>
+                        <input type="text" placeholder="Cuenta Contable" matInput formControlName="CuentaContable"
+                            [matAutocomplete]="autoCuentaConta">
+                        <mat-autocomplete autoActiveFirstOption #autoCuentaConta="matAutocomplete"
+                            (optionSelected)="opcionSeleccionCuentaC($event)" [displayWith]="displayFnCuentaConta">
+                            <mat-option *ngFor="let option of opcionesCuentaC | async" [value]="option">
+                                {{option.cuenta}} / {{option.nombre}} / {{option.extencionCuentaContable.tipoCuenta.descripcion}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.CuentaContable" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formCuentaConta.get('CuentaContable').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="cerrarDialog()">Aceptar</button>
+    <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

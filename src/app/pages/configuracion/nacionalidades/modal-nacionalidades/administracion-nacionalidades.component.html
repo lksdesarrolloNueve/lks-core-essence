@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formNacionalidad">
+    <p></p>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nacionalidad</mat-label>
+          <input matInput formControlName="nacion" MaxLength="100" placeholder="Nombre nacionalidad">
+          <mat-icon matSuffix>language</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.nacion" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNacionalidad.get('nacion').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pa&iacute;s</mat-label>
+          <input matInput formControlName="pais" MaxLength="80" placeholder="País">
+          <mat-icon matSuffix>flag</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.pais" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNacionalidad.get('pais').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Clave SIT</mat-label>
+          <input matInput formControlName="cvesit" MaxLength="5" placeholder="Clave S.I.T">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.cvesit" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNacionalidad.get('cvesit').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tipo</mat-label>
+          <input matInput formControlName="tipo" MaxLength="5" placeholder="Tipo">
+          <mat-icon matSuffix>tag</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.tipo" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNacionalidad.get('tipo').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>C&oacute;digo PLD</mat-label>
+          <input matInput formControlName="codigopld" MaxLength="2" placeholder="Código PLD">
+          <mat-icon matSuffix>code</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.codigopld" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNacionalidad.get('codigopld').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-slide-toggle formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="accion===1" (click)="guardarNacionalidad()" mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="accion===2" (click)="actualizarNacionalidad()" mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

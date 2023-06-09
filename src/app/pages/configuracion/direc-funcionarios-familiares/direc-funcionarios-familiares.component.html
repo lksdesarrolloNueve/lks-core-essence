@@ -1,0 +1,291 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+
+            <div class="col-md-5">
+                <div class="card card-body">
+                    <h2 class=" text-center">Familiares de Directivos y Funcionarios</h2>
+                </div>
+            </div>
+
+            <div class="col-md-7 text-center">
+                <div class="card card-body">
+                    <form [formGroup]="formFamiliarDirectivoFuncionario">
+                        <div class="row">
+
+                            <!-- Botón para editar -->
+                            <div class="col-md-4" *ngIf="!showGuardar">
+                                <h2>Familiar: {{nombresS | uppercase}}</h2>
+                            </div>
+
+                            <!-- Btón para agregar la info de relación -->
+                            <div class="col-2" *ngIf="showGuardar">
+                                <button mat-fab color="primary" (click)="registrarParentesco(1)">
+                                    <mat-icon matTooltip="Nuevo">add</mat-icon>
+                                </button>
+                            </div>
+
+                            <!-- Botón para editar -->
+                            <div class="col-2" *ngIf="!showGuardar">
+                                <button mat-fab color="primary" (click)="registrarParentesco(2)">
+                                    <mat-icon matTooltip="Editar">edit</mat-icon>
+                                </button>
+                            </div>
+
+                            <!-- Botón para limpiar campos -->
+                            <div class="col-2">
+                                <button mat-fab color="primary" (click)="nuevoRegistro()">
+                                    <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- Lista de sujetos por sucursal-->
+            <div class="col-md-5">
+                <div class="card card-body">
+
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Sucursal</mat-label>
+                        <mat-icon matSuffix>warehouse</mat-icon>
+                        <input type="text" placeholder="Sucursal" matInput [formControl]="catSucursal"
+                            [matAutocomplete]="autoSucursal">
+                        <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                            (optionSelected)="opcionSelectSucursal($event)" [displayWith]="displayFnSucursal">
+                            <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                                {{option.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+                        <mat-list-item *ngFor="let sujetoSucursal of listaFamiliarSujetosSucursal"
+                            (click)="spsDirectivoSujetoById(sujetoSucursal.sujeto_id)">
+                            <p matListItemTitle>{{sujetoSucursal.nombres }} {{sujetoSucursal.apellido_paterno }}
+                                {{sujetoSucursal.apellido_materno }}</p>
+                        </mat-list-item>
+                    </mat-nav-list>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="card card-body">
+                    <mat-tab-group backgroundColor="primary">
+
+                        <!-- Tab datos generales del familiar -->
+                        <mat-tab label="Datos Generales">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form [formGroup]="formFamiliarDirectivoFuncionario">
+                                        <br>
+                                        <div class="row">
+
+                                            <!-- Filtro Cliente -->
+                                            <div class="col-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label class="mayuscula">No. {{lblCliente}}</mat-label>
+                                                    <input formControlName="numeroClientefiltro" matInput
+                                                        placeholder="No {{lblCliente}}" [readonly]="true">
+                                                    <button mat-button matSuffix mat-stroked-button color="primary"
+                                                        (click)="modalClientes()">
+                                                        <mat-icon matSuffix matTooltip="Buscar {{lblCliente}}"><span
+                                                                class="material-icons-outlined">person_search</span>
+                                                        </mat-icon>
+                                                    </button>
+                                                    <ng-template ngFor let-error
+                                                        [ngForOf]="validaciones.numeroClientefiltro"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formFamiliarDirectivoFuncionario.get('numeroClientefiltro').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Info del Familiar -->
+
+                                            <!-- Nombres -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Nombres</mat-label>
+                                                    <input formControlName="nombres" matInput placeholder="Nombres">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Apellido Paterno -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Apellido Paterno</mat-label>
+                                                    <input formControlName="apellidoPaterno" matInput
+                                                        placeholder="Apellido Paterno">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Apellido Materno -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Apellido Materno</mat-label>
+                                                    <input formControlName="apellidoMaterno" matInput
+                                                        placeholder="Apellido Materno">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Fecha nacimiento -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Fecha de nacimiento</mat-label>
+                                                    <input formControlName="fechaNacimiento" matInput
+                                                        placeholder="Fecha de nacimiento">
+                                                    <mat-icon matSuffix>event</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- RFC -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>RFC</mat-label>
+                                                    <input formControlName="rfc" matInput placeholder="RFC">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- CURP -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>CURP</mat-label>
+                                                    <input formControlName="curp" matInput placeholder="CURP">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+
+                        <!-- Tab datos relación -->
+                        <mat-tab label="Datos Relaci&oacute;n">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formFamiliarDirectivoFuncionario">
+                                        <br>
+                                        <div class="row">
+                                            <!-- Fraccion a la que pernece -->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Fraccion</mat-label>
+                                                    <mat-icon matSuffix>list</mat-icon>
+                                                    <input type="text" placeholder="Fraccion" matInput
+                                                        formControlName="catFraccion" [matAutocomplete]="autoFraccion">
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoFraccion="matAutocomplete"
+                                                        (optionSelected)="opcionSelectFraccion($event)"
+                                                        [displayWith]="displayFn">
+                                                        <mat-option *ngFor="let option of opcionesFraccion | async"
+                                                            [value]="option">
+                                                            {{option.descripcion}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error
+                                                        [ngForOf]="validaciones.catFraccion"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formFamiliarDirectivoFuncionario.get('catFraccion').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Parentesco con el Directivo Funcionario -->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Parentesco</mat-label>
+                                                    <mat-icon matSuffix>list</mat-icon>
+                                                    <input type="text" placeholder="Parentesco" matInput
+                                                        formControlName="catParentesco"
+                                                        [matAutocomplete]="autoParentesco">
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoParentesco="matAutocomplete"
+                                                        (optionSelected)="opcionSelectParentesco($event)"
+                                                        [displayWith]="displayFnParentesco">
+                                                        <mat-option *ngFor="let option of opcionesParentesco | async"
+                                                            [value]="option">
+                                                            {{option.descripcion}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error
+                                                        [ngForOf]="validaciones.catParentesco"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formFamiliarDirectivoFuncionario.get('catParentesco').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Filtro de Directivos Funcionarios -->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Directivo Funcionario</mat-label>
+                                                    <mat-icon matSuffix>list</mat-icon>
+                                                    <input type="text" placeholder="Directivo Funcionario" matInput
+                                                        formControlName="dirFun" [matAutocomplete]="autoDirFun">
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoDirFun="matAutocomplete"
+                                                        (optionSelected)="opcionSelectDirFun($event)"
+                                                        [displayWith]="displayFnDirFun">
+                                                        <mat-option *ngFor="let option of opcionesDirFun | async"
+                                                            [value]="option">
+                                                            {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error
+                                                        [ngForOf]="validaciones.dirFun"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formFamiliarDirectivoFuncionario.get('dirFun').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Observaciones-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Observaciones</mat-label>
+                                                    <input formControlName="observaciones" matInput
+                                                        placeholder="Observaciones">
+                                                    <mat-icon matSuffix>edit_note</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+
+                    </mat-tab-group>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

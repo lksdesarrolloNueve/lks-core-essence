@@ -1,0 +1,122 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">Lista de Activos fijo no depreciable</h3>
+            <form [formGroup]="formNoDepreciable"> 
+            <div class="row">
+                <div class="col-3">
+                    <mat-form-field class="full-width" appearance="outline" class="full-width">
+                        <mat-label>Sucursal</mat-label>
+                        <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                            [matAutocomplete]="autoSucursal">
+                        <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                            [displayWith]="displayFnSuc">
+                            <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                                {{option.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formNoDepreciable.get('sucursal').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-3">
+                    <mat-form-field class="full-width" appearance="outline" class="full-width">
+                        <mat-label>Tipo Activo</mat-label>
+                        <input type="text" placeholder="Activo" matInput formControlName="tpActivo"
+                            [matAutocomplete]="autoActivo">
+                        <mat-autocomplete autoActiveFirstOption #autoActivo="matAutocomplete" [displayWith]="displayTA">
+                            <mat-option *ngFor="let option of opcionesTipoAct | async" [value]="option">
+                                {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.tpActivo" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formNoDepreciable.get('tpActivo').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <div class="col-2">
+                    <button color="primary" mat-mini-fab aria-label="Buscar" (click)="buscarActivo();">
+                        <mat-icon matTooltip="Buscar">search</mat-icon>
+                    </button>
+                </div>
+                <!-- Botón para registrar nuevo  -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogo(1,'')">Registrar</button>
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+        </form>
+
+            <mat-form-field class="full-width">
+                <mat-label>Filtro para activo depreciable</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filtro de activo" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de activo fijo" [dataSource]="dataSource" matSort>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="clave">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Clave
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para"> {{para.clave}} </td>
+                    </ng-container>
+
+                    <!-- Columna valor  -->
+                    <ng-container matColumnDef="concepto">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Concepto </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para"> {{para.concepto}} </td>
+                    </ng-container>
+                    <!-- Columna valor  -->
+                    <ng-container matColumnDef="moi">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            MOI </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para"> {{para.moi | currency:'MXN'}} </td>
+                    </ng-container>
+                    <!-- Columna valor  -->
+                    <ng-container matColumnDef="factura">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Fecha Factura </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para"> {{para.fecha_factura}} </td>
+                    </ng-container>
+                    <!-- Columna costp  -->
+                    <ng-container matColumnDef="costo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Costo</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para"> {{para.costo_total | currency:'MXN'}} </td>
+                    </ng-container>
+                    <!-- Columna acciones  -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para">
+
+                            <!-- Columna Botón Editar -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogo(2,para)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnas"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnas;">
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Seleccionar pagina de activo">
+            </mat-paginator>
+        </div>
+
+    </div>
+</div>

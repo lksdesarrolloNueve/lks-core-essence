@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formPrincipal">
+        <p></p>
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Clave Grupo</mat-label>
+                <input matInput formControlName="cvePrincipal" MaxLength="2" placeholder="Clave Grupo Principal">
+                <mat-icon matSuffix>code</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.cvePrincipal" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formPrincipal.get('cvePrincipal').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Descripci&oacute;n</mat-label>
+                <input matInput formControlName="descripcion" MaxLength="250" placeholder="Descripción">
+                <mat-icon matSuffix>subject</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formPrincipal.get('descripcion').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Divisi&oacute;n</mat-label>
+                <mat-select formControlName="division">
+                    <mat-option *ngFor="let division of listaDivision" [value]="division.divisionId">
+                        {{division.descripcion}}
+                    </mat-option>
+                </mat-select>
+                <mat-icon matSuffix>error</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.division" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formPrincipal.get('division').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-slide-toggle formControlName="estatus" color="primary">
+                Estatus
+            </mat-slide-toggle>
+        </p>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion===1" (click)="guardarGrupo()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion===2" (click)="actualizarGrupo()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

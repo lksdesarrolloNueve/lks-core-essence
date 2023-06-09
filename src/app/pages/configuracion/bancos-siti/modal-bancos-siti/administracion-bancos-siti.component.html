@@ -1,0 +1,51 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formBancoS">
+    <p></p>
+    <div class="row">
+
+      <div class="col-12">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Clave Banco Siti</mat-label>
+            <input formControlName="clavebanco" matInput>
+            <mat-icon matSuffix>keyboard_hide_outlined</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.clavebanco" ngProjectAs="mat-error">
+              <mat-error *ngIf="formBancoS.get('clavebanco').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+
+      <div class="col-12">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre Banco</mat-label>
+            <input formControlName="nombreBanco" matInput placeholder="BANCO DE MEXICO">
+            <mat-icon matSuffix>forum_outlined</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.nombreBanco" ngProjectAs="mat-error">
+              <mat-error *ngIf="formBancoS.get('nombreBanco').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-12"></div>
+      <div class="col-6">
+        <mat-slide-toggle class="example-margin" formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="accion === 1" (click)="guardarbancoSiti()" mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="accion === 2" (click)=" editarbancoSiti()" mat-raised-button color="primary">Editar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

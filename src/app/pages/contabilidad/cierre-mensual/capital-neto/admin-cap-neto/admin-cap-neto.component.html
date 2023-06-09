@@ -1,0 +1,84 @@
+<!--Se hace dinámico el título del modal, de acuerdo si es
+un guardado o  un editado-->
+<h2 mat-dialog-title>{{titulo | uppercase}}</h2>
+<mat-dialog-content class="mat-typography">
+
+
+    <!--Se inicia la estructura del formPeriodo-->
+    <form [formGroup]="formPeriodo">
+        <div class="row">
+            <!--Se hace el campo de registro ejercicio-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Ejercicio</mat-label>
+                    <input formControlName="ejercicio" matInput placeholder="año">
+                    <mat-icon matSuffix>calendar_month</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.ejercicio" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPeriodo.get('ejercicio').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <!--Se hace el campo de registro periodo-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Periodo</mat-label>
+                    <input formControlName="mes" matInput placeholder="mes">
+                    <mat-icon matSuffix>calendar_month</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.mes" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPeriodo.get('mes').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Porcentaje</mat-label>
+                    <input formControlName="porcentaje" matInput placeholder="">
+                    <mat-icon matSuffix>percent</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.porcentaje" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPeriodo.get('porcentaje').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Sucursal</mat-label>
+                    <input type="text" placeholder="Sucursal" matInput formControlName="sucursal" [matAutocomplete]="autoSucursal">
+                    <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                        [displayWith]="displayFnSucursal">
+                        <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                            {{option.nombreSucursal}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPeriodo.get('sucursal').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </form>
+
+    <!--Se hacen los botones y se manda llamar los metodos de crud()-->
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button (click)="generaCapNetoGlobal()" mat-raised-button color="primary"
+    cdkFocusInitial>Calculo Consolidado</button>
+    <button *ngIf="accion === 1" (click)="crudPeriodo()" mat-raised-button color="primary"
+        cdkFocusInitial>Calculo Provisional</button>
+    <button *ngIf="accion === 2" (click)="editarPeriodo()" mat-raised-button color="primary"
+        cdkFocusInitial>Recalcular Provisional</button>
+     <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

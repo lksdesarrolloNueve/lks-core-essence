@@ -1,0 +1,76 @@
+/* Se agrega una separacion entre columnas para que no esten tan juntas */
+th.mat-mdc-header-cell,
+td.mat-mdc-cell,
+td.mat-mdc-footer-cell {
+    padding: 1em;
+}
+
+/* Se cambia el cursor cuando pasa sobre una fila, para indicar que se puede dar click en ésta */
+/* .mat-row .mat-cell {
+    cursor: pointer;
+} */
+
+/* Se cambia el fondo de la fila ligeramente cuando se pasa el cursor por encima,
+esto para indicar que se puede interactuar con la fila */
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: lightgray;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.estatus-color ::ng-deep .mat-form-field-flex {
+    border-radius: 5px;
+    color: white;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.estatus-red ::ng-deep .mat-form-field-flex,
+.cell-red {
+    background-color: rgb(175, 25, 25);
+    color: white;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.estatus-orange ::ng-deep .mat-form-field-flex,
+.cell-orange {
+    background-color: orange;
+    color: white;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.estatus-green ::ng-deep .mat-form-field-flex,
+.cell-green {
+    background-color: green;
+    color: white;
+}
+
+/* Para volver blanca la linea que rodea el form field */
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.estatus-color ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: white;
+}
+
+.color-lbl {
+    color: white;
+}
+
+/* Se centra el contenido de la columna de valoracion */
+td div {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+}
+
+/* Se oscurecen un poco las casillas rojas al pasar el mouse por encima */
+.mat-mdc-row:hover .cell-red {
+    background-color: darkred;
+}
+
+/* Se oscurecen un poco las casillas verdes al pasar el mouse por encima */
+.mat-mdc-row:hover .cell-green {
+    background-color: darkgreen;
+}
+
+/* Se oscurecen un poco las casillas naranjas al pasar el mouse por encima */
+.mat-mdc-row:hover .cell-orange {
+    background-color: darkorange;
+}

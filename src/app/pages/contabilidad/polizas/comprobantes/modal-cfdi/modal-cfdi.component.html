@@ -1,0 +1,160 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+          <!--Fecha-->
+          <div class="col-md-3">
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Fecha</mat-label>
+                <strong><input matInput style="text-align:center;" value="{{CurrentDate}}"
+                        [readonly]="true"></strong>
+                <mat-datepicker-toggle matSuffix disabled></mat-datepicker-toggle>
+            </mat-form-field>
+        </div>
+        <div class="col-md-9">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Proveedor</mat-label>
+                <input type="text" placeholder="Proveedor" matInput [formControl]="proveedor"
+                    [matAutocomplete]="autoPro">
+                <mat-autocomplete autoActiveFirstOption #autoPro="matAutocomplete"
+                    (optionSelected)="seleccionPro($event)" [displayWith]="displayFnPro">
+                    <mat-option *ngFor="let option of opcionesProveedor| async" [value]="option">
+                        {{option.claveProveedor}} / {{option.nombreProveedor}}
+                    </mat-option>
+                </mat-autocomplete>
+                <ng-template ngFor let-error [ngForOf]="listaValidaciones.proveedor" ngProjectAs="mat-error">
+                    <mat-error *ngIf="this.proveedor.hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>RFC </mat-label>
+                <strong><input matInput placeholder="RFC" [formControl]="pRFC" [readonly]="true" style="text-align:center;"></strong>
+                <mat-icon matSuffix>qr_code_2</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Cuenta </mat-label>
+                <strong><input matInput placeholder="cuenta" [formControl]="pCuenta" [readonly]="true" style="text-align:center;"></strong>
+                <mat-icon matSuffix>pin</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Banco </mat-label>
+                <strong><input matInput placeholder="Banco" [formControl]="pBanco" [readonly]="true" style="text-align:center;"></strong>
+                <mat-icon matSuffix>account_balance</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Tipo Cuenta </mat-label>
+                <strong><input matInput placeholder="Tipo cuenta" [formControl]="pTCuenta" [readonly]="true" style="text-align:center;"></strong>
+                <mat-icon matSuffix>pin</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Tipo Operacion </mat-label>
+                <strong><input matInput placeholder="Servicio" [formControl]="pTOperacion"  [readonly]="true" style="text-align:center;"></strong>
+                <mat-icon matSuffix>view_kanban</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Tipo Tercero </mat-label>
+                <strong><input matInput placeholder="Nacional,Extranjero" [formControl]="pTercero"  [readonly]="true"
+                        style="text-align:center;"></strong>
+                <mat-icon matSuffix>flag</mat-icon>
+            </mat-form-field>
+        </div>
+        <br>
+        <div class="col-md-12">
+            <mat-divider></mat-divider>
+        </div>
+        <br>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Poliza</mat-label>
+                <strong><input matInput placeholder="" [formControl]="cvePoliza"  [readonly]="true"
+                        style="text-align:center;"></strong>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Monto</mat-label>
+                <strong><input matInput placeholder="0.0" [formControl]="monto"  [readonly]="true"
+                        style="text-align:center;"></strong>
+                <mat-icon matSuffix>money</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Tipo Comprobante</mat-label>
+                <mat-select [formControl]="comprobante">
+                    <mat-option *ngFor="let option of listComprobante" [value]="option" (click)="SeleccionComprobante(option)">
+                        {{option.descripcion}}
+                    </mat-option>
+                </mat-select>
+                <ng-template ngFor let-error [ngForOf]="listaValidaciones.comprobante" ngProjectAs="mat-error">
+                    <mat-error *ngIf="this.comprobante.hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <input #digiInput hidden="true" type="file" accept='text/xml'
+            (change)="subirArchivo($event)" />
+          <button (click)="digiInput.click()" [disabled]="btnUp" mat-mini-fab color="primary">
+            <mat-icon>file_upload</mat-icon>
+          </button>
+        </div>
+    </div>
+    <!--Cuerpo de la tabla-->
+    <h3>Comprobante Fiscal</h3>
+    <div class="mat-elevation-z8 table-responsive">
+        <table mat-table aria-label="Tbl Comprobante Fiscal" [dataSource]="dataSourceCFDI" matSort>
+            <!-- Columna serie-->
+            <ng-container matColumnDef="serie">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;"> Serie </th>
+                <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.serie}} </td>
+            </ng-container>
+
+            <!-- Columna folio  -->
+            <ng-container matColumnDef="folio">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;">  Folio (UUID)
+                </th>
+                <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.folio}} </td>
+            </ng-container>
+
+            <!-- Columna recptero -->
+            <ng-container matColumnDef="rfcReceptor">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;"> Receptor
+                </th>
+                <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.receptor}} </td>
+            </ng-container>
+            <!-- Columna emisor -->
+            <ng-container matColumnDef="rfcEmisor">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;"> Emisor
+                </th>
+                <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.emisor}} </td>
+            </ng-container>
+            <!-- Columna monto -->
+            <ng-container matColumnDef="monto">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> Monto
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.monto |currency:'MXN'}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+        </table>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="validaciones()">{{btnGuAct}}</button>
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

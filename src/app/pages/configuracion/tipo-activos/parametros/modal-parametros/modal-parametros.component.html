@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formParametros">
+    <p></p>
+    <div class="row">
+       
+    <div class="col-md-6"> 
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre"  placeholder="Parametro">
+        <mat-icon matSuffix>drive_file_rename_outline</mat-icon>
+        <ng-template ngFor let-error [ngForOf]="validaciones.nombre" ngProjectAs="mat-error">
+          <mat-error *ngIf="formParametros.get('nombre').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+          </mat-error>
+        </ng-template>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6"> 
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Descripci&oacute;n</mat-label>
+          <input matInput formControlName="descripcion"  placeholder="Descripcion">
+          <mat-icon matSuffix>description</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+            <mat-error *ngIf="formParametros.get('descripcion').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6"> 
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Valor</mat-label>
+          <input matInput formControlName="valor"  placeholder="Valor">
+          <mat-icon matSuffix>code</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.valor" ngProjectAs="mat-error">
+            <mat-error *ngIf="formParametros.get('valor').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      
+      <div class="col-md-6">
+        <mat-slide-toggle formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+
+</div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="parametroID==0" (click)="crudParametros()"  mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="parametroID>0" (click)="crudParametros()"   mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,135 @@
+<h2 mat-dialog-title>{{titulo | uppercase}} CORREO</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formCorreo">
+        <p></p>
+        <div class="row">
+            <!--Cve Correo  -->
+            <div *ngIf="accion === 2" class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve.Correo</mat-label>
+                    <input formControlName="cveCorreo" [readonly] matInput>
+                    <mat-icon matSuffix>mail_outline_outlined</mat-icon>
+                </mat-form-field>
+            </div>
+            <!-- Correo-->
+            <div class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Correo</mat-label>
+                    <input formControlName="correo" matInput>
+                    <mat-icon matSuffix>mail_outline_outlined</mat-icon>
+                    <!-- Validación de correo  -->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.correo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCorreo.get('correo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Usuario  -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Usuario</mat-label>
+                    <input formControlName="usuario" matInput>
+                    <mat-icon matSuffix>person</mat-icon>
+                    <!-- Validación de Usuario  -->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.usuario" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCorreo.get('usuario').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Contraseña  -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input formControlName="contrasenia" matInput>
+                    <mat-icon matSuffix>vpn_key_outlined</mat-icon>
+                    <!-- Validacion  de Contraseña -->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.contrasenia" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCorreo.get('contrasenia').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Puerto  -->
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Puerto</mat-label>
+                    <input formControlName="puerto" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación de puerto  -->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.puerto" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCorreo.get('puerto').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-- Servidor -->
+            <div class="col-md-9">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Servidor</mat-label>
+                    <input formControlName="servidor" matInput>
+                    <mat-icon matSuffix>computer</mat-icon>
+                    <!-- Validación de puerto  -->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.servidor" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCorreo.get('servidor').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Notificaciónes  -->
+            <div class="col-md-8">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipos de Notificaciones</mat-label>
+                    <mat-select formControlName="notificaciones">
+                        <mat-option *ngFor="let notificaciones of  listaTipoNot" [value]="notificaciones">
+                            {{notificaciones.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <!-- Validación de notificaciónes-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.notificaciones" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCorreo.get('notificaciones').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-- Estatus -->
+            <div class="col-md-4">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                </mat-slide-toggle>
+            </div>
+
+            <div class="col-md-12">
+                <mat-form-field appearance="outline" class="example-chip-list" class="full-width">
+                    <mat-label>Sucursales</mat-label>
+                    <mat-chip-grid #chipList>
+                        <mat-chip-row *ngFor="let su of listaLimpiaSucursales" [selectable]="selectable"
+                            [removable]="removable" (removed)="remove(su)">
+                            {{su.nombreSucursal}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip-row>
+                        <input placeholder="Nueva Sucursal..." #sucursalInput formControlName="sucursales"
+                            [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                    </mat-chip-grid>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let sucursal of filteredSucursales | async" [value]="sucursal">
+                            {{sucursal.nombreSucursal}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="crudCorreos()">{{titulo}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

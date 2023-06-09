@@ -1,0 +1,71 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Reporte de Riesgos de Liquidez</h3>
+
+            <form [formGroup]="formRiesgoLiquidez">
+                <div class="row">
+                      <!--Fecha-->
+                      <div class="col-md-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput [matDatepicker]="fN" formControlName="fecha" [readonly]="true">
+                            <mat-datepicker-toggle matSuffix [for]="fN"></mat-datepicker-toggle>
+                            <mat-datepicker #fN></mat-datepicker>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formRiesgoLiquidez.get('fecha').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                       
+                    </div>
+                    <!-- Sucursal -->
+                    <div class="col-md-3" [hidden]="!mostrarSucursal">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Sucursal</mat-label>
+                            <input type="text" placeholder="sucursal" matInput formControlName="sucursal"
+                                [matAutocomplete]="autoSucursal">
+                            <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                                (optionSelected)="opcionSelectSucursales($event)" [displayWith]="displayFnSucursal">
+                                <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option"
+                                    matTooltip="{{option.nombreSucursal}}">
+                                    {{option.nombreSucursal}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formRiesgoLiquidez.get('sucursal').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                    </div>
+                  
+                    <!-- Checkbox Consolidado-->
+                    <div class="col-md-2">
+                        <mat-radio-group [formControl]="tipoR" (change)="cambioRadio($event)" name="tipoR">
+                            <mat-radio-button *ngFor="let op of opciones" name="tipoR" [value]="op" color="primary"
+                                style="margin: 10px">
+                                {{op.nombre}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <!--GENERAR PDF-->
+                    <div class="col-1 a">
+                        <button mat-fab color="primary" (click)="spsReporteLiquidez()">
+                            <mat-icon matTooltip="Generar PDF">file_download</mat-icon>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

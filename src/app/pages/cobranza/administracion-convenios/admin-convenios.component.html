@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-12 card">
+        <br>
+        <!-- Filtros -->
+        <div class="row">
+            <!-- Filtro general -->
+            <div class="col-5">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Filtro general</mat-label>
+                    <input matInput (keyup)="filtrar($event)" placeholder="Filtro de convenios" #input>
+                </mat-form-field>
+            </div>
+            <!-- Filtro sucursal -->
+            <div class="col-5">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Filtro sucursal</mat-label>
+                    <input [formControl]="filtroSucursal" matInput placeholder="Filtro sucursal"
+                        [matAutocomplete]="autoSuc" (keyup)="filtrarTodos($event)">
+                    <mat-autocomplete autoActiveFirstOption #autoSuc="matAutocomplete"
+                        (optionSelected)="filtrarSucursal($event)" [displayWith]="displaySucursal">
+                        <mat-option *ngFor="let optionSuc of opcionesSucursal | async" [value]="optionSuc">
+                            {{optionSuc.nombreSucursal}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <!-- Filtro vigentes -->
+            <div class="col-2" style="display: flex;
+                                    align-items: center;
+                                    font-size: 1.25em;">
+                <mat-checkbox [(ngModel)]="vigentesChecked" (change)="mostrarVigentes($event)">Vigentes</mat-checkbox>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Botón para registrar nuevo convenio -->
+            <div class="col-md-2">
+                <button mat-raised-button color="primary" (click)="crudConvenio(1,null)">Nuevo</button>
+            </div>
+        </div>
+        <br>
+
+        <!-- TABLA DE CORTES DE CAJA -->
+        <div class="mat-elevation-z8 table-responsive">
+            <table mat-table [dataSource]="dataSourceConvenios" matSort aria-label="Tabla de matriz de riesgos"
+                class="demo-table">
+                <!-- Numero -->
+                <ng-container matColumnDef="convenio">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> {{lblCliente}} </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.extConvenio.nombreCliente }} </td>
+                </ng-container>
+                <!-- Ref. Credito -->
+                <ng-container matColumnDef="credito">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> REF. CRÉDITO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.extConvenio.referencia }} </td>
+                </ng-container>
+                <!-- Fecha registro -->
+                <ng-container matColumnDef="fechaRegistro">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> FECHA REGISTRO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.fechaAlta }} </td>
+                </ng-container>
+                <!-- Fecha vigencia -->
+                <ng-container matColumnDef="fechaVigencia">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> FECHA VIGENCIA </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.fechaVigencia }} </td>
+                </ng-container>
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento">
+                        <mat-slide-toggle [ngModel]="elemento.estatus" (ngModelChange)="cambiaEstatus($event, elemento)"
+                            color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+                <!-- Columna acciones -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                    <td mat-cell *matCellDef="let elemento">
+
+                        <!-- Columna Botón Editar -->
+                        <button mat-mini-fab color="primary" (click)="crudConvenio(2,elemento)">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <!-- Paginacion -->
+            <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons [pageSize]="pageSize"
+                [pageIndex]="currentPage" (page)="pageChanged($event)" aria-label="Seleccionar pagina">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

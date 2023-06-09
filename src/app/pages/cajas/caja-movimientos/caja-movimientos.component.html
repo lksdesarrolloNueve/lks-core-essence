@@ -1,0 +1,581 @@
+<!--ENCABEZADO BOTONES-->
+<div class="col-md-12 mb">
+    <div class="card card-body sp">
+        <div class="row sp">
+
+            <div class="col-md-11 sp">
+                <div class="row sp">
+
+                     <mat-button-toggle-group>
+                        <!--DEPOSITOS-->
+                        <mat-button-toggle mat-fab matTooltip="DEPÓSITOS" (click)="spsBloqueoClientes(null, 2)"
+                            color="primary">DEP&Oacute;SITOS <!--mat-icon>money</mat-icon-->
+                        </mat-button-toggle>
+
+                        <!--RETIROS-->
+                        <mat-button-toggle mat-fab matTooltip="RETIROS" (click)="spsBloqueoClientes(null, 3)"
+                            color="primary">RETIROS
+                        </mat-button-toggle>
+
+                        <!--PAGOS-->
+                        <mat-button-toggle mat-fab matTooltip="PAGOS" (click)="spsBloqueoClientes(null, 4)"
+                            color="primary">
+                            PAGOS
+                        </mat-button-toggle>
+
+                        <!--TRASPASOS !!! Regresar a 3-->
+                        <mat-button-toggle mat-fab matTooltip="TRASPASOS" (click)="spsBloqueoClientes(null, 5)"
+                            color="primary">TRASPASOS
+                        </mat-button-toggle>
+
+                        <!-- Espacio para separar el boton de cierre !!! Regresar a 3-->
+                        <mat-button-toggle mat-fab matTooltip="INVERSIONES" (click)="spsBloqueoClientesInversion(2)"
+                            color="primary">INVERSIONES
+                        </mat-button-toggle>
+
+
+                        <!-- Espacio para separar el boton de cierre !!! Regresar a 3-->
+                        <!-- mat-button-toggle mat-fab matTooltip="SPEI" (click)="abrirDialogSPEI()" color="primary">SPEI
+
+                        </mat-button-toggle-->
+
+                        <!-- Tiempo Aire Electronico-->
+                        <mat-button-toggle mat-fab matTooltip="Venta TAE MTCenter" (click)="abrirDialogTAE()"
+                            color="primary">TAE</mat-button-toggle>
+
+                        <!-- Servicios-->
+                        <mat-button-toggle mat-fab 
+                            [matMenuTriggerFor]="menuServicios"  color="primary">
+                            Servicios
+                            <mat-menu #menuServicios="matMenu">
+                                <!--GASTOS-->
+                                <button mat-menu-item  (click)="abrirDialogMTCServ()">
+                                    <mat-icon>payments</mat-icon>
+                                    <span>Pagar Servicio</span>
+                                </button>
+                                <!--Consulta Referencia-->
+                                <button mat-menu-item  (click)="abrirDialogReferencia()">
+                                    <mat-icon>search</mat-icon>
+                                    <span>Consulta Referencia</span>
+                                </button>
+                            </mat-menu>
+
+                        </mat-button-toggle>
+                         </mat-button-toggle-group>
+
+
+
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="row">
+
+                    <!-- Bandeja de notificaciones!!! Regresar a 3 -->
+                    <div class="col-6 a pt">
+                        <button mat-mini-fab matTooltip="NOTIFICACIONES" (click)="spsNotificacionesGlobales()">
+                            <mat-icon>notifications</mat-icon>
+                        </button>
+                    </div>
+
+                    <!--MENU-->
+                    <div class="col-6 a div-cierre pt">
+
+
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+
+                            <!--TRASPASO BOVEDA-->
+                            <button mat-menu-item matTooltip="Traspaso a boveda" (click)="abrirDialogTrBoveda()">
+                                <mat-icon>savings</mat-icon>
+                                <span>Boveda</span>
+                            </button>
+
+                            <!--GASTOS-->
+                            <button mat-menu-item matTooltip="Gastos" (click)="abrirDialogGastos()">
+                                <mat-icon>payments</mat-icon>
+                                <span>Gastos</span>
+                            </button>
+
+                            <!--CERRAR CAJA-->
+                            <button mat-menu-item matTooltip="Cerrar Sessión" (click)="abrirDialogCierre()">
+                                <mat-icon>logout</mat-icon>
+                                <span>Salir</span>
+                            </button>
+
+                        </mat-menu>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<form [formGroup]="formCaja">
+    <div class="col-md-12">
+        <div class="row">
+
+
+            <div class="col-md-4">
+
+                <div class="row">
+
+                    <!--LISTA TRANSACCIONES-->
+                    <div class="col-md-12">
+                        <div class="card card-body">
+                            <mat-card-header>
+                                <mat-card-title>MOVIMIENTOS</mat-card-title>
+                            </mat-card-header>
+
+                            <mat-nav-list class="scroll-container-tran" [ngStyle]="{'height': '250', 'width':'100%'}">
+
+                                <div class="tabla-transacciones">
+
+                                    <table mat-table multiTemplateDataRows [dataSource]="dataSourceTransacciones"
+                                        class="example-table" matSort matSortActive="created" matSortDisableClear
+                                        matSortDirection="desc">
+
+                                        <caption></caption>
+
+                                        <!--Número-->
+                                        <ng-container matColumnDef="no">
+                                            <th id="no" class="text-center" mat-header-cell *matHeaderCellDef>No.</th>
+                                            <td mat-cell class="text-center"
+                                                *matCellDef="let element; let i = dataIndex">{{i + 1}}</td>
+                                        </ng-container>
+
+                                        <!--Operacion-->
+                                        <ng-container matColumnDef="operacion">
+                                            <th id="operacion" class="text-center" mat-header-cell *matHeaderCellDef>
+                                                Op. </th>
+                                            <td class="text-center" mat-cell *matCellDef="let element">
+                                                {{element.operacion}} </td>
+                                        </ng-container>
+
+                                        <!--Clave-->
+                                        <ng-container matColumnDef="cveMovimiento">
+                                            <th id="cveMovimiento" class="text-center" mat-header-cell
+                                                *matHeaderCellDef>
+                                                Clave </th>
+                                            <td class="text-center" mat-cell *matCellDef="let element">
+                                                {{element.cveMovimiento}} </td>
+                                        </ng-container>
+
+
+                                        <!--Concepto-->
+                                        <ng-container matColumnDef="descMovimiento">
+                                            <th id="descMovimiento" class="text-center" mat-header-cell
+                                                *matHeaderCellDef>
+                                                Cuenta </th>
+                                            <td class="text-left" mat-cell *matCellDef="let element">
+                                                {{element.descMovimiento}} </td>
+                                        </ng-container>
+
+                                        <!--Monto-->
+                                        <ng-container matColumnDef="monto">
+                                            <th id="monto" class="text-center" mat-header-cell *matHeaderCellDef> Monto
+                                            </th>
+                                            <td mat-cell class="text-right" *matCellDef="let element">
+                                                <strong>{{element.monto |
+                                                    currency:'MXN'}}</strong>
+                                            </td>
+                                        </ng-container>
+
+                                        <!--Acciones-->
+                                        <ng-container matColumnDef="acciones">
+                                            <th id="acciones" class="text-center" mat-header-cell *matHeaderCellDef>
+                                                Acciones </th>
+                                            <td mat-cell class="text-center" *matCellDef="let element">
+
+                                                <button (click)="abrirAdvertenciaEliminar(element)" mat-mini-fab
+                                                    color="warn" aria-label="Eliminar movimiento">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+
+                                            </td>
+                                        </ng-container>
+
+                                        <!--Tabla Hija-->
+                                        <ng-container matColumnDef="expandedDetail">
+
+                                            <td mat-cell *matCellDef="let element"
+                                                [attr.colspan]="displayedColumnsTrans.length">
+                                                <div class="example-element-detail"
+                                                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                                    <table mat-table [dataSource]="element.desglose">
+
+                                                        <caption></caption>
+
+                                                        <!--Movimiento-->
+                                                        <ng-container matColumnDef="Movimiento">
+                                                            <th id="Movimiento"></th>
+                                                            <td class="text-left" mat-cell *matCellDef="let element">
+                                                                {{element.Movimiento}} </td>
+                                                        </ng-container>
+
+                                                        <!--Monto-->
+                                                        <ng-container matColumnDef="Monto">
+                                                            <th id="Monto"></th>
+                                                            <td mat-cell class="text-right" *matCellDef="let element">
+                                                                <strong>{{element.Monto |
+                                                                    currency:'MXN'}}</strong>
+                                                            </td>
+                                                        </ng-container>
+
+
+
+                                                        <tr mat-row
+                                                            *matRowDef="let desglose; columns: isotopeColumnsToDisplay">
+                                                        </tr>
+
+                                                    </table>
+                                                </div>
+                                            </td>
+
+                                        </ng-container>
+
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsTrans"></tr>
+
+                                        <tr mat-row id="poliza" matRipple
+                                            *matRowDef="let element; columns: displayedColumnsTrans; let k = dataIndex;"
+                                            class="example-element-row"
+                                            [class.example-expanded-row]="expandedElement === element"
+                                            (click)="expandedElement = expandedElement === element ? null : element">
+                                        </tr>
+
+                                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
+                                            class="example-detail-row"></tr>
+
+                                    </table>
+
+                                </div>
+
+                            </mat-nav-list>
+
+
+                            <mat-card-content>
+                                <mat-list>
+                                    <mat-divider></mat-divider>
+                                    <mat-divider></mat-divider>
+                                    <mat-list-item>
+                                        <!--DEPOSITOS-->
+                                        <div mat-line>
+                                            <div class="totales-det"><strong>DEP&Oacute;SITOS</strong></div>
+                                        </div>
+                                        <div mat-line class="c"><strong>{{totalDep|currency:'MXN'}}</strong></div>
+                                    </mat-list-item>
+                                    <mat-divider></mat-divider>
+                                    <mat-list-item>
+                                        <!--RETIROS-->
+                                        <div mat-line>
+                                            <div class="totales-det"><strong>RETIROS</strong></div>
+                                        </div>
+                                        <div mat-line class="c"><strong>{{totalRet|currency:'MXN'}}</strong></div>
+                                    </mat-list-item>
+                                    <mat-divider></mat-divider>
+                                    <mat-list-item><br>
+                                        <!--TOTALES-->
+                                        <div mat-line>
+                                            <div class="totales-det"><strong>TOTALES</strong></div>
+                                        </div>
+                                        <div mat-line class="c">
+                                            <h2 class="h-center-v"><strong
+                                                    class="total">{{total|currency:'MXN'}}</strong></h2>
+                                        </div>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-card-content>
+
+
+                        </div>
+                    </div>
+
+
+                    <!--CALCULADORA-->
+                    <div class="col-md-12">
+
+                        <div class="card card-body">
+                            <!--BOTON PAGAR-->
+                            <button class="bsize" mat-raised-button color="primary" (click)="abrirDialogPago(0)">
+                                <mat-icon matTooltip="">payments</mat-icon>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-8">
+
+                <div class="row">
+
+                    <!--BUSQUEDA CLIENTE-->
+                    <div class="col-md-12 sptb">
+                        <div class="card card-body sptb">
+                            <div class="row sptb">
+
+                                <div class="col-10 div-text-centrado">
+                                    <h2 class="h-center-v ">{{lblCliente | uppercase}} : {{nomCliente}} ({{tipoSocio}})
+                                    </h2>
+                                </div>
+
+                                <div class="col-2 div-text-centrado-2">
+                                    <button mat-icon-button color="primary" label="Buscar Cliente"
+                                        (click)="abrirDialog(0)">
+                                        <mat-icon>search</mat-icon>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--DATOS CLIENTE-->
+                    <div class="col-md-12">
+                        <div class="card card-body">
+                            <div class="row">
+
+                                <!--IMG CLIENTE-->
+                                <div class="col-md-3  a div-centrado">
+
+                                    <iframe title="F. FRENTE" [src]="urlSafeFoto" class="full-width"
+                                        downloadFile="urlSafeFoto"> </iframe>
+
+                                </div>
+
+                                <!--IMG FIRMA-->
+                                <div class="col-md-3  a div-centrado">
+                                    <iframe title="FIRMA" [src]="urlSafeFirma" class="full-width"
+                                        downloadFile="urlSafeFirma"> </iframe>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-nav-list>
+                                        <div class="row">
+                                            <!--Número cliente-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>N&uacute;mero {{lblCliente}}</mat-label>
+                                                    <input formControlName="numCliente" matInput [readonly]="true">
+                                                    <mat-icon matSuffix><span class="material-icons-outlined">tag</span>
+                                                    </mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Teléfono-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Tel&eacute;fono</mat-label>
+                                                    <input formControlName="telefono" matInput [readonly]="true">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">phone_iphone</span>
+                                                    </mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Email-->
+                                            <div class="col-12">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Correo Electronico</mat-label>
+                                                    <input formControlName="correoElec" matInput [readonly]="true">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">email</span>
+                                                    </mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </mat-nav-list>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--LISTA CUENTAS-->
+                    <div class="col-md-12">
+                        <div class="card card-body">
+                            <mat-card-header>
+                                <mat-card-title>CUENTAS</mat-card-title>
+                            </mat-card-header>
+
+                            <mat-nav-list class="scroll-container-mov">
+
+
+                                <!-- Loading -->
+                                <div class="example-loading-shade" *ngIf="isLoadingResults  || isResultado">
+                                    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+
+                                    <div class="example-rate-limit-reached" *ngIf="isResultado">
+                                        <strong>No se encontraron cuentas.</strong>
+                                    </div>
+
+                                </div>
+
+                                <div class="example-table-container">
+
+                                    <table mat-table [dataSource]="dataSourceCuentas" class="example-table" matSort
+                                        matSortActive="created" matSortDisableClear matSortDirection="desc">
+
+                                        <caption></caption>
+
+                                        <!--Número-->
+                                        <ng-container matColumnDef="no">
+                                            <th id="no" class="text-center" mat-header-cell *matHeaderCellDef>No.</th>
+                                            <td mat-cell class="text-center" *matCellDef="let element; let i = index">
+                                                {{i + 1}}</td>
+                                        </ng-container>
+
+
+                                        <!--CLAVE-->
+                                        <ng-container matColumnDef="cveMovimiento">
+                                            <th id="cveMovimiento" class="text-center" mat-header-cell
+                                                *matHeaderCellDef>
+                                                Clave </th>
+                                            <td class="text-center" mat-cell *matCellDef="let element">
+                                                {{element.cveMovimiento}} </td>
+                                        </ng-container>
+
+
+                                        <!--CONCEPTO-->
+                                        <ng-container matColumnDef="descMovimiento">
+                                            <th id="descMovimiento" class="text-center" mat-header-cell
+                                                *matHeaderCellDef>
+                                                Cuenta </th>
+                                            <td class="text-left" mat-cell *matCellDef="let element">
+                                                {{element.descMovimiento}} </td>
+                                        </ng-container>
+
+                                        <!--SALDO-->
+                                        <ng-container matColumnDef="saldo">
+                                            <th id="saldo" mat-header-cell *matHeaderCellDef> Saldo </th>
+                                            <td mat-cell class="text-right" *matCellDef="let element">
+                                                <strong>{{element.saldo |
+                                                    currency:'MXN'}}</strong>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row id="poliza" (click)="spsBloqueoClientes(row, 1)" matRipple
+                                            *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+
+                            </mat-nav-list>
+                        </div>
+                    </div>
+
+                    <!--LISTA CRÉDITOS-->
+                    <div class="col-md-12">
+                        <div class="card card-body">
+                            <mat-card-header>
+                                <mat-card-title>CR&Eacute;DITOS</mat-card-title>
+                            </mat-card-header>
+
+                            <mat-nav-list class="scroll-container-cre">
+
+
+                                <!-- Loading -->
+                                <div class="example-loading-shade" *ngIf="isLoadingResultsCre  || isResultadoCre">
+                                    <mat-spinner *ngIf="isLoadingResultsCre"></mat-spinner>
+
+                                    <div class="example-rate-limit-reached" *ngIf="isResultadoCre">
+                                        <strong>No se encontraron créditos.</strong>
+                                    </div>
+
+                                </div>
+
+                                <div class="example-table-container">
+
+                                    <table mat-table [dataSource]="dataSourceCred" class="example-table" matSort
+                                        matSortActive="created" matSortDisableClear matSortDirection="desc">
+
+                                        <caption></caption>
+
+                                        <!--Número-->
+                                        <ng-container matColumnDef="no">
+                                            <th id="no" class="text-center" mat-header-cell *matHeaderCellDef>No.</th>
+                                            <td mat-cell class="text-center" *matCellDef="let element; let i = index">
+                                                {{i + 1}}</td>
+                                        </ng-container>
+
+
+                                        <!--CLAVE-->
+                                        <ng-container matColumnDef="refCredito">
+                                            <th id="refCredito" class="text-center" mat-header-cell *matHeaderCellDef>
+                                                Referencia </th>
+                                            <td class="text-center" mat-cell *matCellDef="let element">
+                                                {{element.refCredito}} </td>
+                                        </ng-container>
+
+
+                                        <!--FECHA ULTIMO PAGO-->
+                                        <ng-container matColumnDef="fechaUltimoPago">
+                                            <th id="fechaUltimoPago" class="text-center" mat-header-cell
+                                                *matHeaderCellDef>
+                                                Cuenta </th>
+                                            <td class="text-center" mat-cell *matCellDef="let element">
+                                                {{element.fechaUltimoPago}} </td>
+                                        </ng-container>
+
+                                        <!--SALDO-->
+                                        <ng-container matColumnDef="montoCredito">
+                                            <th id="montoCredito" class="text-center" mat-header-cell *matHeaderCellDef>
+                                                Monto </th>
+                                            <td mat-cell class="text-right" *matCellDef="let element">
+                                                <strong>{{element.montoCredito |
+                                                    currency:'MXN'}}</strong>
+                                            </td>
+                                        </ng-container>
+
+                                        <!--SALDO-->
+                                        <ng-container matColumnDef="saldoCredito">
+                                            <th id="saldoCredito" class="text-center" mat-header-cell *matHeaderCellDef>
+                                                Saldo </th>
+                                            <td mat-cell class="text-right" *matCellDef="let element">
+                                                <strong>{{element.saldoCredito |
+                                                    currency:'MXN'}}</strong>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsCred"></tr>
+                                        <tr mat-row id="poliza" (click)="spsBloqueoClientes(row, 6)" matRipple
+                                            *matRowDef="let row; columns: displayedColumnsCred;">
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+
+
+                            </mat-nav-list>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</form>

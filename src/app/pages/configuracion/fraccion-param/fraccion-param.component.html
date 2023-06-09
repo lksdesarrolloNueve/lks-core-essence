@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="card card-body">
+      <h3 class="text-center">Fracci&oacute;n Par&aacute;metros</h3>
+      <div class="row">
+        <div class="col-2"><button mat-raised-button color="primary" (click)="openDialog(1)">Registrar </button></div>
+      </div>
+      <!--Filtro-->
+      <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Descripcion" #input>
+  
+      </mat-form-field>
+      <!--Cuerpo de la tabla-->
+      <div class="mat-elevation-z8 table-responsive">
+        <table aria-label="infoParametros" mat-table [dataSource]="dataSourceFracc"  matSort>
+  
+          <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+         
+          <!-- Decripcion  Column -->
+          <ng-container matColumnDef="descripcion">
+            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Parametro</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let fracc"> {{fracc.descripcion}} </td>
+          </ng-container>
+  
+          <!-- Nombre  Column -->
+          <ng-container matColumnDef="cuentaPri">
+            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cuenta Principal </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let fracc"> {{fracc.cuenta_principal}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="principal">
+            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Principal </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let fracc"> {{fracc.desc_prin}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cuentaGrupal">
+            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cuenta Grupal </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let fracc"> {{fracc.cuenta_grupo}} </td>
+          </ng-container>  
+         
+          <ng-container matColumnDef="grupal">
+            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Grupal </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let fracc"> {{fracc.desc_grup}} </td>
+          </ng-container>  
+          <!-- Acciones Column -->
+          <ng-container matColumnDef="acciones">
+            <th scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+            <!-- Boton delete Column -->
+            <td mat-cell *matCellDef="let element">
+              <!-- Boton Editar Column -->
+              <button mat-mini-fab  color="primary" (click)="openDialog(element)">
+                <mat-icon>mode_edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  
+        
+      </div>
+      <mat-paginator #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+          aria-label="Select page of fracc">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,206 @@
+<div class="row">
+  <!-- Título de alta usuarios -->
+  <div class="col-md-8">
+    <div class="card card-body">
+      <h2 class="text-center">Baja de Usuarios Banca Electronica</h2>
+
+      <form [formGroup]="myForm">
+        <!--Id cliente de tabla cliente-->
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre Cliente .</mat-label>
+            <input
+              formControlName="nombreCliente"
+              matInput
+              [ngModel]="valorRespuesta?.nombreCompleto"
+              [readonly]="true"
+            />
+
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!--Id cliente keycloak-->
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Persona Juridica</mat-label>
+            <input
+              formControlName="persona_juridica_id"
+              matInput
+              [ngModel]="valorRespuesta?.persona"
+              [readonly]="true"
+            />
+            <mat-icon matSuffix>login</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!--sucursal-->
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Sucursal .</mat-label>
+            <input
+              formControlName="sucursal_id"
+              matInput
+              [ngModel]="valorRespuesta?.nombreSucursal"
+              [readonly]="true"
+            />
+            <mat-icon matSuffix>house</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!--rol id-->
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Rol .</mat-label>
+            <mat-select
+              [(ngModel)]="valorRespuesta.rolId"
+              formControlName="rol"
+            >
+              <mat-option
+                *ngFor="let rol of listaRolesBe"
+                [value]="rol.generales_id"
+                (click)="listaPermisosRol(rol)"
+              >
+                {{ rol.descripcion }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!--Estatus-->
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Estatus .</mat-label>
+            <mat-select [(ngModel)]="estatus" formControlName="estatus">
+              <mat-option
+                *ngFor="let status of listaStatusBe"
+                [value]="status.generales_id"
+              >
+                {{ status.descripcion }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!--Motivo Baja-->
+        <div class="col-md-12" *ngIf="estatus !== 438">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Motivo Baja .</mat-label>
+            <mat-select [(ngModel)]="motivo" formControlName="motivoBaja">
+              <mat-option
+                *ngFor="let motivo of listaMotivosBe"
+                [value]="motivo.generales_id"
+              >
+                {{ motivo.descripcion }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!--comentarios-->
+        <div class="col-md-12" *ngIf="estatus !== 438">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>comentarios .</mat-label>
+            <input formControlName="comentario" type="text" matInput />
+            <mat-icon matSuffix></mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!--correo-->
+        <div class="col-md-12" *ngIf="estatus === 438">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>correo</mat-label>
+            <input
+              formControlName="correo"
+              type="email"
+              matInput
+              [(ngModel)]="valorRespuesta.correo"
+            />
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!--telefono-->
+        <div class="col-md-12" *ngIf="estatus === 438">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>telefono .</mat-label>
+            <input
+              formControlName="telefono"
+              matInput
+              [(ngModel)]="valorRespuesta.telefono"
+            />
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!--Botones-->
+        <div
+          class="botones"
+          style="display: flex; justify-content: space-between"
+        >
+          <button
+            *ngIf="estatus !== 438"
+            (click)="insertClienteBE(2)"
+            mat-raised-button
+            style="
+              width: 49%;
+              background-color: #2a3852;
+              color: white;
+              margin-top: 20px;
+              display: flex;
+            "
+          >
+            Guardar
+          </button>
+          <button
+            *ngIf="estatus === 438"
+            (click)="insertClienteBE(3)"
+            mat-raised-button
+            style="
+              width: 49%;
+              background-color: #2a3852;
+              color: white;
+              margin-top: 20px;
+              display: flex;
+            "
+          >
+            Guardar
+          </button>
+          <button
+            mat-raised-button
+            style="
+              width: 49%;
+              background-color: #2a3852;
+              color: white;
+              margin-top: 20px;
+              display: flex;
+            "
+            (click)="cancelar()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!--card del formulario de alta usuarios-->
+  <div class="col-md-4">
+    <div class="card card-body">
+      <h2 class="text-center">Permisos</h2>
+      <div class="text-center" *ngFor="let permiso of listaPermisos">
+        <h3
+          style="
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            font-size: 100%;
+          "
+        >
+          {{ permiso.titulo }}
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<h3 mat-dialog-title class="text-center">Administraci&oacute;n de Roles</h3>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="formRoles">
+                <p></p>
+                <div class="row">
+                    <div class="col-8">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Id</mat-label>
+                            <input formControlName="id" matInput [readonly]="true">
+                            <mat-icon matSuffix>
+                                <span class="material-icons-outlined">key</span>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Realm</mat-label>
+                            <input formControlName="containerId" matInput [readonly]="true">
+                            <mat-icon matSuffix>
+                                <span class="material-icons-outlined">group_work</span>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-8">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Rol</mat-label>
+                            <input formControlName="name" matInput placeholder="Tesoreria">
+                            <mat-icon matSuffix>
+                                <span class="material-icons-outlined">drive_file_rename_outline</span>
+                            </mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.name" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formRoles.get('name').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                        <button color="primary" mat-mini-fab (click)="nuevoRol()"
+                            aria-label="Example icon-button with a heart icon">
+                            <mat-icon matTooltip="Nuevo Registro"> 
+                                restart_alt
+                            </mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-2">
+                        <button color="primary" mat-mini-fab (click)="agregarRol()"
+                            aria-label="Example icon-button with a heart icon">
+                            <mat-icon matTooltip="Agregar Registro">
+                                add_circle
+                            </mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-12 text-center">
+                        <br>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div class="col-12">
+                        <mat-nav-list class="scroll-container" [ngStyle]="{'height': '200px', 'width':'100%'}">
+                            <mat-list-item
+                                *ngFor="let rol of listaRoles; let i = index">
+                                <p matListItemTitle (click)="mostrarRol(rol)">
+                                    {{rol.name}}</p>
+                                <button color="warn" mat-mini-fab matListItemMeta aria-label="Example icon-button with a heart icon"
+                                (click)="abrirAdvertencia(rol)" matTooltip="Eliminar Registro">
+                                    <mat-icon>delete_forever</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-nav-list>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

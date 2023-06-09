@@ -1,0 +1,112 @@
+<h2 mat-dialog-title>{{encabezado | uppercase}} </h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formEstados">
+    <p></p>
+    <div class="row ">
+      <div class="col-md-12">
+        <!--Inican FormGroup()-->
+        <mat-form-field class="example-full-width" appearance="fill" class="full-width">
+          <mat-label>Nacionalidad</mat-label>
+          <input type="text" placeholder="Mexicana" matInput formControlName="nacionalidad" [matAutocomplete]="auto">
+          <mat-icon matSuffix>map</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.nacionalidad" ngProjectAs="mat-error">
+            <mat-error *ngIf="formEstados.get('nacionalidad').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let nacionalidad of  filteredNacionalidades | async" [value]="nacionalidad">
+              {{nacionalidad.nacion}} / {{nacionalidad.pais}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="formEstados.get('nacionalidad').hasError('invalidAutocompleteObject')">
+            <strong>La Nacionalidad no pertenece a la lista, elija otra Nacionalidad.</strong>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Estado</mat-label>
+          <input matInput formControlName="nombreEstado" MaxLength="100" placeholder="Nombre estado">
+          <mat-icon matSuffix>reorder</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.nombreEstado" ngProjectAs="mat-error">
+            <mat-error *ngIf="formEstados.get('nombreEstado').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nivel de Riesgo</mat-label>
+          <mat-select formControlName="nivelRiesgo" name="nivelRiesgo">
+            <mat-option *ngFor="let nivel of listaGenerales" [value]="nivel.generalesId">
+              {{nivel.descripcion}}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>warning</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.nivelRiesgo" ngProjectAs="mat-error">
+            <mat-error *ngIf="formEstados.get('nivelRiesgo').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Clave Estado</mat-label>
+          <input matInput formControlName="cveEstado" type="text" placeholder="Clave Estado">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.cveEstado" ngProjectAs="mat-error">
+            <mat-error *ngIf="formEstados.get('cveEstado').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Clave Inegi</mat-label>
+          <input matInput formControlName="cveInegi" max="32765" type="number" placeholder="Cve Inegi">
+          <mat-icon matSuffix>tag</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.cveInegi" ngProjectAs="mat-error">
+            <mat-error *ngIf="formEstados.get('cveInegi').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Cve Estado Buro</mat-label>
+          <input matInput formControlName="cveEstadoBuro" MaxLength="2" placeholder="Cve Estado Buro">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.cveEstadoBuro" ngProjectAs="mat-error">
+            <mat-error *ngIf="formEstados.get('cveEstadoBuro').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-md-6">
+        <mat-slide-toggle formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="accion===1" (click)="guardarEstado()" mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="accion===2" (click)="actualizarEstado()" mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

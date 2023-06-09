@@ -1,0 +1,14 @@
+/*clientes*/
+.borderNegrita{
+    font-weight: bold;
+    border: none; 
+    outline: none;
+}
+.marLeft{
+    margin-left: -15px;
+}
+/*Solicittudes*/
+.borderFuera{
+    border: none; 
+    outline: none;
+}

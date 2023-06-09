@@ -1,0 +1,18 @@
+<div class="chat-container" id="chat-container">
+    <div class="chat-ventana" id="chat-ventana" [hidden]="!ventanaAbierta">
+        <lista-chat (abrirChatEvent)="abrirConversacion($event)" (nuevoChatEvent)="agregarChat()"
+            (notificacionEvent)="mostrarPuntoNotif($event)" [hidden]="chatAbierto || nuevoChat || updateChat">
+        </lista-chat>
+        <conversacion-chat (cerrarChatEvent)="cerrarConversacion()" (updateChatEvent)="abrirUpdate($event)"
+            [chat]="chatSeleccionado" [hidden]="!chatAbierto"></conversacion-chat>
+        <nuevo-chat (abrirChatEvent)="abrirConversacion($event)" (cerrarNuevoEvent)="cerrarNuevo()"
+            [hidden]="!nuevoChat"></nuevo-chat>
+        <update-chat (cerrarUpdateEvent)="cerrarUpdate()" [chat]="chatSeleccionado" [accion]="accionUpdate"
+            [hidden]="!updateChat"></update-chat>
+    </div>
+    <div #burbuja class="chat-burbuja" id="chat-burbuja" (click)="abrirChat()">
+        <mat-icon [hidden]="ventanaAbierta"> chat_bubble_outline</mat-icon>
+        <mat-icon [hidden]="!ventanaAbierta"> close</mat-icon>
+        <span class="notif-punto" *ngIf="puntoNotif" [hidden]="ventanaAbierta">⬤</span>
+    </div>
+</div>

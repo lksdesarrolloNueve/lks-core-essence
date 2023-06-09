@@ -1,0 +1,99 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">Tipos de bajas activo</h3>
+            <div class="row">
+                <!-- Botón para registrar nuevo  -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogo(1,'')">Registrar</button>
+                </div>
+                <div class="col-md-10"></div>
+            </div>
+
+            <mat-form-field class="full-width">
+                <mat-label>Filtro para tipo de baja</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filtro de baja" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de TipoBajaActivo" [dataSource]="dataSourceTipoBaja" matSort>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="nombre">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let baja"> {{baja.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna Registra eventa  -->
+                    <ng-container matColumnDef="registraVenta">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Registra venta </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let baja">
+                            <div *ngIf="baja.ingresos_monetarios; then thenBlock else elseBlock"></div>
+                            <ng-template #thenBlock>Si</ng-template>
+                            <ng-template #elseBlock>No</ng-template>
+                        
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna  ceuntadebe  -->
+                    <ng-container matColumnDef="cuentaDebe">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta
+                            Debe </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let baja"> {{baja.cuenta_debe}} </td>
+                    </ng-container>
+
+                    <!-- Columna cuenta  -->
+                    <ng-container matColumnDef="cuentaHaber">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Cuenta
+                            Haber </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let baja"> {{baja.cuenta_haber}} </td>
+                    </ng-container>
+
+                    <!-- Columna cuenta Iva -->
+                    <ng-container matColumnDef="cuentaIva">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Cuenta
+                            Iva </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let baja"> {{baja.cuenta_iva}} </td>
+                    </ng-container>
+
+                    <!-- Columna Estatus  -->
+                    <ng-container matColumnDef="estatus">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Estatus </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let baja">
+                            <mat-slide-toggle [ngModel]="baja.estatus" (ngModelChange)="cambiaEstatus($event, baja)"
+                                color="primary">
+                            </mat-slide-toggle>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna acciones  -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let baja">
+
+                            <!-- Columna Botón Editar -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogo(2,baja)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnaBaja"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnaBaja;">
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Seleccionar pagina de solicitudes">
+            </mat-paginator>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-body">
+<br>
+<h3 class="text-center">Lista Ocupaciones SINCO</h3>
+
+<div ><button mat-raised-button color="primary" (click)="abrirDialog(0)">Registrar </button>
+</div>
+
+<mat-form-field class="full-width">
+    <mat-label>Filtros de Busqueda</mat-label>
+    <input matInput (keyup)="buscarOcupacion($event)" placeholder="Ocupaciones SINCO" #input>
+</mat-form-field>
+<!--Cuerpo de la tabla-->
+<div class="mat-elevation-z8 ">
+    <mat-table mat-table [dataSource]="dataSourceOcupaciones" class="mat-elevation-z8 table-responsive" matSort>
+        <!-- Clave  Column -->
+        <ng-container matColumnDef="cveOcu">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef> <strong>Clave </strong></mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"> <strong> {{ocupacion.cveOcupacion}}</strong> </mat-cell>
+        </ng-container>
+
+        <!-- descripcion Column -->
+        <ng-container matColumnDef="descripcion">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef>Descripci&oacute;n </mat-header-cell >
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"> {{ocupacion.descripcion}} </mat-cell>
+        </ng-container>
+
+        <!-- Sueldo Column -->
+        <ng-container matColumnDef="sueldo">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef><strong>Sueldo mensual.</strong> </mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"><strong>{{ocupacion.sueldoMensual | currency:"MXN"}}</strong> </mat-cell>
+        </ng-container>
+         <!-- PLD Column -->
+         <ng-container matColumnDef="codPld">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef>C&oacute;digo PLD</mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"> {{ocupacion.codPld}} </mat-cell>
+        </ng-container>
+         <!-- SCIAN Column -->
+         <ng-container matColumnDef="scian">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef><strong> C&oacute;digo SCIAN</strong></mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"><strong> {{ocupacion.codScian}}</strong> </mat-cell>
+        </ng-container>
+        <!-- riesgo Column -->
+        <ng-container matColumnDef="riesgo">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef>Nivel de riesgo</mat-header-cell >
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"> {{ocupacion.nivelRiesgo.descripcion}} </mat-cell>
+        </ng-container>
+         <!-- act Vulnerable Column -->
+         <ng-container matColumnDef="vulnerable">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef><strong>Act. Vulnerable</strong></mat-header-cell >
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"><strong>{{ocupacion.actVulnerable.concepto}} </strong></mat-cell>
+        </ng-container>
+         <!-- Grupo Unitario Column -->
+         <ng-container matColumnDef="unitario">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef>Grupo Unitario</mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let ocupacion"> {{ocupacion.unitario.descripcion}} </mat-cell>
+        </ng-container>
+        <!-- Estatus -->
+        <ng-container  matColumnDef="estatus">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef><strong>Estatus</strong></mat-header-cell >
+            <mat-cell style="padding: 16px;" *matCellDef="let element">
+                <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)" color="primary">
+                </mat-slide-toggle>
+            </mat-cell>
+        </ng-container>
+        <!-- Acciones Column -->
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <!-- Boton delete Column -->
+            <mat-cell *matCellDef="let element">
+                <!-- Boton Editar Column -->
+                <button mat-mini-fab (click)="abrirDialog(element)" color="primary">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+  
+</div>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+</mat-paginator>
+</div>
+</div>
+</div>

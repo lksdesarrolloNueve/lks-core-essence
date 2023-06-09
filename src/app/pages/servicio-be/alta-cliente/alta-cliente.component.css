@@ -1,0 +1,83 @@
+/* Diseño para tabla Clientes */
+h4 {
+    margin-top: 10px
+}
+
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.div-notification {
+    background-color: gold;
+    color: white;
+    width: 40%;
+    margin: 0 0 0 auto;
+    margin-right: 70px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+}
+
+.text-notification {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    display: inline-block;
+}
+
+.icon-notification {
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 16px;
+    display: inline-block;
+}
+
+.button-save {
+    background-color: coral;
+    color: white;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.button-delete {
+    background-color: red;
+    color: white;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.button-edit {
+    background-color: blue;
+    color: white;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.button-search {
+    width: 100px;
+    margin: 0 auto;
+    border: 1px solid;
+}
+
+.example-form {
+    margin: 0 auto;
+    margin-top: 10px;
+    position: relative;
+}
+
+.example-input {
+    width: 400px;
+    margin-left: 20px;
+}
+
+
+.example-selection {
+    width: 250px;
+}

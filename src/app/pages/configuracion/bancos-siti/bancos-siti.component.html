@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">Banco Siti</h3>
+        <div class="row">
+            <div class="col-2"><button mat-raised-button color="primary" (click)="abrirDialogoBancoSiti(0)">Registrar
+                    Nuevo</button></div>
+        </div>
+        <!--Filtro -->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ejemplo: Clave Banco, Nombre Banco" #input>
+        </mat-form-field>
+
+        <!-- Cuerpo de lla tablaa-->
+        <div class="mat-elevation-z8 table-responsive">
+
+            <table aria-label="info" mat-table [dataSource]="dataSourceBancoSiti"  matSort>
+
+
+                <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+
+                <!-- Clave Banco -->
+                <ng-container matColumnDef="clave_siti">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave Banco </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cveSiti}} </td>
+                </ng-container>
+
+                <!-- Nombre Banco -->
+                <ng-container matColumnDef="nombre_banco">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Nombre Banco</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.nombreBanco}} </td>
+                </ng-container>
+
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                        <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)"
+                            color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+
+                <!-- acciones -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td mat-cell *matCellDef="let element">
+
+                        <button mat-mini-fab color="primary" (click)="abrirDialogoBancoSiti(element) ">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+           
+        </div>
+         <!--paginacion  de la tabla-->
+         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+
+    </div>
+</div>

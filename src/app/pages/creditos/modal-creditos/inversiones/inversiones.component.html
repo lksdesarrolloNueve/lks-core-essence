@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{encabezado}}</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-tab-group mat-align-tabs="start" backgroundColor="primary" (selectedTabChange)="tabSeleccionada($event)">
+        <mat-tab label="Garant&iacute;a inversi&oacute;n"> 
+            <table aria-label="Inversiones" mat-table [dataSource]="dataSourceInversiones">
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="seleccionI">
+                    <th id="chk" mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox matTooltip="Seleccionados" (change)="$event ? allAny() : null"
+                            [checked]="selection.hasValue() && estaSeleccionado()"
+                            [indeterminate]="selection.hasValue() && !estaSeleccionado()"
+                            [aria-label]="casillaVerificacionI()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)" [aria-label]="casillaVerificacionI(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <!--  Column -->
+                <ng-container matColumnDef="monto">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef style="padding:16px"> Monto </th>
+                    <td mat-cell *matCellDef="let element" style="padding:16px"> {{element.detalleInversion.monto | currency:'MXN'}}
+                         </td>
+                </ng-container>
+                <!--  Column -->
+                <ng-container matColumnDef="inversion">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef> Inversion </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        {{(element.detalleInversion.catInversion | jsonParse).descripcion}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsIn"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsIn;">
+                </tr>
+            </table>
+        </mat-tab>
+        <mat-tab label="Nueva inversi&oacute;n"> 
+        <inversion></inversion>    
+        </mat-tab>
+      </mat-tab-group>
+        
+    
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" (click)="agregarInversion()">Guardar</button>
+        <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+    </mat-dialog-actions>

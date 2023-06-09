@@ -1,0 +1,157 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formNoDepreciable">
+    
+    <div class="row">
+       
+    <div class="col-md-3"> 
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="usuario" [readonly]="true"  placeholder="Usuario">
+        <mat-icon matSuffix>user</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3"> 
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Sucursal</mat-label>
+          <input matInput formControlName="sucursal" [readonly]="true" placeholder="sucursal">
+          <mat-icon matSuffix>local_convenience_store</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Tipo Activo</mat-label>
+            <input type="text" placeholder="Tipo Activo" matInput formControlName="tpActivo" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="tActivoSeleccionado($event)" [displayWith]="displayTA">
+              <mat-option *ngFor="let option of opcionesTipoAct | async" [value]="option">
+                {{option.nombre}}
+              </mat-option>
+            </mat-autocomplete>
+            <ng-template ngFor let-error [ngForOf]="validaciones.tpActivo" ngProjectAs="mat-error">
+              <mat-error *ngIf="formNoDepreciable.get('tpActivo').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-checkbox color="primary" formControlName="vigente" >Vigente</mat-checkbox>
+        </div>
+
+          <div class="col-md-3">
+            <mat-checkbox color="primary" [disabled]="isCheck" formControlName="comUnidad" (change)="cambioUnidades()" >Compra por unidades</mat-checkbox>
+        </div>
+    <div class="col-md-3">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Unidades</mat-label>
+        <input matInput formControlName="unidades" [readonly]="isUnidad" placeholder="1">
+        <mat-icon matSuffix>pin</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Clave</mat-label>
+          <input matInput formControlName="actSuc" [readonly]="true" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>No.Factura</mat-label>
+          <input matInput formControlName="factura"  MaxLength="9" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.factura" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNoDepreciable.get('factura').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Clave</mat-label>
+          <input matInput formControlName="consecutivo"  [readonly]="true" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Clave</mat-label>
+          <input matInput formControlName="unidad"  [readonly]="true" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Concepto</mat-label>
+          <input matInput formControlName="concepto"  placeholder="">
+          <mat-icon matSuffix>article</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.concepto" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNoDepreciable.get('concepto').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>MOI</mat-label>
+          <input matInput formControlName="moi"  placeholder="Monto Original Inversion">
+          <mat-icon matSuffix>paid</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.moi" ngProjectAs="mat-error">
+              <mat-error *ngIf="formNoDepreciable.get('moi').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>TOTAL</mat-label>
+          <input matInput formControlName="total" [readonly]="true" placeholder="0.0">
+          <mat-icon matSuffix>paid</mat-icon>
+        </mat-form-field>
+      </div>
+      
+    <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Fecha Factura</mat-label>
+          <input matInput [matDatepicker]="ff" formControlName="ffactura" (dateChange)="cambioFecha($event.value)" [readonly]="true">
+          <mat-datepicker-toggle matSuffix [for]="ff"></mat-datepicker-toggle>
+          <mat-datepicker #ff></mat-datepicker>
+          <ng-template ngFor let-error [ngForOf]="validaciones.ffactura" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNoDepreciable.get('ffactura').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      
+      <div class="col-md-6">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Descripci&oacute;n</mat-label>
+          <textarea formControlName="descripcion" matInput></textarea>
+          <mat-icon matSuffix>description</mat-icon>
+            <!--<mat-error *ngFor="let validacion of validaciones.tpActivo">
+                <div *ngIf="formNoDepreciable.get('tpActivo').hasError(validacion.type)
+                && formNoDepreciable.get('tpActivo').touched">
+                  {{validacion.message}}
+                </div>
+              </mat-error>-->
+        </mat-form-field>
+      </div>
+    
+     
+      
+      
+
+</div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="activoID==0" (click)="crudActivo()" mat-raised-button color="primary">Guardar</button>
+  <button  *ngIf="activoID>0" (click)="crudActivo()" mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

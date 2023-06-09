@@ -1,0 +1,216 @@
+<h1>BUSCAR MOVIMIENTO</h1>
+
+<div class="col-md-12 card">
+    <form [formGroup]="formBuscarMov">
+        <p></p>
+        <div class="row">
+            <!--Concepto-->
+            <div class="col-md-6">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Clave movimiento</mat-label>
+                        <input matInput placeholder="Clave" formControlName="cveMov" (input)="limpiaTabla()">
+                        <mat-icon matSuffix>notes</mat-icon>
+
+                        <!--Validación -->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.cveMov" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formBuscarMov.get('cveMov').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <!--Rango de fechas-->
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Rango de fechas</mat-label>
+
+                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                        <input matStartDate formControlName="start" placeholder="Fecha inicial" [readonly]="true">
+                        <input matEndDate formControlName="end" placeholder="Fecha final" [readonly]="true">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+
+                    <!--Validación-->
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.start" ngProjectAs="mat-error">
+                        <mat-error *ngIf="range.get('start').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+
+                    <!--Validación-->
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.end" ngProjectAs="mat-error">
+                        <mat-error *ngIf="range.get('end').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+
+                </mat-form-field>
+            </div>
+
+
+            <!--Sucursal-->
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Sucursal</mat-label>
+
+                    <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                        [matAutocomplete]="autoSuc">
+                    <mat-autocomplete autoActiveFirstOption #autoSuc="matAutocomplete"
+                        (optionSelected)="opcionSeleccionadaSucursal($event)" [displayWith]="displaySucursal">
+                        <mat-option *ngFor="let optionSuc of opcionesSucursal | async" [value]="optionSuc">
+                            {{optionSuc.cveSucursal}} / {{optionSuc.nombreSucursal}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!--Validación-->
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.sucursal" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBuscarMov.get('sucursal').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+
+                </mat-form-field>
+            </div>
+
+
+            <!--Tipo Cuenta-->
+            <div class="col-md-3">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Tipo cuenta</mat-label>
+                    <mat-select (selectionChange)="opcionSeleccionadaTipoCuenta($event)" formControlName="tipoCuenta">
+                        <mat-option *ngFor="let optionTc of listaTipoCuentaOri" [value]="optionTc">
+                            {{optionTc.descripcion}}
+                        </mat-option>
+                    </mat-select>
+
+                    <!--Validación-->
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.tipoCuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBuscarMov.get('tipoCuenta').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+
+
+                </mat-form-field>
+            </div>
+
+            <!--Cuenta Bancaria-->
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Cuenta</mat-label>
+
+                    <input type="text" placeholder="Cuenta bancaria" matInput formControlName="cuentaBancOri"
+                        [matAutocomplete]="autoCuentaBO">
+                    <mat-autocomplete autoActiveFirstOption #autoCuentaBO="matAutocomplete"
+                        (optionSelected)="opcionSeleccionadaCuenta($event)" [displayWith]="displayCuentaBancOri">
+                        <mat-option *ngFor="let optionCBO of opcionesCuentaBancOri | async" [value]="optionCBO">
+                            {{optionCBO.claveCuenta}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!--Validación -->
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.cuentaBancOri" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBuscarMov.get('cuentaBancOri').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+
+                </mat-form-field>
+            </div>
+
+            <!--Botón agregar cuenta contable -->
+            <div class="col-md-2">
+                <button mat-flat-button color="primary" matTooltip="Buscar movimiento."
+                    (click)="buscarMovimiento()">Buscar</button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+
+<div class="example-container mat-elevation-z8" *ngIf="cuentaOrigenVisible">
+
+
+    <!-- Loading -->
+    <div class="example-loading-shade" *ngIf="isLoadingResults  || isResultado">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+
+        <div class="example-rate-limit-reached" *ngIf="isResultado">
+            No se encontraron movimientos.
+        </div>
+
+    </div>
+
+    <div class="example-table-container">
+
+        <table mat-table [dataSource]="dataSourceMovimientos" class="example-table" 
+               matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+
+            <caption></caption>
+
+            <!--Clave-->
+            <ng-container matColumnDef="claveMovimiento">
+                <th id="claveMovimiento" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef>Clave</th>
+                <td mat-cell style="padding: 16px;" class="text-center" *matCellDef="let element">{{element.claveMovimiento}}</td>
+            </ng-container>
+
+            <!--Fecha-->
+            <ng-container matColumnDef="fechaHora">
+                <th id="fechaHora" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef>Fecha</th>
+                <td mat-cell style="padding: 16px;" class="text-center" *matCellDef="let element">{{element.extMov1.fechaHora}}</td>
+            </ng-container>
+
+            <!--Concepto-->
+            <ng-container matColumnDef="concepto">
+                <th id="concepto" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef>Concepto</th>
+                <td mat-cell style="padding: 16px;" class="text-center" *matCellDef="let element">{{element.concepto}}</td>
+            </ng-container>
+
+            <!--Tipo movimiento-->
+            <ng-container matColumnDef="descripcion">
+                <th id="descripcion" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef>Tipo movimiento</th>
+                <td mat-cell style="padding: 16px;" class="text-center" *matCellDef="let element">{{element.extMov1.tipoMovimiento.descripcion}}</td>
+            </ng-container>
+
+            <!--Monto-->
+            <ng-container matColumnDef="monto">
+                <th id="monto" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef>Monto</th>
+                <td mat-cell style="padding: 16px;" class="text-center" *matCellDef="let element">{{element.extMov1.monto | currency:'MXN'}}</td>
+            </ng-container>
+
+            <!--Estatus-->
+            <ng-container matColumnDef="estatus">
+                <th id="estatus" class="text-center" mat-header-cell *matHeaderCellDef>Estatus</th>
+                <td mat-cell class="text-center" *matCellDef="let element">{{element.extMov2.estatus ? 'Activo' : 'Cancelado'}}</td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row id="poliza" (click)="enviaRow(row)" matRipple
+                *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+    </div>
+
+    <mat-paginator [length]="totalRows" [pageSize]="pageSize" [pageIndex]="currentPage"
+        [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page" showFirstLastButtons>
+    </mat-paginator>
+
+</div>
+
+<!--Espacio-->
+<div><br></div>
+
+<div class="col-md-12 c">
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</div>
+

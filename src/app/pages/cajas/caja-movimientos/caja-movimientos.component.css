@@ -1,0 +1,189 @@
+.div-centrado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    /*border: 2px dashed #f69c55;*/   
+}
+
+.div-text-centrado{
+    display: flex;
+    align-items: center;
+    /*border: 2px dashed #5bf655;  */
+}
+
+.div-text-centrado-2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    /*border: 2px dashed #5bf655; */ 
+}
+
+.h-center-v{
+    position: relative;
+    top: 17%;  
+}
+
+.bor{
+ border: 2px dashed #f01111;    
+}
+
+
+.scroll-container-tran {
+    height: 350px;
+    width: 650px;
+    max-width: 100%;
+    overflow: auto;
+    /*border: 2px dashed hsl(115, 91%, 56%); */
+  }
+
+.scroll-container-cli {
+    height: 165px;
+    max-width: 100%;
+    overflow: auto;
+    /*border: 2px dashed hsl(32, 91%, 56%); */
+}
+
+.scroll-container-mov {
+    height: 160px;
+    max-width: 100%;
+    overflow: auto;
+    /*border: 2px dashed #2c28f5; */
+}
+
+.scroll-container-cre {
+    height: 160px;
+    max-width: 100%;
+    overflow: auto;
+    /*border: 2px dashed hsl(320, 91%, 56%); */
+}
+
+
+.pad-left{
+    padding-left: 35px;
+}
+
+.div-cierre {
+  padding: 0%;
+}
+
+.btn-cierre {
+  height: 100%;
+  width: 100%;
+}
+
+
+/* Structure */
+.example-container {
+    position: relative;
+  }
+  
+  .example-table-container {
+    position: relative;
+    min-height: 200px;
+    max-height: 300px;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  .example-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .example-rate-limit-reached {
+    max-width: 360px;
+    text-align: center;
+  }
+  
+  /* Column Widths */
+  .mat-column-number,
+  .mat-column-state {
+    max-width: 64px;
+  }
+  
+  .mat-column-created {
+    max-width: 124px;
+  }
+
+  .tabla-transacciones {
+    position: relative;
+    min-height: 200px;
+    max-height: 380px;
+    overflow: auto;
+  }
+
+
+/*******Tabla Hija********/
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.zero-padding{
+  padding: 0;
+}
+
+.total{
+  color: #418802;
+}
+
+div.totales-det {
+  font-size: 10px;
+  color: #6c757d;
+}
+
+
+.sp{
+  margin: 0%;
+  padding: 0%;
+}
+
+.mb{
+  margin-bottom: 20px;
+}
+
+.pt{
+  padding-top: 5px;
+}
+
+.bsize{
+  width: 100%;
+  height: 57px;
+
+}
+
+.sptb{
+  padding-top: 0%;
+  padding-bottom: 0%;
+}

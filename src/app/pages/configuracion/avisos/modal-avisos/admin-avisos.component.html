@@ -1,0 +1,97 @@
+<!--Se hace dinámico el título del modal, de acuerdo si es
+un guardado o  un editado-->
+<h2 mat-dialog-title>{{titulo | uppercase}}</h2>
+<mat-dialog-content class="mat-typography">
+
+
+    <!--Se inicia la estructura del formAviso-->
+    <form [formGroup]="formAviso">
+        <p></p>
+        <div class="row">
+            <!--Se hace el campo de registro claveAviso-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Clave Aviso</mat-label>
+                    <input formControlName="claveAviso" matInput placeholder="0001">
+                    <mat-icon matSuffix>text_rotation_none</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.claveAviso" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formAviso.get('claveAviso').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Se hace el campo de registro descripcion-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripci&oacute;n</mat-label>
+                    <input formControlName="descripcion" matInput placeholder="Descripci&oacute;n">
+                    <mat-icon matSuffix>text_rotation_none</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formAviso.get('descripcion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Se hace el campo de registro dias-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>D&iacute;as</mat-label>
+                    <input formControlName="dias" matInput placeholder="1">
+                    <mat-icon matSuffix>text_rotation_none</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.dias" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formAviso.get('dias').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Se hace el campo de registro rangoDias-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Rango D&iacute;as</mat-label>
+                    <input formControlName="rangoDias" matInput placeholder="1">
+                    <mat-icon matSuffix>text_rotation_none</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.rangoDias" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formAviso.get('rangoDias').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Se hace el combo de registro clasificacion-->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo Avisos</mat-label>
+                    <mat-select [formControl]="clasificacionControl" name="clasificacion">
+                        <mat-option *ngFor="let clasificacion of listaTipoAvisos" [value]="clasificacion">
+                            {{clasificacion.cveGeneral}} / {{clasificacion.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.clasificacion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formAviso.get('clasificacion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--Se hace el campo de registro estatus-->
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </form>
+
+    <!--Se hacen los botones y se manda llamar el método de creudAvisos()-->
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+
+    <button *ngIf="accion === 1" (click)="crudAvisos()" mat-raised-button color="primary"
+        cdkFocusInitial>Guardar</button>
+    <button *ngIf="accion === 2" (click)="crudAvisos()" mat-raised-button color="primary"
+        cdkFocusInitial>Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

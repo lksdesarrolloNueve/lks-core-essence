@@ -1,0 +1,120 @@
+<div class="row">
+    <div class="col-12 card">
+        <br>
+        <!-- ENCABEZADO -->
+        <div class="row">
+            <!-- Filtro buscar cliente -->
+            <mat-form-field appearance="outline" class="col-md-6">
+                <mat-label>No. {{lblCliente}}</mat-label>
+                <input [formControl]="numeroCliente" matInput placeholder="No.{{lblCliente}}" [readonly]="true">
+                <button mat-button matSuffix mat-stroked-button color="primary" (click)="modalClientes()">
+                    <mat-icon matSuffix matTooltip="Buscar cliente"><span
+                            class="material-icons-outlined">person_search</span>
+                    </mat-icon>
+                </button>
+            </mat-form-field>
+            <!-- Nombre del cliente -->
+            <mat-form-field appearance="outline" class="col-md-6">
+                <mat-label>Nombre {{lblCliente}}</mat-label>
+                <input matInput placeholder="Nombre {{lblCliente}}" [readonly]="true" value="{{nombreCliente}}">
+            </mat-form-field>
+        </div>
+        <div class="row estatus-color estatus-{{estatusColor}}">
+            <!-- Clasificacion -->
+            <mat-form-field appearance="outline" class="col-md-6">
+                <mat-label class="color-lbl">Clasificación</mat-label>
+                <input matInput placeholder="Clasificacion" [readonly]="true" value="{{clasificacion}}">
+            </mat-form-field>
+            <!-- Ponderacion acumulada -->
+            <mat-form-field appearance="outline" class="col-md-6">
+                <mat-label class="color-lbl">Ponderación Acumulada</mat-label>
+                <input matInput placeholder="Ponderacion Acumulada" [readonly]="true" value="{{ponderacionAcumulada}}%">
+            </mat-form-field>
+        </div>
+
+        <!-- TABLA DE CORTES DE CAJA -->
+        <div class="mat-elevation-z8 table-responsive">
+            <table mat-table [dataSource]="dataSourceMatriz" matSort aria-label="Tabla de matriz de riesgos"
+                class="demo-table">
+                <!-- Numero -->
+                <ng-container matColumnDef="numero">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> NUMERO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.numero }} </td>
+                </ng-container>
+                <!-- Elementos de riesgo -->
+                <ng-container matColumnDef="elementoRiesgo">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> ELEMENTOS DE RIESGO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.elementoRiesgo }} </td>
+                </ng-container>
+                <!-- Indicadores de riesgo -->
+                <ng-container matColumnDef="indicadoresRiesgo">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> INDICADORES DE RIESGO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.indicadoresRiesgo }} </td>
+                </ng-container>
+                <!-- Definicion teorica -->
+                <ng-container matColumnDef="definicionTeorica">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> DEFINICION TEORICA </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.definicionTeorica }} </td>
+                </ng-container>
+                <!-- Definicion operativa -->
+                <ng-container matColumnDef="definicionOperativa">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> DEFINICION OPERATIVA </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.definicionOperativa }} </td>
+                </ng-container>
+                <!-- Criterio de riesgo alto -->
+                <ng-container matColumnDef="criterioRiesgoAlto">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> CRITERIO RIESGO ALTO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.criterioRiesgoAlto }} </td>
+                </ng-container>
+                <!-- Puntaje de riesgo alto -->
+                <ng-container matColumnDef="puntajeRiesgoAlto">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> PUNTAJE ALTO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.puntajeRiesgoAlto }} </td>
+                </ng-container>
+                <!-- Criterio de riesgo bajo -->
+                <ng-container matColumnDef="criterioRiesgoBajo">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> CRITERIO RIESGO BAJO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.criterioRiesgoBajo }} </td>
+                </ng-container>
+                <!-- Puntaje de riesgo bajo -->
+                <ng-container matColumnDef="puntajeRiesgoBajo">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> PUNTAJE BAJO </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.puntajeRiesgoBajo }} </td>
+                </ng-container>
+                <!-- Ponderador -->
+                <ng-container matColumnDef="ponderador">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> PONDERADOR </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.puntajeRiesgoAlto }}={{
+                        elemento.ponderacionAlta }}%; {{ elemento.puntajeRiesgoBajo }}={{ elemento.ponderacionBaja }}%
+                    </td>
+                </ng-container>
+                <!-- Ponderacion -->
+                <ng-container matColumnDef="ponderacion">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> PONDERACION </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let elemento"> {{ elemento.ponderacion }}% </td>
+                </ng-container>
+                <!-- Valoracion -->
+                <ng-container matColumnDef="valoracion">
+                    <th mat-header-cell *matHeaderCellDef scope="col"> VALORACION </th>
+                    <td mat-cell *matCellDef="let elemento" class="{{elemento.cellColor}}">
+                        <div *ngIf="elemento.ponderacion == elemento.ponderacionAlta"> Riesgo Alto
+                        </div>
+                        <div *ngIf="elemento.ponderacion == elemento.ponderacionBaja"> Riesgo Bajo
+                        </div>
+                        <div
+                            *ngIf="elemento.ponderacion != elemento.ponderacionAlta && elemento.ponderacion != elemento.ponderacionBaja">
+                            Riesgo Medio </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <!-- Paginacion -->
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons aria-label="Seleccionar pagina de matriz">
+        </mat-paginator>
+
+    </div>
+</div>

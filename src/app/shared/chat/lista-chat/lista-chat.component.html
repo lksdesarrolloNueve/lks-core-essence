@@ -1,0 +1,67 @@
+<div class="row chat-header">
+    <div class="col-1 chat-add" (click)="crearChat()">
+        <mat-icon>group_add</mat-icon>
+    </div>
+    <div class="col-10 chat-titulo">CHAT</div>
+</div>
+
+<div class="row lista-filtro-row">
+    <!-- Filtro general -->
+    <div class="col-12">
+        <mat-form-field class="full-width">
+            <mat-label>Buscar</mat-label>
+            <input matInput (keyup)="filtrar($event)" placeholder="Buscar conversación o grupo" #input>
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+</div>
+
+<!-- TABLA DE CHATS -->
+<div class="lista-chats mat-elevation-z0 table-responsive">
+    <table mat-table [dataSource]="dataSourceGrupos" matSort aria-label="Tabla de chats">
+        <!-- Nombre -->
+        <ng-container matColumnDef="nombre">
+            <th>Chat</th>
+            <td mat-cell *matCellDef="let elemento">
+                <div class="row tarjeta-chat">
+                    <div class="icono-chat" *ngIf="elemento.tipo == 1">
+                        <mat-icon>person</mat-icon>
+                    </div>
+                    <div class="icono-chat" *ngIf="elemento.tipo == 2">
+                        <mat-icon>group</mat-icon>
+                    </div>
+                    <div class="col-9">
+                        <div class="nombre-chat">{{ elemento.nombre }}</div>
+                        <!-- Se comparan la fecha del ultimo mensaje de la conversacion con la fecha de hoy,
+                            si son diferentes, se muestra la fecha, si son la misma, se muestran las horas.
+                            Si la conversacion es de mas de un dia, se muestra la fecha, sino la hora -->
+                        <div class="info-chat" *ngIf="elemento.mensajeReciente.fechaSinFormato == hoy">
+                            <!-- Si el usuario no esta en leidoPor de mensajeReciente, el mensaje aparece como no leido (El texto aparece en negritas) -->
+                            <span *ngIf="elemento.mensajeReciente.leidoPor.includes(usuarioId);">
+                                {{ elemento.mensajeReciente.texto }}</span>
+                            <strong style="color: black;"
+                                *ngIf="!elemento.mensajeReciente.leidoPor.includes(usuarioId);">{{
+                                elemento.mensajeReciente.texto }}</strong>
+                            • {{ elemento.mensajeReciente.hora }}
+                        </div>
+                        <div class="info-chat" *ngIf="elemento.mensajeReciente.fechaSinFormato != hoy">
+                            <!-- Si el usuario no esta en leidoPor de mensajeReciente, el mensaje aparece como no leido (El texto aparece en negritas) -->
+                            <span *ngIf="elemento.mensajeReciente.leidoPor.includes(usuarioId);">
+                                {{ elemento.mensajeReciente.texto }}</span>
+                            <strong style="color: black;"
+                                *ngIf="!elemento.mensajeReciente.leidoPor.includes(usuarioId);">{{
+                                elemento.mensajeReciente.texto }}</strong>
+                            • {{ elemento.mensajeReciente.fechaFormato }}
+                        </div>
+                    </div>
+                    <!-- Si el mensaje no ha sido leido (el usuario no aparece en leidoPor de mensajeReciente) aparece un punto para indicarlo -->
+                    <div class="col-1 punto-no-leido" *ngIf="!elemento.mensajeReciente.leidoPor.includes(usuarioId);">
+                        ⬤</div>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-row (click)="abrirConversacion(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<router-outlet name="conversacion"></router-outlet>

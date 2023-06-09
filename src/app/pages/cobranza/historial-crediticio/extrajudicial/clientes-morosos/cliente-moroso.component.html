@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-body">
+            <br>
+            <h3 class="text-center">Lista de {{lblClientes}} Morosos</h3>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <mat-table #table [dataSource]="dataSourceGeneral">
+                    <!-- numero de cliente Column -->
+                    <ng-container matColumnDef="numero_cliente">
+                        <mat-header-cell *matHeaderCellDef>No. <div class="mayuscula"> {{lblCliente}}</div>  </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.numeroCliente}}</mat-cell>
+                    </ng-container>
+                    <!-- nombre del cliente Column -->
+                    <ng-container matColumnDef="nombre_cliente">
+                        <mat-header-cell *matHeaderCellDef>Nombre </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.nombreCliente}}</mat-cell>
+                    </ng-container>
+                    <!-- referencia Column -->
+                    <ng-container matColumnDef="referencia">
+                        <mat-header-cell *matHeaderCellDef>Referencia </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.referencia}}</mat-cell>
+                    </ng-container>
+
+                    <!-- monto de credito Column -->
+                    <ng-container matColumnDef="monto_credito">
+                        <mat-header-cell *matHeaderCellDef> Monto Cr&eacute;dito </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.montoCredito | currency:'MXN'}}</mat-cell>
+                    </ng-container>
+
+                    <!-- saldo de credito Column -->
+                    <ng-container matColumnDef="saldo_credito">
+                        <mat-header-cell *matHeaderCellDef> Saldo Cr&eacute;dito </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.saldoCredito | currency:'MXN'}}</mat-cell>
+                    </ng-container>
+
+                    <!-- Dias Column -->
+                    <ng-container matColumnDef="dias">
+                        <mat-header-cell *matHeaderCellDef> D&iacute;as </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.dias}}</mat-cell>
+                    </ng-container>
+
+                    <!-- Acciones Column -->
+                    <ng-container matColumnDef="acciones">
+                        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+
+                        <!-- Boton Registar Column -->
+                        <mat-cell *matCellDef="let element">
+                            <button mat-mini-fab color="primary" (click)="abrirDialogoClientesMorosos(1,element)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+
+            </div>
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Select page of users">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+<!-- GESTION DEL CIERRE DE CAJAS POR MEDIO DE POSTGRES -->
+<h4 mat-dialog-title><strong>CIERRE DE CAJA:</strong> {{caja | uppercase}}</h4>
+<h4 mat-dialog-title><strong>USUARIO:</strong> {{usuario | uppercase}}</h4>
+<mat-divider></mat-divider>
+<br>
+<mat-dialog-content class="mat-typography">
+
+
+
+    <div class="row">
+        <mat-label class="col-md-6"><strong>SALDO INICIAL SISTEMA: </strong></mat-label>
+        <div class="col-md-6 c">{{ saldoInicialSistemaPg | currency:'MXN'}}</div>
+
+        <mat-label class="col-md-6"><strong>SALDO INICIAL CAJERO: </strong></mat-label>
+        <div class="col-md-6 c">{{ saldoInicialCajeroPg | currency:'MXN'}}</div>
+    </div>
+    <br>
+
+
+    <div class="container">
+        <div class="line">
+            <mat-divider></mat-divider>
+        </div>
+        <div class="text mat-typography"><strong>CORTE EFECTIVO</strong></div>
+        <div class="line">
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+
+        <div class="col-md-6"><strong>SALDO FINAL SISTEMA: </strong></div>
+        <div class="col-md-6 c"><strong>{{ saldoFinalSistemaPg | currency:'MXN'}}</strong></div>
+
+        <div class="col-md-6"><strong>SALDO FINAL CAJERO: </strong></div>
+        <div class="col-md-6 c"><strong>{{ saldoFinalCajaPg | currency:'MXN'}}</strong></div>
+
+    </div>
+
+    <br>
+
+
+
+    <div class="row">
+        <div class="col-md-6"><strong>DIFERENCIA: </strong></div>
+        <div class="col-md-6 c"><strong>{{ diferenciaPg | currency:'MXN'}}</strong></div>
+    </div>
+
+
+    <br>
+    <mat-divider></mat-divider>
+
+    <div *ngIf="listaHMov.length > 0">
+        <div class="mat-elevation-z8 table-responsive">
+
+            <table mat-table [dataSource]="dataSourceHMov" class="example-table" matSort #sortMov="matSort" >
+    
+                <caption></caption>
+    
+                <!-- Fecha -->
+                <ng-container matColumnDef="fecha">
+                    <th id="fecha" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell style="padding: 16px;" class="text-center" *matCellDef="let element"> {{element.fecha | date:'dd/MM/yyyy hh:mm:ss'
+                        }} </td>
+                </ng-container>
+    
+                <!-- Cve Movimiento -->
+                <ng-container matColumnDef="cveMovimiento">
+                    <th id="cveMovimiento" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef> Cve movimiento
+                    </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.clave_movimiento}} </td>
+                </ng-container>
+    
+                <!-- Descripción tipo movimiento-->
+                <ng-container matColumnDef="movimiento">
+                    <th style="padding: 16px;" id="movimiento" class="text-center" mat-header-cell  *matHeaderCellDef> Movimiento</th>
+                    <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element"> {{element.movimiento}} </td>
+                </ng-container>
+    
+                <!--formaPago-->
+                <ng-container matColumnDef="formaPago">
+                    <th style="padding: 16px;" id="formaPago" class="text-center" mat-header-cell  *matHeaderCellDef>F. Pago</th>
+                    <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element">{{element.forma_pago}}</td>
+                </ng-container>
+    
+                <!-- Descripción tipo movimiento-->
+                <ng-container matColumnDef="operacion">
+                    <th style="padding: 16px;" id="operacion" class="text-center" mat-header-cell *matHeaderCellDef> Operaci&oacute;n
+                    </th>
+                    <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element"><strong> {{element.operacion}}</strong> </td>
+                </ng-container>
+    
+                <!--Monto-->
+                <ng-container matColumnDef="monto">
+                    <th style="padding: 16px;" id="monto" class="text-center" mat-header-cell  *matHeaderCellDef>Monto</th>
+                    <td style="padding: 16px;" mat-cell class="text-right" *matCellDef="let element">{{element.monto |
+                        currency:'MXN'}}</td>
+                </ng-container>
+    
+                <!--Estatus-->
+                <ng-container matColumnDef="estatus">
+                    <th style="padding: 16px;" id="estatus" class="text-center" mat-header-cell *matHeaderCellDef>Estatus</th>
+                    <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element">{{element.estatus ? 'Activo'
+                        :
+                        'Cancelado'}}</td>
+                </ng-container>
+    
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsHMov"></tr>
+                <tr mat-row  matRipple *matRowDef="let row; columns: displayedColumnsHMov;"></tr>
+    
+            </table>
+    
+        </div>
+    
+        <mat-paginator  [pageSizeOptions]="[5, 10, 25, 100, 300, 500]" showFirstLastButtons
+            aria-label="Seleccion de movimientos">
+        </mat-paginator>
+    </div>
+
+    <div *ngIf="listaHMov.length === 0">
+        <div class="container">
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+            <div class="text mat-typography"><strong>NO SE ENCONTRARON MOVIMIENTOS</strong></div>
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Cerrar</button>
+</mat-dialog-actions>

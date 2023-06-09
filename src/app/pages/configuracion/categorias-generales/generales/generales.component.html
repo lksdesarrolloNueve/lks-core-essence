@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-body">
+<br>
+<h3 class="text-center">Lista de Generales</h3>
+<div class="row">
+    <div class="col-2"><button mat-raised-button color="primary" (click)="openDialog(0)">Registrar </button>
+    </div>
+</div>
+<!--Filtro-->
+<mat-form-field class="full-width">
+    <mat-label>Filtros de Busqueda</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Categoria" #input>
+
+</mat-form-field>
+<div class="mat-elevation-z8 table-responsive">
+    <mat-table #table [dataSource]="dataSourceGenerales">
+
+        <!-- ID Column -->
+         <!-- Consecutivo Column -->
+ <ng-container matColumnDef="general">
+    <mat-header-cell style="padding: 16px;" *matHeaderCellDef> No. </mat-header-cell>
+    <mat-cell style="padding: 16px;" *matCellDef="let element; let i = index;"> {{ (paginatorRef.pageIndex * paginatorRef.pageSize) +
+      (i + 1) }} </mat-cell>
+  </ng-container>
+        <!-- cve Column -->
+        <ng-container matColumnDef="clave">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef> Clave </mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cveGeneral}} </mat-cell>
+        </ng-container>
+        <!-- descripcion Column -->
+        <ng-container matColumnDef="descripcion">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef> Descripci&oacute;n </mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.descripcion}} </mat-cell>
+        </ng-container>
+
+        <!-- categoria Column -->
+        <ng-container matColumnDef="categoria">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef> Categor&iacute;a </mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.categoria.descripcion}} </mat-cell>
+        </ng-container>
+        <!-- Estatus -->
+        <ng-container matColumnDef="estatus">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef>Estatus</mat-header-cell>
+            <mat-cell style="padding: 16px;" *matCellDef="let element">
+                <mat-slide-toggle style="padding: 16px;" *ngIf="element.categoria.estatus=== true" [ngModel]="element.estatus"
+                    (ngModelChange)="cambiaEstatus(element)" color="primary">
+                </mat-slide-toggle>
+                <mat-slide-toggle matTooltip="La categoria esta Inactiva." style="padding: 16px;" *ngIf="element.categoria.estatus=== false"
+                    disabled [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)" color="primary">
+                </mat-slide-toggle>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Acciones Column -->
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell style="padding: 16px;" *matHeaderCellDef> Acciones </mat-header-cell>
+            <!-- Boton delete Column -->
+            <mat-cell *matCellDef="let element">
+                <!-- Boton Editar Column -->
+                <button mat-mini-fab (click)="openDialog(element)" *ngIf="element.categoria.estatus=== true" color="primary">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="element.categoria.estatus=== false"
+                disabled color="primary">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+    </mat-table>
+   
+</div>
+<mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5"   [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+</mat-paginator>
+</div>
+</div>
+</div>

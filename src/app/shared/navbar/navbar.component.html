@@ -1,0 +1,68 @@
+
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <div class="navbar-toggle">
+        <button type="button" class="navbar-toggler" (click)="sidebarToggle()">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </button>
+      </div>
+      <a class="navbar-brand" href="javascript:void(0)">{{ titulo }}</a>
+    </div>
+    <button class="navbar-toggler" type="button" (click)="collapse()"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [ngbCollapse]="isCollapsed" style="flex-direction: column; align-items: flex-end;">
+     
+      <ul class="navbar-nav">
+
+        <div *ngIf="sucursal !== '' ">
+        <li  class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
+          <a href="javascript:void(0)" class="nav-link" title="Seleccionar sucursal" ngbDropdownToggle id="navbarDropdownMenuLink" >
+             {{sucursal}}
+            <i class="nc-icon nc-bank"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Algunas Acciones</span>
+            </p>
+          </a>
+
+          <div *ngIf="listaSucursales.length > 1" ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right scroll-nav">
+            <a ngbDropdownItem *ngFor="let sucursal of listaSucursales" href="javascript:void(0)" (click)="sucursalSelecionada(sucursal)">{{sucursal.nombreSucursal}}</a>
+          </div>
+
+        </li>
+        </div>
+
+        <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
+          <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink" >
+            {{lblNombre}}
+            <i class="nc-icon nc-settings-gear-65"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Algunas Acciones</span>
+            </p>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right">
+            <a ngbDropdownItem href="javascript:void(0)" (click)="cerrarSesion()">Cerrar Sessi&oacute;n</a>
+          </div>
+        </li>
+       <!-- <li class="nav-item">
+          <a class="nav-link btn-rotate" href="javascript:void(0)">
+            <i class="nc-icon nc-settings-gear-65"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Account</span>
+            </p>
+          </a>
+        </li>-->
+      </ul>
+        <span style="margin-right: 1em;">
+          <strong>Último acceso:</strong> {{ fechaHora }}
+        </span>
+    </div>
+  </div>
+</nav>

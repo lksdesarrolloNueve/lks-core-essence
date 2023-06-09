@@ -1,0 +1,541 @@
+<h1 mat-dialog-title>{{titulo}}</h1>
+<div mat-dialog-content>
+  <p></p>
+  <form [formGroup]="formAuxiliar">
+    <!--Historial de movimientos-->
+    <div class="col-md-12" *ngIf="accion === 1">
+        <mat-nav-list class="col-md-12  scroll-container-mov">
+
+            <!-- Loading -->
+            <div class="example-loading-shade" *ngIf="isLoadingResults  || isResultado">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+
+                <div class="example-rate-limit-reached" *ngIf="isResultado">
+                    No se encontraron movimientos.
+                </div>
+
+            </div>
+
+            <mat-form-field class="col-md-12" appearance="fill">
+                <mat-label>Filtros de busqueda</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Fecha, Tipo movimiento..." #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+
+                <table mat-table [dataSource]="dataSourceHMov" class="example-table" matSort matSortActive="created"
+                    matSortDisableClear matSortDirection="desc">
+
+                    <caption></caption>
+
+                    <!-- Fecha -->
+                    <ng-container matColumnDef="fecha">
+                        <th style="padding: 16px;" id="fecha" class="text-center" mat-header-cell *matHeaderCellDef>
+                            Fecha </th>
+                        <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element">
+                            {{element.fecha}} </td>
+                    </ng-container>
+
+                    <!-- Cve Movimiento -->
+                    <ng-container matColumnDef="cveMovimiento">
+                        <th style="padding: 16px;" id="cveMovimiento" class="text-center" mat-header-cell
+                            *matHeaderCellDef> Cve movimiento
+                        </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.cveMovimiento}} </td>
+                    </ng-container>
+
+                    <!-- Descripción tipo movimiento-->
+                    <ng-container matColumnDef="descTipoMov">
+                        <th style="padding: 16px;" id="descTipoMov" class="text-center" mat-header-cell
+                            *matHeaderCellDef> Tipo movimiento</th>
+                        <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element">
+                            {{element.descTipoMov}} </td>
+                    </ng-container>
+
+                    <!-- Descripción tipo movimiento-->
+                    <ng-container matColumnDef="operacionTMov">
+                        <th style="padding: 16px;" id="operacionTMov" class="text-center" mat-header-cell
+                            *matHeaderCellDef> Operaci&oacute;n
+                        </th>
+                        <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element">
+                            {{element.operacionTMov}} </td>
+                    </ng-container>
+
+                    <!--Monto-->
+                    <ng-container matColumnDef="monto">
+                        <th style="padding: 16px;" id="monto" class="text-center" mat-header-cell *matHeaderCellDef>
+                            Monto</th>
+                        <td style="padding: 16px;" mat-cell class="text-right" *matCellDef="let element">{{element.monto
+                            |
+                            currency:'MXN'}}</td>
+                    </ng-container>
+
+                    <!--Estatus-->
+                    <ng-container matColumnDef="estatus">
+                        <th style="padding: 16px;" id="estatus" class="text-center" mat-header-cell *matHeaderCellDef>
+                            Estatus</th>
+                        <td style="padding: 16px;" mat-cell class="text-center" *matCellDef="let element">
+                            {{element.estatus ? 'Activo'
+                            :
+                            'Cancelado'}}</td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsHMov"></tr>
+                    <tr mat-row id="poliza" matRipple *matRowDef="let row; columns: displayedColumnsHMov;"></tr>
+
+                </table>
+
+            </div>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100, 300, 500]" showFirstLastButtons
+                aria-label="Select page of users">
+            </mat-paginator>
+
+        </mat-nav-list>
+
+    </div>
+
+    <!--Depósitos / Retiros-->
+    <div class="col-md-12" *ngIf="accion === 2 || accion === 3">
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Tipo cuenta</mat-label>
+
+                        <input type="text" placeholder="Tipo cuenta" matInput formControlName="tipoCuenta"
+                            [matAutocomplete]="tipoCta">
+                        <mat-autocomplete autoActiveFirstOption #tipoCta="matAutocomplete"
+                            [displayWith]="displayTiposCuenta" (optionSelected)="opcionSeleccionadaTipoCuenta($event)">
+                            <mat-option *ngFor="let tipoCta of opcionesTiposCuenta | async" [value]="tipoCta">
+                                {{tipoCta.cveMovCaja}} / {{tipoCta.nombreMov}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.tipoCuenta" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formAuxiliar.get('tipoCuenta').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <!--Monto-->
+                <div class="col-md-8">
+                    <p>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Cantidad</mat-label>
+                            <strong><input matInput placeholder="Cantidad" formControlName="cantidad" prefix="$ "
+                                    mask="separator.2" thousandSeparator="," style="text-align:center;"
+                                    style="text-align:center;"></strong>
+                            <mat-icon matSuffix>paid</mat-icon>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validaciones.cantidad" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formAuxiliar.get('cantidad').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                    <strong *ngIf="boolMontoMin"> ({{montoMin | currency:'MXN'}}).</strong>
+                                    <strong *ngIf="boolMontoMax"> ({{montoMax | currency:'MXN'}}).</strong>
+                                    <strong *ngIf="boolMontoMaxRetiro"> ({{montoMaxRetiro | currency:'MXN'}}).</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </p>
+                </div>
+
+                <!--Comisión-->
+                <div class="col-md-4" *ngIf="aplicaComision">
+                    <p>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Comisi&oacute;n</mat-label>
+                            <strong><input matInput placeholder="Comisi&oacute;n" [readonly]="true"
+                                    style="text-align:center;" value="{{montoComision | currency:'MXN'}}"></strong>
+                            <mat-icon matSuffix>paid</mat-icon>
+                        </mat-form-field>
+                    </p>
+                </div>
+
+            </div>
+
+    </div>
+
+
+    <!--Pagos-->
+    <div class="col-md-12" *ngIf="accion === 4">
+
+            <div class="row">
+                <!--Se hace el combo para credito -->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Cr&eacute;dito</mat-label>
+                        <mat-icon matSuffix>local_atm</mat-icon>
+                        <mat-select (selectionChange)="opcionCreditoSelect($event)" [formControl]="creditoClienteControl">
+                            <mat-option *ngFor="let creditocliente of listaCreditoCliente"
+                                [value]="creditocliente.refCredito">
+                                {{creditocliente.refCredito}} / {{creditocliente.tipoCredito}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="creditoClienteControl.invalid"><strong>{{agregarPagoCreditoExtra()}}</strong></mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Saldo cr&eacute;dito</mat-label>
+                        <strong><input matInput value="{{saldoCredito | currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Capital</mat-label>
+                        <strong><input matInput value="{{capitalrestante|currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Inter&eacute;s</mat-label>
+                        <strong><input matInput value="{{interesCredito|currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Moratorio</mat-label>
+                        <strong><input matInput value="{{moratorioCredito}}" placeholder="" [readonly]="!editable"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>IVA</mat-label>
+                        <strong><input matInput value="{{ivaCredito|currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Bonificaci&oacute;n</mat-label>
+                        <strong><input matInput value="" placeholder="0.00" [readonly]="!editable"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Pago</mat-label>
+                        <strong><input matInput value="" placeholder="0.00" style="text-align:center;" prefix="$ "
+                                mask="separator.2" thousandSeparator=","></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">monetization_on</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <button mat-mini-fab color="primary" (click)="calcularNuevoSaldo()">
+                        <mat-icon><span class="material-icons-outlined">calculate</span></mat-icon>
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Concepto</mat-label>
+                        <strong><textarea matInput placeholder="" style="text-align:center;"></textarea></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">monetization_on</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Saldo liquidaci&oacute;n</mat-label>
+                        <strong><input matInput value="{{totalLiquida | currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                    </mat-form-field>
+                </div>
+            </div>
+    
+    </div>
+
+    <!--Traspasos-->
+    <div class="col-md-12" *ngIf="accion === 5">
+
+        <div class="col-md-12">
+            <div class="row">
+
+
+            <div class="col-md-6">
+                <mat-card-title>Cuenta origen</mat-card-title>
+
+                <!--Cliente origen-->
+                <div class="col-md-12">
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>{{lblCliente }}</mat-label>
+                        <input matInput placeholder="{{lblCliente}} " formControlName="clienteOrigen" [readonly]="true">
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.clienteOrigen" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formAuxiliar.get('clienteOrigen').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+                <!--Tipo Cuenta Origen-->
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline">
+
+                        <mat-label>Tipo cuenta</mat-label>
+                        <mat-select formControlName="tipoCuentaOrigen">
+                            <mat-option *ngFor="let tipoCta of listaCuentasOrigen" [value]="tipoCta">
+                                {{tipoCta.cveMovimiento}} / {{tipoCta.descMovimiento}}
+                            </mat-option>
+                        </mat-select>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.tipoCuentaOrigen" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formAuxiliar.get('tipoCuentaOrigen').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+                <!--Monto Origen-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Cantidad</mat-label>
+                        <strong><input matInput placeholder="Cantidad" formControlName="cantidadOrigen" prefix="$ "
+                                mask="separator.2" thousandSeparator="," style="text-align:center;"></strong>
+                        <mat-icon matSuffix>paid</mat-icon>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.cantidadOrigen" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formAuxiliar.get('cantidadOrigen').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                <strong *ngIf="boolMontoMin"> ({{montoMin | currency:'MXN'}}).</strong>
+                                <strong *ngIf="boolMontoMax"> ({{montoMax | currency:'MXN'}}).</strong>
+                                <strong *ngIf="boolMontoMaxRetiro"> ({{montoMaxRetiro | currency:'MXN'}}).</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <mat-card-title>Cuenta destino</mat-card-title>
+
+                <!--Cliente destino-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>{{lblCliente}}</mat-label>
+                        <input matInput placeholder="{{lblCliente}}" formControlName="clienteDestino" [readonly]="true">
+                        <button mat-button matSuffix aria-label="search" (click)="abrirDialogDestino()">
+                            <mat-icon matTooltip="Buscar {{lblCliente}}.">person_add</mat-icon>
+                        </button>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.clienteDestino" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formAuxiliar.get('clienteDestino').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+                <!--Tipo cuenta destino-->
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline">
+
+                        <mat-label>Tipo cuenta</mat-label>
+                        <mat-select formControlName="tipoCuentaDestino">
+                            <mat-option *ngFor="let tipoCtaDest of listaCuentasDestino" [value]="tipoCtaDest">
+                                {{tipoCtaDest.cveMovimiento}} / {{tipoCtaDest.descMovimiento}}
+                            </mat-option>
+                        </mat-select>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.tipoCuentaDestino" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formAuxiliar.get('tipoCuentaDestino').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--CRÉDITO-->
+    <div class="col-md-12" *ngIf="accion === 6">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Saldo cr&eacute;dito</mat-label>
+                        <strong><input matInput value="{{saldoCredito | currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Tasa inicial</mat-label>
+                        <strong><input matInput value="{{tasaInicial}}" placeholder="0.00" [readonly]="!editable"
+                                style="text-align:center;"></strong>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Tasa inter&eacute;s</mat-label>
+                        <strong><input matInput value="{{tasaInteres}}" placeholder="0.00" [readonly]="!editable"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">percent</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Amort. vencidas</mat-label>
+                        <strong><input matInput value="{{amortizaciones}}" placeholder="" [readonly]="!editable"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">price_change</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Monto vencidas</mat-label>
+                        <strong><input matInput value="{{montoVencido|currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>D&iacute;as int.</mat-label>
+                        <strong><input matInput value="{{diasInteres}}" placeholder="" [readonly]="!editable"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">event</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Capital</mat-label>
+                        <strong><input matInput value="{{capital|currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Inter&eacute;s</mat-label>
+                        <strong><input matInput value="{{interesCredito|currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Moratorio</mat-label>
+                        <strong><input matInput value="{{moratorioCredito}}" placeholder="" [readonly]="!editable"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>IVA</mat-label>
+                        <strong><input matInput value="{{ivaCredito|currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">attach_money</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <strong><input matInput value="{{totalCredito|currency:'MXN'}}" (change)="cambioPago()"
+                                formControlName="pagoCred" placeholder="0.00" prefix="$ " mask="separator.2"
+                                thousandSeparator="," style="text-align:center;" [readonly]="false"></strong>
+                        <mat-icon matSuffix><span class="material-icons-outlined">monetization_on</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <button mat-mini-fab color="primary" (click)="calcularNuevoSaldo()">
+                        <mat-icon><span class="material-icons-outlined">calculate</span></mat-icon>
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Saldo liquidaci&oacute;n</mat-label>
+                        <strong><input matInput value="{{totalLiquida | currency:'MXN'}}" placeholder="0.00"
+                                [readonly]="!editable" style="text-align:center;"></strong>
+                    </mat-form-field>
+                </div>
+            </div>
+    </div>
+
+
+</form>
+</div>
+<div mat-dialog-actions  class="float-right">
+    <div  *ngIf="accion === 1">
+        <button  mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    </div>
+
+    <div  *ngIf="accion === 2 || accion === 3">
+        <button mat-raised-button color="primary" (click)="agregarMovimiento()">Aceptar</button>
+        <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    </div>
+    
+    <div  *ngIf="accion === 4">
+        <button mat-raised-button color="primary" (click)="agregarPagoCreditoExtra()">Aceptar</button>
+        <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    </div>
+
+    <div  *ngIf="accion === 5">
+        <button mat-raised-button color="primary" (click)="guardarTransaccionTraspaso()">Aceptar</button>
+        <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    </div>
+
+    <div  *ngIf="accion === 6">
+        <button mat-raised-button color="primary" (click)="agregarPagoCredito()">Aceptar</button>
+        <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    </div>
+
+</div>
+
+

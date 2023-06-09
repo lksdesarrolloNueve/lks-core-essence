@@ -1,0 +1,174 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body">
+            <!-- FILTROS -->
+            <form [formGroup]="formBuscarCaja">
+                <div class="row">
+                    <!-- Sucursal -->
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Sucursal</mat-label>
+                            <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                                [matAutocomplete]="autoSuc">
+                            <mat-autocomplete autoActiveFirstOption #autoSuc="matAutocomplete"
+                                (optionSelected)="opcionSeleccionadaSucursal()" [displayWith]="displaySucursal">
+                                <mat-option *ngFor="let optionSuc of opcionesSucursal | async" [value]="optionSuc">
+                                    {{optionSuc.cveSucursal}} / {{optionSuc.nombreSucursal}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.sucursal" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formBuscarCaja.get('sucursal').hasError(error.type)" >
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>                  
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+                    <!-- Caja -->
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Caja</mat-label>
+                            <input type="text" placeholder="Caja" matInput formControlName="caja"
+                                [matAutocomplete]="autoCaja">
+                            <mat-autocomplete autoActiveFirstOption #autoCaja="matAutocomplete"
+                                [displayWith]="displayCaja">
+                                <mat-option *ngFor="let optionCaja of opcionesCaja | async" [value]="optionCaja">
+                                    {{optionCaja.cvecaja}} / {{optionCaja.descripcion}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.caja" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formBuscarCaja.get('caja').hasError(error.type)" >
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>                  
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-5">
+
+                        <div class="row">
+                            <div class="col-9">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>Rango de fechas</mat-label>
+
+                                    <mat-date-range-input [rangePicker]="picker">
+                                        <input matStartDate formControlName="start" placeholder="Fecha inicial"
+                                            [readonly]="true">
+                                        <input matEndDate formControlName="end" placeholder="Fecha final"
+                                            [readonly]="true">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+
+                                    <!--Validación-->
+                                    <ng-template ngFor let-error [ngForOf]="validacion_msj.start" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formBuscarCaja.get('start').hasError(error.type)" >
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>                  
+                                    </ng-template>
+
+                                    <!--Validación-->
+                                    <ng-template ngFor let-error [ngForOf]="validacion_msj.end" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formBuscarCaja.get('end').hasError(error.type)" >
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>                  
+                                    </ng-template>
+
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-3">
+                                <button mat-mini-fab (click)="spsCortesCajas()" color="primary"
+                                    matTooltip="Buscar cortes de cajas.">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+            <br><br><br>
+
+
+            <!-- TABLA DE CORTES DE CAJA -->
+            <div *ngIf="listaCajasFiltradasPg.length > 0">
+            <div  class="mat-elevation-z8 table-responsive">
+                <table mat-table [dataSource]="dataSourceCajasPg" matSort aria-label="Tabla de cortes de caja">
+
+                    <!-- Descripcion de la caja -->
+                    <ng-container matColumnDef="descripcion">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="caja"> Caja </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.extSesCaja.caja.cvecaja}} </td>
+                    </ng-container>
+
+                    <!-- Usuario que uso la caja -->
+                    <ng-container matColumnDef="usuario">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="usuario"> Usuario </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.usuario }} </td>
+                    </ng-container>
+
+                    <!-- Sucursal -->
+                    <ng-container matColumnDef="sucursal">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="sucursal"> Sucursal </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.extSesCaja.sucursal.nombreSucursal}} </td>
+                    </ng-container>
+
+                    <!-- Fecha de apertura -->
+                    <ng-container matColumnDef="fechaApertura">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="fechaApertura"> Fecha Apertura </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.fechaApertura }} </td>
+                    </ng-container>
+
+                    <!-- Fecha de cierre -->
+                    <ng-container matColumnDef="fechaCierre">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="fechaCierre"> Fecha Cierre </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.fechaCierre }} </td>
+                    </ng-container>
+
+                    <!-- Saldo de cierre saldoFinalSistema -->
+                    <ng-container matColumnDef="saldoFinalSistema">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="saldoCierre"> Saldo Final Sistema </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.saldoFinalSistema | currency:'MXN' }} </td>
+                    </ng-container>
+
+                    <!-- Saldo de cierre -->
+                    <ng-container matColumnDef="saldoFinalCajero">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="saldoFinalCajero"> Saldo Final Cajero </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.saldoFinalCajero | currency:'MXN' }} </td>
+                    </ng-container>
+
+                    <!-- Diferencia -->
+                    <ng-container matColumnDef="diferencia">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="diferencia"> Diferencia </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> {{ caja.diferencia | currency:'MXN' }} </td>
+                    </ng-container>
+
+                    <!-- estatus -->
+                    <ng-container matColumnDef="estatus">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef id="estatus">  </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let caja"> 
+                            <mat-icon *ngIf="caja.diferencia === 0 || caja.diferencia === 0.0 || caja.diferencia === 0.00" style="color:green" matTooltip="Sin diferencia">check_circle</mat-icon>
+                            <mat-icon *ngIf="caja.diferencia > 0 "  style="color:rgb(230, 230, 0)" matTooltip="Sobrante">warning</mat-icon>
+                            <mat-icon *ngIf="caja.diferencia < 0 "  style="color:rgb(230, 230, 0)" matTooltip="Faltante">warning</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row id="poliza" (click)="showDetallesCorte(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+                 </table>
+            </div>
+
+            <!-- Paginacion -->
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                aria-label="Select page of accounts">
+            </mat-paginator>
+
+        </div>
+
+        </div>
+    </div>
+</div>

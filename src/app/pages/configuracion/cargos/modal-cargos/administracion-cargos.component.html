@@ -1,0 +1,124 @@
+<h3 mat-dialog-title>{{titulo | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+    <mat-tab-group backgroundColor="primary" mat-align-tabs="start">
+        <mat-tab label="Ente">
+            <form [formGroup]="formCargos">
+                <p></p>
+                <div class="row">
+
+                    <!-- Clave del Ente-->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Clave Ente.</mat-label>
+                            <input formControlName="cvefracc" matInput>
+                            <mat-icon matSuffix>tag</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.cvefracc" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formCargos.get('cvefracc').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Descripción del Ente-->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Descripci&oacute;n</mat-label>
+                            <input formControlName="descripcion" matInput>
+                            <mat-icon matSuffix>tag</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formCargos.get('descripcion').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Clave SITI -->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Clave Siti.</mat-label>
+                            <input formControlName="clave_siti" matInput>
+                            <mat-icon matSuffix>tag</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Estatus -->
+                    <div class="col-md-6">
+                        <mat-slide-toggle formControlName="estatus" color="primary">
+                            Estatus
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+            </form>
+        </mat-tab>
+        <!-- CARGOS -->
+        <mat-tab label="Cargos">
+            <form [formGroup]="formCargos">
+                <p></p>
+                <div class="row">
+
+                    <!-- Clave cargo -->
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Clave Cargo</mat-label>
+                            <input formControlName="cve_fracc_cargo" matInput>
+                            <mat-icon matSuffix>tag</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Descripción del cargo -->
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Cargo</mat-label>
+                            <input type="text" placeholder="Cargo" matInput formControlName="descripcionC"
+                                [matAutocomplete]="auto1">
+                            <mat-autocomplete (optionSelected)="opcionCargos($event)" autoActiveFirstOption
+                                #auto1="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let cargos of opcionesCargos | async" [value]="cargos">
+                                    {{cargos.descripcion}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Estatus -->
+                    <div class="col-md-3">
+                        <mat-slide-toggle formControlName="estatusC" color="primary">
+                            Estatus
+                        </mat-slide-toggle>
+                    </div>
+
+
+                    <!-- Botón para agregar un nuevo registro de cargo-->
+                    <div class="col-md-2">
+                        <button mat-fab color="primary"  (click)="agregarRegistro()">
+                            <mat-icon matTooltip="Nuevo">add</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <mat-divider></mat-divider>
+                    </div>
+                    <!-- Cargos agregados -->
+                    <div class="col-md-12">
+                        <mat-nav-list class="scroll-container"
+                            [ngStyle]="{'height': '200px', 'width':'100%'}">
+                            <mat-list-item *ngFor="let seleccionados of listaCargosAgregado">
+                                <p matListItemTitle
+                                (click)="registroSeleccionado(seleccionados)">{{seleccionados.clave}} - {{seleccionados.descripcion}}</p>
+                                    <mat-slide-toggle matListItemMeta [checked]='seleccionados.estatus' color="primary" (change)="seleccionados.estatus = !seleccionados.estatus" >
+                                        Estatus
+                                    </mat-slide-toggle>
+                            </mat-list-item>
+                        </mat-nav-list>
+                    </div>
+                </div>
+            </form>
+        </mat-tab>
+    </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align ="end">
+    <button *ngIf="accion === 1" color="primary" mat-raised-button (click)="crudCargos(formCargos.value)">Guardar</button>
+    <button *ngIf="accion === 2" color="primary" mat-raised-button (click)="crudCargos(formCargos.value)">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,197 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formSerivicio">
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">Empresa</mat-label>
+                    <input formControlName="numeroCuenta" matInput placeholder="No. Cuenta" [readonly]="true">
+                    <button mat-button matSuffix mat-stroked-button color="primary" (click)="modalClientes()">
+                        <mat-icon matSuffix matTooltip="Buscar"><span
+                                class="material-icons-outlined">person_search</span>
+                        </mat-icon>
+                    </button>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.numeroCuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSerivicio.get('numeroCuenta').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-5">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nombre empresa: </mat-label>
+                    <strong><input matInput value="{{empresa}}" placeholder="" [readonly]="true"
+                            style="text-align:center;"></strong>
+                    <mat-icon matSuffix>business</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-label><strong>Fecha</strong></mat-label>
+                <input matInput formControlName="fecha" [readonly]="true">
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">Clave Interbancaria SPEI</mat-label>
+                    <input formControlName="cuenta" matInput placeholder="Clave SPEI" [matAutocomplete]="clabe">
+                    <mat-autocomplete #clabe="matAutocomplete" [displayWith]="displayClabe">
+                        <mat-option *ngFor="let option of opcionesClabes | async" [value]="option">
+                            {{option.clabe}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" >
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">Cuenta contable destino</mat-label>
+                    <input formControlName="ccontableD" matInput placeholder="Cuenta contable"
+                        [matAutocomplete]="contableD">
+                    <mat-autocomplete autoActiveFirstOption #contableD="matAutocomplete" [displayWith]="displayCuentaD">
+                        <mat-option *ngFor="let option of opcionesCuentaD | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.ccontableD" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSerivicio.get('ccontableD').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Medio de dispersion</mat-label>
+                    <mat-select formControlName="tipoServicio">
+                        <mat-option *ngFor="let servicio of listaServicios" [value]="servicio">
+                            {{servicio.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tipoServicio" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSerivicio.get('tipoServicio').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Estatus</mat-label>
+                    <mat-select formControlName="estatus">
+                        <mat-option *ngFor="let estatus of listaEstatusNomina" [value]="estatus">
+                            {{estatus.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-checkbox class="example-margin" (change)="aplicaComision()" formControlName="aplComision"
+                    color="primary">
+                    Aplica Comisi&oacute;n
+                </mat-checkbox>
+            </div>
+            <div class="col-md-3" *ngIf="aplComi">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Comisi&oacute;n</mat-label>
+                    <mat-select formControlName="comision">
+                        <mat-option *ngFor="let comision of listaComisones" [value]="comision">
+                            {{comision.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.comision" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSerivicio.get('comision').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" *ngIf="aplComi">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">Cuenta contable</mat-label>
+                    <input formControlName="ccontable" matInput placeholder="Cuenta contable"
+                        [matAutocomplete]="contableC">
+                    <mat-autocomplete autoActiveFirstOption #contableC="matAutocomplete" [displayWith]="displayCuenta">
+                        <mat-option *ngFor="let option of opcionesCuentaC | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.ccontable" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSerivicio.get('comision').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" *ngIf="aplComi">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label> Monto </mat-label>
+                    <strong><input matInput formControlName="monto" placeholder="" prefix="$ " mask="separator.2"
+                            thousandSeparator="," style="text-align:center;"></strong>
+                    <mat-error *ngIf="onCtrlValidate('monto','required')"><strong>Monto requerido.</strong>  
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-checkbox class="example-margin" (change)="aplicaIva()" formControlName="iva" color="primary">
+                    Aplica IVA
+                </mat-checkbox>
+            </div>
+            <div class="col-md-3" *ngIf="aplIva">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">Cuenta contable</mat-label>
+                    <input formControlName="icontable" matInput placeholder="Cuenta contable"
+                        [matAutocomplete]="cuentaIva">
+                    <mat-autocomplete autoActiveFirstOption #cuentaIva="matAutocomplete"
+                        [displayWith]="displayCuentaIva">
+                        <mat-option *ngFor="let option of opcionesCuentaIva | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.icontable" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSerivicio.get('icontable').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" *ngIf="aplIva">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label> Porcentaje </mat-label>
+                    <strong><input matInput formControlName="porcentaje" placeholder=""
+                            style="text-align:center;"></strong>
+                    <mat-icon matSuffix>%</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.porcentaje" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSerivicio.get('porcentaje').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <button mat-raised-button color="primary" (click)="agregarComision()">
+                    <mat-icon matTooltip="Agregar">post_add</mat-icon>
+                </button>
+
+            </div>
+            <mat-divider></mat-divider>
+            <mat-nav-list class="col-md-9">
+                <mat-list-item *ngFor="let comision of comisionSeleccionada;  let i= index;">
+                    <p matListItemTitle (click)="editarComision(comision)"> <strong> {{comision.tipoComision }}</strong>
+                        {{comision.monto| currency:'MXN'}}
+                        <strong>Iva</strong> {{comision.porcentaje}}%</p>
+                    <button color="warn" mat-mini-fab matListItemMeta aria-label="Comisiones" (click)="eliminarComisiones(i)">
+                        <mat-icon>
+                            delete
+                        </mat-icon>
+                    </button>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="altaServicio()" color="primary">{{boton}}</button>
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

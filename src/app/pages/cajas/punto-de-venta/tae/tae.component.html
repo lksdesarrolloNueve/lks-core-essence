@@ -1,0 +1,197 @@
+<h2 mat-dialog-title class="text-center">Tiempo Aire Electr&oacute;nico</h2>
+<mat-dialog-content class="mat-typography">
+    <p></p>
+
+    <div class="row">
+        <div class="col-4">
+            <div *ngIf="varValidacionFirst">
+                <ng-template ngFor let-error [ngForOf]="validaciones.compania" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formFirstRecargas.get('compania').hasError(error.type)">
+                        <strong>Compañ&iacute;a: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+                <ng-template ngFor let-error [ngForOf]="validaciones.montoRecarga" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formFirstRecargas.get('montoRecarga').hasError(error.type)">
+                        <strong>Monto: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+
+                <ng-template ngFor let-error [ngForOf]="validaciones.numero" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formFirstRecargas.get('numero').hasError(error.type)">
+                        <strong>N&uacute;mero Telef&oacute;nico: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+
+                <ng-template ngFor let-error [ngForOf]="validaciones.repNumero" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formFirstRecargas.get('repNumero').hasError(error.type)">
+                        <strong>Confirmar N&uacute;mero: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div *ngIf="varValidacionSecond">
+                <ng-template ngFor let-error [ngForOf]="validaciones.estado" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formSecondRecargas.get('estado').hasError(error.type)">
+                        <strong>Estado: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+
+                <ng-template ngFor let-error [ngForOf]="validaciones.usuarioRecarga" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formSecondRecargas.get('usuarioRecarga').hasError(error.type)">
+                        <strong>Usuario: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+
+                <ng-template ngFor let-error [ngForOf]="validaciones.contraseniaRecarga" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formSecondRecargas.get('contraseniaRecarga').hasError(error.type)">
+                        <strong>Contraseña: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </div>
+        </div>
+        <div class="col-4"></div>
+
+    </div>
+
+    <mat-stepper #stepper>
+
+        <mat-step [stepControl]="formFirstRecargas" errorMessage="Campos requeridos.">
+            <form [formGroup]="formFirstRecargas" autocomplete="off">
+                <ng-template matStepLabel>Compañ&iacute;a</ng-template>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Compañ&iacute;a</mat-label>
+                    <input type="text" placeholder="Compañía" matInput formControlName="compania"
+                        [matAutocomplete]="autoCompania">
+                    <mat-autocomplete autoActiveFirstOption #autoCompania="matAutocomplete"
+                        (optionSelected)="opcionSelectCompania($event)" [displayWith]="displayFnCompania">
+                        <mat-option *ngFor="let option of opcionesCompania | async" [value]="option">
+                            {{option.compania}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.compania" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formFirstRecargas.get('compania').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto</mat-label>
+                    <mat-select formControlName="montoRecarga">
+                        <mat-option *ngFor="let option of listaMontos" (click)="setMonto(option)" [value]="option">
+                            {{option.monto | currency:'MXN'}}</mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.montoRecarga" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formFirstRecargas.get('montoRecarga').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>N&uacute;mero Telef&oacute;nico (10 d&iacute;gitos)</mat-label>
+                    <input formControlName="numero" maxlength="10" minlength="10" matInput [value]="lblNumero"
+                        (input)="lblNumero=$event.target.value">
+                    <mat-icon matSuffix>call</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.numero" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formFirstRecargas.get('numero').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Confirmar N&uacute;mero Telef&oacute;nico</mat-label>
+                    <input formControlName="repNumero" maxlength="10" minlength="10" matInput>
+                    <mat-icon matSuffix>call</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.repNumero" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formFirstRecargas.get('repNumero').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <div>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="formSecondRecargas" errorMessage="Usuario requerido.">
+            <form [formGroup]="formSecondRecargas" autocomplete="off">
+                <ng-template matStepLabel>Usuario</ng-template>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Estado</mat-label>
+                    <mat-icon matSuffix>description</mat-icon>
+                    <input type="text" placeholder="Estado" matInput formControlName="estado"
+                        [matAutocomplete]="autoEstado">
+                    <mat-autocomplete autoActiveFirstOption #autoEstado="matAutocomplete"
+                        (optionSelected)="opcionSelectEstado($event)" [displayWith]="displayFnEstado">
+                        <mat-option *ngFor="let option of opcionesNac | async" [value]="option">
+                            {{option.nombre_estado}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.estado" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSecondRecargas.get('estado').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Usuario</mat-label>
+                    <input formControlName="usuarioRecarga" autocomplete="off" matInput>
+                    <mat-icon matSuffix>person</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.usuarioRecarga" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSecondRecargas.get('usuarioRecarga').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input formControlName="contraseniaRecarga" autocomplete="off" matInput type="password">
+                    <mat-icon matSuffix>password</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.contraseniaRecarga" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSecondRecargas.get('contraseniaRecarga').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <div>
+                    <button mat-button matStepperPrevious>Regresar</button>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Verificaci&oacute;n</ng-template>
+            <p>Verifica que los datos que ingresaste sean correctos, haz clic en "Aceptar" para
+                procesar la transacci&oacute;n.</p>
+
+            <p><strong>Compañ&iacute;a: </strong>{{lblCompania}}</p><br>
+            <p><strong>N&uacute;mero: </strong>{{lblNumero}}</p><br>
+            <p><strong>Monto: </strong>{{lblMonto | currency:'MXN'}}</p><br>
+
+            <div>
+                <button mat-button matStepperPrevious>Regresar</button>
+                <button mat-button (click)="stepper.reset()">Resetear</button>
+            </div>
+        </mat-step>
+
+    </mat-stepper>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="crudRecargas()" color="primary">Aceptar</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

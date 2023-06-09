@@ -1,0 +1,87 @@
+<div class="row">
+<div class="col-md-12">
+    <div class="card card-body">
+    <br>
+    <h3 class="text-center">Ramas SCIAN</h3>
+
+    <div class="row">
+
+        <div class="col-2">
+            <button mat-raised-button color="primary" (click)="openDialog(0)">Registrar </button>
+        </div>
+
+        <h1>&nbsp;</h1>
+    </div>
+
+    <div id="divTbl">
+
+        <mat-form-field class="full-width">
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ciudad" #input>
+        </mat-form-field>
+
+        <!--Cuerpo de la tabla-->
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="infoRama" mat-table [dataSource]="dataSourceRamas"  matSort>
+
+                <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Códig Rama SCIAN -->
+                <ng-container matColumnDef="codigoRama">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> C&oacute;digo </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let dato"> {{dato.codigoRama}} </td>
+                </ng-container>
+
+                <!-- Descripción Rama SCIAN -->
+                <ng-container matColumnDef="descripcion">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Descripci&oacute;n </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let dato"> {{dato.descripcion}} </td>
+                </ng-container>
+                <!-- Subsector de la Rama SCIAN -->
+                <ng-container matColumnDef="subSector">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Subsector </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let dato"> {{dato.subSector.descripcion}} </td>
+                </ng-container>
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                        <mat-slide-toggle *ngIf="element.subSector.estatus=== true" [ngModel]="element.estatus"
+                            (ngModelChange)="cambiaEstatus(element)" color="primary">
+                        </mat-slide-toggle>
+                        <mat-slide-toggle matTooltip="El subsector esta inactivo."
+                            *ngIf="element.subSector.estatus=== false" disabled [ngModel]="element.estatus"
+                            (ngModelChange)="cambiaEstatus(element)" color="primary">
+                        </mat-slide-toggle>
+                    </td>
+
+                </ng-container>
+                <!-- Acciones Column -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <!-- Boton delete Column -->
+                    <td mat-cell *matCellDef="let element">
+                        <!-- Boton Editar Column -->
+                        <button mat-mini-fab *ngIf="element.subSector.estatus=== true" (click)="openDialog(element)" color="primary">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                        <button mat-mini-fab *ngIf="element.subSector.estatus=== false"
+                        disabled color="primary">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+          
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div><!-- MOSTRAR-->
+</div>
+</div>
+</div>

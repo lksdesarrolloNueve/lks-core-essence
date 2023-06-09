@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formDivision">
+        <p></p>
+    <p>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Clave Divisi&oacute;n</mat-label>
+            <input matInput formControlName="cveDiv" Maxlength="1" type="text" placeholder="Clave División">
+            <mat-icon matSuffix>code</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.cveDiv" ngProjectAs="mat-error">
+                <mat-error *ngIf="formDivision.get('cveDiv').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripci&oacute;n</mat-label>
+            <input matInput formControlName="descripcion" MaxLength="100" placeholder="Descripción">
+            <mat-icon matSuffix>subject</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                <mat-error *ngIf="formDivision.get('descripcion').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Clasificaci&oacute;n</mat-label>
+            <mat-select formControlName="clasificacion">
+                <mat-option *ngFor="let clasificacion of listaClasificacion" [value]="clasificacion.generalesId">
+                    {{clasificacion.descripcion}}
+                </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>error</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.clasificacion" ngProjectAs="mat-error">
+                <mat-error *ngIf="formDivision.get('clasificacion').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-slide-toggle formControlName="estatus" color="primary">
+            Estatus
+        </mat-slide-toggle>
+    </p>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion===1" (click)="guardarDivision()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion===2" (click)="actualizarDivision()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,77 @@
+<h3 mat-dialog-title class="text-center">{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formNotificacion">
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Aviso</mat-label>
+        <textarea formControlName="aviso" style="resize: none;" matInput
+            placeholder="Promoci&oacute;n en Compras con Tarjeta de D&eacute;bito"></textarea>
+        <mat-icon matSuffix>description</mat-icon>
+        <ng-template ngFor let-error [ngForOf]="validaciones.aviso" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNotificacion.get('aviso').hasError(error.type)" >
+                <strong> {{error.message}}</strong>
+            </mat-error>                  
+        </ng-template>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label class="mayuscula">Tipo {{lblCliente}}</mat-label>
+        <mat-select formControlName="tipoSocio" name="tipoSocio">
+            <mat-option *ngFor="let tipo of listaTipoSocio" [value]="tipo">
+                {{tipo.descripcion}}
+            </mat-option>
+        </mat-select>
+        <ng-template ngFor let-error [ngForOf]="validaciones.tipoSocio" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNotificacion.get('tipoSocio').hasError(error.type)" >
+                <strong> {{error.message}}</strong>
+            </mat-error>                  
+        </ng-template>
+    </mat-form-field>
+
+
+
+
+    <mat-form-field class="full-width" appearance="outline" class="full-width">
+        <mat-label>Sucursal</mat-label>
+        <input type="text" formControlName="sucursal" matInput [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                {{option.cveSucursal}} / {{option.nombreSucursal}}
+            </mat-option>
+        </mat-autocomplete>
+        <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNotificacion.get('sucursal').hasError(error.type)" >
+                <strong> {{error.message}}</strong>
+            </mat-error>                  
+        </ng-template>
+    </mat-form-field>
+
+
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Vigencia</mat-label>
+        <input matInput formControlName="vigencia" [matDatepicker]="dp3">
+        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        <ng-template ngFor let-error [ngForOf]="validaciones.vigencia" ngProjectAs="mat-error">
+            <mat-error *ngIf="formNotificacion.get('vigencia').hasError(error.type)" >
+                <strong> {{error.message}}</strong>
+            </mat-error>                  
+        </ng-template>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="estatus" color="primary">
+        Estatus
+    </mat-slide-toggle>
+    </form>
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+
+    <button mat-raised-button color="primary" (click)="gestionAvisos()" >{{data.titulo | uppercase}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

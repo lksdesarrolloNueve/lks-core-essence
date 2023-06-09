@@ -1,0 +1,70 @@
+<div class="row">
+
+    <div class="col-md-12 ">
+        <div class="card card-body">
+            <h3 class="text-center"> Actividades Econ&oacute;micas PLD</h3>
+            <div class="row">
+                <div class="col-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogoActividades(0)">Registrar
+                        Actividad</button>
+                </div>
+
+            </div>
+
+
+            <mat-form-field>
+                <mat-label>Filtros de Busqueda</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Cave, Actividad Economica" #input>
+            </mat-form-field>
+
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table aria-label="infoActividad" mat-table [dataSource]="dataSourceActividades" matSort>
+
+                    <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+
+                    <!-- Clave Actividad economica PLD -->
+                    <ng-container matColumnDef="cvePLD">
+                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Clave </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.cvePLD}} </td>
+                    </ng-container>
+
+                    <!-- Actividad economica -->
+                    <ng-container matColumnDef="actividadEco">
+                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Actividad Econ&oacute;mica PLD </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.actividadEco}} </td>
+                    </ng-container>
+
+                    <!-- Estatus -->
+                    <ng-container matColumnDef="estatus">
+                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Estatus</th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                            <mat-slide-toggle matTooltip="Activar/Desactivar el registro." [ngModel]="element.estatus"
+                                (ngModelChange)="cambiaEstatus(element)" color="primary">
+                            </mat-slide-toggle>
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Acciones -->
+                    <ng-container matColumnDef="acciones">
+                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let element">
+
+                            <button mat-mini-fab color="primary" (click)="abrirDialogoActividades(element)"
+                                matTooltip="Editar el registro.">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

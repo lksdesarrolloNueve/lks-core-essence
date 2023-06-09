@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body">
+            <h3 class="text-center mayuscula">Reportes Activos</h3>
+            <form [formGroup]="formAReportAct">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Tipo de reporte</mat-label>
+                            <mat-select formControlName="reporte"  (selectionChange)="seleccionTReporte($event)">
+                                <mat-option *ngFor="let option of opcionesReporte" [value]="option">
+                                    {{option.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.reporte" ngProjectAs="mat-error">
+                                <mat-error  *ngIf="this.formAReportAct.get('reporte').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3" [hidden]="!mostrarSucursal">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Sucursal</mat-label>
+                            <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                                [matAutocomplete]="autoSucursal">
+                            <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                                [displayWith]="displayFnSuc">
+                                <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option"
+                                    matTooltip="{{option.nombreSucursal}}">
+                                    {{option.nombreSucursal}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                                <mat-error  *ngIf="this.formAReportAct.get('sucursal').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-checkbox color="primary" formControlName="optConsolidado" (change)="cambioConsolidado($event)">
+                            Consolidado</mat-checkbox>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-checkbox color="primary" formControlName="depreciable">
+                            Depreciable
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <!--row -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Tipo de activo</mat-label>
+                            <input type="text" placeholder="Tipo Activo" matInput formControlName="tpActivo"
+                                [matAutocomplete]="autoTactivo">
+                            <mat-autocomplete autoActiveFirstOption #autoTactivo="matAutocomplete"
+                                [displayWith]="displayActivo">
+                                <mat-option *ngFor="let option of opcionesTActivo | async" [value]="option"
+                                    matTooltip="{{option.nombre}}">
+                                    {{option.nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.tpActivo" ngProjectAs="mat-error">
+                                <mat-error  *ngIf="this.formAReportAct.get('tpActivo').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Fecha</mat-label>
+                            <input formControlName="mesIn" matInput [matDatepicker]="pickerIn" [readonly]="true">
+                            <mat-datepicker-toggle matSuffix [for]="pickerIn"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerIn></mat-datepicker>
+
+                            <ng-template ngFor let-error [ngForOf]="validaciones.mesIn" ngProjectAs="mat-error">
+                                <mat-error  *ngIf="this.formAReportAct.get('mesIn').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <button mat-raised-button color="primary" (click)="procesarReporte()">
+                            <mat-icon matTooltip="Imprimir reporte">print</mat-icon>
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- row -->
+                </form>
+        </div>
+    </div>
+</div>

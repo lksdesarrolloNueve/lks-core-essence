@@ -1,0 +1,46 @@
+.bor{
+    border: 2px solid #000000;    
+ }
+
+ .div-centrado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    /*border: 2px dashed #f69c55;*/   
+}
+
+.total{
+    color: #319939;
+  }
+
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
+  .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
+  .mat-button-toggle-checked {
+    background-color: #3f51b5;
+  }
+
+/*
+  .col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+*/
+  .scroll-container-fp {
+    height: 297px;
+    width: 320px;
+    max-width: 100%;
+    overflow: auto;
+    /*border: 2px dashed hsl(115, 91%, 56%); */
+  }
+
+
+
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+mat-list-option[aria-selected="true"] {
+  background: rgba(136, 132, 172, 0.7);
+}

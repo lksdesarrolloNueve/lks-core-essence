@@ -1,0 +1,310 @@
+<h3 mat-dialog-title class="text-center">{{titulo}}</h3>
+<mat-dialog-content class="mat-typography">
+        <mat-tab-group backgroundColor="primary">
+            <mat-tab label="Generales">
+                <div class="row">
+                    <div class="col-12">
+                        <form [formGroup]="formSujetos">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Nombres</mat-label>
+                                        <input formControlName="nombres" matInput placeholder="Juan Alberto">
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">drive_file_rename_outline</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.nombres" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('nombres').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Apellido Paterno</mat-label>
+                                        <input formControlName="apellidoPaterno" matInput placeholder="Flores">
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">drive_file_rename_outline</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.apellidoPaterno" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('apellidoPaterno').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Apellido Materno</mat-label>
+                                        <input formControlName="apellidoMaterno" matInput placeholder="Flores">
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">drive_file_rename_outline</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.apellidoMaterno" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('apellidoMaterno').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field  appearance="outline" class="full-width">
+                                        <mat-label>Estado Civil</mat-label>
+                                        <input type="text" matInput formControlName="estadoCivil" [matAutocomplete]="auto2">
+                                        <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete"
+                                            [displayWith]="displayFnEC">
+                                            <mat-option *ngFor="let option of opcionesEstadoCivil | async" [value]="option">
+                                                {{option.descripcion}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.estadoCivil" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('estadoCivil').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <mat-form-field  appearance="outline" class="full-width">
+                                        <mat-label>Genero</mat-label>
+                                        <input type="text" matInput formControlName="genero" [matAutocomplete]="auto1">
+                                        <mat-icon matSuffix><span class="material-icons-outlined">transgender</span></mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete"
+                                            [displayWith]="displayFnG">
+                                            <mat-option *ngFor="let option of opcionesGenero | async" [value]="option">
+                                                {{option.descripcion}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.genero" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('genero').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Fecha Nacimiento</mat-label>
+                                            <input matInput [matDatepicker]="fN" formControlName="fechaNacimiento">
+                                            <mat-datepicker-toggle matSuffix [for]="fN"></mat-datepicker-toggle>
+                                            <mat-datepicker #fN disabled="false"></mat-datepicker>
+                                            <mat-error *ngIf="formSujetos.get('fechaNacimiento').hasError('required')">
+                                                Fecha requerida
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field  appearance="outline" class="full-width">
+                                        <mat-label>Nacionalidad</mat-label>
+                                        <input type="text" matInput formControlName="nacionalidad" [matAutocomplete]="auto3">
+                                        <mat-icon matSuffix><span class="material-icons-outlined">map</span></mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete"
+                                            [displayWith]="displayFnNac">
+                                            <mat-option *ngFor="let option of opcionesNacionalidad | async" [value]="option" (click)="nacionalidadSeleccionada(option)">
+                                                {{option.nacion}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.nacionalidad" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('nacionalidad').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Pa&iacute;s de nacimiento</mat-label>
+                                        <input formControlName="paisNac" matInput>
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">map</span>
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Estado Nacimiento</mat-label>
+                                        <input type="text" matInput formControlName="estadoNac" [matAutocomplete]="auto4">
+                                        <mat-icon matSuffix><span class="material-icons-outlined">map</span></mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete"
+                                            [displayWith]="displayFnE" (optionSelected)="estadoSeleccionado($event)">
+                                            <mat-option *ngFor="let option of opcionesEstado | async" [value]="option">
+                                                {{option.nombreEstado}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.estadoNac" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('estadoNac').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Ciudad Nacimiento</mat-label>
+                                        <input type="text" matInput formControlName="ciudadNac" [matAutocomplete]="auto5">
+                                        <mat-icon matSuffix><span class="material-icons-outlined">map</span></mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto5="matAutocomplete"
+                                            [displayWith]="displayFnCiudad">
+                                            <mat-option *ngFor="let option of opcionesCiudades | async" [value]="option">
+                                                {{option.nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.ciudadNac" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('ciudadNac').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>RFC</mat-label>
+                                        <input formControlName="rfc" matInput placeholder="rfc"> 
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">badge</span>
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>CURP</mat-label>
+                                        <input formControlName="curp" matInput placeholder="CURP">
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">badge</span>
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Telefono</mat-label>
+                                        <input formControlName="telefono" matInput placeholder="4181113232">
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">phone_iphone</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.telefono" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('telefono').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-9">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Correo Elec.</mat-label>
+                                        <input formControlName="correoElectronico" type="email" matInput placeholder="ejemplo@gmail.com">
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">email</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.correoElectronico" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('correoElectronico').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-slide-toggle formControlName="estatus" color="primary">
+                                        Estatus
+                                    </mat-slide-toggle>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Identificaciones">
+                <div class="row">
+                    <div class="col-12">
+                        <form [formGroup]="formSujetos">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field  appearance="outline" class="full-width">
+                                        <mat-label>Tipo Identificaci&oacute;n</mat-label>
+                                        <input type="text" matInput formControlName="tipoIdentificacion" [matAutocomplete]="auto6">
+                                        <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto6="matAutocomplete"
+                                            [displayWith]="displayFnTD">
+                                            <mat-option *ngFor="let option of opcionesIdentificaciones | async" [value]="option">
+                                                {{option.descripcion}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.tipoIdentificacion" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('tipoIdentificacion').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>N&uacute;m. Identificacion</mat-label>
+                                        <input formControlName="numIdentificacion" matInput placeholder="1234">
+                                        <mat-icon matSuffix>
+                                            <span class="material-icons-outlined">badge</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validaciones.numIdentificacion" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formSujetos.get('numIdentificacion').hasError(error.type)" >
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>                  
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Vigencia</mat-label>
+                                            <input matInput [matDatepicker]="fV" formControlName="vigencia">
+                                            <mat-datepicker-toggle matSuffix [for]="fV"></mat-datepicker-toggle>
+                                            <mat-datepicker #fV disabled="false"></mat-datepicker>
+                                            <mat-error *ngIf="formSujetos.get('vigencia').hasError('required')">
+                                                Fecha requerida
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <button color="primary" mat-mini-fab (click)="agregarIdentificaciones()" aria-label="Example icon-button with a heart icon">
+                                        <mat-icon>
+                                            add_circle
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <br>
+                                    <mat-divider></mat-divider>
+                                </div>
+                                <div class="col-md-12">
+                                    <mat-nav-list class="scroll-container"
+                                        [ngStyle]="{'height': '200px', 'width':'100%'}">
+                                        <mat-list-item *ngFor="let seleccionados of listaIdentificacionesSeleccionados; let i = index">
+                                            <p matListItemTitle (click)="mostrarIdentificacion(seleccionados)">
+                                                {{seleccionados[4]}} / {{seleccionados[1]}}
+                                            </p>
+                                            <button color="warn" mat-mini-fab matListItemMeta
+                                                aria-label="Example icon-button with a heart icon"
+                                                (click)="eliminarIdentificaciones(seleccionados)">
+                                                <mat-icon>cancelar</mat-icon>
+                                            </button>
+                                        </mat-list-item>
+                                    </mat-nav-list>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button *ngIf="accion === 1" (click)="crudSujetos()" color="primary"
+        cdkFocusInitial>Guardar</button>
+    <button mat-raised-button *ngIf="accion === 2" (click)="crudSujetos()" color="primary"
+        cdkFocusInitial>Editar</button>
+        <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

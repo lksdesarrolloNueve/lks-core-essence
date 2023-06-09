@@ -1,0 +1,155 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <mat-tab-group backgroundColor="primary" mat-align-tabs="start">
+                <mat-tab label="Bitacora de Serivicios">
+                    <h3 class="text-center"> Servicios MTCENTER</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Sucursal</mat-label>
+                                <input type="text" placeholder="Sucursal" matInput [formControl]="sucursal"
+                                    [matAutocomplete]="autoSucursal">
+                                <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                                    [displayWith]="mostrarSucursal">
+                                    <mat-option *ngFor="let option of opcionesSucursal| async" [value]="option">
+                                        {{option.nombreSucursal}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-icon matSuffix>map</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Fecha</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input matStartDate [formControl]="fechaI" placeholder="Fecha Inicio">
+                                    <input matEndDate [formControl]="fechaF" placeholder="Fecha Fin">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-1">
+                            <button matTooltip="Buscar" color="primary" mat-mini-fab aria-label="Buscar"
+                                (click)="spsServiciosMtcenter(1)">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-form-field class="full-width">
+                        <mat-label>Filtros de Busqueda</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Servicio" #input>
+                    </mat-form-field>
+
+
+                    <div class="mat-elevation-z8 table-responsive">
+                        <table aria-label="informacion" mat-table [dataSource]="dataSourceMTCenterS" matSort>
+
+                            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+                            <!-- fecha -->
+                            <ng-container matColumnDef="fecha">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Fecha </th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.fecha_op}}
+                                    {{element.hora_op}} </td>
+                            </ng-container>
+
+                            <!-- sku -->
+                            <ng-container matColumnDef="sku">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> SKU</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.sku}} </td>
+                            </ng-container>
+
+                            <!-- Monto -->
+                            <ng-container matColumnDef="monto">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Monto</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.monto|
+                                    currency:'MXN'}} </td>
+                            </ng-container>
+
+                            <!-- autorizacion -->
+                            <ng-container matColumnDef="noAutorizacion">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                                    No.Autorizaci&oacute;n
+                                </th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                                    {{element.no_autorizacion}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="sucursal">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                                    Sucursal</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                                    {{element.nombre_sucursal}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="codigo">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                                    Codigo</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                                    {{element.codigo_respuesta}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="respuesta">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                                    Respuesta</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                                    {{element.descripcion_respuesta}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="movimiento">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                                    Ref. Movimiento</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                                    {{element.ref_movimiento}} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                        aria-label="Select page of users">
+                    </mat-paginator>
+                </mat-tab>
+                <!--tap para reporte -->
+                <mat-tab label="Reporte de Serivicios">
+                    <h3 class="text-center"> Consiliación de Servicios MTCENTER</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Sucursal</mat-label>
+                                <input type="text" placeholder="Sucursal" matInput [formControl]="sucursalR"
+                                    [matAutocomplete]="autoSucursal">
+                                <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                                    [displayWith]="mostrarSucursal">
+                                    <mat-option *ngFor="let option of opcionesSucursalR| async" [value]="option">
+                                        {{option.nombreSucursal}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-icon matSuffix>map</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Fecha</mat-label>
+                                <input [formControl]="pfecha" matInput [matDatepicker]="pfechaI">
+                                <mat-datepicker-toggle matSuffix [for]="pfechaI"></mat-datepicker-toggle>
+                                <mat-datepicker #pfechaI></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-2">
+                            <button mat-raised-button color="primary" matTooltip="Reporte"
+                                (click)="spsServiciosMtcenter(2)">
+                                <mat-icon>download</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                </mat-tab>
+            </mat-tab-group>
+
+        </div>
+    </div>
+</div>

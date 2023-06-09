@@ -1,0 +1,161 @@
+<h2 mat-dialog-title class="text-center">{{titulo}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <!--BUSQUEDA CLIENTE-->
+    <form [formGroup]="formAdminMovimiento">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="h-center-v">{{lblCliente | uppercase}} : {{nomCliente}}</h2>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!--Forma pago-->
+            <div class="col-md-5">
+                <div class="card card-body">
+                    <mat-label>Formas de Pago</mat-label>
+                    <br>
+                    <!--Validación-->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.formaPago" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formAdminMovimiento.get('formaPago').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>                   
+
+
+                    <mat-nav-list class="b">
+
+
+                        <div class="row">
+
+                            <!--Forma pago-->
+                            <div class="col-md-12">
+
+                                <mat-selection-list appearance="fill" class="full-width" #formaPago [multiple]="false"
+                                    formControlName="formaPago">
+                                    <mat-list-option *ngFor="let formaPago of listaFormasPago" [value]="formaPago">
+                                        <mat-icon matListIcon>{{formaPago.icono}}</mat-icon>{{ formaPago.nombrefpago}}
+
+                                    </mat-list-option>
+                                </mat-selection-list>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </mat-nav-list>
+
+                </div>
+            </div>
+
+
+
+            <!--Cantidad-->
+            <div class="col-md-7">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Cantidad</mat-label>
+                                <strong><input matInput (input)="acutalizaCambio()" placeholder="Cantidad"
+                                        style="text-align:center;" prefix="$ " mask="separator.2" thousandSeparator=","
+                                        formControlName="cantidad" [readonly]="activa"></strong>
+                                <mat-icon matSuffix>paid</mat-icon>
+
+                                <!--Validación-->
+                                <ng-template ngFor let-error [ngForOf]="validaciones.cantidad" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formAdminMovimiento.get('cantidad').hasError(error.type)" >
+                                        <strong> {{error.message}}</strong>
+                                    </mat-error>                  
+                                </ng-template>   
+
+                            </mat-form-field>
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <div class="row">
+                            <!--Depositos-->
+                            <div class="col-md-6 c ">
+                                <h1><strong>Depositos: </strong></h1>
+                            </div>
+                            <div class="col-md-6 c ">
+                                <h1><strong>{{totalDep | currency:'MXN'}}</strong></h1>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--Retiros-->
+                            <div class="col-md-6 c">
+                                <h1><strong>Retiros: </strong></h1>
+                            </div>
+                            <div class="col-md-6 c">
+                                <h1><strong>{{totalRet | currency:'MXN'}}</strong></h1>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--Total-->
+                            <div class="col-md-6 c">
+                                <h1><strong>Total: </strong></h1>
+                            </div>
+                            <div class="col-md-6 c">
+                                <h1><strong>{{total | currency:'MXN'}}</strong></h1>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--Restante-->
+                            <div class="col-md-6 c">
+                                <h1><strong>Restante: </strong></h1>
+                            </div>
+
+                            <div class="col-md-6 c">
+                                <h1><strong>{{((total - formAdminMovimiento.get('cantidad').value) > 0 ?
+                                        (total - formAdminMovimiento.get('cantidad').value) :'0') |
+                                        currency:'MXN'}}</strong></h1>
+                            </div>
+
+                        </div> 
+
+
+                        <div class="row">
+                            <!--Cambio-->
+                            <div class="col-md-6 c">
+                                <h1><strong>Cambio: </strong></h1>
+                            </div>
+                            <div class="col-md-6 c">
+                                <h1><strong class="total">{{totalCambio | currency:'MXN'}}</strong></h1>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="modalAceptarPago()">Aceptar</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

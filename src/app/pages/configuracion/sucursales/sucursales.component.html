@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">Cat&aacute;logo Sucursales</h3>
+
+        <div class="row">
+            <div class="col-2">
+                <button mat-raised-button color="primary" (click)="abrirDialogoSucursales(0)">Registrar Sucursal</button>
+            </div>
+        </div>
+
+        
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Nombre Sucursal, Cve Sucursal" #input>
+        </mat-form-field>
+
+
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="infoSuc" mat-table [dataSource]="dataSourceSucursales" matSort>
+
+                <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+
+                <!-- Nombre Sucursal -->
+                <ng-container matColumnDef="nombreSucursal">
+                    <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Nombre Sucursal </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.nombreSucursal}} </td>
+                </ng-container>
+
+                <!-- Cve Sucursal -->
+                <ng-container matColumnDef="cveSucursal">
+                    <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Cve Sucursal </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.cveSucursal}} </td>
+                </ng-container>
+
+                <!-- Fecha Alta Column -->
+                <ng-container matColumnDef="fechaAlta">
+                    <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Fecha Alta</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.fechaAlta}} </td>
+                </ng-container>
+
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> 
+                        <mat-slide-toggle  
+                        [ngModel]= "element.estatus"
+                        (ngModelChange)= "cambiaEstatus(element)"
+                         color="primary" >  </mat-slide-toggle>    
+                    </td>
+                </ng-container>
+
+
+                <!-- Fecha Alta Column -->
+                <ng-container matColumnDef="acciones">
+                    <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                        <button mat-mini-fab color="primary" (click)="abrirDialogoSucursales(element)">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users"></mat-paginator>
+    </div>
+    </div>
+</div>

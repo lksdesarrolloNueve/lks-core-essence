@@ -1,0 +1,93 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="a card card-body">
+            <h2>Cotizador de Inversiones</h2>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Monto de la Inversi&oacute;n</mat-label>
+                        <input (blur)="formatoMonto($event.target.value)" [value]="cantidad" [formControl]="monto"
+                            matInput placeholder="$50,000.00">
+                        <mat-icon matSuffix><span class="material-icons-outlined">monetization_on</span>
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="a col-md-1">
+                    <button mat-fab color="primary" (click)="cotizar()">
+                        <mat-icon matTooltip="Cotizar Inversi&oacute;n">done_outline</mat-icon>
+                    </button>
+                </div>
+
+                <div class="col-1" *ngIf="listaCotizaciones.length > 0">
+
+                    <button mat-fab color="primary" (click)="imprimirTabla()">
+                        <mat-icon matTooltip="Imprimir Cotizacion Inversiones">print</mat-icon>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" *ngIf="listaCotizaciones.length > 0">
+        <div class="card card-body">
+
+            <!--Filtro-->
+            <div id="print-section" class="mat-elevation-z8 table-responsive">
+                <table aria-label="info" mat-table [dataSource]="dataSourceInversiones" matSort>
+
+                    <!--  Plazo Column -->
+                    <ng-container matColumnDef="plazo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Plazo </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let inversion">
+                            {{inversion.plazo}} </td>
+                    </ng-container>
+
+                    <!-- Tasa Column -->
+                    <ng-container matColumnDef="tasa">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Tasa</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let inversion">{{inversion.tasa}}%</td>
+                    </ng-container>
+
+
+                    <!-- ISR Column -->
+                    <ng-container matColumnDef="isr">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> ¿Retiene ISR?</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let inversion">{{inversion.isr}}</td>
+                    </ng-container>
+
+
+                    <!-- Monto Column -->
+                    <ng-container matColumnDef="monto">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Monto</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let inversion">{{inversion.monto | currency:'MXN'}}</td>
+                    </ng-container>
+
+                    <!-- interes Column -->
+                    <ng-container matColumnDef="interes">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Inter&eacute;s</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let inversion">{{inversion.interes | currency:'MXN'}}</td>
+                    </ng-container>
+
+
+                    <!-- Total Column -->
+                    <ng-container matColumnDef="total">
+                        <th scope="col" mat-header-cell *matHeaderCellDef> Total</th>
+                        <td mat-cell *matCellDef="let inversion">{{inversion.total | currency:'MXN'}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Paginado Inversiones">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

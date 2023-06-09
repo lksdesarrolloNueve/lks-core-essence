@@ -1,0 +1,93 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formTipoBaja">
+    <p></p>
+    <div class="row">
+       
+    <div class="col-md-6"> 
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre"  placeholder="Tipo Baja">
+        <mat-icon matSuffix>drive_file_rename_outline</mat-icon>
+        <ng-template ngFor let-error [ngForOf]="validaciones.nombre" ngProjectAs="mat-error">
+          <mat-error *ngIf="formTipoBaja.get('nombre').hasError(error.type)">
+            <strong> {{error.message}}</strong>
+          </mat-error>
+        </ng-template>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+        <mat-checkbox color="primary" formControlName="venta" (change)="cambioVenta($event)">Registra Venta</mat-checkbox>
+           
+    </div>
+    <div class="col-md-3">
+        <mat-slide-toggle formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+   <div class="col-md-12">
+    <h4> Cuentas Contables</h4>
+    <mat-divider></mat-divider>
+  
+   </div>
+    <div class="col-md-6">
+    <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Cuenta Debe</mat-label>
+        <input type="text" placeholder="Cuenta Debe" matInput formControlName="cuentaDebe" [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCuentaD">
+          <mat-option *ngFor="let option of opcionesCuentaD | async" [value]="option">
+            {{option.nombre}}
+          </mat-option>
+        </mat-autocomplete>
+        <ng-template ngFor let-error [ngForOf]="validaciones.cuentaDebe" ngProjectAs="mat-error">
+          <mat-error *ngIf="formTipoBaja.get('cuentaDebe').hasError(error.type)">
+            <strong> {{error.message}}</strong>
+          </mat-error>
+        </ng-template>
+      </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Cuenta Haber</mat-label>
+            <input type="text" placeholder="Cuenta Haber" matInput formControlName="cuentaHaber" [matAutocomplete]="autoH">
+            <mat-autocomplete autoActiveFirstOption #autoH="matAutocomplete" [displayWith]="displayCuentaH">
+              <mat-option *ngFor="let option of opcionesCuentaH | async" [value]="option">
+                {{option.nombre}}
+              </mat-option>
+            </mat-autocomplete>
+            <ng-template ngFor let-error [ngForOf]="validaciones.cuentaHaber" ngProjectAs="mat-error">
+              <mat-error *ngIf="formTipoBaja.get('cuentaHaber').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Cuenta Iva</mat-label>
+                <input type="text" placeholder="Cuenta Iva" matInput formControlName="cuentaIva" [matAutocomplete]="autoI">
+                <mat-autocomplete autoActiveFirstOption #autoI="matAutocomplete" [displayWith]="displayCuentaI">
+                  <mat-option *ngFor="let option of opcionesCuentaI | async" [value]="option">
+                    {{option.nombre}}
+                  </mat-option>
+                </mat-autocomplete>
+                <ng-template ngFor let-error [ngForOf]="validaciones.cuentaIva" ngProjectAs="mat-error">
+                  <mat-error *ngIf="formTipoBaja.get('cuentaIva').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                  </mat-error>
+                </ng-template>
+              </mat-form-field>
+              </div>
+      
+     
+
+</div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="tipoBajaID==0" (click)="crudTipoBajas()"  mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="tipoBajaID>0" (click)="crudTipoBajas()"   mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

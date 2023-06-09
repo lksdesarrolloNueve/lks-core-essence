@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Carga Masiva D&iacute;as Inhabiles</h2>
+<mat-dialog-content class="mat-typography">
+  
+    <form [formGroup]="formCarga">
+
+        <input #digiInput hidden="true" type="file" formControlName="archivo" multiple="false"  (change)= "cargaArchivo($event)" accept=".txt, .csv, .xlsx" />
+        <button (click)="digiInput.click()" mat-mini-fab color="primary">
+          <mat-icon>file_upload</mat-icon>
+        </button>
+           
+    </form>
+
+    <div *ngIf="listaErrores.length > 0">
+      <mat-selection-list class="scroll-container" [multiple]="false">
+        <mat-list-option *ngFor="let error of listaErrores">
+         Fila: {{error[0]}}, Descripcion: {{error[1]}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button  (click)="procesarCargaDias()" mat-raised-button color="primary">Procesar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

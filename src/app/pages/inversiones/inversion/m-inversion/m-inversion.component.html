@@ -1,0 +1,153 @@
+<h2 mat-dialog-title>Inversi&oacute;n </h2>
+<mat-dialog-content class="mat-typography">
+
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <mat-label class="mayuscula"><strong>N&uacute;mero de {{lblCliente}}:</strong> {{numSocio}}</mat-label>
+        </div>
+        <div class="col-md-6">
+            <mat-label class="mayuscula"><strong>{{lblCliente}}:</strong> {{nombreSocio}}</mat-label>
+        </div>
+        <div class="col-md-3">
+            <mat-label class="mayuscula"><strong>Sucursal:</strong> {{sucursal}}</mat-label>
+        </div>
+
+        <div class="col-md-12">
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+<br>
+    <form [formGroup]="formInversion">
+        <div class="row">
+
+            <div class="col-md-12" [hidden]="showFormaPago">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Formas de deposito:</mat-label>
+                    <mat-select formControlName="tipoDeposito" (selectionChange)="seleccionaForma()">
+                        <mat-option *ngFor="let forma of listaFormasPago" [value]="forma">
+                            {{forma.nombrefpago}} 
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.tipoDeposito" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('tipoDeposito').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12" [hidden]="showCuentas">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cuenta de retiro:</mat-label>
+                    <mat-select formControlName="cuenta" (selectionChange)="limpiaMonto()">
+                        <mat-option *ngFor="let cta of listaCuentas" [value]="cta">
+                            {{cta.descMovimiento}} - Disponible: {{cta.saldo | currency:'MXN'}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.cuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('cuenta').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo de Inversi&oacute;n:</mat-label>
+                    <mat-select formControlName="inversion" (selectionChange)="setDatosInv()">
+                        <mat-option *ngFor="let inv of listaInversiones" [value]="inv">
+                            Inversi&oacute;n: {{inv.descripcion}} - Plazo: {{inv.plazo}} días
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.inversion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('inversion').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Ingresar monto: </mat-label>
+                    <strong><input matInput formControlName="monto" (keyup)="calculaInteres()"
+                        style="text-align:center;" prefix="$ " mask="separator.2" thousandSeparator=","></strong>
+                    <mat-icon matSuffix>paid</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.monto" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('monto').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tasa: </mat-label>
+                    <strong><input matInput formControlName="tasa" [readonly]="true"></strong>
+                    <mat-icon matSuffix>paid</mat-icon>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Interes: </mat-label>
+                    <strong><input matInput formControlName="interes" [readonly]="true"></strong>
+                    <mat-icon matSuffix>paid</mat-icon>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Total: </mat-label>
+                    <strong><input matInput formControlName="total" [readonly]="true"></strong>
+                    <mat-icon matSuffix>paid</mat-icon>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Instrucci&oacute;n al vencimiento:</mat-label>
+                    <mat-select formControlName="instruccion" >
+                        <mat-option *ngFor="let inst of listaInstrucciones" [value]="inst">
+                            {{inst.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.instruccion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('instruccion').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-3">
+                <mat-label class="mayuscula"><strong>¿Retiene ISR?</strong></mat-label>   <mat-slide-toggle  [ngModel]="retieneISR"  disabled="true" [ngModelOptions]="{standalone: true}"
+                 color="primary"> </mat-slide-toggle>
+            </div>
+      
+            <div class="col-md-3">
+                <mat-label class="mayuscula"><strong>¿Recordar Fecha de Vencimiento?</strong></mat-label>   <mat-slide-toggle  [ngModel]="notificarRetiro"  [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="notificaTermino($event)" color="primary"> </mat-slide-toggle>
+            </div>
+      
+
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="procesarInversion()">Registrar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

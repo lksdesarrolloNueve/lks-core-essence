@@ -1,0 +1,79 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formIndicehh">
+    <p></p>
+    <div class="row">
+
+      <div class="col-md-8">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripci&oacute;n</mat-label>
+            <input formControlName="descripcion" matInput>
+            <mat-icon matSuffix>keyboard_hide_outlined</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+              <mat-error *ngIf="formIndicehh.get('descripcion').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Clave</mat-label>
+            <input formControlName="claveIndice" matInput placeholder="001">
+            <mat-icon matSuffix>keyboard_hide_outlined</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.claveIndice" ngProjectAs="mat-error">
+              <mat-error *ngIf="formIndicehh.get('claveIndice').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>De</mat-label>
+            <input formControlName="indiceInicial" type="number" matInput placeholder="Rango Inicial">
+            <mat-icon matSuffix>request_quote</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.indiceInicial" ngProjectAs="mat-error">
+              <mat-error *ngIf="formIndicehh.get('indiceInicial').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>A</mat-label>
+            <input formControlName="indiceFinal" type="number" matInput placeholder="Rango Final">
+            <mat-icon matSuffix>request_quote</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.indiceFinal" ngProjectAs="mat-error">
+              <mat-error *ngIf="formIndicehh.get('indiceFinal').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-6">
+        <mat-slide-toggle class="example-margin" formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="accion === 1" (click)="guardarIndice()" mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="accion === 2" (click)="editarIndice()" mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

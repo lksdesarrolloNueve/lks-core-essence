@@ -1,0 +1,80 @@
+<h1>GASTOS CAJA</h1>
+
+<div class="row">
+    <div class="card card-body">
+
+        <form [formGroup]="formGastos">
+            <div class="row">
+
+                <!--Tipo Gasto-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Gasto</mat-label>
+                        <input type="text" placeholder="Gasto" matInput formControlName="gasto"
+                            [matAutocomplete]="autoGastos">
+                        <mat-autocomplete autoActiveFirstOption #autoGastos="matAutocomplete"
+                            (optionSelected)="opcionSeleccionGasto($event)" [displayWith]="displayFnGasto">
+                            <mat-option *ngFor="let option of opcionesGastos | async" [value]="option">
+                                {{option.cveGasto}} / {{option.descripcion}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.gasto" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formGastos.get('gasto').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+                <!--Monto-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Monto</mat-label>
+                        <strong><input matInput placeholder="Monto" style="text-align:center;" prefix="$ "
+                                mask="separator.2" thousandSeparator="," formControlName="monto"></strong>
+                        <mat-icon matSuffix>paid</mat-icon>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.monto" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formGastos.get('monto').hasError(error.type)" >
+                                <strong> {{error.message}}  ({{montoMT | currency:'MXN'}})</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+
+                    </mat-form-field>
+                </div>
+
+                <!--Concepto-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Concepto</mat-label>
+                        <textarea matInput placeholder="Concepto" MaxLength="256" formControlName="concepto"></textarea>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.concepto" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formGastos.get('concepto').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!---->
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="guardarGasto()">Aceptar</button>
+    <button mat-raised-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,209 @@
+<h3 mat-dialog-title class="text-center">{{titulo}}</h3>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formInversion">
+        <p></p>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Inversi&oacute;n</mat-label>
+                    <input formControlName="claveInversion" matInput placeholder="01IN">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">text_rotation_none</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.claveInversion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('claveInversion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripci&oacute;n</mat-label>
+                    <input formControlName="descripcion" matInput placeholder="Inversion">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">text_rotation_none</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('descripcion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Plazo</mat-label>
+                    <input formControlName="plazo" matInput placeholder="1">
+                    <mat-icon matSuffix><span class="material-icons-outlined">dialpad</span></mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.plazo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('plazo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tasa</mat-label>
+                    <input formControlName="tasa" matInput placeholder="1">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">percent</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tasa" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('tasa').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Pasivo Deposito</mat-label>
+                    <input type="text" matInput formControlName="pasivoDeposito" [matAutocomplete]="auto1">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="displayFnPD">
+                        <mat-option *ngFor="let option of opcionesCuentas1 | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.pasivoDeposito" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('pasivoDeposito').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Pasivo Interes Devengado</mat-label>
+                    <input type="text" matInput formControlName="pasivoInteresDevengado" [matAutocomplete]="auto2">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="displayFnPID">
+                        <mat-option *ngFor="let option of opcionesCuentas2 | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.pasivoInteresDevengado"
+                        ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('pasivoInteresDevengado').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Pasivo ISR Retenido</mat-label>
+                    <input type="text" matInput formControlName="pasivoIsrRetenido" [matAutocomplete]="auto3">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="displayFnPIR">
+                        <mat-option *ngFor="let option of opcionesCuentas3 | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.pasivoIsrRetenido" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('pasivoIsrRetenido').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Pasivo Retencion IDE</mat-label>
+                    <input type="text" matInput formControlName="pasivoRetencionIde" [matAutocomplete]="auto4">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="displayFnPRI">
+                        <mat-option *ngFor="let option of opcionesCuentas4 | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.pasivoRetencionIde" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('pasivoRetencionIde').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Resultado Interes Pagado</mat-label>
+                    <input type="text" matInput formControlName="resultadoInteresPagado" [matAutocomplete]="auto5">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto5="matAutocomplete" [displayWith]="displayFnRIP">
+                        <mat-option *ngFor="let option of opcionesCuentas5 | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.resultadoInteresPagado"
+                        ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('resultadoInteresPagado').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Resultado Interes Devengado</mat-label>
+                    <input type="text" matInput formControlName="resultadoInteresDevengado" [matAutocomplete]="auto6">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto6="matAutocomplete" [displayWith]="displayFnRID">
+                        <mat-option *ngFor="let option of opcionesCuentas6 | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.resultadoInteresDevengado"
+                        ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('resultadoInteresDevengado').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto Inferior</mat-label>
+                    <input formControlName="montoInf" matInput placeholder="1">
+                    <mat-icon matSuffix><span class="material-icons-outlined">paid</span></mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.montoInf" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('montoInf').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto Superior</mat-label>
+                    <input formControlName="montoSup" matInput placeholder="1">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">paid</span></mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.montoSup" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formInversion.get('montoSup').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="retieneIsr" color="primary">
+                    Retiene ISR
+                </mat-slide-toggle>
+            </div>
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button *ngIf="accion === 1" (click)="crudInversion()" color="primary"
+        cdkFocusInitial>Guardar</button>
+    <button mat-raised-button *ngIf="accion === 2" (click)="crudInversion()" color="primary"
+        cdkFocusInitial>Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

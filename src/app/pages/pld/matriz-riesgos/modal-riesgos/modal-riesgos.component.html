@@ -1,0 +1,183 @@
+<h2 mat-dialog-title *ngIf="data.accion == 1">AGREGAR</h2>
+<h2 mat-dialog-title *ngIf="data.accion == 2">ACTUALIZAR</h2>
+<mat-divider></mat-divider>
+<br>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formRiesgos">
+        <!-- NUMERO -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Número: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Número</mat-label>
+                    <input formControlName="numero" matInput placeholder="Ej. C18">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('numero').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- ELEMENTO DE RIESGO -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Elemento de riesgo: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Elemento de riesgo</mat-label>
+                    <input formControlName="elementoRiesgo" matInput placeholder="Ej. Personas bloqueadas">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('elementoRiesgo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- INDICADORES DE RIESGO -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Indicadores de riesgo: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Indicadores de riesgo</mat-label>
+                    <input formControlName="indicadoresRiesgo" matInput placeholder="Ej. Identificación incorrecta">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('indicadoresRiesgo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- DEFINICION TEORICA -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Definición teórica: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Definición teórica</mat-label>
+                    <input formControlName="definicionTeorica" matInput placeholder="Ej. Personas señaladas por la autoridad">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('definicionTeorica').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- DEFINICION OPERATIVA -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Definición operativa: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Definición operativa</mat-label>
+                    <input formControlName="definicionOperativa" matInput placeholder="Ej. Personas incluidas en las listas negras">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('definicionOperativa').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- CRITERIO DE RIESGO ALTO -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Criterio de riesgo alto: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Criterio de riesgo alto</mat-label>
+                    <input formControlName="criterioRiesgoAlto" matInput placeholder="Ej. Incluido en listas negras">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('criterioRiesgoAlto').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- PUNTAJE DE RIESGO ALTO -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Puntaje de riesgo alto: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Puntaje de riesgo alto</mat-label>
+                    <input formControlName="puntajeRiesgoAlto" matInput placeholder="Ej. 1" class="input-right" type="number">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('puntajeRiesgoAlto').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- CRITERIO DE RIESGO BAJO -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Criterio de riesgo bajo: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Criterio de riesgo bajo</mat-label>
+                    <input formControlName="criterioRiesgoBajo" matInput placeholder="Ej. No aparece en listas">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('criterioRiesgoBajo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- PUNTAJE DE RIESGO BAJO -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Puntaje de riesgo bajo: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Puntaje de riesgo bajo</mat-label>
+                    <input formControlName="puntajeRiesgoBajo" matInput placeholder="Ej. 1" class="input-right" type="number">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('puntajeRiesgoBajo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- PONDERACION ALTA -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Ponderación en caso de puntaje alto: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Ponderación alta</mat-label>
+                    <input formControlName="ponderacionAlta" matInput placeholder="Ej. 10" class="input-right" type="number">
+                    <strong>%</strong>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('ponderacionAlta').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- PONDERACION BAJA -->
+        <div class="text-row">
+            <mat-label class="col-6"><strong>Ponderación en caso de puntaje bajo: </strong></mat-label>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Ponderación baja</mat-label>
+                    <input formControlName="ponderacionBaja" matInput placeholder="Ej. 10" class="input-right" type="number">
+                    <strong>%</strong>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRiesgos.get('ponderacionBaja').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button (click)="crud()" mat-raised-button color="primary" cdkFocusInitial *ngIf="data.accion == 1">Agregar</button>
+    <button (click)="crud()" mat-raised-button color="primary" cdkFocusInitial *ngIf="data.accion == 2">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

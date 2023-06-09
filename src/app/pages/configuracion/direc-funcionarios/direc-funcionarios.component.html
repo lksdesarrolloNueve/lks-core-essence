@@ -1,0 +1,404 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+
+            <div class="col-md-5">
+                <div class="card card-body">
+                    <h2 class=" text-center">Directivos y Funcionarios</h2>
+                </div>
+            </div>
+
+            <div class="col-md-7  text-center">
+                <div class="card card-body">
+                    <div class="row">
+
+                        <!-- Botón para editar -->
+                        <div class="col-md-4" *ngIf="!showGuardar">
+                            <h2>Dir/Fun: {{nombresS | uppercase}}</h2>
+                        </div>
+
+                        <!-- Boton para agregar el cargo -->
+                        <div class="col-2" *ngIf="showGuardar">
+                            <button mat-fab color="primary" (click)="guardarCargo(1)">
+                                <mat-icon matTooltip="Nuevo">add</mat-icon>
+                            </button>
+                        </div>
+
+                        <!-- Botón para editar -->
+                        <div class="col-2" *ngIf="!showGuardar">
+                            <button mat-fab color="primary" (click)="guardarCargo(2)">
+                                <mat-icon matTooltip="Editar">edit</mat-icon>
+                            </button>
+                        </div>
+
+                        <!-- Botón para limpiar campos -->
+                        <div class="col-2">
+                            <button mat-fab color="primary" (click)="nuevoRegistro()">
+                                <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- Lista de sujetos por sucursal-->
+            <div class="col-md-5">
+                <div class="card card-body">
+
+                    <mat-form-field class="full-width" appearance="fill" class="full-width">
+                        <mat-label>Sucursal</mat-label>
+                        <mat-icon matSuffix>warehouse</mat-icon>
+                        <input type="text" placeholder="Sucursal" matInput [matAutocomplete]="autoSucursal">
+                        <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                            (optionSelected)="opcionSelectSucursal($event)" [displayWith]="displayFnSucursal">
+                            <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                                {{option.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+                        <mat-list-item *ngFor="let sujetoSucursal of listaSujetosSucursal"
+                            (click)="spsDirectivoSujetoById(sujetoSucursal.sujetoID.sujetoId)">
+                            <p matListItemTitle>{{sujetoSucursal.sujetoID.nombres }}
+                                {{sujetoSucursal.sujetoID.apellidoPaterno }}
+                                {{sujetoSucursal.sujetoID.apellidoMaterno }}</p>
+                        </mat-list-item>
+                    </mat-nav-list>
+                </div>
+            </div>
+
+            <div class="col-md-7 ">
+                <div class="card card-body">
+                    <mat-tab-group backgroundColor="primary">
+
+                        <!--Tab datos generales-->
+                        <mat-tab label="Datos generales">
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formDirectivoFuncionario">
+                                        <div class="row">
+                                            <!-------Filtro Sucursal -->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Sucursal</mat-label>
+                                                    <mat-icon matSuffix>warehouse</mat-icon>
+                                                    <input type="text" placeholder="Sucursal" matInput
+                                                        formControlName="catSucursal" [matAutocomplete]="autoSucursal">
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoSucursal="matAutocomplete"
+                                                        (optionSelected)="opcionSelectSucursal($event)"
+                                                        [displayWith]="displayFnSucursal">
+                                                        <mat-option *ngFor="let option of opcionesSucursal | async"
+                                                            [value]="option">
+                                                            {{option.nombreSucursal}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.catSucursal"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('catSucursal').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+
+                                            <!-- Filtro Cliente -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label class="mayuscula">No. {{lblCliente}}</mat-label>
+                                                    <input formControlName="numeroClientefiltro" matInput
+                                                        placeholder="No {{lblCliente}}" [readonly]="true">
+                                                    <button mat-button matSuffix mat-stroked-button color="primary"
+                                                        (click)="modalClientes()">
+                                                        <mat-icon matSuffix matTooltip="Buscar {{lblCliente}}"><span
+                                                                class="material-icons-outlined">person_search</span>
+                                                        </mat-icon>
+                                                    </button>
+                                                    <ng-template ngFor let-error
+                                                        [ngForOf]="validaciones.numeroClientefiltro"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('numeroClientefiltro').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-------Filtro Cliente 
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label class="mayuscula">{{lblCliente}}</mat-label>
+                                                    <mat-icon matSuffix>wc</mat-icon>
+                                                    <input type="text" placeholder="{{lblCliente}}" matInput
+                                                        formControlName="catCliente" [matAutocomplete]="autoCliente">
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCliente="matAutocomplete"
+                                                        (optionSelected)="opcionSelectCliente($event)"
+                                                        [displayWith]="displayFnCliente">
+                                                        <mat-option *ngFor="let option of opcionesCliente | async"
+                                                            [value]="option">
+                                                            {{option.sujeto.nombres}} {{option.sujeto.apellidoPaterno}}
+                                                            {{option.sujeto.apellidoMaterno}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.catCliente"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('catCliente').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        -->
+                                        </div>
+                                        <div class="row">
+                                            <!--Numero cliente-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label class="mayuscula">Numero {{lblCliente}}</mat-label>
+                                                    <input formControlName="numeroCliente" matInput
+                                                        placeholder="Numero {{lblCliente}}">
+                                                    <mat-icon matSuffix>tag</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                            <!--Nombres-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Nombres</mat-label>
+                                                    <input formControlName="nombres" matInput placeholder="Nombres">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <!--Apellido paterno-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Apellido paterno</mat-label>
+                                                    <input formControlName="apellidoPaterno" matInput
+                                                        placeholder="Apellido paterno">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <!--Apellido materno-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Apellido materno</mat-label>
+                                                    <input formControlName="apellidoMaterno" matInput
+                                                        placeholder="Apellido materno">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                            <!--Fecha nacimiento-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Fecha de nacimiento</mat-label>
+                                                    <input formControlName="fechaNacimiento" matInput
+                                                        placeholder="Fecha de nacimiento">
+                                                    <mat-icon matSuffix>event</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--RFC-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>RFC</mat-label>
+                                                    <input formControlName="rfc" matInput placeholder="RFC">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                            <!--CURP-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>CURP</mat-label>
+                                                    <input formControlName="curp" matInput placeholder="CURP">
+                                                    <mat-icon matSuffix>notes</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+
+
+                        <!--Tab datos relacion-->
+                        <mat-tab label="Datos Relaci&oacute;n">
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formDirectivoFuncionario">
+                                        <div class="row">
+
+                                            <!-- fecha inicio cargo -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Fecha inicio cargo</mat-label>
+                                                    <input formControlName="fechaInicioC" matInput
+                                                        [matDatepicker]="picker">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.fechaInicioC"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('fechaInicioC').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+
+                                            <!-- fecha califica fraccion -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Fecha califica fracci&oacute;n</mat-label>
+                                                    <!--  -->
+                                                    <input formControlName="fechaCalificaF" matInput
+                                                        [matDatepicker]="picker2">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker2></mat-datepicker>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.fechaCalificaF"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('fechaCalificaF').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-------Filtro Cargo -->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cargo</mat-label>
+                                                    <mat-icon matSuffix>person_pin_circle</mat-icon>
+                                                    <input type="text" placeholder="Cargo" matInput
+                                                        formControlName="catCargo" [matAutocomplete]="autoCargo">
+                                                    <mat-autocomplete autoActiveFirstOption #autoCargo="matAutocomplete"
+                                                        (optionSelected)="opcionSelectCargo($event)"
+                                                        [displayWith]="displayFnCargo">
+                                                        <mat-option *ngFor="let option of opcionesCargo | async"
+                                                            [value]="option">
+                                                            {{option.descripcion}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.catCargo"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('catCargo').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Fraccion a la que pertenece -->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Fraccion</mat-label>
+                                                    <mat-icon matSuffix>list</mat-icon>
+                                                    <input type="text" placeholder="Fraccion" matInput
+                                                        formControlName="catFraccion" [matAutocomplete]="autoFraccion">
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoFraccion="matAutocomplete"
+                                                        (optionSelected)="opcionSelectFraccion($event)"
+                                                        [displayWith]="displayFn">
+                                                        <mat-option *ngFor="let option of opcionesFraccion | async"
+                                                            [value]="option">
+                                                            {{option.descripcion}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.catFraccion"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('catFraccion').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Observaciones-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Observaciones</mat-label>
+                                                    <input formControlName="observaciones" matInput
+                                                        placeholder="Observaciones generales">
+                                                    <mat-icon matSuffix>edit_note</mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.observaciones"
+                                                        ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formDirectivoFuncionario.get('observaciones').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                    <div class="col-md-12">
+                                        <div class="mat-elevation-z8 table-responsive">
+                                            <table aria-label="info" mat-table [dataSource]="dataSourceCargos" matSort>
+
+                                                <!--Cargo -->
+                                                <ng-container matColumnDef="cargo">
+                                                    <th scope="col" mat-header-cell *matHeaderCellDef>Cargo </th>
+                                                    <td mat-cell *matCellDef="let listaCargos">
+                                                        {{listaCargos.fraccCargoID.cargo}} </td>
+                                                </ng-container>
+
+                                                <!-- Estatus Column-->
+                                                <ng-container matColumnDef="estatus">
+                                                    <th scope="col" mat-header-cell *matHeaderCellDef>Estatus</th>
+                                                    <td mat-cell *matCellDef="let listaCargos">
+                                                        <mat-slide-toggle [(ngModel)]="listaCargos.estatus"
+                                                            [checked]="listaCargos.estatus"
+                                                            (change)="abrirAdminBaja($event, listaCargos)"
+                                                            color="primary">
+                                                        </mat-slide-toggle>
+                                                    </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                            </table>
+
+                                        </div>
+
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                                            aria-label="Select page of users">
+                                        </mat-paginator>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </mat-tab>
+
+
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

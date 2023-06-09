@@ -1,0 +1,74 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-content class="mat-typography">
+
+    <div class="row">
+        <div class="col-md-4">
+            
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>No. {{lblCliente}}</mat-label>
+                <input [formControl]="numero_cliente" [readonly]="true" matInput placeholder="LKS-0000001">
+                <mat-icon matSuffix>pin</mat-icon>
+            </mat-form-field>
+        
+        </div>
+    
+        <div class="col-md-8">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre</mat-label>
+                <input [formControl]="nombres"  [readonly]="true" matInput placeholder="JUAN PEREZ">
+                <mat-icon matSuffix>account_box</mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <form [formGroup]="formEstatusCli">
+        <div class='row'>
+        <div class="col-md-6">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Estatus {{lblCliente}}</mat-label>
+              <mat-select formControlName="desc_baja" name="desc_baja">
+                <mat-option *ngFor="let desc_baja of listaEstatusCliente" [value]="desc_baja">
+                  {{desc_baja.descripcion}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>attachment</mat-icon>
+              <ng-template ngFor let-error [ngForOf]="validacionesEstCli.desc_baja" ngProjectAs="mat-error">
+                <mat-error *ngIf="formEstatusCli.get('desc_baja').hasError(error.type)" >
+                    <strong> {{error.message}}</strong>
+                </mat-error>                  
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Motivo de la Baja</mat-label>
+              <mat-select formControlName="desc_mot_baja" name="desc_mot_baja">
+                <mat-option *ngFor="let desc_mot_baja of listaMotBajaCliente" [value]="desc_mot_baja">
+                  {{desc_mot_baja.descripcion}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>dns</mat-icon>
+              <ng-template ngFor let-error [ngForOf]="validacionesEstCli.desc_mot_baja" ngProjectAs="mat-error">
+                <mat-error *ngIf="formEstatusCli.get('desc_mot_baja').hasError(error.type)" >
+                    <strong> {{error.message}}</strong>
+                </mat-error>                  
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+
+
+        </div>
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button  (click)="guardarEstatusCli()"  mat-raised-button color="primary">Aplicar</button>
+    <button mat-raised-button mat-dialog-close color="primary">Cerrar</button>
+  </mat-dialog-actions>

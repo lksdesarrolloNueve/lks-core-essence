@@ -1,0 +1,92 @@
+<h2 mat-dialog-title>{{titulo}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formHipoteca">
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>No. Escritura</mat-label>
+            <input matInput formControlName="no_escritura">
+            <ng-template ngFor let-error [ngForOf]="validaciones.no_escritura" ngProjectAs="mat-error">
+                <mat-error *ngIf="formHipoteca.get('no_escritura').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Folio</mat-label>
+            <input matInput formControlName="folio">
+            <ng-template ngFor let-error [ngForOf]="validaciones.folio" ngProjectAs="mat-error">
+                <mat-error *ngIf="formHipoteca.get('folio').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Fecha Registro</mat-label>
+            <input matInput [matDatepicker]="dp1" formControlName="fecha_registro">
+            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+            <ng-template ngFor let-error [ngForOf]="validaciones.fecha_registro" ngProjectAs="mat-error">
+                <mat-error *ngIf="formHipoteca.get('fecha_registro').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Fecha Vencimiento</mat-label>
+            <input matInput [matDatepicker]="dp2" formControlName="fecha_vencimiento">
+            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+            <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+            <ng-template ngFor let-error [ngForOf]="validaciones.fecha_vencimiento" ngProjectAs="mat-error">
+                <mat-error *ngIf="formHipoteca.get('fecha_vencimiento').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Valor</mat-label>
+            <input matInput formControlName="valor">
+            <ng-template ngFor let-error [ngForOf]="validaciones.valor" ngProjectAs="mat-error">
+                <mat-error *ngIf="formHipoteca.get('valor').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Fecha Valuaci&oacute;n</mat-label>
+            <input matInput [matDatepicker]="dp3" formControlName="fecha_valuacion">
+            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            <ng-template ngFor let-error [ngForOf]="validaciones.fecha_valuacion" ngProjectAs="mat-error">
+                <mat-error *ngIf="formHipoteca.get('fecha_valuacion').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Grado Prelaci&oacute;n</mat-label>
+            <input matInput formControlName="grado_prelacion">
+            <ng-template ngFor let-error [ngForOf]="validaciones.grado_prelacion" ngProjectAs="mat-error">
+                <mat-error *ngIf="formHipoteca.get('grado_prelacion').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" mat-raised-button color="primary" (click)="agregarGarantia()">Guardar</button>
+    <button *ngIf="accion === 2" mat-raised-button color="primary" (click)="agregarGarantia()">Editar</button>
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

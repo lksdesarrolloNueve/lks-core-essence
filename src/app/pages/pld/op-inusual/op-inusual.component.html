@@ -1,0 +1,99 @@
+<div class="col-12">
+    <div class="card card-body">
+        <h3 class="text-center mayuscula">Operaciones Inusuales</h3>
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Desde:</mat-label>
+                    <input matInput [matDatepicker]="fi" [formControl]="fechaIn" [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="fi"></mat-datepicker-toggle>
+                    <mat-datepicker #fi></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Hasta:</mat-label>
+                    <input matInput [matDatepicker]="ff" [formControl]="fechaFin" [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="ff"></mat-datepicker-toggle>
+                    <mat-datepicker #ff></mat-datepicker>
+                </mat-form-field>
+            </div>
+            
+            <div class="col-3">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Sucursal</mat-label>
+                    <input type="text" placeholder="Sucursal" matInput [formControl]="sucursal"
+                      [matAutocomplete]="autoSucursal">
+                    <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                      (optionSelected)="opcionSeleccionSuc($event)" [displayWith]="displayFnSuc">
+                      <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                        {{option.nombreSucursal}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+                <div class="col-2">
+                    <button color="primary" mat-mini-fab aria-label="Buscar Op.Inusual" (click)="spsInusual()">
+                        <mat-icon matTooltip="Buscar">search</mat-icon>
+                    </button>
+                </div>
+        </div><!-- row -->
+    </div>
+</div>
+<div class="col-12">
+    <div class="card card-body">
+        <mat-form-field class="col-12">
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput  placeholder="" (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        <!--Cuerpo de la tabla-->
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="infoInusual" mat-table multiTemplateDataRows [dataSource]="dataSourceInusual"  matSort>
+                
+                <!-- Numero Column -->
+                <ng-container matColumnDef="numeroCliente">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Numero {{lblCliente}}</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let datos"> {{datos.numero_cliente}} </td>
+                </ng-container>
+        
+                <!-- cliente Column -->
+                <ng-container matColumnDef="nombre">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> {{lblCliente}} </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let datos"> {{datos.nombres}} {{datos.apellido_paterno}} {{datos.apellido_materno}} </td>
+                </ng-container>
+        
+                <!-- fecha Column -->
+                <ng-container matColumnDef="fecha">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let datos"> {{datos.fecha | date:'dd-MM-yyyy' }} </td>
+                </ng-container>
+                 <!-- descripcion  Column -->
+                 <!--Tabla Hija--> 
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let datos" [attr.colspan]="displayedColumns.length">
+                        <div class="example-element-detail"
+                            [@detailExpand]="datos == expandedElement ? 'expanded' : 'collapsed'">
+                           <mat-list class="col-12" role="list">
+                                <mat-list-item role="listitem">
+                                {{datos.alerta}} </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </td>
+                </ng-container>               
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row id="poliza" matRipple
+                *matRowDef="let datos; columns: displayedColumns; let k = dataIndex;" class="example-element-row"
+                [class.example-expanded-row]="expandedElement === datos"
+                (click)="expandedElement = expandedElement === datos ? null : datos"></tr>
+           
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+            </table>
+        
+        </div>
+        <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+        showFirstLastButtons aria-label="Select page of inusuales">
+        </mat-paginator>
+    </div>
+</div>
+<!--12 card-->

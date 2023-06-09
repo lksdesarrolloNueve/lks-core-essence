@@ -1,0 +1,212 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">CONCILIACION BANCARIA</h3>
+            <form [formGroup]="formConciliacion">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Sucursal</mat-label>
+                        <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                            [matAutocomplete]="autoSuc">
+                        <mat-autocomplete (optionSelected)="opcionSucursal()" autoActiveFirstOption
+                            #autoSuc="matAutocomplete" [displayWith]="displaySucursal">
+                            <mat-option *ngFor="let optionSuc of opcionesSucursal | async" [value]="optionSuc">
+                                {{optionSuc.cveSucursal}} / {{optionSuc.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formConciliacion.get('sucursal').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Tipo cuenta</mat-label>
+                        <mat-select (selectionChange)="opcionSeleccionadaTipoCuenta($event)"
+                            formControlName="tipoCuenta">
+                            <mat-option *ngFor="let optionTc of listaTipoCuenta" [value]="optionTc">
+                                {{optionTc.descripcion}}
+                            </mat-option>
+                        </mat-select>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.tipoCuenta" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formConciliacion.get('tipoCuenta').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <!--numero de cuenta-->
+                <div class="col-md-4">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Cuenta</mat-label>
+                        <input type="text" placeholder="Cuenta bancaria" matInput [formControl]="cuentaBancOri"
+                            [matAutocomplete]="autoCuentaBO">
+
+                        <mat-autocomplete (optionSelected)="opcionSeleccionadaCuenta($event)" autoActiveFirstOption
+                            #autoCuentaBO="matAutocomplete" [displayWith]="displayCuentaBancOri">
+                            <mat-option *ngFor="let optionCBO of opcionesCuentaBancOri | async" [value]="optionCBO">
+                                {{optionCBO.claveCuenta}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="cuentaBancOri.hasError('required')">
+                            <strong>Campo requerido.</strong>
+                        </mat-error>
+                        <mat-error *ngIf="cuentaBancOri.hasError('invalidAutocompleteObject')">
+                            <strong>No existe la clave elige otra.</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!--Rango de fechas-->
+                <div class="col-md-6">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Rango de fechas</mat-label>
+
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" placeholder="Fecha inicial" [readonly]="true">
+                            <input matEndDate formControlName="end" placeholder="Fecha final" [readonly]="true">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.start" ngProjectAs="mat-error">
+                            <mat-error *ngIf="range.get('start').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validaciones.end" ngProjectAs="mat-error">
+                            <mat-error *ngIf="range.get('end').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <button mat-raised-button color="primary" (click)="opcionSeleccionadaCuentaID($event)">
+                        Buscar</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+
+    <div class="row" [hidden]="!mostrar">
+        <!-- Loading -->
+        <div class="example-loading-shade" *ngIf="isLoadingResults  || isResultado">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+
+            <div class="example-rate-limit-reached" *ngIf="isResultado">
+                No se encontraron movimientos.
+            </div>
+
+        </div>
+        <div class="col-md-9">
+            <div class="card card-body">
+                <h3 class="text-center bold">Movimientos</h3>
+                <div class="mat-elevation-z8 table-responsive">
+                    <table mat-table aria-label="CuentaBancariaMov" [dataSource]="dataSourceCuentaBancaria" matSort>
+                        <!-- Fecha Hora-->
+                        <ng-container matColumnDef="fechaHora">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Fecha</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.mov.extMov1.fechaHora}} </td>
+                        </ng-container>
+                        <!-- Descripcion -->
+                        <ng-container matColumnDef="descripcion">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Descripci&oacute;n</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.tmov.descripcion}} </td>
+                        </ng-container>
+                        <!--Clave -->
+                        <ng-container matColumnDef="claveMovimiento">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.mov.claveMovimiento}} </td>
+                        </ng-container>
+                        <!-- Beneficiario -->
+                        <ng-container matColumnDef="beneficiario">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Beneficiario</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.mov.extMov1.beneficiario}} </td>
+                        </ng-container>
+                        <!-- Concepto -->
+                        <ng-container matColumnDef="concepto">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Concepto</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.mov.concepto}} </td>
+                        </ng-container>
+                        <!-- debe -->
+                        <ng-container matColumnDef="debe">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Debe</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.movpoliza.debe|currency:'MXN'}} </td>
+                        </ng-container>
+                        <!-- Haber -->
+                        <ng-container matColumnDef="haber">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Haber</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.movpoliza.haber|currency:'MXN'}}</td>
+                        </ng-container>
+                        <!-- Haber -->
+                        <ng-container matColumnDef="transito">
+                            <th scope="col" mat-header-cell *matHeaderCellDef>Transito</th>
+                            <td mat-cell *matCellDef="let element">{{element.chequeTransito}}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator [length]="totalRows" [pageSize]="pageSize" [pageIndex]="currentPage"
+                    [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </div>
+
+
+        <!-----------------------------Division de Saldos ---------------------------------------------------->
+        <div class="col-md-3" [hidden]="!mostrar">
+            <div class="card card-body">
+                <strong>
+                    <h3 class="text-center">Saldos</h3>
+                </strong>
+                <form [formGroup]="formConciliacion">
+                    <div class="row">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Saldo Inicial</mat-label>
+                            <strong><input matInput value="{{saldoInicial | currency:'MXN'}}" placeholder="0.00"
+                                    [readonly]="!editable" style="text-align:center;"></strong>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Deposito</mat-label>
+                            <strong><input [readonly]="!editable" value="{{saldoDeposito | currency:'MXN'}}" matInput
+                                    placeholder="0.00" style="text-align:center;"></strong>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Retiro</mat-label>
+                            <strong><input [readonly]="!editable" value="{{saldoRetiro | currency:'MXN'}}" matInput
+                                    placeholder="0.00" style="text-align:center;"></strong>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>CH. Transito</mat-label>
+                            <strong><input [readonly]="!editable" value="{{saldoChTransito | currency:'MXN'}}" matInput
+                                    placeholder="0.00" style="text-align:center;"></strong>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Saldo Final</mat-label>
+                            <strong><input [readonly]="!editable" value="{{saldoFinal | currency:'MXN'}}" matInput
+                                    placeholder="0.00" style="text-align:center;"></strong>
+                        </mat-form-field>
+                        <button mat-raised-button (click)="abrirDialogo()" color="warn">Generar Poliza</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--row-->
+</div>

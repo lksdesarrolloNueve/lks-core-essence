@@ -1,0 +1,66 @@
+<div class="row">
+<div class="col-md-12">
+    <div class="card-body">
+<br>
+<h3 class="text-center">Lista Divisiones</h3>
+
+
+<div><button mat-raised-button color="primary" (click)="abrirDialog(0)">Registrar </button>
+</div>
+
+<mat-form-field class="full-width">
+    <mat-label>Filtros de Busqueda</mat-label>
+    <input matInput (keyup)="buscarDivision($event)" placeholder="Divisi&oacute;n" #input>
+</mat-form-field>
+<!--Cuerpo de la tabla-->
+<div class="mat-elevation-z8 table-responsive">
+    <table aria-label="infoDivision" mat-table [dataSource]="dataSourceDivision"  matSort>
+        
+        <!-- Nombre Ciudad Column -->
+        <ng-container matColumnDef="cveD">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave Divisi&oacute;n </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let division"> {{division.cveDivision}} </td>
+        </ng-container>
+
+        <!-- Division Column -->
+        <ng-container matColumnDef="division">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Divisi&oacute;n </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let division"> {{division.descripcion}} </td>
+        </ng-container>
+
+        <!-- Clasificacion Column -->
+        <ng-container matColumnDef="clasificacion">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clasificaci&oacute;n</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let division"> {{division.clasificacion.descripcion}} </td>
+        </ng-container>
+        <!-- Estatus -->
+        <ng-container matColumnDef="estatus">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)" color="primary">
+                </mat-slide-toggle>
+            </td>
+        </ng-container>
+        <!-- Acciones Column -->
+        <ng-container matColumnDef="acciones">
+            <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+            <!-- Boton delete Column -->
+            <td mat-cell *matCellDef="let element">
+                <!-- Boton Editar Column -->
+                <button mat-mini-fab (click)="abrirDialog(element)" color="primary">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+</div>
+<mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+showFirstLastButtons aria-label="Select page of users">
+</mat-paginator>
+</div>
+</div>
+</div>

@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center input-filtro"> {{lblClientes}} BLOQUEADOS</h3>
+
+            <button color="primary" mat-mini-fab aria-label="Busqueda Personas">
+                <mat-icon matTooltip="Buscar Cliente" (click)="abrirDialogCliente(0)">search</mat-icon>
+            </button>
+
+
+            <mat-form-field>
+                <mat-label>Filtros de Busqueda</mat-label>
+                <input matInput (keyup)="applyFilter($event)">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="InfoBloqueos" [dataSource]="dataSourceBloqueoCliente"
+                    #sortBloqueo="matSort" matSort>
+
+                    <!-- Cliente -->
+                    <ng-container matColumnDef="noCliente">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula"> No. {{lblCliente}} </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{ (element.cliente | jsonParse).numero_cliente }}</td>
+                    </ng-container>
+
+                    <!-- Cliente -->
+                    <ng-container matColumnDef="cliente">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula"> {{lblCliente}} </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{ (element.cliente | jsonParse).nombre }}</td>
+                    </ng-container>
+
+                    <!-- Cliente -->
+                    <ng-container matColumnDef="sucursal">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula"> Sucursal </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{ (element.cliente | jsonParse).sucursal }}</td>
+                    </ng-container>
+
+
+                    <!-- Fechabloqueo -->
+                    <ng-container matColumnDef="fechas">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef>Bloqueo - Desbloqueo</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.fechaBloqueo}} - {{element.fechaDesbloqueo}}
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Motivo -->
+                    <ng-container matColumnDef="motivo">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Motivo </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{ (element.motivo | jsonParse).descripcion }} </td>
+                    </ng-container>
+
+                    <!-- Comentarios -->
+                    <ng-container matColumnDef="comentarios">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef>Comentarios </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.comentarios}}</td>
+                    </ng-container>
+                    <br>
+                    <!-- Estatus-->
+                    <ng-container matColumnDef="estatus">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Estatus</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                            <div *ngIf="element.estatus">
+                                <mat-slide-toggle color="primary" (ngModelChange)="crearBloqueos(element,$event)"
+                                    [ngModel]="element.estatus"> </mat-slide-toggle>
+                            </div>
+                            <div *ngIf="!element.estatus">
+                                <mat-slide-toggle color="primary" [ngModel]="element.estatus" disabled>
+                                </mat-slide-toggle>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <br>
+                    <br>
+                    <br>
+                    <!--Acciones  -->
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <!-- Boton Editar Column -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogoBloqueo(2,element)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="ColumnsBloqueoClientes"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ColumnsBloqueoClientes;"></tr>
+                </table>
+            </div>
+            <mat-paginator #PaginatorBloqueoCliente [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

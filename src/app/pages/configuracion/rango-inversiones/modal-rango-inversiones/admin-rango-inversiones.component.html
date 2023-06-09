@@ -1,0 +1,102 @@
+<h3 mat-dialog-title class="text-center">{{titulo}}</h3>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formRangoInversion">
+        <p></p>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Rango Inversi&oacute;n</mat-label>
+                    <input formControlName="cveRangoInv" matInput placeholder="01IN">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">text_rotation_none</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveRangoInv" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRangoInversion.get('cveRangoInv').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripci&oacute;n</mat-label>
+                    <input formControlName="descripcion" [disabled]="true" matInput>
+                    {{descripcion}}
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">text_rotation_none</span>
+                    </mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Plazo</mat-label>
+                    <input type="text" matInput formControlName="plazo" [matAutocomplete]="auto1">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="displayFnP">
+                        <mat-option *ngFor="let option of opcionesInversiones | async" [value]="option"
+                            (click)="mostrarDescripcion(option)">
+                            {{option.claveInversion}} / {{option.descripcion}} / {{option.plazo}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.plazo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRangoInversion.get('plazo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tasa</mat-label>
+                    <input formControlName="tasa" matInput placeholder="1">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">percent</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tasa" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRangoInversion.get('tasa').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha Inicio</mat-label>
+                        <input matInput [matDatepicker]="fI" formControlName="fechaInicio">
+                        <mat-datepicker-toggle matSuffix [for]="fI"></mat-datepicker-toggle>
+                        <mat-datepicker #fI disabled="false"></mat-datepicker>
+                        <mat-error *ngIf="formRangoInversion.get('fechaInicio').hasError('required')">
+                            Fecha requerida
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput [matDatepicker]="fF" formControlName="fechaFin">
+                        <mat-datepicker-toggle matSuffix [for]="fF"></mat-datepicker-toggle>
+                        <mat-datepicker #fF disabled="false"></mat-datepicker>
+                        <mat-error *ngIf="formRangoInversion.get('fechaFin').hasError('required')">
+                            Fecha requerida
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button *ngIf="accion === 1" (click)="crudRangoInversiones()" color="primary"
+        cdkFocusInitial>Guardar</button>
+    <button mat-raised-button *ngIf="accion === 2" (click)="crudRangoInversiones()" color="primary"
+        cdkFocusInitial>Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

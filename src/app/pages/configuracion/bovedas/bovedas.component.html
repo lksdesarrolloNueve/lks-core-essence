@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">B&oacute;vedas</h3>
+        <div class="row">
+            <div class="col-2">
+                <button mat-raised-button (click)="abrirAdminBoveda('',1)" color="primary">Registrar </button><br><br></div>
+        </div>
+
+        <!--Filtro-->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilterBoveda($event)" placeholder="Cve. B&oacute;veda, Desc. B&oacute;veda" #input>
+        </mat-form-field>
+     
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="info" mat-table [dataSource]="dataSourceBovedas"  matSort>
+
+                <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Nombre Clave Column -->
+                <ng-container matColumnDef="clave">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cve. B&oacute;veda</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> {{boveda.clave}} </td>
+                </ng-container>
+
+                <!-- Nombre Descripcion Column -->
+                <ng-container matColumnDef="descripcion">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Desc. B&oacute;veda</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> {{boveda.descripcion}} </td>
+                </ng-container>
+
+                <!-- Nombre Clave Cuenta Column -->
+                <ng-container matColumnDef="claveCuenta">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cve. Cta. Bancaria</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> {{boveda.claveCuenta}} </td>
+                </ng-container>
+
+                <!-- Nombre Descripcion Cuenta Column -->
+                <ng-container matColumnDef="descripcionCuenta">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Desc. Cta. Bancaria</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> {{boveda.descripcionCuenta}} </td>
+                </ng-container>
+
+                <!-- Nombre Clave Sucursal Column -->
+                <ng-container matColumnDef="cveSucursal">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cve. Cta. Sucursal</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> {{boveda.cveSucursal}} </td>
+                </ng-container>
+
+                <!-- Nombre Sucursal Column -->
+                <ng-container matColumnDef="nombreSucursal">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Sucursal</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> {{boveda.nombreSucursal}} </td>
+                </ng-container>
+
+                <!-- Estatus Cuenta Bancaria Column -->
+                <ng-container matColumnDef="estatusCB">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus Cta. Bancaria</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> 
+                        <mat-slide-toggle 
+                        [ngModel]="boveda.estatusCuenta"
+                        [disabled]="disabled"
+                         color="primary" >  </mat-slide-toggle>    
+                    </td>
+                </ng-container>
+
+                <!-- Estatus Boveda Column -->
+                <ng-container matColumnDef="estatus">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus B&oacute;veda</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let boveda"> 
+                        <mat-slide-toggle (ngModelChange)="crudBoveda(boveda,$event)" 
+                        matTooltip="Activar/Desactivar el registro." 
+                        [ngModel]= "boveda.estatus"
+                     
+                         color="primary" >  </mat-slide-toggle>    
+                    </td>
+                </ng-container>
+
+
+                <!-- Acciones Column -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <!-- Boton delete Column -->
+                    <td mat-cell *matCellDef="let boveda">
+                        <!-- Boton Editar Column -->
+                        <button mat-mini-fab (click)="abrirAdminBoveda(boveda.clave,2)" color="primary">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+</div>
+</div>

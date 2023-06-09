@@ -1,0 +1,321 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="row">
+
+      <div class="col-md-5">
+        <div class="card card-body">
+          <h2 class=" text-center">Cuentas Contables</h2>
+        </div>
+      </div>
+
+
+      <div class="col-md-7  text-center">
+        <div class="card card-body">
+          <div class="row">
+
+
+            <div class="col-2" *ngIf="mostrarGuardar">
+              <button mat-fab color="primary" (click)="guardarCuentaContable()">
+                <mat-icon matTooltip="Guardar Cuenta Contable">done_outline</mat-icon>
+              </button>
+            </div>
+
+            <div class="col-2" *ngIf="mostrarEditar">
+              <button mat-fab color="primary" (click)="editarCuentaContable()">
+                <mat-icon matTooltip="Editar Cuenta Contable">create</mat-icon>
+              </button>
+            </div>
+
+            <div class="col-2">
+              <button mat-fab color="primary" (click)="abrirDialogoCargaMasiva()">
+                <mat-icon matTooltip="Guardar Cuenta Masiva Contable">upload_file</mat-icon>
+              </button>
+            </div>
+
+            <div class="col-2">
+              <button mat-fab color="primary" (click)="nuevaCuenta()">
+                <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+
+
+      <!-- Div COl para la gestion de arbol de cuentas Contables-->
+      <div class="col-md-5">
+        <div class="card card-body">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Filtro</mat-label>
+            <input matInput minlength="2" (keyup)="applyFilter($event.target['value'])" placeholder="Bancos, Cajas"
+              #input>
+          </mat-form-field>
+
+          <mat-tree [dataSource]="dataSourceCuentas" class="scroll-container-cuentas" [treeControl]="treeControl">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+              <!-- use a disabled button to provide padding for tree leaf -->
+              <button mat-icon-button disabled></button>
+              {{node.cuenta}} / {{node.nombre}} &nbsp;&nbsp;&nbsp;
+              <button mat-mini-fab color="primary" (click)="spsCuentasContablesByID(node.cuentaid)"
+                aria-label="Example icon-button with a heart icon">
+                <mat-icon>create</mat-icon>
+              </button>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.nombre">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              {{node.cuenta}} / {{node.nombre}} &nbsp;&nbsp;&nbsp;
+              <button mat-mini-fab color="primary" (click)="spsCuentasContablesByID(node.cuentaid)"
+                aria-label="Example icon-button with a heart icon">
+                <mat-icon>create</mat-icon>
+              </button>
+            </mat-tree-node>
+          </mat-tree>
+
+        </div>
+      </div>
+
+
+
+
+
+      <div class="col-md-7">
+        <div class="card card-body">
+          <form [formGroup]="formCuenta">
+            <div class="row">
+
+              <div class="col-md-8">
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Cuenta</mat-label>
+                  <input formControlName="cuenta" matInput placeholder="000-00-000">
+                  <mat-icon matSuffix>bookmark</mat-icon>
+                  <ng-template ngFor let-error [ngForOf]="validaciones.cuenta" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formCuenta.get('cuenta').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                  </ng-template>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-4">
+
+                <p>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Fecha Registro</mat-label>
+                    <input matInput [matDatepicker]="dp3" formControlName="fRegistro">
+                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                    <mat-error *ngIf="formCuenta.get('fRegistro').hasError('required')">
+                      Fecha requerida</mat-error>
+                  </mat-form-field>
+                </p>
+
+              </div>
+
+              <div class="col-md-8">
+                <p>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nombre</mat-label>
+                    <textarea formControlName="nombre" style="resize: none;" matInput
+                      placeholder="Caja, Bancos, etc.."></textarea>
+                    <mat-icon matSuffix>description</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.nombre" ngProjectAs="mat-error">
+                      <mat-error *ngIf="formCuenta.get('nombre').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                      </mat-error>
+                    </ng-template>
+                  </mat-form-field>
+                </p>
+              </div>
+
+              <div class="col-md-4">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                  Estatus
+                </mat-slide-toggle>
+              </div>
+
+              <div class="col-md-12 text-center">
+                <label>Datos de la cuenta</label>
+                <mat-divider></mat-divider>
+              </div>
+
+
+              <div class="col-md-12">
+
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                  <mat-label>Subcuenta de</mat-label>
+                  <input type="text" matInput formControlName="cuentaAcumulada" [matAutocomplete]="auto">
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of opcionesCuentas | async" [value]="option">
+                      {{option.cuenta}} / {{option.nombre}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <ng-template ngFor let-error [ngForOf]="validaciones.cuentaAcumulada" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formCuenta.get('cuentaAcumulada').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                  </ng-template>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Tipo Cuenta</mat-label>
+                  <mat-select [formControl]="tipoControl" name="tipo">
+                    <mat-option *ngFor="let tipo of listaTipoCuenta" [value]="tipo">
+                      {{tipo.descripcion}}
+                    </mat-option>
+                  </mat-select>
+                  <ng-template ngFor let-error [ngForOf]="validaciones.tipo" ngProjectAs="mat-error">
+                    <mat-error *ngIf="tipoControl.hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                  </ng-template>
+                </mat-form-field>
+
+
+              </div>
+
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Naturaleza</mat-label>
+                  <mat-select [formControl]="naturalezaControl" name="naturaleza">
+                    <mat-option *ngFor="let opt of listaNaturaleza" [value]="opt">
+                      {{opt.descripcion}}
+                    </mat-option>
+                  </mat-select>
+                  <ng-template ngFor let-error [ngForOf]="validaciones.naturaleza" ngProjectAs="mat-error">
+                    <mat-error *ngIf="naturalezaControl.hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                  </ng-template>
+                </mat-form-field>
+
+              </div>
+
+
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Rubro</mat-label>
+                  <mat-select [formControl]="rubroControl" name="rubro">
+                    <mat-option *ngFor="let rubro of listaRubro" [value]="rubro">
+                      {{rubro.descripcion}}
+                    </mat-option>
+                  </mat-select>
+                  <ng-template ngFor let-error [ngForOf]="validaciones.rubro" ngProjectAs="mat-error">
+                    <mat-error *ngIf="rubroControl.hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                  </ng-template>
+                </mat-form-field>
+
+              </div>
+
+
+
+              <div class="col-md-12">
+
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                  <mat-label>Cuentas Anexo 24</mat-label>
+                  <input type="text" matInput formControlName="anexo" [matAutocomplete]="autoAnexo">
+                  <mat-autocomplete autoActiveFirstOption #autoAnexo="matAutocomplete" [displayWith]="displayAnexo">
+                    <mat-option *ngFor="let anexo of opcionesAnexo | async" [value]="anexo">
+                      {{anexo.codAgrupador}} / {{anexo.nombreCta}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <ng-template ngFor let-error [ngForOf]="validaciones.anexo" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formCuenta.get('anexo').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                  </ng-template>
+                </mat-form-field>
+              </div>
+
+
+              <div class="col-md-6">
+                <p>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nivel Tabulaci&oacute;n</mat-label>
+                    <input formControlName="nivel" matInput>
+                    <mat-icon matSuffix>trending_up</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.nivel" ngProjectAs="mat-error">
+                      <mat-error *ngIf="formCuenta.get('nivel').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                      </mat-error>
+                    </ng-template>
+                  </mat-form-field>
+
+                </p>
+              </div>
+
+
+              <div class="col-md-6">
+                <p>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>N&uacute;mero de Concepto</mat-label>
+                    <input formControlName="concepto" matInput>
+                    <mat-icon matSuffix>receipt</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.concepto" ngProjectAs="mat-error">
+                      <mat-error *ngIf="formCuenta.get('concepto').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                      </mat-error>
+                    </ng-template>
+                  </mat-form-field>
+                </p>
+              </div>
+
+
+              <div class="col-md-8">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                  <mat-label>Moneda</mat-label>
+                  <input type="text" matInput formControlName="moneda" [matAutocomplete]="autoMoneda">
+                  <mat-icon matSuffix>paid</mat-icon>
+                  <mat-autocomplete autoActiveFirstOption #autoMoneda="matAutocomplete" [displayWith]="displayMoneda">
+                    <mat-option *ngFor="let moneda of opcionesMoneda | async" [value]="moneda">
+                      {{moneda.tipoCambio}} / {{moneda.nombreMoneda}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <ng-template ngFor let-error [ngForOf]="validaciones.moneda" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formCuenta.get('moneda').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                  </ng-template>
+                </mat-form-field>
+
+              </div>
+
+
+              <div class="col-md-4">
+                <p>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cambia</mat-label>
+                    <input formControlName="cambia" matInput placeholder="Para uso de contabilidad electrónica">
+                    <mat-icon matSuffix>desktop_windows</mat-icon>
+                    <mat-hint>Para uso de contabilidad electr&oacute;nica</mat-hint>
+                  </mat-form-field>
+                </p>
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

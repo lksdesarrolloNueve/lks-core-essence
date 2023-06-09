@@ -1,0 +1,53 @@
+<!-- GESTION DE APERTURA DE CAJAS POR MEDIO DE POSTGRES -->
+<h2 mat-dialog-title>Apertura de control de efectivo</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formCajasSucursal">
+        <div class="row">
+            <div class="col-6">
+                <mat-label><strong>Saldo actual: </strong> {{ saldoInicialSistemaPg | currency:'MXN'}}</mat-label>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Saldo inicial cajero</mat-label>
+
+                    <strong><input formControlName="saldoInicialCajero" matInput placeholder="Saldo inicial"  style="text-align:center;"
+                        prefix="$ " mask="separator.2" thousandSeparator=","></strong>
+                    <mat-icon matSuffix>paid</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validaciones.saldoInicialCajero" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCajasSucursal.get('saldoInicialCajero').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+
+                </mat-form-field>
+
+            </div>
+    
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Comentarios</mat-label>
+                    <input formControlName="comentario" matInput placeholder="Comentarios">
+                    <mat-icon matSuffix>edit_note</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validaciones.comentario" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCajasSucursal.get('comentario').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                    
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    <button (click)="inicioSesionCajaPg()" mat-raised-button color="primary" cdkFocusInitial>Iniciar</button>
+
+</mat-dialog-actions>

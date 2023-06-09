@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>{{titulo}}</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-form-field class="col-12">
+        <mat-label>Filtro de Busqueda</mat-label>
+        <input matInput (keyup)="filtrar($event)" placeholder="" #input>
+      </mat-form-field>
+    <!--Cuerpo de la tabla-->
+    <div class="mat-elevation-z8 table-responsive">
+        <table aria-label="Busqueda de solicitudes" mat-table [dataSource]="dataSourceSolicitudes"  matSort>
+            <!-- No. Cliente Column -->
+            <ng-container matColumnDef="numeroCliente">
+                <th id="cliente" style="padding: 16px;" mat-header-cell *matHeaderCellDef style="padding: 16px;">N&uacute;mero {{lblCliente}} </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let solicitud" style="padding: 16px;"> {{solicitud.numero_cliente}} </td>
+            </ng-container>
+            
+            <!-- Nombre Column -->
+            <ng-container matColumnDef="nombre">
+                <th id="nombre" style="padding: 16px;" mat-header-cell *matHeaderCellDef style="padding: 16px;">Nombre </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let solicitud" style="padding: 16px;"> {{solicitud.nombre}} </td>
+            </ng-container>
+
+            <!-- Tipo Socio Column -->
+            <ng-container matColumnDef="tipoSocio">
+                <th id="tipoSocio" style="padding: 16px;" mat-header-cell *matHeaderCellDef style="padding: 16px;">Socio </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let solicitud" style="padding: 16px;"> {{solicitud.tipo_socio}} </td>
+            </ng-container>
+
+            <!-- No. Solcitud Column -->
+            <ng-container matColumnDef="numSolicitud">
+                <th id="numSolicitud" style="padding: 16px;" mat-header-cell *matHeaderCellDef style="padding: 16px;">No. Solicitud </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let solicitud" title="{{solicitud.num_solicitud}}" style="padding: 16px;"> {{solicitud.num_solicitud | slice:0:15}} </td>
+            </ng-container>
+
+            <!-- Fecha Column -->
+            <ng-container matColumnDef="fechaSolicitud">
+                <th id="fechaSolicitud" style="padding: 16px;" mat-header-cell *matHeaderCellDef style="padding: 16px;">F. Solicitud </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let solicitud" style="padding: 16px;"> {{solicitud.fecha_solicitud | date:'dd-MM-yyyy' }} </td>
+            </ng-container>
+
+            <!-- Monto Column -->
+            <ng-container matColumnDef="montoCredito">
+                <th id="montoCredito" style="padding: 16px;" mat-header-cell *matHeaderCellDef style="padding: 16px;">Monto </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let solicitud" style="padding: 16px;"> {{solicitud.monto_credito|currency:'MXN'}} </td>
+            </ng-container>
+
+            <!-- Estado Credito Column -->
+            <ng-container matColumnDef="descEstadoCred">
+                <th id="descEstadoCred" style="padding: 16px;" mat-header-cell *matHeaderCellDef style="padding: 16px;">Cr&eacute;dito </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let solicitud" style="padding: 16px;"> {{solicitud.desc_estado_cred}} </td>
+            </ng-container>
+
+            <!-- Estado Credito Comite Column -->
+            <ng-container matColumnDef="estadoComite">
+                <th id="estadoComite" mat-header-cell *matHeaderCellDef>Comite Cr&eacute;dito </th>
+                <td mat-cell *matCellDef="let solicitud"> {{solicitud.estado_comite}} </td>
+            </ng-container>
+<!--el id poliza es un estilo para el cursor-->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row id="poliza" (click)="getRecord(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+        showFirstLastButtons aria-label="Seleccionar pagina de solicitudes">
+    </mat-paginator>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

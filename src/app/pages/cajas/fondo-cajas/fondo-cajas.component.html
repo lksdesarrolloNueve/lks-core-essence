@@ -1,0 +1,286 @@
+<div class="row">
+    <div class="card card-body">
+
+        <div class="row">
+
+            <!--Sucursal-->
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Sucursal:</mat-label>
+                    <strong><input matInput value="{{vSucursal}}" placeholder="Sucursal" [readonly]="true"
+                            style="text-align:center;"></strong>
+                    <mat-datepicker-toggle matSuffix disabled></mat-datepicker-toggle>
+                </mat-form-field>
+            </div>
+
+
+            <!--Saldo-->
+            <div class="col-md-4 a">
+                <mat-form-field appearance="outline" class="full-width">
+
+                    <mat-label>Saldo boveda: </mat-label>
+                    <strong><input matInput value="{{vSaldoBov | currency:'MXN'}}" placeholder="Saldo boveda"
+                            [readonly]="true" style="text-align:center;"></strong>
+                    <mat-icon matSuffix>payments</mat-icon>
+
+
+                </mat-form-field>
+            </div>
+
+            <!--Espacio-->
+            <div class="col-md-2 a">
+
+                <div class="row">
+                    
+                    <!--Guardar movimiento-->
+                    <div class="col-6">
+                        <button mat-fab color="primary" (click)="guardarEditarDialog()">
+                            <mat-icon matTooltip="Guardar movimiento."> done_outline </mat-icon>
+                        </button>
+                    </div>
+
+                    <!--Limpiar formulario -->
+                    <div class="col-6">
+                        <button mat-fab color="primary" (click)="limpiarFormGeneral()">
+                            <mat-icon matTooltip="Limpiar.">restore_page</mat-icon>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!--Fecha-->
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Fecha:</mat-label>
+                    <strong><input matInput value="{{vCurrentDate}}" placeholder="Fecha Solicitud" [readonly]="true"
+                            style="text-align:center;"></strong>
+                    <mat-datepicker-toggle matSuffix disabled></mat-datepicker-toggle>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+
+        <form [formGroup]="formFondoCaja">
+            <div class="row">
+
+                <!--Tipo Movimiento (valueChange)="opcionSeleccionadaTMovimiento($event)" -->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Tipo Movimiento</mat-label>
+                        <mat-select formControlName="operacion">
+                            <mat-option *ngFor="let optionTm of vListaTipoMovimiento" [value]="optionTm">
+                                {{optionTm.descripcion}}
+                            </mat-option>
+                        </mat-select>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.operacion" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formFondoCaja.get('operacion').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+
+                    </mat-form-field>
+                </div>
+
+
+                <!--Boveda-->
+                <div class="col-md-6">
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Boveda</mat-label>
+
+                        <mat-select formControlName="boveda" (valueChange)="opcionSeleccionadaBoveda($event)">
+                            <mat-option *ngFor="let optionBov of vListaBovedas" [value]="optionBov">
+                                {{optionBov.descripcion}}
+                            </mat-option>
+                        </mat-select>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.boveda" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formFondoCaja.get('boveda').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+
+
+                    </mat-form-field>
+                </div>
+
+                <!--Caja-->
+                <div class="col-md-6" *ngIf="vListaCajas.length > 0">
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Caja</mat-label>
+
+                        <mat-select formControlName="caja" (valueChange)="opcionSeleccionadaCaja($event)">
+                            <mat-option *ngFor="let optionCaj of vListaCajas" [value]="optionCaj">
+                                {{optionCaj.descripcion}}
+                            </mat-option>
+                        </mat-select>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.caja" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formFondoCaja.get('caja').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+                    </mat-form-field>
+                </div> 
+
+                <!--Saldo caja-->
+                <div class="col-md-6 a" *ngIf="vListaCajas.length > 0">
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>Saldo caja: </mat-label>
+                        <strong><input matInput value="{{vSaldoCaja | currency:'MXN'}}" placeholder="Saldo caja"
+                                [readonly]="true" style="text-align:center;"></strong>
+                        <mat-icon matSuffix>payments</mat-icon>
+
+
+                    </mat-form-field>
+                </div>
+
+                <!--Monto-->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Monto</mat-label>
+                        <strong><input matInput placeholder="Monto" style="text-align:center;" prefix="$ "
+                                mask="separator.2" thousandSeparator="," formControlName="monto"></strong>
+                        <mat-icon matSuffix>paid</mat-icon>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.monto" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formFondoCaja.get('monto').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+                <!--Concepto-->
+                <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Concepto</mat-label>
+                            <textarea matInput placeholder="Concepto" MaxLength="256" formControlName="concepto"></textarea>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.concepto" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formFondoCaja.get('concepto').hasError(error.type)" >
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>                  
+                            </ng-template>
+
+                        </mat-form-field>
+                </div>
+
+            </div>
+
+
+        </form>
+
+        <div class="row">
+            <div class="col-md-5">
+                <mat-divider></mat-divider>
+            </div>
+            <div class="col-md-2 a">
+                <h2>Movimientos</h2>
+            </div>
+            <div class="col-md-5">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+
+        
+        <!--Filtro-->
+        <mat-form-field *ngIf="!isResultado">
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)"
+                placeholder="Hora, caja, tipo movimiento..." #input>
+        </mat-form-field>
+
+        <div class="example-container">
+
+            <!-- Loading -->
+            <div class="example-loading-shade" *ngIf="isLoadingResults  || isResultado">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+
+                <div class="example-rate-limit-reached" *ngIf="isResultado">
+                    No se encontraron movimientos.
+                </div>
+
+            </div>
+
+
+            <!--Tabla-->
+            <div class="example-table-container">
+
+                <table aria-label="infoMvDot" mat-table [dataSource]="dataSourceMvDot" matSort>
+
+
+                    <!--Concepto-->
+                    <ng-container matColumnDef="concepto">
+                        <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                            Descripci&oacute;n</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let mov"> {{mov.concepto_bov}} </td>
+                    </ng-container>
+
+                    <!--Hora-->
+                    <ng-container matColumnDef="hora">
+                        <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                            Hora</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let mov"> {{mov.hora}} </td>
+                    </ng-container>
+
+                    <!--Descripcion tipo movimiento-->
+                    <ng-container matColumnDef="descTM">
+                        <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                            Tipo movimiento</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let mov"> {{mov.desc_t_mov}} </td>
+                    </ng-container>
+
+                    <!--Operacion-->
+                    <ng-container matColumnDef="operacion">
+                        <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                            Tipo movimiento</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let mov"> {{mov.operacion}} </td>
+                    </ng-container>
+
+                    <!--Operacion-->
+                    <ng-container matColumnDef="monto">
+                        <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                            Operaci&oacute;n</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let mov"> {{mov.monto|currency:'MXN'}} </td>
+                    </ng-container>
+
+                    <!--Destino-->
+                    <ng-container matColumnDef="destino">
+                        <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                            Destino</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let mov"> {{mov.descripcion}} </td>
+                    </ng-container>
+
+                    
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            
+            <!--Paginador para mostrar la tabla desde 5 a 100 registros-->
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+            </mat-paginator>
+
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,342 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center"></h3>
+
+            <div class="row" *ngIf="isEditVisible">
+
+                <!--Clave movimiento  -->
+                <div class="col-md-7">
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>Clave póliza: </mat-label>
+                        <strong><input matInput value="{{claveMovimiento}}" placeholder="Clave." [readonly]="true"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix>code</mat-icon>
+
+
+                    </mat-form-field>
+                </div>
+
+
+                <!--Clase movimiento  -->
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>Clase movimiento: </mat-label>
+                        <strong><input matInput value="{{claseMovimiento}}" placeholder="Clase movimiento."
+                                [readonly]="true" style="text-align:center;"></strong>
+                        <mat-icon matSuffix>code</mat-icon>
+
+
+                    </mat-form-field>
+                </div>
+
+                <!--Estatus" -->
+                <div class="col-md-2">
+
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>Estatus: </mat-label>
+                        <strong><input matInput value="{{isActivo  ? 'Activo' : 'Cancelado'}}" placeholder="Estatus."
+                                [readonly]="true" style="text-align:center;"></strong>
+
+                        <mat-icon matSuffix *ngIf="isActivo">check_circle</mat-icon>
+                        <mat-icon matSuffix *ngIf="!isActivo">cancel</mat-icon>
+
+                    </mat-form-field>
+
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+                <!--USUARIO-->
+                <div class="col-md-4">
+
+                    <mat-form-field appearance="outline" class="full-width" *ngIf="isEditVisible">
+
+                        <mat-label>Usuario: </mat-label>
+                        <strong><input matInput value="{{usuario}}" placeholder="Usuario." [readonly]="true"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix>code</mat-icon>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="col-md-5">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <!--GUARDAR -->
+                                <div class="col-4">
+
+                                    <!--Guardar movimiento-->
+                                    <button mat-fab color="primary" (click)="guardarEditarDialog(1)"
+                                        *ngIf="!isEditVisible && isActivo">
+                                        <mat-icon matTooltip="Guardar póliza."> done_outline </mat-icon>
+                                    </button>
+
+                                    <!--Editar movimiento-->
+                                    <button mat-fab *ngIf="isEditVisible && isActivo && isContable" color="primary"
+                                        (click)="guardarEditarDialog(4)">
+                                        <mat-icon matTooltip="Editar movimiento."> create </mat-icon>
+                                    </button>
+
+                                </div>
+
+                                <!--LIMPIAR-->
+                                <div class="col-4 ">
+
+                                    <button mat-fab color="primary" (click)="nuevo()">
+                                        <mat-icon matTooltip="Limpiar.">restore_page</mat-icon>
+                                    </button>
+                                </div>
+
+                                <!--BUSCAR-->
+                                <div class="col-4 ">
+
+                                    <button mat-fab color="primary" (click)="abrirAdminPolizas(1)">
+                                        <mat-icon matTooltip="Buscar póliza.">search</mat-icon>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <!--COMPROBANTE FISCAL-->
+                                <div class="col-4">
+                                    <button mat-fab color="primary" *ngIf="idPoliza>0 && isActivo" (click)="spsCfdi()">
+                                        <mat-icon matTooltip="Comprobante Fiscal">receipt_long</mat-icon>
+                                    </button>
+                                </div>
+                                <!--GENERAR PDF-->
+                                <div class="col-4">
+                                    <button mat-fab color="primary" *ngIf="isEditVisible && isActivo"
+                                        (click)="spslistaPolizasPorCve()">
+                                        <mat-icon matTooltip="Generar PDF">file_download</mat-icon>
+                                    </button>
+
+                                </div>
+
+                                <!--CANCELAR-->
+                                <div class="col-4">
+
+                                    <button mat-fab (click)="guardarEditarDialog(3)" *ngIf="isEditVisible && isActivo" color="warn">
+                                        <mat-icon matTooltip="Cancelar póliza.">delete</mat-icon>
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Fecha-->
+                <div class="col-md-3">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Fecha</mat-label>
+                        <strong><input matInput style="text-align:center;" value="{{CurrentDate}}"
+                                [readonly]="true"></strong>
+                        <mat-datepicker-toggle matSuffix disabled></mat-datepicker-toggle>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--ENCABEZADO-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+
+            <h3 class="text-center">Encabezado de la póliza</h3>
+
+            <!--Espacio-->
+            <div><br></div>
+
+            <form [formGroup]="formPoliza">
+                <div class="row">
+
+                    <!--SUCURSAL-->
+                    <div class="col-md-6">
+                        <mat-form-field class="full-width" appearance="outline" class="full-width">
+                            <mat-label>Sucursal</mat-label>
+                            <mat-icon matSuffix>tag</mat-icon>
+                            <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                                [matAutocomplete]="autoSucursal">
+                            <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                                (optionSelected)="opcionSelectSucursales($event)" [displayWith]="displayFnSucursal">
+                                <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                                    {{option.nombreSucursal}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <!--Msj error-->
+                            <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPoliza.get('sucursal').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+
+                    <!--TIPO-->
+                    <div class="col-md-6">
+                        <mat-form-field class="full-width" appearance="outline" class="full-width">
+                            <mat-label>Tipo</mat-label>
+                            <mat-select formControlName="tipo">
+                                <mat-option *ngFor="let tipoPoliza of listaTipoPolizas"
+                                    [value]="tipoPoliza.tipoPolizaId">
+                                    {{tipoPoliza.descripcion}}
+                                </mat-option>
+                            </mat-select>
+
+                            <!--Msj error-->
+                            <ng-template ngFor let-error [ngForOf]="validaciones.tipo" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPoliza.get('tipo').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                    <!--DESCRIPCION-->
+                    <div class="col-md-12">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Descripci&oacute;n</mat-label>
+                            <input matInput formControlName="descripcion">
+                            <mat-icon matSuffix>mode_edit</mat-icon>
+
+                            <!--Msj error-->
+                            <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPoliza.get('descripcion').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--TABLA-->
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+
+            <!--DETALLE PÓLIZA-->
+            <h3 class="text-center">Detalle de la póliza</h3>
+
+            <div class="mat-elevation-z8 table-responsive">
+
+                <table mat-table [dataSource]="dataSourceMovimiento">
+
+                    <caption></caption>
+
+                    <!--Número-->
+                    <ng-container matColumnDef="no">
+                        <th id="no" mat-header-cell *matHeaderCellDef>No.</th>
+                        <td mat-cell *matCellDef="let element; let i = index">{{i + 1}}</td>
+                        <td mat-footer-cell *matFooterCellDef></td>
+                    </ng-container>
+
+                    <!--Cuenta-->
+                    <ng-container matColumnDef="cuentaContable">
+                        <th id="cuentaContable" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cuenta</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.cuentaContable.cuenta}}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef></td>
+                    </ng-container>
+
+                    <!--Concepto-->
+                    <ng-container matColumnDef="concepto">
+                        <th id="concepto" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Concepto</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.concepto}}</td>
+                        <td mat-footer-cell *matFooterCellDef></td>
+                    </ng-container>
+
+                    <!--Referencia-->
+                    <ng-container matColumnDef="ref">
+                        <th id="ref" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Referencia</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.ref}}</td>
+                        <td mat-footer-cell *matFooterCellDef>Total</td>
+                    </ng-container>
+
+                    <!--Debe-->
+                    <ng-container matColumnDef="debe">
+                        <th id="debe" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Debe</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.debe | currency:'MXN'}}
+                        </td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef>{{getTotalDebe()| currency:'MXN'}}
+                        </td>
+                    </ng-container>
+
+                    <!--Haber-->
+                    <ng-container matColumnDef="haber">
+                        <th id="haber" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Haber</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.haber |
+                            currency:'MXN'}}</td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef>{{getTotalHaber()|
+                            currency:'MXN'}}</td>
+                    </ng-container>
+
+                    <!--Acciones-->
+                    <ng-container matColumnDef="acciones">
+                        <th id="acciones" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element" class="action-link">
+
+                            <div>
+                                <div *ngIf="!isEditVisible && isActivo || isEditVisible && isActivo && isContable">
+                                    <button mat-button (click)="abrirAdminPolizas(2,element)"
+                                        matTooltip="Editar registro." color="primary">Editar</button>|
+                                    <button (click)="abrirAdvertenciaEliminar(element)" mat-button
+                                        matTooltip="Eliminar registro." color="accent">Eliminar</button>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef></td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
+                </table>
+
+
+            </div>
+
+            <!--BOTON AGREGAR-->
+            <div class="col-12 c">
+                <br>
+                <button *ngIf="isActivo" mat-raised-button (click)="abrirAdminPolizas(2)" color="primary">
+                    Agregar
+                    <mat-icon>add_circle_outline</mat-icon>
+                </button>
+            </div>
+
+            <!--Espacio-->
+            <div><br></div>
+        </div>
+    </div>
+</div>

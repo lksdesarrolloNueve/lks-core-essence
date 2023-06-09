@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formMonedas">
+    <p></p>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Monedas SAT</mat-label>
+          <input matInput formControlName="moneda" MaxLength="200" placeholder="Nombre moneda">
+          <mat-icon matSuffix>subject</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.moneda" ngProjectAs="mat-error">
+            <mat-error *ngIf="formMonedas.get('moneda').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Clave SAT</mat-label>
+          <input matInput formControlName="cveSat" MaxLength="3" type="text" placeholder="Clave SAT">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.cveSat" ngProjectAs="mat-error">
+            <mat-error *ngIf="formMonedas.get('cveSat').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tipo Cambio</mat-label>
+          <input matInput formControlName="tipoCambio" type="number" placeholder="Ejemplo: 19.56">
+          <mat-icon matSuffix>price_change</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.tipoCambio" ngProjectAs="mat-error">
+            <mat-error *ngIf="formMonedas.get('tipoCambio').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Fecha</mat-label>
+          <input matInput formControlName="fecha" type="date" placeholder="Fecha">
+          <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+            <mat-error *ngIf="formMonedas.get('fecha').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-slide-toggle formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="accion===1" (click)="guardarMoneda()" mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="accion===2" (click)="actualizarMoneda()" mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

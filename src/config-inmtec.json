@@ -1,0 +1,548 @@
+{
+  "listaSucursales":"http://192.168.0.2:8381/catalogos/listaSucursales",
+  "crudSucursales": "http://192.168.0.2:8381/catalogos/crudSucursales",
+
+  "listaTipoSocio":"http://192.168.0.2:8381/catalogos/spsTipoSocio",
+  "crudtipossocios":"http://192.168.0.2:8381/catalogos/crudTipoSocio",
+
+  "listaNacionalidades":"http://192.168.0.2:8381/catalogos/spsCatNacionalidad",
+  "crudCatNacionalidad":"http://192.168.0.2:8381/catalogos/crudCatNacionalidad",
+
+  "spsCalidadesExtranjeros" : "http://192.168.0.2:8381/catalogos/spscalidadextranjero",
+  "crudCalidadesExtranjeros":"http://192.168.0.2:8381/catalogos/crudcaliextranjero",
+
+  "spsActividadesPLD" : "http://192.168.0.2:8381/catalogos/listaActividadesPLD",
+  "crudActividadesPLD": "http://192.168.0.2:8381/catalogos/crudActividadesPLD",
+
+  "listaBancoSat": "http://192.168.0.2:8381/catalogos/spsBancoSat",
+  "crudBancoSat":"http://192.168.0.2:8381/catalogos/crudBancoSat",
+
+  "spsClasificacionCred" : "http://192.168.0.2:8381/catalogos/lista-clasificacion-cred",
+  "crudClasificacionCred": "http://192.168.0.2:8381/catalogos/crud-clasificacion-cred",
+
+  "listaFinalidadCredito" : "http://192.168.0.2:8381/catalogos/listaFinalidadesCred",
+  "crudFinalidadCredito": "http://192.168.0.2:8381/catalogos/crudFinalidadesCred",
+
+  "listaMonedas":"http://192.168.0.2:8381/catalogos/listaMonedas",
+  "crudMonedas":"http://192.168.0.2:8381/catalogos/crudMonedas",
+
+  "listaGarantia":"http://192.168.0.2:8381/catalogos/spsGarantia",
+  "crudGarantia": "http://192.168.0.2:8381/catalogos/crudGarantia",
+  "listaGarantiaById":"http://192.168.0.2:8381/catalogos/spsGarantiaById",
+
+  "listaCategorias":"http://192.168.0.2:8381/catalogos/spsCatalogoCategoria",
+"crudCategoria": "http://192.168.0.2:8381/catalogos/crudCatalogoCategorias",
+
+"listaGenerales":"http://192.168.0.2:8381/catalogos/spsCatalogoGeneral",
+"crudGenerales": "http://192.168.0.2:8381/catalogos/crudCatalogoGenerales",
+
+  "listaEstadoCred":"http://192.168.0.2:8381/catalogos/lista-estado-cred",
+  "crudEstadoCred": "http://192.168.0.2:8381/catalogos/crud-estado-cred",
+
+  "listaUdis": "http://192.168.0.2:8381/catalogos/listaUdis",
+  "crudUdis": "http://192.168.0.2:8381/catalogos/crudUdis",
+
+  "listaTipoAmortizacion" : "http://192.168.0.2:8381/catalogos/listaTiposAmortizacion",
+  "crudTipoAmortizacion": "http://192.168.0.2:8381/catalogos/crudTiposAmortizacion",
+
+  "listaServidores" : "http://192.168.0.2:8381/catalogos/listaServidores",
+  "crudServidores" : "http://192.168.0.2:8381/catalogos/crudServidores",
+
+  "listaEstados" : "http://192.168.0.2:8381/catalogos/spsEstado",
+  "crudEstados"  : "http://192.168.0.2:8381/catalogos/crudEstado",
+
+  "listaGeneralCategoria": "http://192.168.0.2:8381/catalogos/spsGeneralesCategoria",
+
+  "listaDiaInhabil" : "http://192.168.0.2:8381/catalogos/listaDiasInhabiles",
+  "crudDiaInhabil" : "http://192.168.0.2:8381/catalogos/crudDiasInhabiles",
+
+  "listaJsonCuentas" : "http://192.168.0.2:8381/catalogos/jsonCuentas",
+  "spsCuentasContables" : "http://192.168.0.2:8381/catalogos/spsCuentasContables",
+  "listaRubro" :"http://192.168.0.2:8381/catalogos/lista-rubro",
+  "listaTipoCuenta" : "http://192.168.0.2:8381/catalogos/lista-tipo-cuenta",
+  "listaNaturaleza" : "http://192.168.0.2:8381/catalogos/lista-naturaleza",
+  "spsCuentasAnexo24" : "http://192.168.0.2:8381/catalogos/spsCuentasAnexo24",
+  "crudCuentaContable" : "http://192.168.0.2:8381/catalogos/crudCuentaContable",
+  "spsCuentasContablesByID" : "http://192.168.0.2:8381/catalogos/spsCuentasContablesByID",
+
+  "spsLocalidades" : "http://192.168.0.2:8381/catalogos/spsLocalidades",
+  "crudLocalidad" : "http://192.168.0.2:8381/catalogos/crudLocalidad",
+
+  "listaCiudades" : "http://192.168.0.2:8381/catalogos/spsCiudades",
+  "crudCiudades" : "http://192.168.0.2:8381/catalogos/crudCiudades",
+  "listaCiudadEstado" : "http://192.168.0.2:8381/catalogos/spsCiudadesEstado",
+
+  "listaActividadesV": "http://192.168.0.2:8381/catalogos/listaActividadesVul",
+  "crudActividadesVul" : "http://192.168.0.2:8381/catalogos/crudActividadesVul",
+
+  "crudColonia" : "http://192.168.0.2:8381/catalogos/crudColonias",
+  "listaColoniaCiudad":"http://192.168.0.2:8381/catalogos/spsColoniasbyid",
+
+  "listaDivision":"http://192.168.0.2:8381/catalogos/spsDivision",
+  "crudDivision": "http://192.168.0.2:8381/catalogos/crudDivision",
+  "listaGrupo": "http://192.168.0.2:8381/catalogos/spsGrupo",
+  "listaGrupoDivision":"http://192.168.0.2:8381/catalogos/spsGrupoDivision",
+  "crudGrupo": "http://192.168.0.2:8381/catalogos/crudGrupo",
+  "listaSubgrupo": "http://192.168.0.2:8381/catalogos/spsSubgrupo",
+  "listaSubPrincipal": "http://192.168.0.2:8381/catalogos/spsSubgrupoPrincipal",
+  "crudSubgrupo": "http://192.168.0.2:8381/catalogos/crudSubgrupo",
+  "listaUnitario": "http://192.168.0.2:8381/catalogos/spsUnitario",
+  "listaUnitarioSubgrupo": "http://192.168.0.2:8381/catalogos/spsUnitarioSubgrupo",
+  "crudUnitario": "http://192.168.0.2:8381/catalogos/crudGrupoUnitario",
+  "listaOcupacionesSinco": "http://192.168.0.2:8381/catalogos/spsOcupaciones",
+  "crudOcupacion": "http://192.168.0.2:8381/catalogos/crudOcupacion",
+
+  "listaFormasPago" :"http://192.168.0.2:8381/catalogos/spsFormasPago",
+  "crudFormasPago" :"http://192.168.0.2:8381/catalogos/crudFormasPago",
+
+  "crudBancoSiti" : "http://192.168.0.2:8381/catalogos/crudBancoSiti",
+  "listaBancoSiti":"http://192.168.0.2:8381/catalogos/listaBancoSiti",
+
+  "crudCuentaBancaria" : "http://192.168.0.2:8381/catalogos/crudCuentasB",
+  "listaCuentaBancaria": "http://192.168.0.2:8381/catalogos/spsCuentasB",
+  "listaCuentaBancariaID":"http://192.168.0.2:8381/catalogos/spscuentasbyid",
+  "listaCuentaBancariaSuc":"http://192.168.0.2:8381/catalogos/spscuentasbsuc",
+
+  "listaSectores" : "http://192.168.0.2:8381/catalogos/lista-sector",
+  "crudSectores"  : "http://192.168.0.2:8381/catalogos/crud-sector",
+
+  "listaSubSectores" : "http://192.168.0.2:8381/catalogos/lista-sub-sector",
+  "listaSubSectoresFil" : "http://192.168.0.2:8381/catalogos/lista-sub-sector-by-sector",
+  "crudSubSectores" : "http://192.168.0.2:8381/catalogos/crud-sub-sector",
+
+  "listaRamas" : "http://192.168.0.2:8381/catalogos/lista-rama",
+  "listaRamasFil" : "http://192.168.0.2:8381/catalogos/lista-rama-by-sub-sector",
+  "crudRamas" :"http://192.168.0.2:8381/catalogos/crud-rama",
+
+  "listaSubRamas" : "http://192.168.0.2:8381/catalogos/lista-sub-rama",
+  "listaSubRamasFil" : "http://192.168.0.2:8381/catalogos/lista-sub-rama-by-rama",
+  "crudSubRamas"  : "http://192.168.0.2:8381/catalogos/crud-sub-rama",
+  "listaAvisos": "http://192.168.0.2:8381/catalogos/lista-avisos",
+  "crudAvisos": "http://192.168.0.2:8381/catalogos/crudAvisos",
+
+  "listaINPC" : "http://192.168.0.2:8381/catalogos/lista-inpc",
+  "crudINPC": "http://192.168.0.2:8381/catalogos/crud-inpc",
+
+  "listaBoveda":"http://192.168.0.2:8381/catalogos/listaBoveda",
+  "listaBovedaSuc":"http://192.168.0.2:8381/catalogos/listaBovedaSucursal",
+  "crudBoveda" : "http://192.168.0.2:8381/catalogos/crudBoveda",
+
+  "spsProductosServicios": "http://192.168.0.2:8381/catalogos/listaProductoServicios",
+  "crudProductoServicios": "http://192.168.0.2:8381/catalogos/crudProductosServicios",
+
+  "spsRecargaTelefonica": "http://192.168.0.2:8381/catalogos/listaRecargaTelefonica",
+  "crudRecargaTelefonica": "http://192.168.0.2:8381/catalogos/crudRecargaTelefonica",
+
+  "listaISR" :"http://192.168.0.2:8381/catalogos/lista-isr",
+  "crudISR" :"http://192.168.0.2:8381/catalogos/crud_isr",
+
+
+  "listaCajas": "http://192.168.0.2:8381/catalogos/spsCaja",
+  "crudCaja": "http://192.168.0.2:8381/catalogos/crudCaja",
+
+  "listaClaseActividades" : "http://192.168.0.2:8381/catalogos/lista-clase-act",
+  "listaClaseActividadesFil" : "http://192.168.0.2:8381/catalogos/lista-clase-act-by-sub-rama",
+  "crudClaseActividades"  : "http://192.168.0.2:8381/catalogos/crud-clase-act",
+
+  "listaInversiones": "http://192.168.0.2:8381/catalogos/listaInversiones",
+  "crudInversiones": "http://192.168.0.2:8381/catalogos/crudInversiones",
+
+  "listaTipoPlazo": "http://192.168.0.2:8381/catalogos/lista-tipo-plazo",
+  "crudTipoPlazo": "http://192.168.0.2:8381/catalogos/crud-tipo-plazo",
+
+  "listaDomicilios": "http://192.168.0.2:8382/clientes/listaDomicilio",
+  "crudDomicilios": "http://192.168.0.2:8382/clientes/crudDomicilio",
+
+  "listaTipoDocumento" :"http://192.168.0.2:8383/digitalizacion/listaDocumentos",
+  "crudTipoDocumento": "http://192.168.0.2:8383/digitalizacion/crud-tipo-documento",
+  "listaFormatoDocumento" :"http://192.168.0.2:8383/digitalizacion/listaFormatoDoc",
+
+  "jsonMenu" : "http://192.168.0.2:8381/catalogos/jsonMenu",
+  "listaMenus" : "http://192.168.0.2:8381/catalogos/listaMenus",
+  "crudMenu" : "http://192.168.0.2:8381/catalogos/crudMenu",
+  "altaPermisos" : "http://192.168.0.2:8381/catalogos/altaPermisos",
+  "jsonPermisosRol" : "http://192.168.0.2:8381/catalogos/spsJsonPermisosRol",
+  "permisosRol" : "http://192.168.0.2:8381/catalogos/spsPermisosRol",
+  "spsPermisosRolbyUsuario" : "http://192.168.0.2:8381/catalogos/spsPermisosRolbyUsuario",
+
+  "listaRangoInversiones": "http://192.168.0.2:8381/catalogos/lista-rango-inversiones",
+  "crudRangoInversiones": "http://192.168.0.2:8381/catalogos/crud-rango-inversiones",
+
+  "listaMovCaja": "http://192.168.0.2:8381/catalogos/lista-mov-caja",
+  "listaFormaPagoMovCaja": "http://192.168.0.2:8381/catalogos/lista-forma-pago-mov-caja",
+  "listaTipoSocioMovCaja": "http://192.168.0.2:8381/catalogos/lista-tipo-socio-mov-caja",
+  "crudMovCaja": "http://192.168.0.2:8381/catalogos/crud-mov-caja",
+
+  "listaEmpresa": "http://192.168.0.2:8382/clientes/listaEmpresa",
+  "listaEmpresaById": "http://192.168.0.2:8382/clientes/listaEmpresaById",
+  "crudEmpresa": "http://192.168.0.2:8382/clientes/crudEmpresa",
+
+  "listaSucursalMovCaja": "http://192.168.0.2:8381/catalogos/lista-sucursal-mov-caja",
+  "listaDepreciaciones": "http://192.168.0.2:8381/catalogos/lista-depreciaciones",
+  "crudDepreciaciones": "http://192.168.0.2:8381/catalogos/crud-depreciaciones",
+
+
+  "listaAsignaDocumento":"http://192.168.0.2:8383/digitalizacion/lista-asigna-documento",
+  "crudAsignaDocumento":"http://192.168.0.2:8383/digitalizacion/crud-asigna-documento",
+
+  "listaDocumentoCodificado":"http://192.168.0.2:8383/digitalizacion/lista-documento-codificado",
+  "crudDocumentoCodificado":"http://192.168.0.2:8383/digitalizacion/crud-documento-codificado",
+
+  "listaProveedor": "http://192.168.0.2:8381/catalogos/spsProveedor",
+  "crudProveedor" : "http://192.168.0.2:8381/catalogos/crudProveedor",
+
+  "listarCreditos":"http://192.168.0.2:8384/creditos/lista-cat-creditos",
+  "listaCreditosBySucursal":"http://192.168.0.2:8384/creditos/listaCatCreditosSucursal",
+  "crudCreditos": "http://192.168.0.2:8384/creditos/crud-cat-creditos",
+
+  "listaSujetos": "http://192.168.0.2:8382/clientes/listar-sujetos",
+  "crudSujetos": "http://192.168.0.2:8382/clientes/crud-sujetos",
+
+  "listaGrupos":"http://192.168.0.2:8382/clientes/lista-grupos",
+  "listaIntegrantesGrupo":"http://192.168.0.2:8382/clientes/lista-integrantes-grupo",
+  "crudGrupos":"http://192.168.0.2:8382/clientes/crud-grupos",
+  "listaClientes": "http://192.168.0.2:8382/clientes/spsClientes",
+
+
+  "listaCalificacionCartera": "http://192.168.0.2:8381/catalogos/lista-calificacion-cartera",
+  "crudCalificacionCartera": "http://192.168.0.2:8381/catalogos/crud-calificacion-cartera",
+  "listaCalificacionCarteraById":"http://192.168.0.2:8381/catalogos/lista-calCartera-by-id",
+
+  "listaJsonAnexo24": "http://192.168.0.2:8381/catalogos/jsonCuentasAnexo24",
+  "spsCuentaAnexoById": "http://192.168.0.2:8381/catalogos/spsCuentasContablesAnexoByID",
+  "crudCuentaAnexo24": "http://192.168.0.2:8381/catalogos/crudCuentaContableAnexo",
+  "cargaAnexo24" : "http://192.168.0.2:8381/catalogos/cargaMasivaCuentasAnexo",
+
+  "listaCargos":"http://192.168.0.2:8381/catalogos/lista-cargos",
+  "crudCargos":"http://192.168.0.2:8381/catalogos/crud_cargos",
+
+
+  "listaIndicehh": "http://192.168.0.2:8381/catalogos/listaIndicehh",
+  "crudIndicehh": "http://192.168.0.2:8381/catalogos/crudIndicehh",
+
+  "listaPolizas":"http://192.168.0.2:8385/contabilidad/lista-polizas",
+  "listaTipoPolizas":"http://192.168.0.2:8385/contabilidad/lista-tipo-polizas",
+  "listarPolizasFiltro":"http://192.168.0.2:8385/contabilidad/lista-polizas-filtro",
+
+
+
+  "listaCreditoRelacionado":"http://192.168.0.2:8381/catalogos/listaCreditoRel",
+  "CrudCreditoRelacionado":"http://192.168.0.2:8381/catalogos/crudCredRel",
+  
+
+  "crudUsuario": "http://192.168.0.2:8380/admin/realms/lks-core/users",
+  "crudRol": "http://192.168.0.2:8380/admin/realms/lks-core/roles",
+  "cerrarSesion": "http://192.168.0.2:8380/admin/realms/lks-core/sessions",
+  "listaUsuariosInformacion": "http://192.168.0.2:8381/catalogos/lista-usuarios",
+  "relacionarUsuarioSucu": "http://192.168.0.2:8381/catalogos/relacionar-usuario-sucursales",
+
+  "listaTipoEmpresa":"http://192.168.0.2:8382/clientes/listaEmpresaByTipoEmpresa",
+  "buscarSujeto":"http://192.168.0.2:8382/clientes/spsBuscarSujeto",
+
+  "crudEntidad":"http://192.168.0.2:8381/catalogos/crud-entidad",
+  "listaEntidades" : "http://192.168.0.2:8381/catalogos/listaEntidades",
+
+  "spsSucursalesTsr":"http://192.168.0.2:8386/tesoreria/listaSucursales",
+  "spsTiposMovimientosTsr":"http://192.168.0.2:8386/tesoreria/spsTiposMovimientos",
+  "spsGeneralesCatTsr":"http://192.168.0.2:8386/tesoreria/spsGeneralesCategoria",
+  "spsCuentaBancariaTsr":"http://192.168.0.2:8386/tesoreria/spsCuentasBanco",
+  "spsSaldoCuentaTsr":"http://192.168.0.2:8386/tesoreria/spsSaldoCuentaByCve",
+  "crudMovimientoTsr":"http://192.168.0.2:8386/tesoreria/crudMovimientosTran",
+  "spsCtasContTsr": "http://192.168.0.2:8386/tesoreria/spsCuentasContablesTsr",
+  "spsMovPagTsr": "http://192.168.0.2:8386/tesoreria/spsMovimientosPag",
+  "spsMovCuentaBancariaTsr":"http://192.168.0.2:8386/tesoreria/listaMovCuentaB",
+  "spsSaldoCuentaBancariaTsr":"http://192.168.0.2:8386/tesoreria/listaSaldoCuentaB",
+  "spGeneraPolizaConciliada":"http://192.168.0.2:8386/tesoreria/generaPolizaConciliada",
+  "listaSucursalUsuario":"http://192.168.0.2:8386/tesoreria/listaSucursalesUsuario",
+  "crudPoliza":"http://192.168.0.2:8386/tesoreria/crudMovimientosTran",
+
+
+
+
+  "crudCliente": "http://192.168.0.2:8382/clientes/crudClientes",
+  "listaClientesFM": "http://192.168.0.2:8382/clientes/spsClientesFM",
+  "listaClienteGeneral": "http://192.168.0.2:8382/clientes/spsClienteGeneral",
+  "listaDocTipoSocios":"http://192.168.0.2:8383/digitalizacion/lista-asigna-documento-by-socio",
+
+  "listaDirectivoFuncionario": "http://192.168.0.2:8381/catalogos/lista-directivo-funcionario",
+  "crudDirectivoFuncionario": "http://192.168.0.2:8381/catalogos/crud-directivo-funcionario",
+  "listaDirectivoFuncionarioById":"http://192.168.0.2:8381/catalogos/lista-directivoFuncionario-by-id",
+  "listaDirectivoSucursalById":"http://192.168.0.2:8381/catalogos/lista-directivoSucursal-by-id",
+  "listaDirectivoSujetoById":"http://192.168.0.2:8381/catalogos/lista-directivoSujeto-by-id",
+  
+  "listaFamiliarDirFunSucById": "http://192.168.0.2:8381/catalogos/lista-direcFuncionariosFam-by-IdSucursal",
+  "listaDirectivoFamiliarSujetoById": "http://192.168.0.2:8381/catalogos/lista-directivofamiliar-sujetoById",
+  "crudDirectivoFuncionarioFamiliar": "http://192.168.0.2:8381/catalogos/crud-directivos-funcionarios-familiares",
+
+  "listaPeriodo": "http://192.168.0.2:8385/contabilidad/listaCierresPeriodo",
+  "crudPeriodo": "http://192.168.0.2:8385/contabilidad/crudCierrePeriodo",
+
+  "listaAmortizaciones":"http://192.168.0.2:8384/creditos/listaAmortizacion",
+  
+  "listaBitEstatusCli":"http://192.168.0.2:8382/clientes/spsBitEstCliente",
+  "crudEstatusCli": "http://192.168.0.2:8382/clientes/crudEstatusCliente",
+
+  "listaSolicitudes": "http://192.168.0.2:8384/creditos/listaSolicitudes",
+
+  "listaTipoFondos":"http://192.168.0.2:8381/catalogos/listaTipoFondos",
+  "crudTipoFondos":"http://192.168.0.2:8381/catalogos/crudFondos",
+
+  "listaProductosSucursal": "http://192.168.0.2:8381/catalogos/lista_producto_sucursal",
+  "listaCajasBySucursal": "http://192.168.0.2:8381/catalogos/lista-cajas-by-sucursal",
+
+  "listaSaldoMovimientoByCliente": "http://192.168.0.2:8386/tesoreria/lista-saldoMovimiento-by-cliente",
+  "listHistorialMovCuentaCli": "http://192.168.0.2:8386/tesoreria/spsHistorialMovCli",
+  "listTipoMovDR": "http://192.168.0.2:8386/tesoreria/spsMovCajDR",
+  "listaCredCliente": "http://192.168.0.2:8386/tesoreria/listaCreditoCliente",
+  "generaPago": "http://192.168.0.2:8386/tesoreria/generaMovimientoCaja",
+
+
+  "listaComite":"http://192.168.0.2:8381/catalogos/spsComite",
+  "crudComite":"http://192.168.0.2:8381/catalogos/crudComite",
+
+  "crudSolCredito":"http://192.168.0.2:8384/creditos/crudCredito",
+  "detalleCredito" : "http://192.168.0.2:8384/creditos/detalleCredito",
+  "listaAvaladosById":"http://192.168.0.2:8384/creditos/listaAvalados",
+  "listaHistorialCred":"http://192.168.0.2:8386/tesoreria/listaCreditoCliente",
+  
+  "spsCorreos": "http://192.168.0.2:8381/catalogos/spsCorreo",
+  "spsCorreosBYCves" : "http://192.168.0.2:8381/catalogos/spsCorreosBYCves",
+  "crudCorreos" : "http://192.168.0.2:8381/catalogos/crudCorreo",
+  "enviarCorreo": "http://192.168.0.2:8381/catalogos/enviarCorreo",
+  "enviarCorreoHTML" : "http://192.168.0.2:8381/catalogos/enviarCorreoHTML",
+  
+  "spsSMS":"http://192.168.0.2:8381/catalogos/spsSMS",
+  "spsSMSByCves": "http://192.168.0.2:8381/catalogos/spsSMSByCves",
+  "crudSMS":"http://192.168.0.2:8381/catalogos/crudSMS",
+
+  "crudCtasPermisos": "http://192.168.0.2:8381/catalogos/relacionar-permisos-usuarios",
+  "listaCtasPermisos": "http://192.168.0.2:8381/catalogos/lista-permisosUsuarios",
+  
+  "enviaSMS": "http://192.168.0.2:8381/catalogos/enviarSMS",
+
+  "listavalorUma": "http://192.168.0.2:8381/catalogos/listaValoresUma",
+  "crudUma": "http://192.168.0.2:8381/catalogos/crudUma",  
+  "crudAval": "http://192.168.0.2:8382/clientes/crudAval",
+  "listaAval": "http://192.168.0.2:8382/clientes/spsAvales",
+
+  "traspasoTercero": "http://192.168.0.2:8386/tesoreria/generaTraspasoTercero",
+
+  "cargaDias":"http://192.168.0.2:8381/catalogos/cargaMasivaDias",
+  "cargaCuentas":"http://192.168.0.2:8381/catalogos/cargaMasivaCuentas",
+
+
+  "spsIntegranteComite": "http://192.168.0.2:8381/catalogos/spsBuscarIntegrante",
+  "crudRespuestaCredito": "http://192.168.0.2:8384/creditos/crudRespuestaCredito",
+  "spsolcitudSucEst": "http://192.168.0.2:8384/creditos/listaSolicitudesByEstatus",
+ 
+  "spsRespuestSolicitud":"http://192.168.0.2:8384/creditos/listaRespuestaSolicitud",
+  "crudAutorizacion":"http://192.168.0.2:8384/creditos/crudAutorizacion",
+  "spsEvaluacionCinco":"http://192.168.0.2:8384/creditos/listaEvaluacionCinco",
+
+  "listaSaldoCredito":"http://192.168.0.2:8386/tesoreria/listaSaldoCredito",
+
+  "reporte":"http://192.168.0.2:8385/contabilidad/reporte",
+
+  "spsBloqueoClientes" : "http://192.168.0.2:8382/clientes/listaBloqueo",
+  
+  "crudBloqueoCliente":"http://192.168.0.2:8382/clientes/crudBloqueoCliente",
+
+  "listaSaldoCajaMov": "http://192.168.0.2:8386/tesoreria/spsSaldoCajaMov",
+  "spsSesionesCajasPg": "http://192.168.0.2:8386/tesoreria/listaSesionesCajas",
+  "listaCajasDisponibles": "http://192.168.0.2:8386/tesoreria/listaCajasDisponibles",
+  "listaDetallesMovSesion": "http://192.168.0.2:8386/tesoreria/listaDetallesMovSesion",
+  "crudSesionesCajasPg": "http://192.168.0.2:8386/tesoreria/crudSesionesCajas",
+  
+  "spsPerfilRiesgoFisico": "http://192.168.0.2:8382/clientes/spsPerfil",
+  "spsEstadosNacionalidad": "http://192.168.0.2:8381/catalogos/spsEstadoNacionalidad",
+  "spsHistoricoMov":"http://192.168.0.2:8382/clientes/spsHistoricoMov",
+
+  "spsInvSucursal": "http://192.168.0.2:8386/tesoreria/spsInvSucursal",
+  "spsInvCliente": "http://192.168.0.2:8386/tesoreria/spsInvCliente",
+  "crudInversion": "http://192.168.0.2:8386/tesoreria/crudInversion",
+  "reembolsoInversion" : "http://192.168.0.2:8386/tesoreria/reembolsoInversion",
+  
+  "spsMatrizRiesgos":"http://192.168.0.2:8382/clientes/spsMatrizRiesgos",
+  "crudMatrizRiesgos":"http://192.168.0.2:8382/clientes/crudMatrizRiesgos",
+  "spsValoracionRiesgos":"http://192.168.0.2:8382/clientes/spsValoracionRiesgos",
+  "crudValoracionRiesgos":"http://192.168.0.2:8382/clientes/crudValoracionRiesgos",
+
+  "crudOpIntPreocupante" :"http://192.168.0.2:8381/catalogos/CrudOplPreocupantes",
+  "spsOpintPreocupante":"http://192.168.0.2:8381/catalogos/spsopintPreocupantes",
+  "spsReportePreocupante": "http://192.168.0.2:8381/catalogos/spsReportePreocupantes",
+
+
+  "listaPeps": "http://192.168.0.2:8381/catalogos/listaPeps",
+  "crudPeps": "http://192.168.0.2:8381/catalogos/crudPeps",
+  
+  "spsOpRelevante":"http://192.168.0.2:8382/clientes/spsOperacionRelevante",
+  "spsValorDolar": "http://192.168.0.2:8381/catalogos/spsDolar",
+
+  "reporteRCFinanciamiento": "http://192.168.0.2:8383/digitalizacion/reporte",
+  "reporteIdentificacionRC": "http://192.168.0.2:8383/digitalizacion/reporte",
+  "reporteMonitoreo": "http://192.168.0.2:8383/digitalizacion/reporteMRC",
+  "reporteMonitoreoOp2": "http://192.168.0.2:8383/digitalizacion/reporteMD",
+  "reportePersonasRelacionadas": "http://192.168.0.2:8383/digitalizacion/reportePersonasR",
+
+  "spsReporteRel": "http://192.168.0.2:8382/clientes/spsReporteRelevante",
+
+  "spsPBA": "http://192.168.0.2:8381/catalogos/spsPBA",
+  "crudPBA": "http://192.168.0.2:8381/catalogos/crudPBA",
+  "reportePBA": "http://192.168.0.2:8381/catalogos/reportePBA",
+  "ListaCobroCreditoPendiente": "http://192.168.0.2:8386/tesoreria/listaCobroCreditoCliente",
+  "spsFrecunciaOperaciones": "http://192.168.0.2:8382/clientes/spsFrecuenciaOperacion",
+  "spsOpInusual": "http://192.168.0.2:8381/catalogos/spsOperacionesInsuales",
+  "spsReporteInusual": "http://192.168.0.2:8381/catalogos/spsReporteInusuales",
+  "spsSolicitudesActualiza":"http://192.168.0.2:8382/clientes/spsSolicicitudActualizacion",
+  "crudSolActualizacionCl": "http://192.168.0.2:8382/clientes/crudSolicitudesActualizacion",
+
+  "historialCrediticio":"http://192.168.0.2:8384/creditos/historialCrediticio",
+  "historialPagos":"http://192.168.0.2:8384/creditos/historialPagos",
+  "listaConvenios":"http://192.168.0.2:8384/creditos/spsConvenio",
+  "crudConvenios":"http://192.168.0.2:8384/creditos/crudConvenio",
+
+  "avisosMoratorio":"http://192.168.0.2:8384/creditos/spsAvisosMoratorios",
+  "avisosMoaratorioAuto": "http://192.168.0.2:8384/creditos/avisosMoratorio",
+  "spsExtrajudicialMorosos":"http://192.168.0.2:8384/creditos/spsExtrajudicialMorosos",
+  "crudExtrajudicial":"http://192.168.0.2:8384/creditos/crudExtrajudicial",
+  "spsExtrajudicialCitatorio" :"http://192.168.0.2:8384/creditos/spsExtrajudicialCitatorio",
+  "reporteHistorialCob":"http://192.168.0.2:8384/creditos/reporteHistorialCobranza",
+
+  "spsUsuariosChat":"http://192.168.0.2:8381/catalogos/spsUsuarios",
+  "spsMovimientospolizas": "http://192.168.0.2:8385/contabilidad/spsMovimientospolizas",
+
+  "listaDevengamientoCredito":"http://192.168.0.2:8385/contabilidad/listaDevengamientosCredito",
+  "devengamientoCreditos":"http://192.168.0.2:8385/contabilidad/devengamientoCreditos",
+  "listaDevengamientoInversion":"http://192.168.0.2:8385/contabilidad/listaDevengamientoInversion",
+  "devengamientoInversiones":"http://192.168.0.2:8385/contabilidad/devengamientoInversiones",
+  "spsDevengamientoAhorro":"http://192.168.0.2:8385/contabilidad/spsDevengamientoAhorro",
+  "generarDevAhorro":"http://192.168.0.2:8385/contabilidad/devengamientoAhorro",
+
+  "mayorGeneral":"http://192.168.0.2:8385/contabilidad/mayorGeneral",
+  "listaCapNeto": "http://192.168.0.2:8385/contabilidad/listaCapitalNeto",
+  "crudCapitalNeto": "http://192.168.0.2:8385/contabilidad/crudCapitalNeto",
+  "generaCapNetoGlobal": "http://192.168.0.2:8385/contabilidad/crudCapitalNetoGlobal",
+  "spsListaCierreDiario": "http://192.168.0.2:8385/contabilidad/listaCierresDiarios",
+  "spiCierreDiario" : "http://192.168.0.2:8385/contabilidad/crudCierreDiario",
+  "spiCierreAnual"  : "http://192.168.0.2:8385/contabilidad/crudCierreAnual",
+
+  "spsCfdiProveedor":"http://192.168.0.2:8385/contabilidad/spsCfdi",
+  "crudCfdiPoliza":"http://192.168.0.2:8385/contabilidad/crudCfdiPoliza",
+  "spsReporteEstadosResultados":"http://192.168.0.2:8385/contabilidad/spsReporteEstadosResultados",
+  "reporteOrigAplicacion":"http://192.168.0.2:8385/contabilidad/reporteOrigenAplicacion",
+  "spsReporteBalance":"http://192.168.0.2:8385/contabilidad/spsReporteBalance",
+
+  "spsBalanza":"http://192.168.0.2:8385/contabilidad/spsBalanzaPDF",
+  "spsBalanzaCSV":"http://192.168.0.2:8385/contabilidad/spsBalanza",
+  
+  "spsCuentasPDF":"http://192.168.0.2:8385/contabilidad/spsCuentasPDF",
+  "spsCuentasXML" :"http://192.168.0.2:8385/contabilidad/spsCuentasXML",
+  "spsReporteBalanceCSV":"http://192.168.0.2:8385/contabilidad/spsReporteBalanceCSV",
+  "reporteCambioCapPdf":"http://192.168.0.2:8385/contabilidad/reporteCambioCap",
+  "reporteCambioCapCSV":"http://192.168.0.2:8385/contabilidad/reporteCambioCapCsv",
+  "spsPolizasXml":"http://192.168.0.2:8385/contabilidad/spsPolizasXml",
+  "spsPolizasfoliosXml":"http://192.168.0.2:8385/contabilidad/spsPolizasfoliosXml",
+  "spsAuxctasXml":"http://192.168.0.2:8385/contabilidad/spsAuxctasXml",
+  "reporteRazonesFinancieras": "http://192.168.0.2:8385/contabilidad/reporteRazonesF",
+  "clasificacionCreditos":"http://192.168.0.2:8384/creditos/clasificacionCreditos",
+  "spuClasificacionCredito":"http://192.168.0.2:8384/creditos/spuClasificacionCredito",
+  "spsCreditoRenovCliente":"http://192.168.0.2:8384/creditos/spsRenovacionCred",
+  "spsCantidadCreditoRenReest":"http://192.168.0.2:8384/creditos/spsCreditoRenReest",
+
+  "spsGrupoClientes": "http://192.168.0.2:8382/clientes/spsGrupoClientes",
+  "spsReporteCalificacionEstimacionPrev":"http://192.168.0.2:8383/digitalizacion/spsEstimacionesPrev",
+  "spsReporteConcentracionCred":"http://192.168.0.2:8383/digitalizacion/spsReporteConcentracionCred",
+  "spsReporteTipoCredito":"http://192.168.0.2:8383/digitalizacion/spsReporteTipoCred",
+  "spsReporteZonaCredito":"http://192.168.0.2:8383/digitalizacion/spsReporteZonaCred",
+  "spsReporteActividadCredito":"http://192.168.0.2:8383/digitalizacion/spsReporteActiviadCred",
+  "spsReporteMatrizTransicion":"http://192.168.0.2:8383/digitalizacion/spsMatrizTransicion",
+  
+  "listaPrecierre": "http://192.168.0.2:8385/contabilidad/listaPrecierre",
+  "crudPrecierre": "http://192.168.0.2:8385/contabilidad/crudPrecierre",
+
+  "spsFondeoBancario": "http://192.168.0.2:8381/catalogos/spsFondeoBancario",
+  "crudFondeoBancario":"http://192.168.0.2:8381/catalogos/crudFondeoBancario",
+  "crudVolatilidad":"http://192.168.0.2:8381/catalogos/crudVolatilidad", 
+  "spsVolatilidad": "http://192.168.0.2:8381/catalogos/spsVolatilidad",
+  "spsFraccParam": "http://192.168.0.2:8381/catalogos/spsFraccParam",
+  "crudFraccParametros": "http://192.168.0.2:8381/catalogos/crudFraccParam",
+
+  "crudPolInversion":"http://192.168.0.2:8386/tesoreria/crudPolInversion", 
+  "spsPolInversion":"http://192.168.0.2:8386/tesoreria/spsPolInversion",
+  "spsClasificacionInv": "http://192.168.0.2:8386/tesoreria/spsClasificacionC",
+
+  "getReporteMercado":"http://192.168.0.2:8383/digitalizacion/getReporteMercado",
+  "spsReporteLiquidez" : "http://192.168.0.2:8383/digitalizacion/spsReporteLiquidez",
+
+  "crudGastos":        "http://192.168.0.2:8381/catalogos/crudGasto",
+  "listaGastos":       "http://192.168.0.2:8381/catalogos/spsGastos",
+  "listaGastosPorSuc": "http://192.168.0.2:8381/catalogos/spsGastosBySuc",
+  "crudDotacionesCaja": "http://192.168.0.2:8386/tesoreria/crudDotacionesCaja",
+  "spsDotacionesCaja": "http://192.168.0.2:8386/tesoreria/spsDotacionesCaja",
+  
+  "spsClabeCuentaCliente": "http://192.168.0.2:8386/tesoreria/cuentasClabeCliente",
+  "crudClabeClienteCajas": "http://192.168.0.2:8386/tesoreria/crudClabeClienteCajas",
+
+  "spsEmpresasNomina":"http://192.168.0.2:8386/tesoreria/spsEmpresasNomina",
+  "crudEmpresasNomina":"http://192.168.0.2:8386/tesoreria/crudEmpresaNomina",
+  "spsPlantillas":"http://192.168.0.2:8386/tesoreria/spsPlantillasEmpresa",
+  "crudEmpleadosNomina":"http://192.168.0.2:8386/tesoreria/crudEmpleadosNomina",
+  "spsEmpleadosNomina": "http://192.168.0.2:8386/tesoreria/spsEmpleadosNomina",
+  "crudBitacoraPagoSPEI": "http://192.168.0.2:8386/tesoreria/crudBitPagoSPEI",
+
+
+  "spsTipoActivos":"http://192.168.0.2:8381/catalogos/listaTipoActivo",
+  "crudTipoActivos":"http://192.168.0.2:8381/catalogos/crudTipoActivo",
+  "spsTipoBajaActivo":"http://192.168.0.2:8381/catalogos/listaTipoBaja",
+  "crudTipoBajaActivo":"http://192.168.0.2:8381/catalogos/crudTipoBaja",
+  "crudParametros":"http://192.168.0.2:8381/catalogos/crudParametros",
+  "spsParametros": "http://192.168.0.2:8381/catalogos/spsParametros",
+  "spsActivoDepreciable":"http://192.168.0.2:8385/contabilidad/spsActivos",
+  "crudActivoDepreciable":"http://192.168.0.2:8385/contabilidad/crudActivo",
+  "crudActNoDepreciable":"http://192.168.0.2:8385/contabilidad/crudActivoNoDepre",
+  "spsActivosNoDepreciables":"http://192.168.0.2:8385/contabilidad/spsActivosNoDepreciables",
+  "crudActivoDetalle":"http://192.168.0.2:8385/contabilidad/crudActivoDetalle",
+  "spsDetalleActivo": "http://192.168.0.2:8385/contabilidad/spsDetalleActivo",
+  "crudActivoBaja":"http://192.168.0.2:8385/contabilidad/crudActivoBaja",
+  "spsActivoBaja": "http://192.168.0.2:8385/contabilidad/spsActivoBaja",
+  "crudPolActivo":"http://192.168.0.2:8385/contabilidad/crudPolizActivo",
+  "crudTipoCuentaBaja":"http://192.168.0.2:8381/catalogos/crudTipoCuentaB",
+  "spsTipoCuentaBaja":"http://192.168.0.2:8381/catalogos/spsTipoCuentaAct",
+
+
+  "isActivoMEAPI":"http://localhost:8089/meapi/getActivo",
+  "enviarOrdenesMEAPI":"http://localhost:8089/meapi/enviaOrdenes",
+  "getCatalogosMEAPI":"http://localhost:8089/speis/getCatalogos",
+  "crudBeneficiariosSPEI":"http://localhost:8089/spei/crudBeneficiariosSPEI",
+  "listaBeneficiariosSPEI":"http://localhost:8089/spei/listaBeneficiariosSPEI",
+  "crudPagoSPEI":"http://localhost:8089/spei/crudPagoSPEI",
+  "getFechaOperacion":"http://localhost:8089/speis/getFechaOperacion",
+  "spsPagoSPEI": "http://localhost:8089/spei/spsPagoSPEI",
+  "spsPagosRecibidosSPEI":"http://localhost:8089/spei/spsPagosRecibidosSPEI",
+
+  "reporteActivo":"http://192.168.0.2:8385/contabilidad/reporteActivo",
+  "reporteBajaAct":"http://192.168.0.2:8385/contabilidad/reporteBajaAct",
+  "reporteInpcAct":"http://192.168.0.2:8385/contabilidad/reporteActivoInpc",
+  "reporteUbicacionAct":"http://192.168.0.2:8385/contabilidad/reporteActivosUbicacion",
+  "reporteCheckAct":"http://192.168.0.2:8385/contabilidad/reporteActivosCheck",
+  "reporteConciliacionAct":"http://192.168.0.2:8385/contabilidad/reporteActivosConciliacion",
+  "reporteSolicitudAdmision":"http://192.168.0.2:8384/creditos/reporteSolicitudAdmision",
+  "reporteSocieconomico":"http://192.168.0.2:8384/creditos/reporteEstudioSocioE",
+
+  "bitacoraMTC":"http://192.168.0.2:8055/mtcenter/bitacoraMTC",
+  "loginMTC":"http://192.168.0.2:8055/mtcenter/login",
+  "vtae":"http://192.168.0.2:8055/mtcenter/vtae",
+  "saldoTAE":"http://192.168.0.2:8055/mtcenter/saldoTAE",
+  "saldoServicios":"http://192.168.0.2:8055/mtcenter/saldoServicios",
+  "vservicio":"http://192.168.0.2:8055/mtcenter/vservicio",
+  "consultaReferencia":"http://192.168.0.2:8055/mtcenter/consultaReferencia",
+  "reversoServicio":"http://192.168.0.2:8055/mtcenter/reversoServicio",
+  "reversoTAE":"http://192.168.0.2:8055/mtcenter/reversoTAE",
+
+  "listaEstablecimientosMTCenter":"http://192.168.0.2:8051/catalogos/spsEstablecimientosMTCenter",
+  "crduEstablecimientosMTCenter":"http://192.168.0.2:8051/catalogos/crudEstablecimientosMTCenter",
+  "spsVentasMTCenter":"http://192.168.0.2:8055/contabilidad/spsVentasMTCenter",
+  "reporteAvisoPrivacidad":"http://192.168.0.2:8054/creditos/reporteAvisoPrivacidad"
+
+  
+}

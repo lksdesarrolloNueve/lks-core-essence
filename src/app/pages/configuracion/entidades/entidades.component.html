@@ -1,0 +1,545 @@
+<div class="row">
+   
+
+
+    <div class="col-md-5">
+        <div class="card card-body">
+        <h2 class=" text-center">Entidades</h2>
+    </div>
+    </div>
+
+
+    <div class="col-md-7">
+        <div class="card card-body">
+        <div class="row">
+
+            <div class="col-8" *ngIf="accion === 2">
+                <h2>Entidad: {{v_entidad}}</h2>
+                
+            </div>
+
+            <div class="col-2" *ngIf="mostrarGuardar">
+                <button mat-fab color="primary" (click)="crudEntidad()">
+                    <mat-icon matTooltip="Guardar/Editar Entidad">done_outline</mat-icon>
+                </button>
+            </div>
+
+            <div class="col-2">
+                <button mat-fab color="primary" (click)="nuevaEntidad()">
+                    <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                </button>
+            </div>
+
+
+        </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-5">
+        <div class="card card-body">
+            <mat-nav-list class="scroll-container">
+                <mat-list-item *ngFor="let entidad of listaEditEmpresa"  (click)="editarEntidad(entidad)" >
+                   <p matListItemTitle >Emrpesa: {{entidad.razon_social}}</p>
+                </mat-list-item>
+              </mat-nav-list>
+        </div>
+    </div>
+
+
+    <div class="col-md-7 ">
+        <div class="card card-body">
+        <mat-tab-group backgroundColor="primary">
+            <mat-tab label="Entidad" >
+                <div class="row scroll-container" >
+
+
+                    <div class="col-12">
+                        <br>
+                        <form [formGroup]="formEntidad">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Sucursal</mat-label>
+                            <mat-icon matSuffix>maps_home_work</mat-icon>
+                            <input type="text" placeholder="Dolores Hidalgo, Sinaloa" matInput formControlName="sucursal"
+                                [matAutocomplete]="sucursalS">
+                            <mat-autocomplete autoActiveFirstOption [displayWith]="mostrarSucursal"
+                                 #sucursalS="matAutocomplete">
+                                <mat-option *ngFor="let sucursal of opcionesSucursal | async" [value]="sucursal">
+                                    {{sucursal.nombreSucursal}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validacionesSITI.sucursal" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formEntidad.get('sucursal').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Empresa</mat-label>
+                            <mat-icon matSuffix>apartment</mat-icon>
+                            <input type="text" placeholder="Empresa" matInput formControlName="empresa"
+                                [matAutocomplete]="empresaT">
+                            <mat-autocomplete autoActiveFirstOption [displayWith]="mostrarEmpresa"
+                                (optionSelected)="opcionEmpresa($event)" #empresaT="matAutocomplete">
+                                <mat-option *ngFor="let option of opcionesEmpresa | async" [value]="option">
+                                    {{option.nombreComercial}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validacionesSITI.empresa" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formEntidad.get('empresa').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                        <mat-slide-toggle formControlName="estatus" color="primary">
+                            Estatus
+                        </mat-slide-toggle>
+                    </form>
+
+                        <div *ngIf="mostrarDetalleEmpresa">
+                            <hr>
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Raz&oacute;n Social</mat-label>
+                                <input [readonly]="true"  [formControl]="razon" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">maps_home_work</span>
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Nombre Comercial</mat-label>
+                                <input [readonly]="true" [formControl]="nombreComercial" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">tags</span>
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>RFC</mat-label>
+                                <input [readonly]="true" [formControl]="rfc" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">qr_code_2</span>
+                                </mat-icon>
+                            </mat-form-field>
+
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-12" *ngIf="mostrarDetalleEmpresa">
+
+                        <hr>
+                        <h2 class="text-center">Domicilios</h2>
+
+                        <table aria-label="infoEmpresa" mat-table [dataSource]="dataSourceEmpresa" class="mat-elevation-z8 table-responsive">
+
+                            <!--- Note that these columns can be defined in any order.
+                                  The actual rendered columns are set as a property on the row definition" -->
+
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="estado">
+                                <th scope="column" mat-header-cell *matHeaderCellDef> Estado </th>
+                                <td mat-cell *matCellDef="let element"> {{element.nombre_estado}} </td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="ciudad">
+                                <th scope="column" mat-header-cell *matHeaderCellDef> Ciudad </th>
+                                <td mat-cell *matCellDef="let element"> {{element.ciudad}} </td>
+                            </ng-container>
+
+                            <!-- Weight Column -->
+                            <ng-container matColumnDef="colonia">
+                                <th scope="column" mat-header-cell *matHeaderCellDef> Colonia </th>
+                                <td mat-cell *matCellDef="let element"> {{element.nombre_colonia}} </td>
+                            </ng-container>
+
+                            <!-- Symbol Column -->
+                            <ng-container matColumnDef="calle">
+                                <th scope="column" mat-header-cell *matHeaderCellDef> Calle </th>
+                                <td mat-cell *matCellDef="let element"> {{element.calle}} </td>
+                            </ng-container>
+
+
+                            <!-- Symbol Column -->
+                            <ng-container matColumnDef="exterior">
+                                <th scope="column" mat-header-cell *matHeaderCellDef> No. Exterior / No. Interior</th>
+                                <td mat-cell *matCellDef="let element"> {{element.numero_exterior}} /
+                                    {{element.numero_interior}}</td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+
+                    </div>
+
+                </div>
+            </mat-tab>
+
+
+            <mat-tab label="SITI"><br>
+
+                <div class="row scroll-container">
+
+                    <div class="col-12">
+                        <form [formGroup]="formSiti">
+
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Nivel de Operaciones</mat-label>
+                                <input formControlName="nivel_operaciones" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">title</span>
+                                </mat-icon>
+                                <ng-template ngFor let-error [ngForOf]="validacionesSITI.nivel_operaciones" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formSiti.get('nivel_operaciones').hasError(error.type)">
+                                        <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Nivel SITI</mat-label>
+                                <input formControlName="nivel_siti" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">title</span>
+                                </mat-icon>
+                                <ng-template ngFor let-error [ngForOf]="validacionesSITI.nivel_siti" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formSiti.get('nivel_siti').hasError(error.type)">
+                                        <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Entidad SITI</mat-label>
+                                <input formControlName="entidad_siti" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">title</span>
+                                </mat-icon>
+                                <ng-template ngFor let-error [ngForOf]="validacionesSITI.entidad_siti" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formSiti.get('entidad_siti').hasError(error.type)">
+                                        <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Federaci&oacute;n SITI</mat-label>
+                                <input formControlName="federacion_siti" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">title</span>
+                                </mat-icon>
+                                <ng-template ngFor let-error [ngForOf]="validacionesSITI.federacion_siti" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formSiti.get('federacion_siti').hasError(error.type)">
+                                        <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Nivel Prudencial</mat-label>
+                                <input formControlName="nivel_prudencial" matInput>
+                                <mat-icon matSuffix><span class="material-icons-outlined">title</span>
+                                </mat-icon>
+                                <ng-template ngFor let-error [ngForOf]="validacionesSITI.nivel_prudencial" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formSiti.get('nivel_prudencial').hasError(error.type)">
+                                        <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+                            </mat-form-field>
+
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </mat-tab>
+
+
+            <mat-tab label="Contabilidad"><br>
+
+                <div class="row scroll-container">
+
+                    <div class="col-12">
+                        <form [formGroup]="formContabilidad">
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Fecha Inicio Devengamiento</mat-label>
+                                    <input matInput formControlName="fecha_inicio_devengamiento" [matDatepicker]="dp3" disabled>
+                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                    <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.fecha_inicio_devengamiento" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formContabilidad.get('fecha_inicio_devengamiento').hasError(error.type)">
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                  </mat-form-field>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Fecha Cobro IVA</mat-label>
+                                        <input matInput formControlName="fecha_cobro_iva" [matDatepicker]="dpIva" disabled>
+                                        <mat-datepicker-toggle matSuffix [for]="dpIva"></mat-datepicker-toggle>
+                                        <mat-datepicker #dpIva disabled="false"></mat-datepicker>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.fecha_cobro_iva" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('fecha_cobro_iva').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                      </mat-form-field>
+                                    </div>
+
+                                <div class="col-md-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Monto de Parte Social</mat-label>
+                                        <input formControlName="monto_parte_social" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">paid</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.monto_parte_social" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('monto_parte_social').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Interes Minimo</mat-label>
+                                        <input formControlName="interes_minimo" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">paid</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.interes_minimo" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('interes_minimo').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Localidad SISCARD</mat-label>
+                                        <input formControlName="localidad_siscard" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">title</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.localidad_siscard" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('localidad_siscard').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Tasa de Inflaci&oacute;n</mat-label>
+                                        <input formControlName="tasa_inflacion" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">paid</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.tasa_inflacion" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('tasa_inflacion').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h2 class="text-center">D&iacute;as para el ca&aacute;lculo de intereses</h2>
+
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Captaci&oacute;n</mat-label>
+                                        <input formControlName="dias_captacion" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">pin</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.dias_captacion" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('dias_captacion').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Cr&eacute;ditos</mat-label>
+                                        <input formControlName="dias_creditos" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">pin</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.dias_creditos" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('dias_creditos').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                    <hr>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-checkbox color="primary" formControlName="parte_social_completa">Parte Social
+                                        Completa</mat-checkbox>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.parte_social_completa" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('parte_social_completa').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                </div>
+
+                                <div class="col-4">
+                                    <mat-checkbox color="primary" formControlName="aplica_reciprocidad">Aplica
+                                        Reciprocidad</mat-checkbox>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.aplica_reciprocidad" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('aplica_reciprocidad').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                </div>
+
+                                <div class="col-4">
+                                    <mat-checkbox color="primary" formControlName="traspaso_reciprocidad">Traspaso
+                                        Reciprocidad</mat-checkbox>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.traspaso_reciprocidad" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('traspaso_reciprocidad').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                </div>
+
+
+                                <div class="col-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Inversi&oacute;n Exenta</mat-label>
+                                        <input formControlName="inversion_exenta" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">paid</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.inversion_exenta" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('inversion_exenta').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+
+
+
+                                <div class="col-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Porcentaje Inversi&oacute;n</mat-label>
+                                        <input formControlName="porcentaje_inversion" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">paid</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.porcentaje_inversion" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('porcentaje_inversion').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+
+
+                                <div class="col-12">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Interes Ahorro</mat-label>
+                                        <input formControlName="interes_ahorro" matInput>
+                                        <mat-icon matSuffix><span class="material-icons-outlined">paid</span>
+                                        </mat-icon>
+                                        <ng-template ngFor let-error [ngForOf]="validacionesContabilidad.interes_ahorro" ngProjectAs="mat-error">
+                                            <mat-error *ngIf="formContabilidad.get('interes_ahorro').hasError(error.type)">
+                                                <strong> {{error.message}}</strong>
+                                            </mat-error>
+                                        </ng-template>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </mat-tab>
+
+
+            <mat-tab label="Funcionarios"><br>
+
+                <div class="row scroll-container">
+
+
+                    <div class="col-md-2">
+                        <button mat-fab color="primary" (click)="buscarSujeto()">
+                            <mat-icon matTooltip="Buscar Sujeto">person_search</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="col-md-4" *ngIf="listaSujetos.length >0">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Funcionarios</mat-label>
+                            <mat-select  [formControl]="funcionario" name="funcionario">
+                                <mat-option *ngFor="let funcionario of listaTiposFuncionarios" [value]="funcionario">
+                                    {{funcionario.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-md-4" *ngIf="listaSujetos.length >0">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Sujetos</mat-label>
+                            <mat-select  [formControl]="sujeto" name="sujeto">
+                                <mat-option *ngFor="let sujeto of listaSujetos" [value]="sujeto">
+                                    {{sujeto.nombres}} {{sujeto.apellido_paterno}} {{sujeto.apellido_materno}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-md-2" *ngIf="listaSujetos.length >0">
+                        <button mat-fab color="primary" (click)="agregaFuncionario()">
+                            <mat-icon matTooltip="Agregar Funcionario">plus_one</mat-icon>
+                        </button>
+                    </div>
+
+
+                    <div class="col-md-12" *ngIf="listaAddFuncionarios.length >0">
+                        <hr>
+                        <h2 class="text-center">Funcionarios Agregados</h2>
+                    <mat-selection-list  [multiple]="false">
+                        <mat-list-option *ngFor="let funcionario of listaAddFuncionarios" [value]="funcionario">
+                            <div class="row">
+                                <div class="col-10">
+                                    Nombre: {{funcionario[3]}} {{funcionario[4]}} {{funcionario[5]}}, Puesto: {{funcionario[6]}}
+                                </div>
+                                <div class="col-2">
+                                  
+                            <button mat-mini-fab color="warn" (click)="quitarSujeto(funcionario)">
+                                <mat-icon matTooltip="Quitar Funcionario">cancelar</mat-icon>
+                            </button>
+                                </div>
+                            </div>
+                            
+
+
+                        </mat-list-option>
+                      </mat-selection-list>
+                    </div>
+
+
+                </div>
+
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,103 @@
+
+<!--Se hace dinámico el título del modal, de acuerdo si es
+un guardado o  un editado-->
+<h2 mat-dialog-title>{{titulo | uppercase}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    
+
+<!--Se inicia la estructura del formTipoDocumento-->
+  <form [formGroup]="formTipoDocumento"> 
+    <p></p>
+    <div class="row">
+        <!--Se hace el campo de registro claveTipoDocumento-->
+        <div class="col-md-6">
+            <mat-form-field appearance="outline"
+                class="full-width">
+                <mat-label>Clave Tipo Documento</mat-label>
+                <input formControlName="claveTipoDocumento"  matInput placeholder="0001">
+                <mat-icon matSuffix>text_rotation_none</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.claveTipoDocumento" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formTipoDocumento.get('claveTipoDocumento').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+        <!--Se hace el campo de registro nombreDoc-->
+        <div class="col-md-6">
+            <mat-form-field appearance="outline"
+                class="full-width">
+                <mat-label>Nombre Documento</mat-label>
+                <input formControlName="nombreDoc" matInput placeholder="Nombre Documento">
+                <mat-icon matSuffix>text_rotation_none</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.nombreDoc" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formTipoDocumento.get('nombreDoc').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+       
+        <!--Combo para los formas de Pago Movimiento Caja-->
+        <div class="col-md-8">
+            <p>
+                <mat-form-field class="example-chip-list" class="full-width">
+                    <mat-label>Formatos</mat-label>
+                    <mat-chip-grid #chipListFormato>
+                        <mat-chip-row *ngFor="let formatos of listaAgregaFormatos"
+                            [selectable]="selectable" [removable]="removable"
+                            (removed)="removeFormato(formatos)">
+                            {{formatos.descripcion}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip-row>
+                        <input placeholder="Nueva Formato..." #formatoInput
+                            [formControl]="formatos" [matAutocomplete]="autoFormato"
+                            [matChipInputFor]="chipListFormato"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                        <mat-icon matSuffix><span
+                                class="material-icons-outlined">account_balance_wallet</span>
+                        </mat-icon>
+                    </mat-chip-grid>
+                    <mat-autocomplete #autoFormato="matAutocomplete"
+                        (optionSelected)="selectedFormato($event)">
+                        <mat-option *ngFor="let formatos of filteredFormatos | async"
+                            [value]="formatos">
+                            {{formatos.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </p>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field appearance="outline"
+                class="full-width">
+                <mat-label>Limite Maximo MB</mat-label>
+                <input formControlName="limiteMB" matInput placeholder="Limite Maximo en MB (megabytes) permitidos">
+                <mat-icon matSuffix>memory</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.limiteMB" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formTipoDocumento.get('limiteMB').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+    
+    </div>
+    <!--Se hace el campo de registro estatus-->
+    <div class="col-md-6">
+        <mat-slide-toggle  formControlName="estatus"  color="primary">
+            Estatus
+        </mat-slide-toggle>
+    </div>
+  </form>
+
+  <!--Se hacen los botones y se manda llamar el método de crudTipoDocumento()-->
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" (click)="crudTipoDocumento()" mat-raised-button   color="primary" cdkFocusInitial>Guardar</button>
+    <button *ngIf="accion === 2" (click)="editarTipoDocumento($elemento)" mat-raised-button color="primary" cdkFocusInitial>Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    </mat-dialog-actions>

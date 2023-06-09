@@ -1,0 +1,71 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+
+            <div class="row">
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)=" abrirDialogoCorreo(1,'')">Registrar
+                        Correos</button>
+                </div>
+                <div class="col-md-10"><br><br> <br></div>
+                
+            </div>
+           
+            <mat-form-field  class="full-width">
+                <mat-label>Filtro de correo</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder=" ejemplo@hotmail.com " #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de Correo" [dataSource]="dataSourceCorreo" matSort>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="cveCorreo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Cve.Correo </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let correo"> {{correo.cveCorreo}} </td>
+                    </ng-container>
+                    <!--Correo -->
+                    <ng-container matColumnDef="correo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Correo </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let correo"> {{correo.email}} </td>
+                    </ng-container>
+                    <!-- Servidor -->
+                    <ng-container matColumnDef="servidor">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Servidor</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let correo"> {{correo.servidor}} </td>
+                    </ng-container>
+                    <!--Puerto -->
+                    <ng-container matColumnDef="puerto">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Puerto </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let correo"> {{correo.puerto}} </td>
+                    </ng-container>
+                    <!-- Estatus -->
+                    <ng-container matColumnDef="estatus">
+                        <th scope="col" style="padding: 16px;"mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let correo">
+                            <mat-slide-toggle [ngModel]="correo.estatus" (ngModelChange)="cambiaEstatus($event,correo)"
+                                color="primary"> </mat-slide-toggle>
+                        </td>
+                    </ng-container>
+                    <!--Acciones  -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let correo">
+                            <!-- Boton Editar Column -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogoCorreo(2,correo)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="ColumnsCorreo"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ColumnsCorreo;"></tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

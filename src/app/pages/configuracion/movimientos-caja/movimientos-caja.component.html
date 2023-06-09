@@ -1,0 +1,793 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-body">
+                    <h2 class=" text-center">Movimientos Caja</h2>
+                </div>
+            </div>
+
+
+            <div class="col-md-8  text-center">
+                <div class="card card-body">
+                    <form [formGroup]="formListaMovimientoCaja">
+                        <div class="row">
+
+                            <div class="col-6" *ngIf="showMovimientoCaja">
+                                <h2>Mov. Caja: {{movimientoCaja}}</h2>
+                            </div>
+                            <div class="col-2" *ngIf="mostrarGuardar">
+                                <button mat-fab color="primary" (click)="guardarMovimientoCaja()">
+                                    <mat-icon matTooltip="Guardar Movimiento Caja">done_outline</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col-2" *ngIf="mostrarEditar">
+                                <button mat-fab color="primary" (click)="editarMovimientoCaja()">
+                                    <mat-icon matTooltip="Editar Movimiento Caja">create</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col-2">
+                                <button mat-fab color="primary" (click)="nuevoMovimientoCaja()">
+                                    <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+
+
+            <!-- Lista de Movimientos Cajas-->
+            <div class="col-md-4">
+                <div class="card card-body">
+
+                    <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+                        <mat-list-item *ngFor="let movCaja of listaMovCaja" (click)="spsMovimientosCajaByCveMov(movCaja.cveMovCaja, movCaja.nombreMovimiento)">
+                            <p matListItemTitle>{{movCaja.cveMovCaja }} / {{movCaja.nombreMovimiento }}</p>
+                        </mat-list-item>
+                    </mat-nav-list>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+
+                <div class="card card-body">
+                    <mat-tab-group backgroundColor="primary">
+                        <mat-tab label="Generales">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formListaMovimientoCaja">
+                                        <p></p>
+                                        <div class="row">
+                                            <!--Columna para la clave Movimiento Caja-->
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Clave Movimiento Caja</mat-label>
+                                                    <input formControlName="cveMovCaja" matInput placeholder="RPF001">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">vpn_key</span>
+                                                    </mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cveMovCaja" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cveMovCaja').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Columna para la descripcion Movimiento Caja-->
+                                            <div class="col-md-8">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Descripci&oacute;n</mat-label>
+                                                    <input formControlName="nombreMovimiento" matInput
+                                                        placeholder="Nombre Movimiento">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">description</span>
+                                                    </mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.nombreMovimiento" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('nombreMovimiento').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <mat-slide-toggle formControlName="estatusMovCaja"
+                                                    (change)="abrirAdvertencia($event)" color="primary">
+                                                    Estatus Mov. Caja
+                                                </mat-slide-toggle>
+                                            </div>
+                                            <!--Columna para mostrar saldos Movimiento Caja-->
+                                            <div class="col-md-3">
+                                                <mat-slide-toggle formControlName="vistaEnSaldo" color="primary">
+                                                    Mostrar Saldos
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Columna para acepta depósitos Movimiento Caja-->
+                                            <div class="col-md-3">
+                                                <mat-slide-toggle formControlName="aceptaDepositos" color="primary">
+                                                    Acepta Dep&oacute;sitos
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Columna para acepta retiros Movimiento Caja-->
+                                            <div class="col-md-3">
+                                                <mat-slide-toggle formControlName="aceptaRetiros" color="primary"
+                                                    enabled='true'>
+                                                    Acepta Retiros
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Columna para el Monto mínimo Movimiento Caja-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Monto M&iacute;nimo</mat-label>
+                                                    <input formControlName="montoMinimo" matInput placeholder="123.00">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">paid</span></mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.montoMinimo" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('montoMinimo').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Columna para el monto máximo Movimiento Caja-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Monto M&aacute;ximo</mat-label>
+                                                    <input formControlName="montoMaximo" matInput placeholder="123.00">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">paid</span></mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.montoMaximo" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('montoMaximo').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Saldo M&iacute;nimo</mat-label>
+                                                    <input formControlName="saldoMinimo" matInput placeholder="123.00">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">paid</span></mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.saldoMinimo" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('saldoMinimo').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                            <!--Columna para los días de inactivacion Movimiento Caja-->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>D&iacute;as para Inactivar</mat-label>
+                                                    <input formControlName="diasInactivar" matInput placeholder="0">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">dialpad</span>
+                                                    </mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.diasInactivar" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('diasInactivar').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Combo para los tipos de clientes Movimiento Caja-->
+                                            <div class="col-md-12">
+                                                <p>
+                                                    <mat-form-field class="example-chip-list" class="full-width">
+                                                        <mat-label class="mayuscula">Tipo {{lblCliente}}</mat-label>
+                                                        <mat-chip-grid #chipListTSocio>
+                                                            <mat-chip-row
+                                                                *ngFor="let tipoSocio of listaAgregaTipoSocios"
+                                                                [selectable]="selectable" [removable]="removable"
+                                                                (removed)="removeTSocio(tipoSocio)">
+                                                                {{tipoSocio.descripcion}}
+                                                                <mat-icon matChipRemove
+                                                                    *ngIf="removable">cancel</mat-icon>
+                                                            </mat-chip-row>
+                                                            <input placeholder="Nuevo Tipo Cliente..." #tipoSociosInput
+                                                                [formControl]="tipoSocios"
+                                                                [matAutocomplete]="autoTSocio"
+                                                                [matChipInputFor]="chipListTSocio"
+                                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                                                            <mat-icon matSuffix><span
+                                                                    class="material-icons-outlined">groups</span>
+                                                            </mat-icon>
+                                                        </mat-chip-grid>
+                                                        <mat-autocomplete #autoTSocio="matAutocomplete"
+                                                            (optionSelected)="selectedTipoSocio($event)">
+                                                            <mat-option
+                                                                *ngFor="let tipoSocio of filteredTipoSocios | async"
+                                                                [value]="tipoSocio">
+                                                                {{tipoSocio.descripcion}}
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+
+                                                </p>
+                                            </div>
+
+                                            <!--Combo para los formas de Pago Movimiento Caja-->
+                                            <div class="col-md-12">
+                                                <p>
+                                                    <mat-form-field class="example-chip-list" class="full-width">
+                                                        <mat-label>Formas de Pago</mat-label>
+                                                        <mat-chip-grid #chipListFPago>
+                                                            <mat-chip-row
+                                                                *ngFor="let formaPago of listaAgregaFormaPagos"
+                                                                [selectable]="selectable" [removable]="removable"
+                                                                (removed)="removeFPago(formaPago)">
+                                                                {{formaPago.nombrefpago}}
+                                                                <mat-icon matChipRemove
+                                                                    *ngIf="removable">cancel</mat-icon>
+                                                            </mat-chip-row>
+                                                            <input placeholder="Nueva Forma de Pago..." #formaPagosInput
+                                                                [formControl]="formaPagos" [matAutocomplete]="autoFpago"
+                                                                [matChipInputFor]="chipListFPago"
+                                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                                                            <mat-icon matSuffix><span
+                                                                    class="material-icons-outlined">account_balance_wallet</span>
+                                                            </mat-icon>
+                                                        </mat-chip-grid>
+                                                        <mat-autocomplete #autoFpago="matAutocomplete"
+                                                            (optionSelected)="selectedFormaPago($event)">
+                                                            <mat-option
+                                                                *ngFor="let formaPago of filteredFormaPagos | async"
+                                                                [value]="formaPago">
+                                                                {{formaPago.nombrefpago}}
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+
+                                                </p>
+                                            </div>
+
+                                            <!--Columna para definir si aplica udis Movimiento Caja-->
+                                            <div class="col-md-3">
+                                                <mat-slide-toggle formControlName="aplicaUdis" color="primary"
+                                                    (change)="toggleChangesUDIS($event)">
+                                                    Aplica UDIS:
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Columna para definir el límite de UDIS Pago Movimiento Caja -->
+                                            <div class="col-md-9" *ngIf="isSlideCheckedUDIS">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>L&iacute;mite de UDIS</mat-label>
+                                                    <input formControlName="limiteUdis" matInput placeholder="0">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">paid</span></mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.limiteUdis" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('limiteUdis').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Columna para definir si el representante es socio Movimiento Caja-->
+                                            <div class="col-md-12">
+                                                <mat-slide-toggle formControlName="tutorSocioMenor" color="primary">
+                                                    ¿El Representante y/o Tutor Del Cliente Menor sebe ser Cliente?
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Columna para definir si aplica procedencia de recursos Movimiento Caja-->
+                                            <div class="col-md-12">
+                                                <mat-slide-toggle formControlName="aplicaProceRecursos" color="primary"
+                                                    (change)="toggleChangesProcRec($event)">
+                                                    Aplica Procedencia de Recursos:
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Columna para definir el límite de procedencia de recursos Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedProcRec">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>L&iacute;mite de Procedencia de los Recursos</mat-label>
+                                                    <input formControlName="limiteProceRecursos" matInput
+                                                        placeholder="0">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">paid</span></mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.limiteProceRecursos" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('limiteProceRecursos').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Conf. Cuentas Contables">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formListaMovimientoCaja">
+                                        <p></p>
+                                        <div class="row">
+                                            <!--Combo para cuenta contable Deposito Movimiento Caja-->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. Depositos</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaDeposito"
+                                                        [matAutocomplete]="autoCDeposito">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCDeposito="matAutocomplete"
+                                                        [displayWith]="displayFnDepositos">
+                                                        <mat-option *ngFor="let option of opcionesCDepositos | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaDeposito" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaDeposito').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Combo para cuenta contable Retiro Movimiento Caja-->
+                                            <div class="col-md-6">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. Retiros</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaRetiro"
+                                                        [matAutocomplete]="autoCRetiro">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCRetiro="matAutocomplete" [displayWith]="displayFnRetiros">
+                                                        <mat-option *ngFor="let option of opcionesCRetiros | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaRetiro" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaRetiro').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Columna para definir si aplica IVA Movimiento Caja-->
+                                            <div class="col-md-3">
+                                                <mat-slide-toggle formControlName="aplicaIva" color="primary"
+                                                    (change)="toggleChangesIVA($event)">
+                                                    Aplica IVA:
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Combo para cuenta contable IVA Movimiento Caja-->
+                                            <div class="col-md-9" *ngIf="isSlideCheckedIVA">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. IVA</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaIva"
+                                                        [matAutocomplete]="autoCIVA">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption #autoCIVA="matAutocomplete"
+                                                        [displayWith]="displayFnIVA">
+                                                        <mat-option *ngFor="let option of opcionesCIVA | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaIva" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaIva').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Columna para definir si aplica Comisión Movimiento Caja-->
+                                            <div class="col-md-3">
+                                                <mat-slide-toggle formControlName="aplicaComision" color="primary"
+                                                    (change)="toggleChangesComision($event)">
+                                                    Aplica Comisi&oacute;n:
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Columna para definir el monto comisión Movimiento Caja-->
+                                            <div class="col-md-9" *ngIf="isSlideCheckedComision">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Monto Comisi&oacute;n</mat-label>
+                                                    <input formControlName="saldoComision" matInput
+                                                        placeholder="123.00">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">paid</span></mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.saldoComision" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('saldoComision').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Combo para cuenta contable IVA Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedComision">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. Comisi&oacute;n</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaComision"
+                                                        [matAutocomplete]="autoCComision">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCComision="matAutocomplete"
+                                                        [displayWith]="displayFnCuentaComision">
+                                                        <mat-option *ngFor="let option of opcionesCComision | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaComision" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaComision').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Interes">
+                            <div class="row">
+                                <div class="col-12">
+                                    <p></p>
+                                    <form [formGroup]="formListaMovimientoCaja">
+                                        <div class="row">
+                                            <!--Columna para definir si paga Interes Movimiento Caja-->
+                                            <div class="col-md-4">
+                                                <mat-slide-toggle formControlName="pagaInteres" color="primary"
+                                                    (change)="toggleChangesPagaInteres($event)">
+                                                    Paga Interes:
+                                                </mat-slide-toggle>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="isSlideCheckedPagaInteres">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Tasa interes</mat-label>
+                                                    <input formControlName="tasaInteres" matInput placeholder="1">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">percent</span>
+                                                    </mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.tasaInteres" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('tasaInteres').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                            <!--Columna para definir el saldo promedio minimo Movimiento Caja-->
+                                            <div class="col-md-4" *ngIf="isSlideCheckedPagaInteres">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Saldo Promedio Min.</mat-label>
+                                                    <input formControlName="saldoPromInteres" matInput
+                                                        placeholder="123.00">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">paid</span></mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.saldoPromInteres" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('saldoPromInteres').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Combo para cuenta contable PasivoInteres Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedPagaInteres">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. Pasivo Interes</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaPasivoInteres"
+                                                        [matAutocomplete]="autoCPasivoInteres">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCPasivoInteres="matAutocomplete"
+                                                        [displayWith]="displayFnPasivoInteres">
+                                                        <mat-option
+                                                            *ngFor="let option of opcionesCPasivoInteres | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaPasivoInteres" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaPasivoInteres').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Combo para cuenta contable GastoInteres Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedPagaInteres">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. Gasto Interes</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaGastoInteres"
+                                                        [matAutocomplete]="autoCGastoInteres">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCGastoInteres="matAutocomplete"
+                                                        [displayWith]="displayFnGastoInteres">
+                                                        <mat-option *ngFor="let option of opcionesCGastoInteres | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaGastoInteres" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaGastoInteres').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="IDE">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formListaMovimientoCaja">
+                                        <p></p>
+                                        <div class="row">
+                                            <!--Columna para definir si aplica IDE Movimiento Caja "-->
+                                            <div class="col-md-4">
+                                                <mat-slide-toggle formControlName="aplicaIde" color="primary"
+                                                    (change)="toggleChangesIDE($event)">
+                                                    Aplica IDE:
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Combo para cuenta contable IDE Movimiento Caja -->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedIDE">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. IDE</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaIDE"
+                                                        [matAutocomplete]="autoCIDE">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption #autoCIDE="matAutocomplete"
+                                                        [displayWith]="displayFnIDE">
+                                                        <mat-option *ngFor="let option of opcionesCIDE | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaIDE" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaIDE').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="ISR">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formListaMovimientoCaja">
+                                        <p></p>
+                                        <div class="row">
+                                            <!--Columna para definir si retiene ISR Movimiento Caja-->
+                                            <div class="col-md-4">
+                                                <mat-slide-toggle formControlName="retieneISR" color="primary"
+                                                    (change)="toggleChangesPagaISR($event)">
+                                                    Retiene ISR:
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Combo para cuenta contable ISR Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedPagaISR">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. ISR</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaISR"
+                                                        [matAutocomplete]="autoCISR">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption #autoCISR="matAutocomplete"
+                                                        [displayWith]="displayFnISR">
+                                                        <mat-option *ngFor="let option of opcionesCISR | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaISR" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaISR').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Combo para cuenta contable Provision ISR Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedPagaISR">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Provision ISR</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaProvisionISR"
+                                                        [matAutocomplete]="autoCProvisionISR">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCProvisionISR="matAutocomplete"
+                                                        [displayWith]="displayFnProvisionISR">
+                                                        <mat-option *ngFor="let option of opcionesCProvisionISR | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaProvisionISR" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaProvisionISR').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Cuentas Orden">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formListaMovimientoCaja">
+                                        <p></p>
+                                        <div class="row">
+                                            <!--Columna para definir si retiene ISR Movimiento Caja-->
+                                            <div class="col-md-4">
+                                                <mat-slide-toggle formControlName="manejaCuentasOrden" color="primary"
+                                                    (change)="toggleChangesOrden($event)">
+                                                    Maneja Ctas. de Orden:
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!--Combo para cuenta contable Orden Acreedor Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedOrden">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. Orden Acreedor</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaOrdenAcreedor"
+                                                        [matAutocomplete]="autoCOrdenAcreedor" disabled>
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCOrdenAcreedor="matAutocomplete"
+                                                        [displayWith]="displayFnOrdenAcreedor">
+                                                        <mat-option
+                                                            *ngFor="let option of opcionesCOrdenAcreedor | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaOrdenAcreedor" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaOrdenAcreedor').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!--Combo para cuenta contable Orden Deudor Movimiento Caja-->
+                                            <div class="col-md-12" *ngIf="isSlideCheckedOrden">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cta. Orden Deudor</mat-label>
+                                                    <input type="text" matInput formControlName="cuentaOrdenDeudor"
+                                                        [matAutocomplete]="autoCOrdenDeudor">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span></mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCOrdenDeudor="matAutocomplete"
+                                                        [displayWith]="displayFnOrdenDeudor">
+                                                        <mat-option *ngFor="let option of opcionesCOrdenDeudor | async"
+                                                            [value]="option">
+                                                            {{option.cuenta}} / {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaOrdenDeudor" ngProjectAs="mat-error">
+                                                        <mat-error
+                                                            *ngIf="formListaMovimientoCaja.get('cuentaOrdenDeudor').hasError(error.type)">
+                                                            <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Sucursales">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form [formGroup]="formListaMovimientoCaja">
+                                        <p></p>
+                                        <div class="row">
+                                            <!--Combo para la lita de sucursales-->
+                                            <div class="col-12">
+                                                <mat-selection-list class="scroll-container"
+                                                    (selectionChange)="updateSucursal($event)"
+                                                    [ngStyle]="{'height': '650', 'width':'100%'}" #sucursales>
+                                                    <mat-label>Selecciona las Sucursales</mat-label>
+                                                    <mat-list-option (click)="toggleAllSelection()" [value]="-1"
+                                                        [selected]="allSelected"><strong>SELECCIONAR TODAS LAS
+                                                            SUCURSALES</strong></mat-list-option>
+                                                    <div *ngIf="opcion === 1">
+                                                        <mat-list-option *ngFor="let sucursal of listaAgregaSucursales"
+                                                            [value]="sucursal" [selected]="sucursal.seleccionado">
+                                                            {{sucursal.cveSucursal}} / {{sucursal.nombreSucursal}}
+                                                        </mat-list-option>
+                                                    </div>
+                                                    <div *ngIf="opcion === 0">
+                                                        <mat-list-option *ngFor="let sucursal of listSucursales"
+                                                            [value]="sucursal" [selected]="sucursal.seleccionado">
+                                                            {{sucursal.cveSucursal}} / {{sucursal.nombreSucursal}}
+                                                        </mat-list-option>
+                                                    </div>
+                                                </mat-selection-list>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

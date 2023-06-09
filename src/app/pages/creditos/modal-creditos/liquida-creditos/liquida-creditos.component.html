@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>{{titulo}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formLiquida">
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Monto solicitado</mat-label>
+            <input matInput formControlName="montoS">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Aplica garant&iacute;a de</mat-label>
+            <input matInput formControlName="liquida">
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="col-md-6 full-width">
+            <mat-label>Monto Garant&iacute;a liquida</mat-label>
+            <input matInput formControlName="montoG">
+        </mat-form-field>
+
+
+       
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="agregarGarantia()">Guardar</button>
+    <button mat-raised-button [mat-dialog-close]="-1" color="warn">Cancelar</button>
+</mat-dialog-actions>

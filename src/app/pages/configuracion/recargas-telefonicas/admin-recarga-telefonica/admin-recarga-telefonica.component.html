@@ -1,0 +1,105 @@
+<h2 mat-dialog-title>{{titulo | uppercase}} COMPAÑIAS TELEF&Oacute;NICAS</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formRecarga">
+        <p></p>
+        <div class="row">
+
+            <!-- Compañia  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Compañia</mat-label>
+                    <input formControlName="compania" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.compania" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRecarga.get('compania').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- URLImagen  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Imagen</mat-label>
+                    <input formControlName="urlImagen" matInput>
+                    <mat-icon matSuffix>text</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.urlImagen" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRecarga.get('urlImagen').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Estatus  -->
+            <div class="col-md-3">
+                <mat-label>Estatus</mat-label>
+                <mat-slide-toggle formControlName="estatus" color="primary"> </mat-slide-toggle>
+            </div>
+            <br>
+            <br>
+            <!-- Monto  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto</mat-label>
+                    <input formControlName="monto" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.monto" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRecarga.get('monto').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Codigo  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>C&oacute;digo</mat-label>
+                    <input formControlName="codigo" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.codigo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formRecarga.get('codigo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Botón para agregar un nuevo registro de montos-->
+            <div class="col-md-5">
+                <button mat-fab color="primary" (click)="agregarRegistro()">
+                    <mat-icon matTooltip="Nuevo">add</mat-icon>
+                </button>
+            </div>
+            <div class="col-md-12 text-center">
+
+            </div>
+            <!-- Cargos agregados -->
+            <div class="col-md-12">
+                <mat-nav-list class="scroll-container" [ngStyle]="{'height': '100px', 'width':'100%'}">
+                    <mat-list-item *ngFor="let seleccionados of listaMontoAgregado">
+                        <p matListItemTitle (click)="registroSeleccionado(seleccionados)">{{seleccionados[1] | currency:'MXN'}} -
+                            Codigo: {{seleccionados[2]}}
+                           </p>
+                        <button (click)="abrirAdvertenciaEliminar(seleccionados)" matListItemMeta mat-raised-button color="warn">
+                            <mat-icon matSuffix>delete</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-nav-list>
+            </div>
+            <mat-divider></mat-divider>
+
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="crudRecarga()" color="primary" cdkFocusInitial>{{titulo}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

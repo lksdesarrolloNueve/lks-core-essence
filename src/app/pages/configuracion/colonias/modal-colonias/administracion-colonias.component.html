@@ -1,0 +1,171 @@
+<h3 mat-dialog-title class="text-center">{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formColonia">
+        <p></p>
+        <div class="row">
+
+            <div class="col-md-4">
+                <!----- Filtro estado-------->
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Estado</mat-label>
+                    <input type="text" placeholder="Nombre Estado" matInput formControlName="estado"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                        (optionSelected)="opcionSeleccionada($event)" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of opcionesEstado | async" [value]="option">
+                            {{option.nombreEstado}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.estado" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('estado').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-------Filtro Ciudad -->
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Ciudad</mat-label>
+                    <input type="text" placeholder="Nombre Ciudad" matInput formControlName="ciudad"
+                        [matAutocomplete]="autoCiudad">
+                    <mat-autocomplete autoActiveFirstOption #autoCiudad="matAutocomplete"
+                        (optionSelected)="opcionSelecCiudad($event)" [displayWith]="displayFnCiudad">
+                        <mat-option *ngFor="let option of opcionesCiudades | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.ciudad" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('ciudad').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!----   Filtro Localidad-->
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Localidad</mat-label>
+                    <input type="text" placeholder="EL REFUGIO" matInput formControlName="localidad"
+                        [matAutocomplete]="autoLocalidad">
+                    <mat-autocomplete autoActiveFirstOption #autoLocalidad="matAutocomplete"
+                        (optionSelected)="opcionSelecLocalidad($event)" [displayWith]="displayFnLocalidad">
+                        <mat-option *ngFor="let option of opcionesLocalidades | async" [value]="option">
+                            {{option.nombreLocalidad}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.localidad" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('localidad').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-- nombre colonia -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Colonia</mat-label>
+                    <input formControlName="colonia" matInput MaxLength="250" placeholder="Nombre Colonia">
+                    <mat-icon matSuffix>language</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.colonia" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('colonia').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-- codigo postal -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Codigo Postal</mat-label>
+                    <input formControlName="codigopostal" matInput MaxLength="5" placeholder="37800">
+                    <mat-icon matSuffix>language</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.codigopostal" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('codigopostal').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-- codigo patmir -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Codigo Pat</mat-label>
+                    <input formControlName="codpatid" matInput MaxLength="150" placeholder="0">
+                    <mat-icon matSuffix>language</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.codpatid" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('codpatid').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-- clave inegi -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Inegi</mat-label>
+                    <input formControlName="cveInegi" matInput type="text" MaxLength="15" placeholder="8965464888">
+                    <mat-icon matSuffix>qr_code_2</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveInegi" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('cveInegi').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!-- clave siti -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Siti</mat-label>
+                    <input formControlName="cveSiti" matInput type="text" MaxLength="15" placeholder="8965464888">
+                    <mat-icon matSuffix>qr_code_2</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveSiti" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('cveSiti').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!---- lista Asentamiento-->
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Tipo Asentamiento</mat-label>
+                    <input type="text" placeholder="" matInput formControlName="asentamiento"
+                        [matAutocomplete]="autoAsentamiento">
+                    <mat-autocomplete autoActiveFirstOption #autoAsentamiento="matAutocomplete"
+                        (optionSelected)="opcionSelecAsen($event)" [displayWith]="displayFnAsentamiento">
+                        <mat-option *ngFor="let option of opcionAsentamiento | async" [value]="option">
+                            {{option.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.asentamiento" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formColonia.get('asentamiento').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+
+
+
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <!--- Metodo Guardar-->
+    <button *ngIf="accion === 1" (click)="guardarColonia()" mat-raised-button color="primary">Guardar</button>
+    <!--- Metodo Editar/Actualizar-->
+    <button *ngIf="accion === 2" (click)="editarColonia()" mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button [mat-dialog-close]="selectedIdCiudad" mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,327 @@
+<h2 mat-dialog-title class="text-center">Poliza Inversi&oacute;n</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-tab-group backgroundColor="primary" [selectedIndex]="tabIndex" (selectedTabChange)="tabSeleccionada($event)">
+        <mat-tab label="Inversiones">
+            <div class="col-12">
+                <div class="card card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>Cuenta Bancaria</mat-label>
+                                <input type="text" placeholder="Cuenta bancaria" matInput [formControl]="cuentaBancOri"
+                                    [matAutocomplete]="autoCuentaBO">
+                                <mat-autocomplete autoActiveFirstOption #autoCuentaBO="matAutocomplete"
+                                    [displayWith]="displayCuentaBancOri">
+                                    <mat-option *ngFor="let optionCBO of opcionesCuenta | async" [value]="optionCBO" matTooltip="optionCBO.descripcionCuenta">
+                                        {{optionCBO.claveCuenta}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <ng-template ngFor let-error [ngForOf]="validaciones.cuentaBancOri" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="cuentaBancOri.hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-2">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Plazo </mat-label>
+                                <input matInput [formControl]="dias" placeholder="D&iacute;as">
+                                <mat-icon matSuffix><span class="material-icons-outlined">calendar_month</span>
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Fecha inversi&oacute;n</mat-label>
+                                <mat-date-range-input [rangePicker]="rangePicker">
+                                    <input matStartDate [formControl]="fechaIn" placeholder="Inicio fecha">
+                                    <input matEndDate [formControl]="fechaFin" placeholder="Fin fecha">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #rangePicker></mat-date-range-picker>
+                                <ng-template ngFor let-error [ngForOf]="validaciones.fechaIn" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="fechaIn.hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+                            </mat-form-field>
+                        </div>
+                        <!--BOTÓN BUSCAR-->
+                        <div class="col-3">
+                            <button mat-fab color="primary" (click)="validarBusqueda()">
+                                <mat-icon matTooltip="Buscar Inversi&oacute;n.">search</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-form-field class="col-12">
+                        <mat-label>Filtros de Busqueda</mat-label>
+                        <input matInput placeholder="" (keyup)="applyFilter($event)" #input>
+                    </mat-form-field>
+                    <!--Cuerpo de la tabla-->
+                    <div class="mat-elevation-z8 table-responsive">
+                        <table aria-label="infoPolInversion" mat-table [dataSource]="dataSourcePolInv" matSort>
+
+                            <!-- Nombre  Column -->
+                            <ng-container matColumnDef="emisora">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Emisora</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let info"> {{info.emisora}} </td>
+                            </ng-container>
+
+                            <!-- Concepto Column -->
+                            <ng-container matColumnDef="inversion">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                                    Inversi&oacute;n</th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let info"> {{info.inversion}}</td>
+                            </ng-container>
+
+                            <!-- Fecha Column -->
+                            <ng-container matColumnDef="fecha">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Fecha </th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let info"> {{info.fecha_inver |
+                                    date:'dd-MM-yyyy' }} </td>
+                            </ng-container>
+                            <!-- Tasa Column -->
+                            <ng-container matColumnDef="tasa">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Tasa </th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let info"> {{info.tasa}} </td>
+                            </ng-container>
+
+                            <!-- Monto Column -->
+                            <ng-container matColumnDef="monto">
+                                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Monto </th>
+                                <td mat-cell style="padding: 16px;" *matCellDef="let info"> {{info.monto
+                                    |currency:'MXN'}} </td>
+                            </ng-container>
+                            <!-- Deuda Column -->
+                            <ng-container matColumnDef="deuda">
+                                <th scope="col" mat-header-cell *matHeaderCellDef> Deuda </th>
+                                <td mat-cell *matCellDef="let info"> {{info.tipo_deuda}} </td>
+                            </ng-container>
+                            <!-- Instrumento Column -->
+                            <ng-container matColumnDef="instrumento">
+                                <th scope="col" mat-header-cell *matHeaderCellDef> Instrumento </th>
+                                <td mat-cell *matCellDef="let info"> {{info.tipo_instrumento}} </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row id="poliza"  (click)="obtenerRegistro(row)"  *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+
+                    </div>
+                    <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5"
+                        [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                        aria-label="Select page of inversiones">
+                    </mat-paginator>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Registrar Inversi&oacute;n">
+            <form [formGroup]="formPInv">
+                <div class="row">
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Emisora</mat-label>
+                            <input matInput formControlName="emisora" placeholder="Emisora">
+                            <mat-icon matSuffix><span class="material-icons-outlined">account_balance</span>
+                            </mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.emisora" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('emisora').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Usuario</mat-label>
+                            <input matInput formControlName="usuario" placeholder="Usuario" readonly="true">
+                            <mat-icon matSuffix><span class="material-icons-outlined">person</span>
+                            </mat-icon>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>No. T&iacute;tulo</mat-label>
+                            <input matInput formControlName="noTitulo" placeholder="">
+                            <mat-icon matSuffix><span class="material-icons-outlined">filter_1</span>
+                            </mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.noTitulo" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('noTitulo').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <!--2 renglon-->
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Costo adquisitivo</mat-label>
+                            <input matInput formControlName="costAdq" placeholder="0.0">
+                            <mat-icon matSuffix><span class="material-icons-outlined">money</span>
+                            </mat-icon>
+                            <mat-error *ngFor="let validacion of validaciones.costAdq">
+                                <div *ngIf="formPInv.get('costAdq').hasError(validacion.type)
+                                  && formPInv.get('costAdq').touched">
+                                  {{validacion.message}}
+                                </div>
+                              </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tasa</mat-label>
+                            <input matInput formControlName="tasa" placeholder="1.0">
+                            <mat-icon matSuffix><span class="material-icons-outlined">percent</span>
+                            </mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.tasa" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('tasa').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-2">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Plazo (d&iacute;as)</mat-label>
+                            <input matInput formControlName="plazo" placeholder="D&iacute;as">
+                            <mat-icon matSuffix><span class="material-icons-outlined">calendar_month</span>
+                            </mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.plazo" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('plazo').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Fecha inversi&oacute;n</mat-label>
+                            <input matInput [matDatepicker]="fN" formControlName="fecha" [readonly]="true">
+                            <mat-datepicker-toggle matSuffix [for]="fN"></mat-datepicker-toggle>
+                            <mat-datepicker #fN></mat-datepicker>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('fecha').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <!--3 renglon-->
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Forma Adquisici&oacute;n</mat-label>
+                            <mat-select formControlName="adquisicion">
+                                <mat-option *ngFor="let forma of listFormaAdq" [value]="forma">{{forma.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.adquisicion" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('adquisicion').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tipo instrumento</mat-label>
+                            <mat-select formControlName="instrumento">
+                                <mat-option *ngFor="let instrumento of listInstrumento" [value]="instrumento">
+                                    {{instrumento.descripcion}}</mat-option>
+                            </mat-select>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.instrumento" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('instrumento').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <!--4 renglon-->
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tipo valor</mat-label>
+                            <input type="text" placeholder="" matInput formControlName="valor"
+                                [matAutocomplete]="tipoVal">
+                            <mat-autocomplete autoActiveFirstOption #tipoVal="matAutocomplete"
+                                [displayWith]="mostrarTipoValor">
+                                <mat-option *ngFor="let option of opcionesTipoValor | async" [value]="option">
+                                    {{option.descripcion}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.valor" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('valor').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tipo deuda</mat-label>
+                            <mat-select formControlName="deuda">
+                                <mat-option *ngFor="let deuda of listDeuda" [value]="deuda">{{deuda.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.deuda" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('deuda').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Clasificaci&oacute;n</mat-label>
+                            <input type="text" placeholder="" matInput formControlName="clasificacion"
+                                [matAutocomplete]="clasificacion">
+                            <mat-autocomplete autoActiveFirstOption #clasificacion="matAutocomplete"
+                                [displayWith]="mostrarClasificacion">
+                                <mat-option *ngFor="let option of opcionesClasificacion| async" [value]="option">
+                                    {{option.nombreContable}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.clasificacion" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('clasificacion').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Monto</mat-label>
+                            <strong> <input matInput formControlName="monto" placeholder="0.0" prefix="$ "
+                                    mask="separator.2" thousandSeparator="," readonly="true">
+                            </strong>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="full-width" appearance="fill">
+                            <mat-label>Concepto</mat-label>
+                            <textarea matInput formControlName="concepto" placeholder="Inversión..."></textarea>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.concepto" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPInv.get('concepto').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                 
+
+                </div>
+            </form>
+           
+        </mat-tab>
+    </mat-tab-group>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" *ngIf="tabIndex>0" (click)="crudPolizaInversion()">{{botonGA}}</button>
+    <button mat-raised-button [mat-dialog-close]="0" color="warn">Cancelar</button>
+</mat-dialog-actions>

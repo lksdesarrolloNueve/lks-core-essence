@@ -1,0 +1,200 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Devengamiento Inversiones</h3>
+
+
+            <mat-tab-group color="primary" backgroundColor="primary">
+                <mat-tab label="Devengamientos Aplicados">
+                    <br>
+                    <form [formGroup]="formDevengamiento">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>Sucursal</mat-label>
+                                    <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                                        [matAutocomplete]="autoSucursal">
+                                    <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                                        [displayWith]="displayFnSucursal">
+                                        <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                                            {{option.nombreSucursal}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.sucursal" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formDevengamiento.get('sucursal').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+                            </div>
+
+                            <!--Fecha-->
+                            <div class="col-md-4">
+
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Mes y Año</mat-label>
+                                    <input matInput [matDatepicker]="dp" formControlName="fecha" [readonly]="true">
+                                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp startView="multi-year"
+                                        (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker">
+                                    </mat-datepicker>
+                                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.fecha" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formDevengamiento.get('fecha').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+
+                            </div>
+
+                            <!--Listar detalle-->
+                            <div class="col-md-1 a">
+                                <button mat-fab color="primary" (click)="listaDetalleDevengamientos(2)">
+                                    <mat-icon matTooltip="Listar Detalle Devengamientos">search</mat-icon>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+                </mat-tab>
+
+                <mat-tab label="Aplicar Devengamiento">
+                    <br>
+                    <form [formGroup]="formDevengamiento">
+                        <div class="row">
+
+                            <!--Fecha-->
+                            <div class="col-md-4">
+
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Mes y Año</mat-label>
+                                    <input matInput [matDatepicker]="dpDev" formControlName="fecha" [readonly]="true">
+                                    <mat-datepicker-toggle matSuffix [for]="dpDev"></mat-datepicker-toggle>
+                                    <mat-datepicker #dpDev startView="multi-year"
+                                        (monthSelected)="setMonthAndYear($event, dpDev)"
+                                        panelClass="example-month-picker">
+                                    </mat-datepicker>
+                                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.fecha" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formDevengamiento.get('fecha').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+
+                            </div>
+
+                            <!--Listar detalle-->
+                            <div class="col-md-1 a">
+                                <button mat-fab color="primary" (click)="aplicarDevengamientos()">
+                                    <mat-icon matTooltip="Listar Detalle Devengamientos">done</mat-icon>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+                </mat-tab>
+            </mat-tab-group>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="listaDetalleInversiones.length > 0">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla Devengamientos" [dataSource]="dataSourceDevengamientos" matSort>
+
+                    <!-- Columna CVE cve_poliza -->
+                    <ng-container matColumnDef="cvePoliza">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;"> Cve.
+                            Poliza </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.cvePoliza}} </td>
+                    </ng-container>
+
+                    <!-- Columna periodo  -->
+                    <ng-container matColumnDef="periodo">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;">
+                            Periodo </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.periodo}} </td>
+                    </ng-container>
+
+                    <!-- Columna Servidor ejercicio -->
+                    <ng-container matColumnDef="ejercicio">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;">
+                            Ejercicio </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.ejercicio}} </td>
+                    </ng-container>
+
+                    <!-- Columna sucursal -->
+                    <ng-container matColumnDef="sucursal">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;">
+                            Sucursal </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.sucursal}} </td>
+                    </ng-container>
+
+                    <!-- Columna detalle -->
+                    <ng-container matColumnDef="detalle">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;">
+                            Detalle </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.detalle}} </td>
+                    </ng-container>
+
+                    <!-- Columna fecha -->
+                    <ng-container matColumnDef="fecha">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;"> Fecha
+                        </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.fecha}} </td>
+                    </ng-container>
+
+                    <!-- Columna usuario -->
+                    <ng-container matColumnDef="usuario">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;">
+                            Usuario </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;"> {{element.usuario}} </td>
+                    </ng-container>
+
+                    <!-- Columna Estatus SMS -->
+                    <ng-container matColumnDef="estatus">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;"> Estatus </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;">
+                            <mat-icon *ngIf="element.estatus === false" color="warn">close</mat-icon>
+                            <mat-icon *ngIf="element.estatus === true" color="primary">done</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Estatus SMS -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 16px;"> Acciones </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 16px;">
+                            <button *ngIf="element.estatus === true" mat-mini-fab (click)="cancelarDevengamientos(element)">
+                                <mat-icon matTooltip="Cancelar Devengamiento">delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="columnsDInversiones"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnsDInversiones;"></tr>
+
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Seleccionar pagina devengamientos">
+            </mat-paginator>
+
+        </div>
+
+    </div>
+
+</div>

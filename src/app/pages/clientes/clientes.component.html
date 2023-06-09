@@ -1,0 +1,1759 @@
+<!-- Button trigger modal -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Alta Empresa</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formEmpresa">
+
+            <div class="row">
+                <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                        <label>Raz&oacute;n Social de la Empresa</label>
+                        <input type="text" formControlName="razon" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                        <label>Nombre Comercial de la Empresa</label>
+                        <input type="text" formControlName="ncomercial" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>RFC de la Empresa</label>
+                        <input type="text" formControlName="rfc" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-8 pr-1">
+                    <div class="form-group">
+                        <label>Nombre del Jefe Directo</label>
+                        <input type="text" formControlName="patron" class="form-control">
+                    </div>
+                </div>
+
+                <!--   <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Fecha de Inicio Laboral</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                                #d="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                                    type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <hr>
+
+            <div class="row">
+                <!-- <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                        <label>CP</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>-->
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <ng-template #rtEstadosEmp let-r="result" let-t="term">
+                            <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                        </ng-template>
+                        <input type="text" class="form-control" formControlName="edoEmp"
+                            [ngbTypeahead]="searchEstadosEmp" [resultTemplate]="rtEstadosEmp"
+                            [inputFormatter]="formatterEstadosEmp"
+                            (focus)="focusEstadosEmp$.next($any($event).target.value)"
+                            (click)="clickEstadosEmp$.next($any($event).target.value)"
+                            (selectItem)="loadCiudadEmp($event)" #instanceEstadosEmp="ngbTypeahead">
+                    </div>
+                </div>
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Ciudad</label>
+                        <ng-template #rtCiuEmp let-r="result" let-t="term">
+                            <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                        </ng-template>
+                        <input type="text" class="form-control" formControlName="ciudadid"
+                            [ngbTypeahead]="searchCiudadEmp" [resultTemplate]="rtCiuEmp"
+                            [inputFormatter]="formatterCiudadEmp"
+                            (focus)="focusCiudadEmp$.next($any($event).target.value)"
+                            (click)="clickCiudadEmp$.next($any($event).target.value)"
+                            (selectItem)="loadCatalogoColoniasEmp($event)" #instanceCiudadEmp="ngbTypeahead">
+                    </div>
+                </div>
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Colonia</label>
+                        <ng-template #rtColEmp let-r="result" let-t="term">
+                            <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                        </ng-template>
+                        <input type="text" class="form-control" formControlName="coloniaid"
+                            [ngbTypeahead]="searchColEmp" [resultTemplate]="rtColEmp" [inputFormatter]="formatterColEmp"
+                            (focus)="focusColEmp$.next($any($event).target.value)"
+                            (click)="clickColEmp$.next($any($event).target.value)" #instanceColEmp="ngbTypeahead" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                        <label>Vialidad P&uacute;blica</label>
+                        <ng-template #rtViaEmp let-r="result" let-t="term">
+                            <ngb-highlight [result]="r.descripcion" [term]="t">
+                            </ngb-highlight>
+                        </ng-template>
+                        <input type="text" formControlName="viaEmp" class="form-control"
+                            [ngbTypeahead]="searchVialidadEmp" [resultTemplate]="rtViaEmp"
+                            [inputFormatter]="formatterVialidadEmp"
+                            (focus)="focusVialidadEmp$.next($any($event).target.value)"
+                            (click)="clickVialidadEmp$.next($any($event).target.value)"
+                            #instanceVialidadEmp="ngbTypeahead" />
+                    </div>
+                </div>
+
+                <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                        <label>Nombre de la Vialidad</label>
+                        <input type="text" formControlName="nombreVialidadDom" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                        <label>No. Exterior</label>
+                        <input type="text" formControlName="noExtDom" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                        <label>No. Interior</label>
+                        <input type="text" formControlName="noIntDom" class="form-control">
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Tiempo de Arraigo</label>
+                        <select class="form-select form-control" formControlName="arraigoDom"
+                            aria-label="Default select example">
+                            <option value="0" selected>Selecciona una opci&oacute;n
+                            </option>
+                            <option *ngFor="let tiempo of listArraigo" value="{{tiempo.id}}">{{tiempo.descripcion}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="text" formControlName="telefono" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Entre calle</label>
+                        <input type="text" formControlName="entreCalle1" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Y calle</label>
+                        <input type="text" formControlName="entreCalle2" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4 pr-1">
+                    <div class="form-group">
+                        <label>Referencia</label>
+                        <input type="text" formControlName="referencia" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="guardarEmpresa()">Guardar</button>
+    </div>
+</ng-template>
+
+
+
+<!-- Modal   <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Guardar</button> -->
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink>Datos Generales</a>
+                        <ng-template ngbNavContent>
+
+                            <form [formGroup]="clienteForm" (ngSubmit)="validaCliente()">
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Clave {{lblCliente}}</label>
+                                            <input type="text" class="form-control" placeholder="001-588888">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Fecha Ingreso</label>
+                                            <div class="input-group">
+                                                <input class="form-control" formControlName="dateIngreso"
+                                                    placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary calendar"
+                                                        (click)="d.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Ultima Actualizaci&oacute;n</label>
+                                            <input type="text" class="form-control" placeholder="21/06/21">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>No. Solicitud</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Fecha de Solicitud</label>
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                                    ngbDatepicker #dFS="ngbDatepicker">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary calendar"
+                                                        (click)="dFS.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Nombre(s)</label>
+                                            <input type="text" formControlName="nombrecliente" class="form-control"
+                                                placeholder="Juan">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('nombrecliente').hasError('required') && clienteForm.get('nombrecliente').touched">
+                                                Nombre requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>A. Paterno</label>
+                                            <input type="text" formControlName="apaternocliente" class="form-control"
+                                                placeholder="Ju&aacute;rez">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('apaternocliente').hasError('required') && clienteForm.get('apaternocliente').touched">
+                                                A. Paterno requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>A. Materno</label>
+                                            <input type="text" formControlName="amaternocliente" class="form-control"
+                                                placeholder="Jaramillo">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('amaternocliente').hasError('required') && clienteForm.get('amaternocliente').touched">
+                                                A. Materno requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Fecha Nacimiento</label>
+                                            <div class="input-group">
+                                                <input class="form-control" formControlName="dateNacimiento"
+                                                    placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                                                    #dFN="ngbDatepicker">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary calendar" (click)="dFN.toggle()"
+                                                        type="button"></button>
+                                                </div>
+                                                <div class="alertvalidation"
+                                                    *ngIf="clienteForm.get('dateNacimiento').hasError('required') && clienteForm.get('dateNacimiento').touched">
+                                                    Fecha Nacimiento requerida
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Edad</label>
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Genero</label>
+                                            <select class="form-select form-control" formControlName="generoCli"
+                                                aria-label="Default select example">
+                                                <option value="0" selected>Selecciona una opci&oacute;n</option>
+                                                <option *ngFor="let genero of listGenero" value="{{genero.id}}">
+                                                    {{genero.descripcion}}</option>
+                                            </select>
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('generoCli').hasError('required') && clienteForm.get('generoCli').touched">
+                                                Genero requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 pr-1">
+                                        <div class="form-group">
+                                            <label>Pa&iacute;s de Nacimiento</label>
+                                            <ng-template #rtPaises let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input type="text" formControlName="paisNacimiento" class="form-control"
+                                                [ngbTypeahead]="searchPaisesCli" [resultTemplate]="rtPaises"
+                                                [inputFormatter]="formatterPaisesCli"
+                                                (focus)="focusPaisesCli$.next($any($event).target.value)"
+                                                (click)="clickPaisesCli$.next($any($event).target.value)"
+                                                #instancePaises="ngbTypeahead">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('paisNacimiento').hasError('required') && clienteForm.get('paisNacimiento').touched">
+                                                Pa&iacute;s de Nacimiento requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 pl-1">
+                                        <div class="form-group">
+                                            <label>Nacionalidad</label>
+                                            <ng-template #rtNacionalidad let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input type="text" formControlName="nacionalidadNacimiento"
+                                                class="form-control" [ngbTypeahead]="searchNacionalidadCli"
+                                                [resultTemplate]="rtNacionalidad"
+                                                [inputFormatter]="formatterNacionalidadCli"
+                                                (focus)="focusNacionalidadCli$.next($any($event).target.value)"
+                                                (click)="clickNacionalidadCli$.next($any($event).target.value)"
+                                                #instanceNacionalidadCli="ngbTypeahead">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('nacionalidadNacimiento').hasError('required') && clienteForm.get('nacionalidadNacimiento').touched">
+                                                Nacionalidad requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 pl-1">
+                                        <div class="form-group">
+                                            <label>Entidad Federativa de Nacimiento</label>
+                                            <ng-template #rtEstados let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input formControlName="edoNacimiento" type="text" class="form-control"
+                                                [ngbTypeahead]="searchEstadosCli" [resultTemplate]="rtEstados"
+                                                [inputFormatter]="formatterEstadosCli"
+                                                (focus)="focusEstadosCli$.next($any($event).target.value)"
+                                                (click)="clickEstadosCli$.next($any($event).target.value)"
+                                                (selectItem)="loadCiudadNacimiento($event)"
+                                                #instanceEstadosCli="ngbTypeahead">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('edoNacimiento').hasError('required') && clienteForm.get('edoNacimiento').touched">
+                                                Entidad Federativa de Nacimiento requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 pl-1">
+                                        <div class="form-group">
+                                            <label>Ciudad de Nacimiento</label>
+                                            <ng-template #rtCiuCli let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input type="text" formControlName="cidNacimiento" class="form-control"
+                                                [ngbTypeahead]="searchCiudadCli" [resultTemplate]="rtCiuCli"
+                                                [inputFormatter]="formatterCiudadCli"
+                                                (focus)="focusCiudadCli$.next($any($event).target.value)"
+                                                (click)="clickCiudadCli$.next($any($event).target.value)"
+                                                #instanceCiudadCli="ngbTypeahead">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('cidNacimiento').hasError('required') && clienteForm.get('cidNacimiento').touched">
+                                                Ciudad de Nacimiento requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>CURP</label>
+                                            <input type="text" formControlName="curpCli" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('curpCli').hasError('required') && clienteForm.get('curpCli').touched">
+                                                CURP requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>RFC</label>
+                                            <input type="text" formControlName="rfcCli" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('rfcCli').hasError('required') && clienteForm.get('rfcCli').touched">
+                                                RFC requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Tipo de {{lblCliente}}</label>
+                                            <select class="form-select form-control" formControlName="tipoCli"
+                                                aria-label="Default select example">
+                                                <option selected>Selecciona una opci&oacute;n</option>
+                                                <option *ngFor="let tpCliente of listTipoCliente"
+                                                    value="{{tpCliente.identificador}}">
+                                                    {{tpCliente.descripcion}}</option>
+
+                                            </select>
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('tipoCli').hasError('required') && clienteForm.get('tipoCli').touched">
+                                                Tipo de {{lblCliente}} requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>N&uacute;mero de Celular</label>
+                                            <input type="text" formControlName="celularCli" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="clienteForm.get('celularCli').hasError('required') && clienteForm.get('celularCli').touched">
+                                                N&uacute;mero de Celular requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Telefono Fijo</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Correo Electronico</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                        <button type="submit" class="btn btn-primary btn-round">Confirmar</button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+
+
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button type="submit" (click)="siguiente()"
+                                        class="btn btn-primary btn-round">Siguiente</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink>Domicilio</a>
+                        <ng-template ngbNavContent>
+
+                            <form [formGroup]="domicilioCliente" (ngSubmit)="validaDomicilioCliente()">
+                                <div class="row">
+                                    <!-- <div class="col-md-3 pr-1">
+                                        <div class="form-group">
+                                            <label>CP</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>-->
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Estado</label>
+
+                                            <ng-template #rt let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input type="text" formControlName="edoDom" class="form-control"
+                                                [ngbTypeahead]="search" [resultTemplate]="rt"
+                                                [inputFormatter]="formatter"
+                                                (focus)="focus$.next($any($event).target.value)"
+                                                (click)="click$.next($any($event).target.value)"
+                                                (selectItem)="loadCiudadDom($event)" #instance="ngbTypeahead" />
+
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('edoDom').hasError('required') && domicilioCliente.get('edoDom').touched">
+                                                Estado requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Ciudad</label>
+                                            <ng-template #rtCiDom let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input type="text" class="form-control" [formControl]="ciudadDom"
+                                                [ngbTypeahead]="searchCityDom" [resultTemplate]="rtCiDom"
+                                                [inputFormatter]="formatterCityDom"
+                                                (focus)="focusCityDom$.next($any($event).target.value)"
+                                                (click)="clickCityDom$.next($any($event).target.value)"
+                                                (selectItem)="loadCatalogoColonias($event)"
+                                                #instanceCityDom="ngbTypeahead" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Colonia</label>
+                                            <ng-template #rtColDom let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input type="text" class="form-control" [formControl]="coloniaDom"
+                                                [ngbTypeahead]="searchColDom" [resultTemplate]="rtColDom"
+                                                [inputFormatter]="formatterColDom"
+                                                (focus)="focusColDom$.next($any($event).target.value)"
+                                                (click)="clickColDom$.next($any($event).target.value)"
+                                                #instanceColDom="ngbTypeahead" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 pr-1">
+                                        <div class="form-group">
+                                            <label>Vialidad P&uacute;blica</label>
+                                            <ng-template #rtVia let-r="result" let-t="term">
+                                                <ngb-highlight [result]="r.descripcion" [term]="t"></ngb-highlight>
+                                            </ng-template>
+                                            <input type="text" formControlName="viaDom" class="form-control"
+                                                [ngbTypeahead]="searchVialidad" [resultTemplate]="rtVia"
+                                                [inputFormatter]="formatterVialidad"
+                                                (focus)="focusVialidad$.next($any($event).target.value)"
+                                                (click)="clickVialidad$.next($any($event).target.value)"
+                                                #instanceVialidad="ngbTypeahead" />
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('viaDom').hasError('required') && domicilioCliente.get('viaDom').touched">
+                                                Vialidad P&uacute;blica requerido
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 pr-1">
+                                        <div class="form-group">
+                                            <label>Nombre de la Vialidad</label>
+                                            <input type="text" formControlName="nombreVialidadDom" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('nombreVialidadDom').hasError('required') && domicilioCliente.get('nombreVialidadDom').touched">
+                                                Vialidad P&uacute;blica requerido
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 pr-1">
+                                        <div class="form-group">
+                                            <label>No. Exterior</label>
+                                            <input type="text" formControlName="noExtDom" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('noExtDom').hasError('required') && domicilioCliente.get('noExtDom').touched">
+                                                No. Exterior requerido
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 pr-1">
+                                        <div class="form-group">
+                                            <label>No. Interior</label>
+                                            <input type="text" formControlName="noIntDom" class="form-control">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Tiempo de Arraigo</label>
+                                            <select class="form-select form-control" formControlName="arraigoDom"
+                                                aria-label="Default select example">
+                                                <option value="0" selected>Selecciona una opci&oacute;n</option>
+                                                <option *ngFor="let tiempo of listArraigo" value="{{tiempo.id}}">
+                                                    {{tiempo.descripcion}}</option>
+                                            </select>
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('arraigoDom').hasError('required') && domicilioCliente.get('arraigoDom').touched">
+                                                Tiempo de Arraigo requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Entre calle</label>
+                                            <input type="text" formControlName="entreCalleDom" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('entreCalleDom').hasError('required') && domicilioCliente.get('entreCalleDom').touched">
+                                                Entre calle requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Y calle</label>
+                                            <input type="text" formControlName="yCalleDom" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('yCalleDom').hasError('required') && domicilioCliente.get('yCalleDom').touched">
+                                                Entre calle requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Referencia</label>
+                                            <input type="text" formControlName="referenciaDom" class="form-control">
+                                            <div class="alertvalidation"
+                                                *ngIf="domicilioCliente.get('referenciaDom').hasError('required') && domicilioCliente.get('referenciaDom').touched">
+                                                Referencia requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                        <button type="submit" class="btn btn-primary btn-round">Agregar
+                                            Domicilio </button>
+
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div *ngIf="showDomicilios">
+                                <hr>
+                                <h3>Domicilios Agregados</h3>
+                                <ul class="list-group">
+                                    <li *ngFor="let dom of listAddDom;  let i=index;"
+                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{dom.estado.descripcion}}, {{dom.ciudad.descripcion}},
+                                        {{dom.colonia.descripcion}}, {{dom.nombreVialidad | uppercase}} #
+                                        {{dom.nexterior}}
+                                        <button (click)="quitarDomicilio(i)" class="btn btn-primary btn-round">
+                                            <i class="bi bi-dash-lg"></i>
+
+                                        </button>
+                                    </li>
+
+                                </ul>
+                                <hr>
+                            </div>
+
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button type="submit" (click)="anterior()"
+                                        class="btn btn-primary btn-round">Anterior</button>
+                                    <button type="submit" (click)="siguiente()"
+                                        class="btn btn-primary btn-round">Siguiente</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink>Perfil Transaccional</a>
+                        <ng-template ngbNavContent>
+
+                            <ul ngbNav #navPerfil="ngbNav" [(activeId)]="activePerfil" class="nav-tabs">
+                                <li [ngbNavItem]="1">
+                                    <a ngbNavLink>Informaci&oacute;n</a>
+                                    <ng-template ngbNavContent>
+
+                                        <form [formGroup]="perfilForm" (ngSubmit)="validaPerfil()">
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Clabe Interbancaria</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 pr-1">
+
+                                                </div>
+
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>¿Es el propietario real de los recursos?</label>
+
+                                                        <br>
+                                                        <input type="radio" name="propietario"
+                                                            formControlName="propietario" value="true"
+                                                            id="flexRadioDefault1" checked>
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Si
+                                                        </label><br>
+
+                                                        <input type="radio" name="propietario"
+                                                            formControlName="propietario" value="false"
+                                                            id="flexRadioDefault2">
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            No
+                                                        </label>
+
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('propietario').hasError('required') && perfilForm.get('propietario').touched">
+                                                            Campo requerido
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Estado Civil</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="edoCivil"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let civil of listEstadoCivil"
+                                                                value="{{civil.id}}">{{civil.descripcion}}</option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('edoCivil').hasError('required') && perfilForm.get('edoCivil').touched">
+                                                            Estado Civil requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Regimen Matrimonial</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="regimen"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let regimen of listRegimen"
+                                                                value="{{regimen.id}}">{{regimen.descripcion}}</option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('regimen').hasError('required') && perfilForm.get('regimen').touched">
+                                                            Regimen Matrimonial requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Nivel de Estudios</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="nivelAcademico"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let nivel of listNivelAcademico"
+                                                                value="{{nivel.id}}">{{nivel.descripcion}}</option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('nivelAcademico').hasError('required') && perfilForm.get('nivelAcademico').touched">
+                                                            Nivel de Estudios requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Tipo de Vivienda</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="tipoVivienda"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let vivienda of listTipoVivienda"
+                                                                value="{{vivienda.id}}">{{vivienda.descripcion}}
+                                                            </option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('tipoVivienda').hasError('required') && perfilForm.get('tipoVivienda').touched">
+                                                            Tipo de Vivienda requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Periocidad de Ingresos</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="periocidadIngresos"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let frecuencia of listFrecuencia"
+                                                                value="{{frecuencia.id}}">{{frecuencia.descripcion}}
+                                                            </option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('periocidadIngresos').hasError('required') && perfilForm.get('periocidadIngresos').touched">
+                                                            Periocidad de Ingresos requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Periocidad de Movimientos</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="periocidadMovimientos"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let frecuencia of listFrecuencia"
+                                                                value="{{frecuencia.id}}">{{frecuencia.descripcion}}
+                                                            </option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('periocidadMovimientos').hasError('required') && perfilForm.get('periocidadMovimientos').touched">
+                                                            Periocidad de Movimientos requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Movimientos por Mes</label>
+                                                        <input type="text" class="form-control" formControlName="mxmes">
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('mxmes').hasError('required') && perfilForm.get('mxmes').touched">
+                                                            Movimientos por Mes requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Monto aproximado a depositar</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="montoaproximadoahorro">
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('montoaproximadoahorro').hasError('required') && perfilForm.get('montoaproximadoahorro').touched">
+                                                            Monto aproximado a depositar requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Monto aproximado a retirar</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="montoaproximadoretiro">
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('montoaproximadoretiro').hasError('required') && perfilForm.get('montoaproximadoretiro').touched">
+                                                            Monto aproximado a retirar requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>No. Dependientes Economicos</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="ndependientes">
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('ndependientes').hasError('required') && perfilForm.get('ndependientes').touched">
+                                                            No. Dependientes Economicos requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Comprobaci&oacute;n de Ingresos</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="comprobacion"
+                                                            aria-label="Default select example">
+                                                            <option selected>Selecciona una opci&oacute;n</option>
+                                                            <option value="true">SI</option>
+                                                            <option value="false">NO</option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('comprobacion').hasError('required') && perfilForm.get('comprobacion').touched">
+                                                            Comprobaci&oacute;n de Ingresos requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Finalidad de la Cuenta</label>
+                                                        <select class="form-select form-control"
+                                                            formControlName="propositoCuenta"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let fin of listFinalidad"
+                                                                value="{{fin.id}}">
+                                                                {{fin.descripcion}}</option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('propositoCuenta').hasError('required') && perfilForm.get('propositoCuenta').touched">
+                                                            Finalidad de la Cuenta requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>¿Por qu&eacute; medio se entero?</label>
+                                                        <select class="form-select form-control" formControlName="medio"
+                                                            aria-label="Default select example">
+                                                            <option value="0" selected>Selecciona una opci&oacute;n
+                                                            </option>
+                                                            <option *ngFor="let medio of listMedio"
+                                                                value="{{medio.id}}">
+                                                                {{medio.descripcion}}</option>
+                                                        </select>
+                                                        <div class="alertvalidation"
+                                                            *ngIf="perfilForm.get('medio').hasError('required') && perfilForm.get('medio').touched">
+                                                            ¿Por qu&eacute; medio se entero? requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>¿Tiene Cuentas?</label>
+                                                        <select class="form-select form-control"
+                                                            aria-label="Default select example">
+                                                            <option selected>Selecciona una opci&oacute;n</option>
+                                                            <option value="1">SI</option>
+                                                            <option value="2">NO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>¿En donde tiene las cuentas?</label>
+                                                        <textarea class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Ocupaci&oacute;n</label>
+                                                        <textarea class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>¿Realiza actividad empresarial?</label>
+                                                        <br>
+                                                        <input type="radio" name="flexRadioDefault"
+                                                            id="flexRadioDefault1" checked>
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Si
+                                                        </label><br>
+
+                                                        <input type="radio" name="flexRadioDefault"
+                                                            id="flexRadioDefault2">
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Sector empresa</label>
+                                                        <select class="form-select form-control"
+                                                            aria-label="Default select example">
+                                                            <option selected>Selecciona una opci&oacute;n</option>
+                                                            <option value="1">Mexico</option>
+                                                            <option value="2">EU</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 pr-1">
+                                                    <div class="form-group">
+                                                        <label>No. Empleados</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary btn-round">Validar </button>
+
+                                        </form>
+
+
+                                    </ng-template>
+                                </li>
+                                <li [ngbNavItem]="2">
+                                    <a ngbNavLink>Empleo</a>
+                                    <ng-template ngbNavContent>
+
+                                        <form [formGroup]="formEmpleo" (ngSubmit)="agregarEmpleo()">
+                                        <div class="row">
+                                            <div class="col-md-2 pr-1">
+                                                <div class="form-group">
+                                                    <label>¿Trabaja?</label>
+                                                    <select class="form-select form-control"  [formControl]="trabaja"
+                                                        (change)="activaComponentesEmpleo($event.target.value)"
+                                                        aria-label="Default select example">
+                                                        <option selected>Selecciona una opci&oacute;n</option>
+                                                        <option value="1">SI</option>
+                                                        <option value="0">NO</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <div *ngIf="tieneEmpleo">
+                                                        <label>Empresas</label>
+                                                        <ng-template #rtEmpresa let-r="result" let-t="term">
+                                                            R Social: <ngb-highlight [result]="r.razonSocial"
+                                                                [term]="t">
+                                                            </ngb-highlight><br>
+                                                            Patr&oacute;n <ngb-highlight [result]="r.nombrePatron"
+                                                                [term]="t">
+                                                            </ngb-highlight>
+
+                                                        </ng-template>
+                                                        <input type="text" class="form-control" formControlName="empresa"
+                                                            [ngbTypeahead]="searchEmpresa" [resultTemplate]="rtEmpresa"
+                                                            [inputFormatter]="formatterEmpresa"
+                                                            (focus)="focusEmpresa$.next($any($event).target.value)"
+                                                            (click)="clickEmpresa$.next($any($event).target.value)"
+                                                            #instanceEmpresas="ngbTypeahead">
+                                                   
+
+                                                    </div>
+                                                    <!-- <label>¿Es empleado de esta empresa?</label>
+
+                                                    <br> <input class="form-check-input" type="checkbox"
+                                                        id="inlineCheckbox1" value="option1">
+                                                    <label class="form-check-label" for="inlineCheckbox1"></label>
+-->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pr-1">
+                                                <div class="form-group">
+                                                    <div *ngIf="tieneEmpleo">
+                                                            <button class="btn btn-primary btn-outline-primary"
+                                                            style="margin-top: 25px;" (click)="open(content)">Registrar
+                                                            Empresa</button>    
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="tieneEmpleo">
+                                            <hr>
+                                            <div class="row">
+
+                                                <div class="col-md-12 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Ocupaciones</label>
+                                                        <ng-template #rtOcupacion let-r="result" let-t="term">
+                                                          <ngb-highlight [result]="r.descripcion"
+                                                                [term]="t">
+                                                            </ngb-highlight>
+                                                        </ng-template>
+                                                        <input type="text" class="form-control" formControlName="ocupacion"
+                                                            [ngbTypeahead]="searchOcupacion" [resultTemplate]="rtOcupacion"
+                                                            [inputFormatter]="formatterOcupacion"
+                                                            (focus)="focusOcupacion$.next($any($event).target.value)"
+                                                            (click)="clickOcupacion$.next($any($event).target.value)"
+                                                            #instanceOcupacion="ngbTypeahead">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Fecha Inicio</label>
+                                                        <div class="input-group">
+                                                            <input class="form-control" formControlName="fechaInicio" placeholder="yyyy-mm-dd"
+                                                                name="dp" ngbDatepicker #dFIL="ngbDatepicker">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-primary calendar"
+                                                                    (click)="dFIL.toggle()" type="button"></button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Horario Entrada</label>
+                                                        <ngb-timepicker formControlName="hEntrada" [(ngModel)]="timeEntrada" [meridian]="HEntrada">
+                                                        </ngb-timepicker>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-{{meridian  ? 'success' : 'danger'}}"
+                                                            (click)="toggleHEntrada()">
+                                                            Meridian - {{HEntrada ? "ON" : "OFF"}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Horario Salida</label>
+                                                        <ngb-timepicker formControlName="hSalida" [(ngModel)]="timeSalida" [meridian]="HSalida">
+                                                        </ngb-timepicker>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-{{meridian  ? 'success' : 'danger'}}"
+                                                            (click)="toggleHSalida()">
+                                                            Meridian - {{HSalida ? "ON" : "OFF"}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12 pr-1">
+
+                                                    <div class="form-group">
+                                                        <label>Observaci&oacute;n Sobre el Empleo</label>
+                                                        <textarea placeholder="Ejemplo: Trabajo de medio d&iacute;a, Es empleo indirecto, etc."
+                                                            class="form-control textarea" formControlName="observaciones"></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <button type="submit" class="btn btn-primary btn-round">Agregar Empleo</button>
+                                                </div>
+                                            </div>    
+
+                                        </div>
+                                    </form>
+
+                                        <hr>
+                                        <ul class="list-group">
+                                            <li *ngFor="let empleo of listAddEmpleo;  let i=index;"
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{empleo.razonSocial}}, {{empleo.fechaInicio}}
+                                                <button (click)="quitarEmpleo(i)"  class="btn btn-primary btn-round">
+                                                    <i class="bi bi-dash-lg"></i>
+        
+                                                </button>
+                                            </li>
+        
+                                        </ul>
+
+
+                                    </ng-template>
+                                </li>
+
+
+                                <li [ngbNavItem]="3">
+                                    <a ngbNavLink>Ingresos/Egresos</a>
+                                    <ng-template ngbNavContent>
+
+
+                                        <div class="row">
+                                            <div class="a col-md-6 pr-1">
+                                                <h3><b>Ingresos</b></h3>
+                                                <hr>
+                                                <form [formGroup]="formIngresos">
+                                                    <div class="row">
+                                                        <div class="col-md-6 pr-1">
+                                                            <div class="form-group">
+                                                                <label>Ingreso</label>
+                                                                <select class="form-select form-control"
+                                                                    formControlName="ingresoCtr"
+                                                                    aria-label="Default select example">
+                                                                    <option value="0" selected>Selecciona una
+                                                                        opci&oacute;n
+                                                                    </option>
+                                                                    <option [value]="1"
+                                                                        >
+                                                                      Ingreso General</option>
+                                                                      <option [value]="2"
+                                                                      >
+                                                                    Ingreso Conyuge</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 pr-1">
+                                                            <div class="form-group">
+                                                                <label>Monto</label>
+                                                                <input type="text" class="form-control"
+                                                                    formControlName="montoIngreso">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 pr-1">
+                                                            <div class="form-group">
+                                                                <label></label>
+                                                                <button type="button" (click)="addListIngreso()"
+                                                                    class="btn btn-primary btn-round"
+                                                                    style="margin-top: 25px;"><i
+                                                                        class="bi bi-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <hr>
+
+                                                <h3>Ingresos Agregados</h3>
+                                                <ul class="list-group">
+                                                    <li *ngFor="let v_ingreso of listAddIngreso;  let i=index;"
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        {{v_ingreso.descripcion}}, ${{v_ingreso.monto}}
+                                                        <button (click)="quitarIngreso(i)"
+                                                            class="btn btn-primary btn-round">
+                                                            <i class="bi bi-dash-lg"></i>
+
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+
+
+                                            </div>
+                                            <div class="a col-md-6 pr-1">
+                                                <h3><b>Egresos</b></h3>
+                                                <hr>
+                                                <form [formGroup]="formEgresos">
+                                                    <div class="row">
+                                                        <div class="col-md-6 pr-1">
+                                                            <div class="form-group">
+                                                                <label>Egreso</label>
+                                                                <select class="form-select form-control"
+                                                                    formControlName="egresoCtr"
+                                                                    aria-label="Default select example">
+                                                                    <option value="0" selected>Selecciona una
+                                                                        opci&oacute;n
+                                                                    </option>
+                                                                    <option *ngFor="let egreso of listTiposEgresos"
+                                                                        [value]="egreso.id">
+                                                                        {{egreso.descripcion}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-4 pr-1">
+                                                            <div class="form-group">
+                                                                <label>Monto</label>
+                                                                <input type="text" class="form-control"
+                                                                    formControlName="montoEgreso">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 pr-1">
+                                                            <div class="form-group">
+                                                                <label></label>
+                                                                <button type="button" class="btn btn-primary btn-round"
+                                                                    (click)="addListEgreso()"
+                                                                    style="margin-top: 25px;"><i
+                                                                        class="bi bi-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                                <hr>
+
+                                                <h3>Egresos Agregados</h3>
+                                                <ul class="list-group">
+                                                    <li *ngFor="let v_egreso of listAddEgreso;  let i=index;"
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        {{v_egreso.descripcion}}, ${{v_egreso.monto}}
+                                                        <button (click)="quitarEgreso(i)"
+                                                            class="btn btn-primary btn-round">
+                                                            <i class="bi bi-dash-lg"></i>
+
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                        </div>
+
+                                    </ng-template>
+                                </li>
+
+
+                            </ul>
+
+                            <div [ngbNavOutlet]="navPerfil" class="mt-2"></div>
+
+
+
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button type="submit" (click)="anterior()"
+                                        class="btn btn-primary btn-round">Anterior</button>
+                                    <button type="submit" (click)="siguiente()"
+                                        class="btn btn-primary btn-round">Siguiente</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                        <a ngbNavLink>Referencias</a>
+                        <ng-template ngbNavContent>
+
+                            <button class="btn btn-primary " (click)="open(contentReferencia)">Agregar Referencia</button>
+
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button type="submit" (click)="anterior()"
+                                        class="btn btn-primary btn-round">Anterior</button>
+                                    <button type="submit" (click)="siguiente()"
+                                        class="btn btn-primary btn-round">Siguiente</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="5">
+                        <a ngbNavLink>Foto-Firma</a>
+                        <ng-template ngbNavContent>
+
+
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button type="submit" (click)="anterior()"
+                                        class="btn btn-primary btn-round">Anterior</button>
+                                    <button type="submit" (click)="siguiente()"
+                                        class="btn btn-primary btn-round">Siguiente</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="6">
+                        <a ngbNavLink>Documentos</a>
+                        <ng-template ngbNavContent>
+
+
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button type="submit" (click)="anterior()"
+                                        class="btn btn-primary btn-round">Anterior</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+
+                <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Inicio Modal Referencia-->
+<ng-template #contentReferencia let-modal>
+    <div class="modal-body">
+      <form>
+        <div class="row">
+            <div class="col-md-4 pr-1">
+                <div class="form-group">
+                    <label>Tipo de Referencia</label>
+                    <select class="form-select form-control" aria-label="Default select example">
+                        <option value="0" selected>Selecciona una opci&oacute;n</option>
+                        <option *ngFor="let referencia of listTipoReferencias"
+                            value="{{referencia.id}}">{{referencia.descripcion}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <ul ngbNav #navReferencias="ngbNav" [(activeId)]="activeReferencias" class="nav-tabs">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink>Datos Generales</a>
+                <ng-template ngbNavContent>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Clave {{lblCliente}}</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Nombre(s)</label>
+                                    <input type="text" class="form-control" placeholder="Juan">
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>A. Paterno</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="Ju&aacute;rez">
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>A. Materno</label>
+                                    <input type="text" class="form-control" placeholder="Jaramillo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Fecha Nacimiento</label>
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy-mm-dd"
+                                            name="dp" ngbDatepicker #d="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar"
+                                                (click)="d.toggle()" type="button"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>Edad</label>
+                                    <input type="text" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>Genero</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option value="0" selected>Selecciona una opci&oacute;n
+                                        </option>
+                                        <option *ngFor="let genero of listGenero"
+                                            value="{{genero.id}}">
+                                            {{genero.descripcion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Estado Civil</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option value="0" selected>Selecciona una opci&oacute;n
+                                        </option>
+                                        <option *ngFor="let civil of listEstadoCivil"
+                                            value="{{civil.id}}">{{civil.descripcion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Parentesco</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Porcentaje</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>N&uacute;mero de Celular</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Correo Electronico</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>Pa&iacute;s de Nacimiento</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option selected>Selecciona una opci&oacute;n</option>
+                                        <option value="1">Mexico</option>
+                                        <option value="2">EU</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-1">
+                                <div class="form-group">
+                                    <label>Nacionalidad</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option selected>Selecciona una opci&oacute;n</option>
+                                        <option value="1">Mexicana</option>
+                                        <option value="2">EU</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-1">
+                                <div class="form-group">
+                                    <label>Ciudad de Nacimiento</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option selected>Selecciona una opci&oacute;n</option>
+                                        <option value="1">Mexico</option>
+                                        <option value="2">EU</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-1">
+                                <div class="form-group">
+                                    <label>Entidad Federativa de Nacimiento</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option selected>Selecciona una opci&oacute;n</option>
+                                        <option value="1">Mexico</option>
+                                        <option value="2">EU</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>CURP</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>RFC</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </ng-template>
+
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink>Domicilio</a>
+                <ng-template ngbNavContent>
+
+                    <form>
+                        <div class="row">
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>CP</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>Estado</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option selected>Selecciona una opci&oacute;n</option>
+                                        <option value="1">Mexico</option>
+                                        <option value="2">EU</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>Ciudad</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option selected>Selecciona una opci&oacute;n</option>
+                                        <option value="1">Mexico</option>
+                                        <option value="2">EU</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>Colonia</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option selected>Selecciona una opci&oacute;n</option>
+                                        <option value="1">Mexico</option>
+                                        <option value="2">EU</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>Vialidad P&uacute;blica</label>
+                                    <ng-template #rtViaRef let-r="result" let-t="term">
+                                        <ngb-highlight [result]="r.descripcion" [term]="t">
+                                        </ngb-highlight>
+                                    </ng-template>
+                                    <input type="text" class="form-control"
+                                        [ngbTypeahead]="searchVialidadRef"
+                                        [resultTemplate]="rtViaRef"
+                                        [inputFormatter]="formatterVialidadRef"
+                                        (focus)="focusVialidadRef$.next($any($event).target.value)"
+                                        (click)="clickVialidadRef$.next($any($event).target.value)"
+                                        #instanceVialidadRef="ngbTypeahead" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>Nombre de la Vialidad</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>No. Exterior</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 pr-1">
+                                <div class="form-group">
+                                    <label>No. Interior</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Tiempo de Arraigo</label>
+                                    <select class="form-select form-control"
+                                        aria-label="Default select example">
+                                        <option value="0" selected>Selecciona una opci&oacute;n
+                                        </option>
+                                        <option *ngFor="let tiempo of listArraigo"
+                                            value="{{tiempo.id}}">{{tiempo.descripcion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Telefono</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Entre calle</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Y calle</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Referencia</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </ng-template>
+            </li>
+        </ul>
+
+        <div [ngbNavOutlet]="navReferencias" class="mt-2"></div>
+
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template>
+  
+
+  
+
+<!--Fin Modal Referencia-->

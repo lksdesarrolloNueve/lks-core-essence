@@ -1,0 +1,150 @@
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h2 class=" text-center">Fondeo Bancario</h2>
+        </div>
+    </div>
+
+    <div class="col-md-8 text-center">
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-2">
+                    <button mat-fab color="primary" *ngIf="fondeID==0" (click)="crudFondeo(1)">
+                        <mat-icon matTooltip="Guardar Fondeo">done_outline</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button mat-fab color="primary" *ngIf="fondeID>0" (click)="crudFondeo(2)">
+                        <mat-icon matTooltip="Editar Fondeo">create</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button mat-fab color="primary" (click)="nuevo()">
+                        <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <!-- Lista de fondeo-->
+    <div class="col-md-4">
+        <div class="card card-body">
+            <mat-form-field>
+                <input matInput [(ngModel)]="searchText" placeholder="Filtrar" autocomplete="off"
+                    (input)="buscarFondeo()">
+            </mat-form-field>
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Ingresa el rango de fecha</mat-label>
+                <mat-date-range-input [rangePicker]="rangePicker">
+                    <input matStartDate [formControl]="mesIn" placeholder="Inicio fecha">
+                    <input matEndDate [formControl]="mesFin" placeholder="Fin fecha">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #rangePicker>
+                    <mat-date-range-picker-actions>
+                        <button mat-button matDateRangePickerCancel>Cancelar</button>
+                        <button mat-raised-button color="primary" (click)="spsFondeoB()"
+                            matDateRangePickerApply>Buscar</button>
+                    </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+
+            </mat-form-field>
+
+            <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+                <mat-list-item *ngFor="let fond of listaFondeo" (click)="mostrarFondeo(fond)">
+                    <p matListItemTitle> {{fond.fecha}}</p>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+    </div>
+    <!--FORMULARIO-->
+    <div class="col-md-8">
+        <div class="card card-body">
+
+            <form [formGroup]="formFondeo">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Fecha:</mat-label>
+                            <input matInput [matDatepicker]="fi" formControlName="fecha">
+                            <mat-datepicker-toggle matSuffix [for]="fi"></mat-datepicker-toggle>
+                            <mat-datepicker #fi></mat-datepicker>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formFondeo.get('fecha').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Apertura</mat-label>
+                            <input formControlName="apertura" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.apertura" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formFondeo.get('apertura').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Cierre</mat-label>
+                            <input formControlName="cierre" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.cierre" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formFondeo.get('cierre').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Minimo</mat-label>
+                            <input formControlName="minimo" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.minimo" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formFondeo.get('minimo').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Maximo</mat-label>
+                            <input formControlName="maximo" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.maximo" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formFondeo.get('maximo').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Ponderado</mat-label>
+                            <input formControlName="ponderado" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.ponderado" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formFondeo.get('ponderado').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

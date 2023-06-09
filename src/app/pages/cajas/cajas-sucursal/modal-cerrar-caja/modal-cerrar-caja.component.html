@@ -1,0 +1,130 @@
+<!-- GESTION DEL CIERRE DE CAJAS POR MEDIO DE POSTGRES -->
+<h2 mat-dialog-title>CIERRE DE CAJA</h2>
+<mat-divider></mat-divider>
+<br>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formCierreCajaPg">
+
+        <div class="row">
+            <mat-label class="col-md-6"><strong>SALDO INICIAL SISTEMA: </strong></mat-label>
+            <div class="col-md-6 c">{{ saldoInicialSistemaPg | currency:'MXN'}}</div>
+
+            <mat-label class="col-md-6"><strong>SALDO INICIAL CAJERO: </strong></mat-label>
+            <div class="col-md-6 c">{{ saldoInicialCajeroPg | currency:'MXN'}}</div>
+        </div>
+        <br>
+
+        <div class="container">
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+            <div class="text mat-typography"><strong>OPERACIONES</strong></div>
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+        <br>
+
+        <div class="row" *ngFor="let mov of listaSaldosPg; let i = index" [attr.data-index]="i">
+            <div class="col-md-6"><strong>{{mov.descripcion | uppercase}}  {{mov.formaPago | uppercase}}: </strong></div>
+            <div class="col-md-6 c">{{ mov.monto | currency:'MXN'}}</div>   
+        </div>
+
+        <br>
+        
+        <div class="container">
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+            <div class="text mat-typography"><strong>CORTE EFECTIVO</strong></div>
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+
+            <div class="col-md-6"><strong>SALDO FINAL SISTEMA: </strong></div>
+            <div class="col-md-6 c"><strong>{{ saldoFinalSistemaPg | currency:'MXN'}}</strong></div>
+ 
+            <div class="col-md-6"><strong>SALDO FINAL CAJA: </strong></div>
+            <div class="col-md-6 c"><strong>{{ saldoFinalCajaPg | currency:'MXN'}}</strong></div>
+
+        </div>
+        
+        <br>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>SALDO FINAL CAJERO</mat-label>
+                    <strong><input formControlName="totalCajero" matInput placeholder="Saldo del cajero"  style="text-align:center;"
+                         prefix="$ " mask="separator.2" thousandSeparator="," (input)="calcularDiferenciaPg()"></strong>
+                    <mat-icon matSuffix>paid</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validaciones.totalCajero" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCierreCajaPg.get('totalCajero').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+
+                </mat-form-field>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6"><strong>DIFERENCIA: </strong></div>
+            <div class="col-md-6 c"><strong>{{ diferenciaPg | currency:'MXN'}}</strong></div>
+        </div>
+
+        <div class="row c">
+            <div class="col-md-12"  *ngIf="diferenciaPg > 0 || diferenciaPg < 0" >
+
+                <mat-error>
+                    <mat-checkbox class="advertencia" (change)="activarBotonesPg()"></mat-checkbox>
+                       <strong> *Diferencia entre el saldo del sistema y el saldo del cajero, generar reporte de perdidas/ganancias.</strong> 
+                </mat-error>
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>COMENTARIOS</mat-label>
+                    <textarea formControlName="comentario" matInput placeholder="Comentarios">
+                        <mat-icon matSuffix>edit_note</mat-icon>
+                    </textarea>
+
+                    <ng-template ngFor let-error [ngForOf]="validaciones.comentario" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCierreCajaPg.get('comentario').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+    
+                </mat-form-field>
+    
+            </div>
+        </div>
+
+
+
+
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button (click)="cerrarCajaPg()" mat-raised-button color="primary" cdkFocusInitial
+        [disabled]="(diferenciaPg > 0 && !isDiferenciaCheckedPg) || (diferenciaPg < 0 && !isDiferenciaCheckedPg)">Aceptar</button>
+    <button mat-raised-button mat-dialog-close>Cancelar</button>
+
+</mat-dialog-actions>
+

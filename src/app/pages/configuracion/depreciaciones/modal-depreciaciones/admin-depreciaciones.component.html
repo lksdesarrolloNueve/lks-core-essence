@@ -1,0 +1,172 @@
+<h3 mat-dialog-title class="text-center">{{titulo}}</h3>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formDepreciacion">
+        <p></p>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Depreciacion</mat-label>
+                    <input formControlName="cveDepreciacion" matInput placeholder="01IN">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">text_rotation_none</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveDepreciacion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('cveDepreciacion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripci&oacute;n</mat-label>
+                    <input formControlName="descripcion" matInput placeholder="Descripcion">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">text_rotation_none</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('descripcion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tasa Contable</mat-label>
+                    <input formControlName="tasaContable" matInput placeholder="3.2">
+                    <mat-icon matSuffix><span class="material-icons-outlined">percent</span></mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tasaContable" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('tasaContable').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tasa Fiscal</mat-label>
+                    <input formControlName="tasaFiscal" matInput placeholder="1.2">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">percent</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tasaFiscal" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('tasaFiscal').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>M&aacute;ximo Deducible</mat-label>
+                    <input formControlName="maximoDeducible" matInput placeholder="1.2">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">dialpad</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.maximoDeducible" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('maximoDeducible').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Porcentaje</mat-label>
+                    <input formControlName="porcentaje" matInput placeholder="1.2">
+                    <mat-icon matSuffix>
+                        <span class="material-icons-outlined">percent</span>
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.porcentaje" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('porcentaje').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Cuenta Activo</mat-label>
+                    <input type="text" matInput formControlName="cuentaActivo" [matAutocomplete]="cuentaActivo">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #cuentaActivo="matAutocomplete" [displayWith]="displayFnCA">
+                        <mat-option *ngFor="let option of opcionesCuentaActivo | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaActivo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('cuentaActivo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Cuenta Depreciacion</mat-label>
+                    <input type="text" matInput formControlName="cuentaDepreciacion"
+                        [matAutocomplete]="cuentaDepreciacion">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #cuentaDepreciacion="matAutocomplete"
+                        [displayWith]="displayFnCD">
+                        <mat-option *ngFor="let option of opcionesCuentaDepreciacion | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaDepreciacion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('cuentaDepreciacion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Cuenta Gastos</mat-label>
+                    <input type="text" matInput formControlName="cuentaGastos" [matAutocomplete]="cuentaGastos">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #cuentaGastos="matAutocomplete" [displayWith]="displayFnCG">
+                        <mat-option *ngFor="let option of opcionesCuentaGasto | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaGastos" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('cuentaGastos').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Cuenta Baja</mat-label>
+                    <input type="text" matInput formControlName="cuentaBaja" [matAutocomplete]="cuentaBaja">
+                    <mat-icon matSuffix><span class="material-icons-outlined">list</span></mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #cuentaBaja="matAutocomplete" [displayWith]="displayFnCB">
+                        <mat-option *ngFor="let option of opcionesCuentaBaja | async" [value]="option">
+                            {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cuentaBaja" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formDepreciacion.get('cuentaBaja').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button *ngIf="accion === 1" (click)="crudDepreciaciones()" color="primary"
+        cdkFocusInitial>Guardar</button>
+    <button mat-raised-button *ngIf="accion === 2" (click)="crudDepreciaciones()" color="primary"
+        cdkFocusInitial>Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

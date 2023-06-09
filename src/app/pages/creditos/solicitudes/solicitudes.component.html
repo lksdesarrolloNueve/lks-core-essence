@@ -1,0 +1,116 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <div class="card card-body">
+            <div class="row">
+            <div class="col-md-5">
+            <mat-form-field class="full-width" appearance="outline" class="full-width">
+                <mat-label>Sucursal</mat-label>
+                <input type="text" placeholder="Sucursal" matInput [formControl]="sucursal"
+                  [matAutocomplete]="autoSucursal">
+                <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                  (optionSelected)="opcionSeleccionSuc($event)" [displayWith]="displayFnSuc">
+                  <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                    {{option.nombreSucursal}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Estatus solicitud: </mat-label>
+                    <mat-icon matSuffix>rule</mat-icon>
+                    <mat-select [formControl]="estatusSol" name="estSol">
+                    <mat-option *ngFor="let sol of listaEstSolicitud" [value]="sol">
+                    {{sol.descripcion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <button color="primary" mat-mini-fab aria-label="Filtrar solicitud">
+                    <mat-icon matTooltip="Buscar Solicitud" (click)="spsSolicitudesSuEst()">search</mat-icon>
+                </button>
+            </div>
+            </div>
+              <!--Filtro-->
+    <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="No.{{lblCliente}} , Nombre, Socio, etc." #input>
+      </mat-form-field>
+            <!--Cuerpo de la tabla-->
+            <div class="mat-elevation-z8 table-responsive">
+                <table aria-label="Busqueda de solicitudes" mat-table [dataSource]="dataSourceSolicitudes" matSort>
+                    <!-- No. Cliente Column -->
+                    <ng-container matColumnDef="numeroCliente">
+                        <th id="cliente" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header class="mayuscula">No. {{lblCliente}} </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.numero_cliente}} </td>
+                    </ng-container>
+
+                    <!-- Nombre Column -->
+                    <ng-container matColumnDef="nombre">
+                        <th id="nombre" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>Nombre </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Tipo Socio Column -->
+                    <ng-container matColumnDef="tipoSocio">
+                        <th id="tipoSocio" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header class="mayuscula">{{lblCliente}} </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.tipo_socio}} </td>
+                    </ng-container>
+
+                    <!-- No. Solcitud Column -->
+                    <ng-container matColumnDef="numSolicitud">
+                        <th id="numSolicitud" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>No. Solicitud </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.num_solicitud}} </td>
+                    </ng-container>
+
+                    <!-- Fecha Column -->
+                    <ng-container matColumnDef="fechaSolicitud">
+                        <th id="fechaSolicitud" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>F. Solicitud </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.fecha_solicitud| date:'dd-MM-yyyy' }} </td>
+                    </ng-container>
+
+                    <!-- Monto Column -->
+                    <ng-container matColumnDef="montoCredito">
+                        <th id="montoCredito" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>Monto </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.monto_credito |currency:'MXN'}} </td>
+                    </ng-container>
+
+                    <!-- Estado Credito Column -->
+                    <ng-container matColumnDef="descEstadoCred">
+                        <th id="descEstadoCred" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>Estado Cr&eacute;dito </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.desc_estado_cred}} </td>
+                    </ng-container>
+
+                    <!-- Estado Credito Comite Column -->
+                    <ng-container matColumnDef="estadoComite">
+                        <th id="estadoComite" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>Estado C.C.</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let solicitud"> {{solicitud.estado_comite}} </td>
+                    </ng-container>
+
+                    <!-- Acciones Column -->
+                    <ng-container matColumnDef="acciones">
+                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <!-- Boton delete Column -->
+                        <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                            <!-- Boton Editar Column -->
+                            <button mat-mini-fab color="primary" (click)="verSolicitud(element)">
+                                <mat-icon matTooltip="Ver solicitud">visibility</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Seleccionar pagina de solicitudes">
+            </mat-paginator>
+
+        </div>
+
+    </div>
+</div>

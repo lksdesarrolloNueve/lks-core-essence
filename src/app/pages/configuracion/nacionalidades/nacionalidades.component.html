@@ -1,0 +1,88 @@
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="card card-body">
+    <h3 class="text-center">Nacionalidades</h3>
+    <div class="row">
+      <div class="col-2"><button mat-raised-button color="primary" (click)="openDialog(0)">Registrar </button></div>
+      <div class="col-10"></div>
+    </div>
+    <!--Filtro-->
+    <mat-form-field>
+      <mat-label>Filtros de Busqueda</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Nacionalidad, Cve SAT" #input>
+
+    </mat-form-field>
+    <!--Cuerpo de la tabla-->
+    <div class="mat-elevation-z8 table-responsive">
+      <table aria-label="infoNacion" mat-table [dataSource]="dataSourceNacionalidades"  matSort>
+
+        <!--- Note that these columns can be defined in any order.
+                     The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Consecutivo Column -->
+        <ng-container matColumnDef="consecutivo">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell style="padding: 16px;" *matCellDef="let element; let i = index;"> {{ (paginatorRef.pageIndex * paginatorRef.pageSize) +
+            (i + 1) }} </td>
+        </ng-container>
+        <!-- Nombre Nacionalidad Column -->
+        <ng-container matColumnDef="nombreNacionalidad">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Nacionalidad </th>
+          <td mat-cell style="padding: 16px;" *matCellDef="let nacionalidad"> {{nacionalidad.nacion}} </td>
+        </ng-container>
+
+        <!-- País Column -->
+        <ng-container matColumnDef="pais">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> País </th>
+          <td mat-cell style="padding: 16px;" *matCellDef="let nacionalidad"> {{nacionalidad.pais}} </td>
+        </ng-container>
+
+        <!-- Clave SIT Column -->
+        <ng-container matColumnDef="cveSit">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave SIT</th>
+          <td mat-cell style="padding: 16px;" *matCellDef="let nacionalidad"> {{nacionalidad.clavesit}} </td>
+        </ng-container>
+
+        <!-- Tipo modena Column -->
+        <ng-container matColumnDef="tipo">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell style="padding: 16px;" *matCellDef="let nacionalidad"> {{nacionalidad.tipo}} </td>
+        </ng-container>
+
+        <!-- Código PLD Column -->
+        <ng-container matColumnDef="codPLD">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Código PLD</th>
+          <td mat-cell style="padding: 16px;" *matCellDef="let nacionalidad"> {{nacionalidad.codigopld}} </td>
+        </ng-container>
+        <!-- Estatus -->
+        <ng-container matColumnDef="estatus">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+          <td mat-cell style="padding: 16px;" *matCellDef="let element">
+            <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)" color="primary">
+            </mat-slide-toggle>
+          </td>
+        </ng-container>
+        <!-- Acciones Column -->
+        <ng-container matColumnDef="acciones">
+          <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+          <!-- Boton delete Column -->
+          <td mat-cell *matCellDef="let element">
+            <!-- Boton Editar Column -->
+            <button mat-mini-fab (click)="openDialog(element)" color="primary">
+              <mat-icon>mode_edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons aria-label="Select page of users">
+  </mat-paginator>
+  </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+
+<!--Se hace dinámico el título del modal, de acuerdo si es
+un guardado o  un editado-->
+<h2 mat-dialog-title>{{titulo | uppercase}}</h2>
+<mat-dialog-content class="mat-typography">
+
+
+<!--Se inicia la estructura del formAsignaDocumento-->
+  <form [formGroup]="formAsignaDocumento">
+    <p></p> 
+    <div class="row">
+        <!--Se hace el campo de registro claveAsignaDocumento-->
+        <div class="col-md-6">
+            <mat-form-field appearance="outline"
+                class="full-width">
+                <mat-label>Clave Asigna Documento</mat-label>
+                <input formControlName="claveAsignaDocumento" matInput placeholder="0001">
+                <mat-icon matSuffix>text_rotation_none</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.claveAsignaDocumento" ngProjectAs="mat-error">
+                  <mat-error *ngIf="formAsignaDocumento.get('claveAsignaDocumento').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                  </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+        
+       
+       
+        <!--Se hace el combo de registro TIPO DOCUMENTO ID-->
+        <div class="col-md-6">
+            <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo Documento</mat-label>
+                    <mat-select [formControl]="tipoDocumentoControl" name="tipoDocumentoID">
+                      <mat-option *ngFor="let tipoDocumentoID of listaTipoDocumento" [value]="tipoDocumentoID">
+                        {{tipoDocumentoID.tipoDocumentoID}} / {{tipoDocumentoID.nombreDoc}}
+                      </mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tipoDocumentoID" ngProjectAs="mat-error">
+                      <mat-error *ngIf="formAsignaDocumento.get('tipoDocumentoID').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                      </mat-error>
+                    </ng-template>
+                  </mat-form-field>
+        </div>
+
+
+         <!--Se hace el combo de registro TIPO SOCIO ID-->
+         <div class="col-md-6">
+            <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">Tipo {{lblCliente}}</mat-label>
+                    <mat-select [formControl]="tipoSocioControl" name="tipoSocioID">
+                      <mat-option *ngFor="let tipoSocioID of listaTipoSocio" [value]="tipoSocioID">
+                        {{tipoSocioID.tipoSocioid}} / {{tipoSocioID.descripcion}}
+                      </mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tipoSocioID" ngProjectAs="mat-error">
+                      <mat-error *ngIf="formAsignaDocumento.get('tipoSocioID').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                      </mat-error>
+                    </ng-template>
+                  </mat-form-field>
+        </div>
+         <!--Se hace el campo de registro estatus-->
+         <div class="col-md-6">
+            <mat-slide-toggle formControlName="estatus"   color="primary">
+                Estatus
+            </mat-slide-toggle>
+        </div>
+    </div>
+  </form>
+
+  <!--Se hacen los botones y se manda llamar el método de crudAsignaDocumento()-->
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" (click)="crudAsignaDocumento()" mat-raised-button   color="primary" cdkFocusInitial>Guardar</button>
+    <button *ngIf="accion === 2" (click)="crudAsignaDocumento()" mat-raised-button color="primary" cdkFocusInitial>Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn" >Cancelar</button>
+    </mat-dialog-actions>

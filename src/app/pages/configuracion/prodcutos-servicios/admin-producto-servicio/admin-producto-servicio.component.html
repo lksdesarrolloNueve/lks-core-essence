@@ -1,0 +1,97 @@
+<h2 mat-dialog-title>{{titulo | uppercase}} SERVICIO</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formProducto">
+        <p></p>
+        <div class="row">
+
+            <!-- Servicio  -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Servicio</mat-label>
+                    <input formControlName="producto" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.producto" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formProducto.get('producto').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Código  -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>C&oacute;digo</mat-label>
+                    <input formControlName="codigo" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.codigo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formProducto.get('codigo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Comision  -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Comisi&oacute;n</mat-label>
+                    <input formControlName="comision" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.comision" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formProducto.get('comision').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Bonificacion -->
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Bonificaci&oacute;n</mat-label>
+                    <input formControlName="bonificacion" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <!-- Validación-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.bonificacion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formProducto.get('bonificacion').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Recibo  -->
+            <div class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Recibo</mat-label>
+                    <input formControlName="imagenRecibo" matInput>
+                    <mat-icon matSuffix>image</mat-icon>
+
+                </mat-form-field>
+            </div>
+
+            <!-- DV  -->
+            <div class="col-md-3">
+                <mat-label>DV</mat-label>
+                <mat-slide-toggle formControlName="dv" color="primary"> </mat-slide-toggle>
+            </div>
+
+            <!-- Estatus  -->
+            <div class="col-md-3">
+                <mat-label>Estatus</mat-label>
+                <mat-slide-toggle formControlName="estatus" color="primary"> </mat-slide-toggle>
+            </div>
+
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="crudProductoServicios()" cdkFocusInitial>{{titulo}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

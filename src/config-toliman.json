@@ -1,0 +1,549 @@
+{
+    "listaSucursales":"http://177.242.201.2:8051/catalogos/listaSucursales",
+    "crudSucursales": "http://177.242.201.2:8051/catalogos/crudSucursales",
+  
+    "listaTipoSocio":"http://177.242.201.2:8051/catalogos/spsTipoSocio",
+    "crudtipossocios":"http://177.242.201.2:8051/catalogos/crudTipoSocio",
+  
+    "listaNacionalidades":"http://177.242.201.2:8051/catalogos/spsCatNacionalidad",
+    "crudCatNacionalidad":"http://177.242.201.2:8051/catalogos/crudCatNacionalidad",
+  
+    "spsCalidadesExtranjeros" : "http://177.242.201.2:8051/catalogos/spscalidadextranjero",
+    "crudCalidadesExtranjeros":"http://177.242.201.2:8051/catalogos/crudcaliextranjero",
+  
+    "spsActividadesPLD" : "http://177.242.201.2:8051/catalogos/listaActividadesPLD",
+    "crudActividadesPLD": "http://177.242.201.2:8051/catalogos/crudActividadesPLD",
+  
+    "listaBancoSat": "http://177.242.201.2:8051/catalogos/spsBancoSat",
+    "crudBancoSat":"http://177.242.201.2:8051/catalogos/crudBancoSat",
+  
+    "spsClasificacionCred" : "http://177.242.201.2:8051/catalogos/lista-clasificacion-cred",
+    "crudClasificacionCred": "http://177.242.201.2:8051/catalogos/crud-clasificacion-cred",
+  
+    "listaFinalidadCredito" : "http://177.242.201.2:8051/catalogos/listaFinalidadesCred",
+    "crudFinalidadCredito": "http://177.242.201.2:8051/catalogos/crudFinalidadesCred",
+  
+    "listaMonedas":"http://177.242.201.2:8051/catalogos/listaMonedas",
+    "crudMonedas":"http://177.242.201.2:8051/catalogos/crudMonedas",
+  
+    "listaGarantia":"http://177.242.201.2:8051/catalogos/spsGarantia",
+    "crudGarantia": "http://177.242.201.2:8051/catalogos/crudGarantia",
+    "listaGarantiaById":"http://177.242.201.2:8051/catalogos/spsGarantiaById",
+  
+    "listaCategorias":"http://177.242.201.2:8051/catalogos/spsCatalogoCategoria",
+  "crudCategoria": "http://177.242.201.2:8051/catalogos/crudCatalogoCategorias",
+  
+  "listaGenerales":"http://177.242.201.2:8051/catalogos/spsCatalogoGeneral",
+  "crudGenerales": "http://177.242.201.2:8051/catalogos/crudCatalogoGenerales",
+  
+    "listaEstadoCred":"http://177.242.201.2:8051/catalogos/lista-estado-cred",
+    "crudEstadoCred": "http://177.242.201.2:8051/catalogos/crud-estado-cred",
+  
+    "listaUdis": "http://177.242.201.2:8051/catalogos/listaUdis",
+    "crudUdis": "http://177.242.201.2:8051/catalogos/crudUdis",
+  
+    "listaTipoAmortizacion" : "http://177.242.201.2:8051/catalogos/listaTiposAmortizacion",
+    "crudTipoAmortizacion": "http://177.242.201.2:8051/catalogos/crudTiposAmortizacion",
+  
+    "listaServidores" : "http://177.242.201.2:8051/catalogos/listaServidores",
+    "crudServidores" : "http://177.242.201.2:8051/catalogos/crudServidores",
+  
+    "listaEstados" : "http://177.242.201.2:8051/catalogos/spsEstado",
+    "crudEstados"  : "http://177.242.201.2:8051/catalogos/crudEstado",
+  
+    "listaGeneralCategoria": "http://177.242.201.2:8051/catalogos/spsGeneralesCategoria",
+  
+    "listaDiaInhabil" : "http://177.242.201.2:8051/catalogos/listaDiasInhabiles",
+    "crudDiaInhabil" : "http://177.242.201.2:8051/catalogos/crudDiasInhabiles",
+  
+    "listaJsonCuentas" : "http://177.242.201.2:8051/catalogos/jsonCuentas",
+    "spsCuentasContables" : "http://177.242.201.2:8051/catalogos/spsCuentasContables",
+    "listaRubro" :"http://177.242.201.2:8051/catalogos/lista-rubro",
+    "listaTipoCuenta" : "http://177.242.201.2:8051/catalogos/lista-tipo-cuenta",
+    "listaNaturaleza" : "http://177.242.201.2:8051/catalogos/lista-naturaleza",
+    "spsCuentasAnexo24" : "http://177.242.201.2:8051/catalogos/spsCuentasAnexo24",
+    "crudCuentaContable" : "http://177.242.201.2:8051/catalogos/crudCuentaContable",
+    "spsCuentasContablesByID" : "http://177.242.201.2:8051/catalogos/spsCuentasContablesByID",
+  
+    "spsLocalidades" : "http://177.242.201.2:8051/catalogos/spsLocalidades",
+    "crudLocalidad" : "http://177.242.201.2:8051/catalogos/crudLocalidad",
+  
+    "listaCiudades" : "http://177.242.201.2:8051/catalogos/spsCiudades",
+    "crudCiudades" : "http://177.242.201.2:8051/catalogos/crudCiudades",
+    "listaCiudadEstado" : "http://177.242.201.2:8051/catalogos/spsCiudadesEstado",
+  
+    "listaActividadesV": "http://177.242.201.2:8051/catalogos/listaActividadesVul",
+    "crudActividadesVul" : "http://177.242.201.2:8051/catalogos/crudActividadesVul",
+  
+    "crudColonia" : "http://177.242.201.2:8051/catalogos/crudColonias",
+    "listaColoniaCiudad":"http://177.242.201.2:8051/catalogos/spsColoniasbyid",
+  
+    "listaDivision":"http://177.242.201.2:8051/catalogos/spsDivision",
+    "crudDivision": "http://177.242.201.2:8051/catalogos/crudDivision",
+    "listaGrupo": "http://177.242.201.2:8051/catalogos/spsGrupo",
+    "listaGrupoDivision":"http://177.242.201.2:8051/catalogos/spsGrupoDivision",
+    "crudGrupo": "http://177.242.201.2:8051/catalogos/crudGrupo",
+    "listaSubgrupo": "http://177.242.201.2:8051/catalogos/spsSubgrupo",
+    "listaSubPrincipal": "http://177.242.201.2:8051/catalogos/spsSubgrupoPrincipal",
+    "crudSubgrupo": "http://177.242.201.2:8051/catalogos/crudSubgrupo",
+    "listaUnitario": "http://177.242.201.2:8051/catalogos/spsUnitario",
+    "listaUnitarioSubgrupo": "http://177.242.201.2:8051/catalogos/spsUnitarioSubgrupo",
+    "crudUnitario": "http://177.242.201.2:8051/catalogos/crudGrupoUnitario",
+    "listaOcupacionesSinco": "http://177.242.201.2:8051/catalogos/spsOcupaciones",
+    "crudOcupacion": "http://177.242.201.2:8051/catalogos/crudOcupacion",
+  
+    "listaFormasPago" :"http://177.242.201.2:8051/catalogos/spsFormasPago",
+    "crudFormasPago" :"http://177.242.201.2:8051/catalogos/crudFormasPago",
+  
+    "crudBancoSiti" : "http://177.242.201.2:8051/catalogos/crudBancoSiti",
+    "listaBancoSiti":"http://177.242.201.2:8051/catalogos/listaBancoSiti",
+  
+    "crudCuentaBancaria" : "http://177.242.201.2:8051/catalogos/crudCuentasB",
+    "listaCuentaBancaria": "http://177.242.201.2:8051/catalogos/spsCuentasB",
+    "listaCuentaBancariaID":"http://177.242.201.2:8051/catalogos/spscuentasbyid",
+    "listaCuentaBancariaSuc":"http://177.242.201.2:8051/catalogos/spscuentasbsuc",
+  
+    "listaSectores" : "http://177.242.201.2:8051/catalogos/lista-sector",
+    "crudSectores"  : "http://177.242.201.2:8051/catalogos/crud-sector",
+  
+    "listaSubSectores" : "http://177.242.201.2:8051/catalogos/lista-sub-sector",
+    "listaSubSectoresFil" : "http://177.242.201.2:8051/catalogos/lista-sub-sector-by-sector",
+    "crudSubSectores" : "http://177.242.201.2:8051/catalogos/crud-sub-sector",
+  
+    "listaRamas" : "http://177.242.201.2:8051/catalogos/lista-rama",
+    "listaRamasFil" : "http://177.242.201.2:8051/catalogos/lista-rama-by-sub-sector",
+    "crudRamas" :"http://177.242.201.2:8051/catalogos/crud-rama",
+  
+    "listaSubRamas" : "http://177.242.201.2:8051/catalogos/lista-sub-rama",
+    "listaSubRamasFil" : "http://177.242.201.2:8051/catalogos/lista-sub-rama-by-rama",
+    "crudSubRamas"  : "http://177.242.201.2:8051/catalogos/crud-sub-rama",
+    "listaAvisos": "http://177.242.201.2:8051/catalogos/lista-avisos",
+    "crudAvisos": "http://177.242.201.2:8051/catalogos/crudAvisos",
+  
+    "listaINPC" : "http://177.242.201.2:8051/catalogos/lista-inpc",
+    "crudINPC": "http://177.242.201.2:8051/catalogos/crud-inpc",
+  
+    "listaBoveda":"http://177.242.201.2:8051/catalogos/listaBoveda",
+    "listaBovedaSuc":"http://177.242.201.2:8051/catalogos/listaBovedaSucursal",
+    "crudBoveda" : "http://177.242.201.2:8051/catalogos/crudBoveda",
+  
+    "spsProductosServicios": "http://177.242.201.2:8051/catalogos/listaProductoServicios",
+    "crudProductoServicios": "http://177.242.201.2:8051/catalogos/crudProductosServicios",
+  
+    "spsRecargaTelefonica": "http://177.242.201.2:8051/catalogos/listaRecargaTelefonica",
+    "crudRecargaTelefonica": "http://177.242.201.2:8051/catalogos/crudRecargaTelefonica",
+  
+    "listaISR" :"http://177.242.201.2:8051/catalogos/lista-isr",
+    "crudISR" :"http://177.242.201.2:8051/catalogos/crud_isr",
+  
+  
+    "listaCajas": "http://177.242.201.2:8051/catalogos/spsCaja",
+    "crudCaja": "http://177.242.201.2:8051/catalogos/crudCaja",
+  
+    "listaClaseActividades" : "http://177.242.201.2:8051/catalogos/lista-clase-act",
+    "listaClaseActividadesFil" : "http://177.242.201.2:8051/catalogos/lista-clase-act-by-sub-rama",
+    "crudClaseActividades"  : "http://177.242.201.2:8051/catalogos/crud-clase-act",
+  
+    "listaInversiones": "http://177.242.201.2:8051/catalogos/listaInversiones",
+    "crudInversiones": "http://177.242.201.2:8051/catalogos/crudInversiones",
+  
+    "listaTipoPlazo": "http://177.242.201.2:8051/catalogos/lista-tipo-plazo",
+    "crudTipoPlazo": "http://177.242.201.2:8051/catalogos/crud-tipo-plazo",
+  
+    "listaDomicilios": "http://177.242.201.2:8052/clientes/listaDomicilio",
+    "crudDomicilios": "http://177.242.201.2:8052/clientes/crudDomicilio",
+  
+    "listaTipoDocumento" :"http://177.242.201.2:8053/digitalizacion/listaDocumentos",
+    "crudTipoDocumento": "http://177.242.201.2:8053/digitalizacion/crud-tipo-documento",
+    "listaFormatoDocumento" :"http://177.242.201.2:8053/digitalizacion/listaFormatoDoc",
+  
+    "jsonMenu" : "http://177.242.201.2:8051/catalogos/jsonMenu",
+    "listaMenus" : "http://177.242.201.2:8051/catalogos/listaMenus",
+    "crudMenu" : "http://177.242.201.2:8051/catalogos/crudMenu",
+    "altaPermisos" : "http://177.242.201.2:8051/catalogos/altaPermisos",
+    "jsonPermisosRol" : "http://177.242.201.2:8051/catalogos/spsJsonPermisosRol",
+    "permisosRol" : "http://177.242.201.2:8051/catalogos/spsPermisosRol",
+    "spsPermisosRolbyUsuario" : "http://177.242.201.2:8051/catalogos/spsPermisosRolbyUsuario",
+  
+    "listaRangoInversiones": "http://177.242.201.2:8051/catalogos/lista-rango-inversiones",
+    "crudRangoInversiones": "http://177.242.201.2:8051/catalogos/crud-rango-inversiones",
+  
+    "listaMovCaja": "http://177.242.201.2:8051/catalogos/lista-mov-caja",
+    "listaFormaPagoMovCaja": "http://177.242.201.2:8051/catalogos/lista-forma-pago-mov-caja",
+    "listaTipoSocioMovCaja": "http://177.242.201.2:8051/catalogos/lista-tipo-socio-mov-caja",
+    "crudMovCaja": "http://177.242.201.2:8051/catalogos/crud-mov-caja",
+  
+    "listaEmpresa": "http://177.242.201.2:8052/clientes/listaEmpresa",
+    "listaEmpresaById": "http://177.242.201.2:8052/clientes/listaEmpresaById",
+    "crudEmpresa": "http://177.242.201.2:8052/clientes/crudEmpresa",
+  
+    "listaSucursalMovCaja": "http://177.242.201.2:8051/catalogos/lista-sucursal-mov-caja",
+    "listaDepreciaciones": "http://177.242.201.2:8051/catalogos/lista-depreciaciones",
+    "crudDepreciaciones": "http://177.242.201.2:8051/catalogos/crud-depreciaciones",
+  
+  
+    "listaAsignaDocumento":"http://177.242.201.2:8053/digitalizacion/lista-asigna-documento",
+    "crudAsignaDocumento":"http://177.242.201.2:8053/digitalizacion/crud-asigna-documento",
+  
+    "listaDocumentoCodificado":"http://177.242.201.2:8053/digitalizacion/lista-documento-codificado",
+    "crudDocumentoCodificado":"http://177.242.201.2:8053/digitalizacion/crud-documento-codificado",
+  
+    "listaProveedor": "http://177.242.201.2:8051/catalogos/spsProveedor",
+    "crudProveedor" : "http://177.242.201.2:8051/catalogos/crudProveedor",
+  
+    "listarCreditos":"http://177.242.201.2:8054/creditos/lista-cat-creditos",
+    "listaCreditosBySucursal":"http://177.242.201.2:8054/creditos/listaCatCreditosSucursal",
+    "crudCreditos": "http://177.242.201.2:8054/creditos/crud-cat-creditos",
+  
+    "listaSujetos": "http://177.242.201.2:8052/clientes/listar-sujetos",
+    "crudSujetos": "http://177.242.201.2:8052/clientes/crud-sujetos",
+  
+    "listaGrupos":"http://177.242.201.2:8052/clientes/lista-grupos",
+    "listaIntegrantesGrupo":"http://177.242.201.2:8052/clientes/lista-integrantes-grupo",
+    "crudGrupos":"http://177.242.201.2:8052/clientes/crud-grupos",
+    "listaClientes": "http://177.242.201.2:8052/clientes/spsClientes",
+  
+  
+    "listaCalificacionCartera": "http://177.242.201.2:8051/catalogos/lista-calificacion-cartera",
+    "crudCalificacionCartera": "http://177.242.201.2:8051/catalogos/crud-calificacion-cartera",
+    "listaCalificacionCarteraById":"http://177.242.201.2:8051/catalogos/lista-calCartera-by-id",
+  
+    "listaJsonAnexo24": "http://177.242.201.2:8051/catalogos/jsonCuentasAnexo24",
+    "spsCuentaAnexoById": "http://177.242.201.2:8051/catalogos/spsCuentasContablesAnexoByID",
+    "crudCuentaAnexo24": "http://177.242.201.2:8051/catalogos/crudCuentaContableAnexo",
+    "cargaAnexo24" : "http://177.242.201.2:8051/catalogos/cargaMasivaCuentasAnexo",
+  
+    "listaCargos":"http://177.242.201.2:8051/catalogos/lista-cargos",
+    "crudCargos":"http://177.242.201.2:8051/catalogos/crud_cargos",
+  
+  
+    "listaIndicehh": "http://177.242.201.2:8051/catalogos/listaIndicehh",
+    "crudIndicehh": "http://177.242.201.2:8051/catalogos/crudIndicehh",
+  
+    "listaPolizas":"http://177.242.201.2:8055/contabilidad/lista-polizas",
+    "listaTipoPolizas":"http://177.242.201.2:8055/contabilidad/lista-tipo-polizas",
+    "listarPolizasFiltro":"http://177.242.201.2:8055/contabilidad/lista-polizas-filtro",
+  
+  
+  
+    "listaCreditoRelacionado":"http://177.242.201.2:8051/catalogos/listaCreditoRel",
+    "CrudCreditoRelacionado":"http://177.242.201.2:8051/catalogos/crudCredRel",
+    
+  
+    "crudUsuario": "http://177.242.201.2:8050/admin/realms/lks-core/users",
+    "crudRol": "http://177.242.201.2:8050/admin/realms/lks-core/roles",
+    "cerrarSesion": "http://177.242.201.2:8050/admin/realms/lks-core/sessions",
+    "listaUsuariosInformacion": "http://177.242.201.2:8051/catalogos/lista-usuarios",
+    "relacionarUsuarioSucu": "http://177.242.201.2:8051/catalogos/relacionar-usuario-sucursales",
+  
+    "listaTipoEmpresa":"http://177.242.201.2:8052/clientes/listaEmpresaByTipoEmpresa",
+    "buscarSujeto":"http://177.242.201.2:8052/clientes/spsBuscarSujeto",
+  
+    "crudEntidad":"http://177.242.201.2:8051/catalogos/crud-entidad",
+    "listaEntidades" : "http://177.242.201.2:8051/catalogos/listaEntidades",
+  
+    "spsSucursalesTsr":"http://177.242.201.2:8056/tesoreria/listaSucursales",
+    "spsTiposMovimientosTsr":"http://177.242.201.2:8056/tesoreria/spsTiposMovimientos",
+    "spsGeneralesCatTsr":"http://177.242.201.2:8056/tesoreria/spsGeneralesCategoria",
+    "spsCuentaBancariaTsr":"http://177.242.201.2:8056/tesoreria/spsCuentasBanco",
+    "spsSaldoCuentaTsr":"http://177.242.201.2:8056/tesoreria/spsSaldoCuentaByCve",
+    "crudMovimientoTsr":"http://177.242.201.2:8056/tesoreria/crudMovimientosTran",
+    "spsCtasContTsr": "http://177.242.201.2:8056/tesoreria/spsCuentasContablesTsr",
+    "spsMovPagTsr": "http://177.242.201.2:8056/tesoreria/spsMovimientosPag",
+    "spsMovCuentaBancariaTsr":"http://177.242.201.2:8056/tesoreria/listaMovCuentaB",
+    "spsSaldoCuentaBancariaTsr":"http://177.242.201.2:8056/tesoreria/listaSaldoCuentaB",
+    "spGeneraPolizaConciliada":"http://177.242.201.2:8056/tesoreria/generaPolizaConciliada",
+    "listaSucursalUsuario":"http://177.242.201.2:8056/tesoreria/listaSucursalesUsuario",
+    "crudPoliza":"http://177.242.201.2:8056/tesoreria/crudMovimientosTran",
+  
+  
+  
+  
+    "crudCliente": "http://177.242.201.2:8052/clientes/crudClientes",
+    "listaClientesFM": "http://177.242.201.2:8052/clientes/spsClientesFM",
+    "listaClienteGeneral": "http://177.242.201.2:8052/clientes/spsClienteGeneral",
+    "listaDocTipoSocios":"http://177.242.201.2:8053/digitalizacion/lista-asigna-documento-by-socio",
+  
+    "listaDirectivoFuncionario": "http://177.242.201.2:8051/catalogos/lista-directivo-funcionario",
+    "crudDirectivoFuncionario": "http://177.242.201.2:8051/catalogos/crud-directivo-funcionario",
+    "listaDirectivoFuncionarioById":"http://177.242.201.2:8051/catalogos/lista-directivoFuncionario-by-id",
+    "listaDirectivoSucursalById":"http://177.242.201.2:8051/catalogos/lista-directivoSucursal-by-id",
+    "listaDirectivoSujetoById":"http://177.242.201.2:8051/catalogos/lista-directivoSujeto-by-id",
+    
+    "listaFamiliarDirFunSucById": "http://177.242.201.2:8051/catalogos/lista-direcFuncionariosFam-by-IdSucursal",
+    "listaDirectivoFamiliarSujetoById": "http://177.242.201.2:8051/catalogos/lista-directivofamiliar-sujetoById",
+    "crudDirectivoFuncionarioFamiliar": "http://177.242.201.2:8051/catalogos/crud-directivos-funcionarios-familiares",
+  
+    "listaPeriodo": "http://177.242.201.2:8055/contabilidad/listaCierresPeriodo",
+    "crudPeriodo": "http://177.242.201.2:8055/contabilidad/crudCierrePeriodo",
+  
+    "listaAmortizaciones":"http://177.242.201.2:8054/creditos/listaAmortizacion",
+    
+    "listaBitEstatusCli":"http://177.242.201.2:8052/clientes/spsBitEstCliente",
+    "crudEstatusCli": "http://177.242.201.2:8052/clientes/crudEstatusCliente",
+  
+    "listaSolicitudes": "http://177.242.201.2:8054/creditos/listaSolicitudes",
+  
+    "listaTipoFondos":"http://177.242.201.2:8051/catalogos/listaTipoFondos",
+    "crudTipoFondos":"http://177.242.201.2:8051/catalogos/crudFondos",
+  
+    "listaProductosSucursal": "http://177.242.201.2:8051/catalogos/lista_producto_sucursal",
+    "listaCajasBySucursal": "http://177.242.201.2:8051/catalogos/lista-cajas-by-sucursal",
+  
+    "listaSaldoMovimientoByCliente": "http://177.242.201.2:8056/tesoreria/lista-saldoMovimiento-by-cliente",
+    "listHistorialMovCuentaCli": "http://177.242.201.2:8056/tesoreria/spsHistorialMovCli",
+    "listTipoMovDR": "http://177.242.201.2:8056/tesoreria/spsMovCajDR",
+    "listaCredCliente": "http://177.242.201.2:8056/tesoreria/listaCreditoCliente",
+    "generaPago": "http://177.242.201.2:8056/tesoreria/generaMovimientoCaja",
+  
+  
+    "listaComite":"http://177.242.201.2:8051/catalogos/spsComite",
+    "crudComite":"http://177.242.201.2:8051/catalogos/crudComite",
+  
+    "crudSolCredito":"http://177.242.201.2:8054/creditos/crudCredito",
+    "detalleCredito" : "http://177.242.201.2:8054/creditos/detalleCredito",
+    "listaAvaladosById":"http://177.242.201.2:8054/creditos/listaAvalados",
+    "listaHistorialCred":"http://177.242.201.2:8056/tesoreria/listaCreditoCliente",
+    
+    "spsCorreos": "http://177.242.201.2:8051/catalogos/spsCorreo",
+    "spsCorreosBYCves" : "http://177.242.201.2:8051/catalogos/spsCorreosBYCves",
+    "crudCorreos" : "http://177.242.201.2:8051/catalogos/crudCorreo",
+    "enviarCorreo": "http://177.242.201.2:8051/catalogos/enviarCorreo",
+    "enviarCorreoHTML" : "http://177.242.201.2:8051/catalogos/enviarCorreoHTML",
+    
+    "spsSMS":"http://177.242.201.2:8051/catalogos/spsSMS",
+    "spsSMSByCves": "http://177.242.201.2:8051/catalogos/spsSMSByCves",
+    "crudSMS":"http://177.242.201.2:8051/catalogos/crudSMS",
+  
+    "crudCtasPermisos": "http://177.242.201.2:8051/catalogos/relacionar-permisos-usuarios",
+    "listaCtasPermisos": "http://177.242.201.2:8051/catalogos/lista-permisosUsuarios",
+    
+    "enviaSMS": "http://177.242.201.2:8051/catalogos/enviarSMS",
+  
+    "listavalorUma": "http://177.242.201.2:8051/catalogos/listaValoresUma",
+    "crudUma": "http://177.242.201.2:8051/catalogos/crudUma",  
+    "crudAval": "http://177.242.201.2:8052/clientes/crudAval",
+    "listaAval": "http://177.242.201.2:8052/clientes/spsAvales",
+  
+    "traspasoTercero": "http://177.242.201.2:8056/tesoreria/generaTraspasoTercero",
+  
+    "cargaDias":"http://177.242.201.2:8051/catalogos/cargaMasivaDias",
+    "cargaCuentas":"http://177.242.201.2:8051/catalogos/cargaMasivaCuentas",
+  
+  
+    "spsIntegranteComite": "http://177.242.201.2:8051/catalogos/spsBuscarIntegrante",
+    "crudRespuestaCredito": "http://177.242.201.2:8054/creditos/crudRespuestaCredito",
+    "spsolcitudSucEst": "http://177.242.201.2:8054/creditos/listaSolicitudesByEstatus",
+   
+    "spsRespuestSolicitud":"http://177.242.201.2:8054/creditos/listaRespuestaSolicitud",
+    "crudAutorizacion":"http://177.242.201.2:8054/creditos/crudAutorizacion",
+    "spsEvaluacionCinco":"http://177.242.201.2:8054/creditos/listaEvaluacionCinco",
+  
+    "listaSaldoCredito":"http://177.242.201.2:8056/tesoreria/listaSaldoCredito",
+  
+    "reporte":"http://177.242.201.2:8055/contabilidad/reporte",
+  
+    "spsBloqueoClientes" : "http://177.242.201.2:8052/clientes/listaBloqueo",
+    
+    "crudBloqueoCliente":"http://177.242.201.2:8052/clientes/crudBloqueoCliente",
+  
+    "listaSaldoCajaMov": "http://177.242.201.2:8056/tesoreria/spsSaldoCajaMov",
+    "spsSesionesCajasPg": "http://177.242.201.2:8056/tesoreria/listaSesionesCajas",
+    "listaCajasDisponibles": "http://177.242.201.2:8056/tesoreria/listaCajasDisponibles",
+    "listaDetallesMovSesion": "http://177.242.201.2:8056/tesoreria/listaDetallesMovSesion",
+    "crudSesionesCajasPg": "http://177.242.201.2:8056/tesoreria/crudSesionesCajas",
+    
+    "spsPerfilRiesgoFisico": "http://177.242.201.2:8052/clientes/spsPerfil",
+    "spsEstadosNacionalidad": "http://177.242.201.2:8051/catalogos/spsEstadoNacionalidad",
+    "spsHistoricoMov":"http://177.242.201.2:8052/clientes/spsHistoricoMov",
+  
+    "spsInvSucursal": "http://177.242.201.2:8056/tesoreria/spsInvSucursal",
+    "spsInvCliente": "http://177.242.201.2:8056/tesoreria/spsInvCliente",
+    "crudInversion": "http://177.242.201.2:8056/tesoreria/crudInversion",
+    "reembolsoInversion" : "http://177.242.201.2:8056/tesoreria/reembolsoInversion",
+    
+    "spsMatrizRiesgos":"http://177.242.201.2:8052/clientes/spsMatrizRiesgos",
+    "crudMatrizRiesgos":"http://177.242.201.2:8052/clientes/crudMatrizRiesgos",
+    "spsValoracionRiesgos":"http://177.242.201.2:8052/clientes/spsValoracionRiesgos",
+    "crudValoracionRiesgos":"http://177.242.201.2:8052/clientes/crudValoracionRiesgos",
+  
+    "crudOpIntPreocupante" :"http://177.242.201.2:8051/catalogos/CrudOplPreocupantes",
+    "spsOpintPreocupante":"http://177.242.201.2:8051/catalogos/spsopintPreocupantes",
+    "spsReportePreocupante": "http://177.242.201.2:8051/catalogos/spsReportePreocupantes",
+  
+  
+    "listaPeps": "http://177.242.201.2:8051/catalogos/listaPeps",
+    "crudPeps": "http://177.242.201.2:8051/catalogos/crudPeps",
+    
+    "spsOpRelevante":"http://177.242.201.2:8052/clientes/spsOperacionRelevante",
+    "spsValorDolar": "http://177.242.201.2:8051/catalogos/spsDolar",
+  
+    "reporteRCFinanciamiento": "http://177.242.201.2:8053/digitalizacion/reporte",
+    "reporteIdentificacionRC": "http://177.242.201.2:8053/digitalizacion/reporte",
+    "reporteMonitoreo": "http://177.242.201.2:8053/digitalizacion/reporteMRC",
+    "reporteMonitoreoOp2": "http://177.242.201.2:8053/digitalizacion/reporteMD",
+    "reportePersonasRelacionadas": "http://177.242.201.2:8053/digitalizacion/reportePersonasR",
+  
+    "spsReporteRel": "http://177.242.201.2:8052/clientes/spsReporteRelevante",
+  
+    "spsPBA": "http://177.242.201.2:8051/catalogos/spsPBA",
+    "crudPBA": "http://177.242.201.2:8051/catalogos/crudPBA",
+    "reportePBA": "http://177.242.201.2:8051/catalogos/reportePBA",
+    "ListaCobroCreditoPendiente": "http://177.242.201.2:8056/tesoreria/listaCobroCreditoCliente",
+    "spsFrecunciaOperaciones": "http://177.242.201.2:8052/clientes/spsFrecuenciaOperacion",
+    "spsOpInusual": "http://177.242.201.2:8051/catalogos/spsOperacionesInsuales",
+    "spsReporteInusual": "http://177.242.201.2:8051/catalogos/spsReporteInusuales",
+    "spsSolicitudesActualiza":"http://177.242.201.2:8052/clientes/spsSolicicitudActualizacion",
+    "crudSolActualizacionCl": "http://177.242.201.2:8052/clientes/crudSolicitudesActualizacion",
+  
+    "historialCrediticio":"http://177.242.201.2:8054/creditos/historialCrediticio",
+    "historialPagos":"http://177.242.201.2:8054/creditos/historialPagos",
+    "listaConvenios":"http://177.242.201.2:8054/creditos/spsConvenio",
+    "crudConvenios":"http://177.242.201.2:8054/creditos/crudConvenio",
+  
+    "avisosMoratorio":"http://177.242.201.2:8054/creditos/spsAvisosMoratorios",
+    "avisosMoaratorioAuto": "http://177.242.201.2:8054/creditos/avisosMoratorio",
+    "spsExtrajudicialMorosos":"http://177.242.201.2:8054/creditos/spsExtrajudicialMorosos",
+    "crudExtrajudicial":"http://177.242.201.2:8054/creditos/crudExtrajudicial",
+    "spsExtrajudicialCitatorio" :"http://177.242.201.2:8054/creditos/spsExtrajudicialCitatorio",
+    "reporteHistorialCob":"http://177.242.201.2:8054/creditos/reporteHistorialCobranza",
+  
+    "spsUsuariosChat":"http://177.242.201.2:8051/catalogos/spsUsuarios",
+    "spsMovimientospolizas": "http://177.242.201.2:8055/contabilidad/spsMovimientospolizas",
+  
+    "listaDevengamientoCredito":"http://177.242.201.2:8055/contabilidad/listaDevengamientosCredito",
+    "devengamientoCreditos":"http://177.242.201.2:8055/contabilidad/devengamientoCreditos",
+    "listaDevengamientoInversion":"http://177.242.201.2:8055/contabilidad/listaDevengamientoInversion",
+    "devengamientoInversiones":"http://177.242.201.2:8055/contabilidad/devengamientoInversiones",
+    "spsDevengamientoAhorro":"http://177.242.201.2:8055/contabilidad/spsDevengamientoAhorro",
+    "generarDevAhorro":"http://177.242.201.2:8055/contabilidad/devengamientoAhorro",
+  
+    "mayorGeneral":"http://177.242.201.2:8055/contabilidad/mayorGeneral",
+    "listaCapNeto": "http://177.242.201.2:8055/contabilidad/listaCapitalNeto",
+    "crudCapitalNeto": "http://177.242.201.2:8055/contabilidad/crudCapitalNeto",
+    "generaCapNetoGlobal": "http://177.242.201.2:8055/contabilidad/crudCapitalNetoGlobal",
+    "spsListaCierreDiario": "http://177.242.201.2:8055/contabilidad/listaCierresDiarios",
+    "spiCierreDiario" : "http://177.242.201.2:8055/contabilidad/crudCierreDiario",
+    "spiCierreAnual"  : "http://177.242.201.2:8055/contabilidad/crudCierreAnual",
+  
+    "spsCfdiProveedor":"http://177.242.201.2:8055/contabilidad/spsCfdi",
+    "crudCfdiPoliza":"http://177.242.201.2:8055/contabilidad/crudCfdiPoliza",
+    "spsReporteEstadosResultados":"http://177.242.201.2:8055/contabilidad/spsReporteEstadosResultados",
+    "reporteOrigAplicacion":"http://177.242.201.2:8055/contabilidad/reporteOrigenAplicacion",
+    "spsReporteBalance":"http://177.242.201.2:8055/contabilidad/spsReporteBalance",
+  
+    "spsBalanza":"http://177.242.201.2:8055/contabilidad/spsBalanzaPDF",
+    "spsBalanzaCSV":"http://177.242.201.2:8055/contabilidad/spsBalanza",
+    
+    "spsCuentasPDF":"http://177.242.201.2:8055/contabilidad/spsCuentasPDF",
+    "spsCuentasXML" :"http://177.242.201.2:8055/contabilidad/spsCuentasXML",
+    "spsReporteBalanceCSV":"http://177.242.201.2:8055/contabilidad/spsReporteBalanceCSV",
+    "reporteCambioCapPdf":"http://177.242.201.2:8055/contabilidad/reporteCambioCap",
+    "reporteCambioCapCSV":"http://177.242.201.2:8055/contabilidad/reporteCambioCapCsv",
+    "spsPolizasXml":"http://177.242.201.2:8055/contabilidad/spsPolizasXml",
+    "spsPolizasfoliosXml":"http://177.242.201.2:8055/contabilidad/spsPolizasfoliosXml",
+    "spsAuxctasXml":"http://177.242.201.2:8055/contabilidad/spsAuxctasXml",
+    "reporteRazonesFinancieras": "http://177.242.201.2:8055/contabilidad/reporteRazonesF",
+    "clasificacionCreditos":"http://177.242.201.2:8054/creditos/clasificacionCreditos",
+    "spuClasificacionCredito":"http://177.242.201.2:8054/creditos/spuClasificacionCredito",
+    "spsCreditoRenovCliente":"http://177.242.201.2:8054/creditos/spsRenovacionCred",
+    "spsCantidadCreditoRenReest":"http://177.242.201.2:8054/creditos/spsCreditoRenReest",
+  
+    "spsGrupoClientes": "http://177.242.201.2:8052/clientes/spsGrupoClientes",
+    "spsReporteCalificacionEstimacionPrev":"http://177.242.201.2:8053/digitalizacion/spsEstimacionesPrev",
+    "spsReporteConcentracionCred":"http://177.242.201.2:8053/digitalizacion/spsReporteConcentracionCred",
+    "spsReporteTipoCredito":"http://177.242.201.2:8053/digitalizacion/spsReporteTipoCred",
+    "spsReporteZonaCredito":"http://177.242.201.2:8053/digitalizacion/spsReporteZonaCred",
+    "spsReporteActividadCredito":"http://177.242.201.2:8053/digitalizacion/spsReporteActiviadCred",
+    "spsReporteMatrizTransicion":"http://177.242.201.2:8053/digitalizacion/spsMatrizTransicion",
+    
+    "listaPrecierre": "http://177.242.201.2:8055/contabilidad/listaPrecierre",
+    "crudPrecierre": "http://177.242.201.2:8055/contabilidad/crudPrecierre",
+  
+    "spsFondeoBancario": "http://177.242.201.2:8051/catalogos/spsFondeoBancario",
+    "crudFondeoBancario":"http://177.242.201.2:8051/catalogos/crudFondeoBancario",
+    "crudVolatilidad":"http://177.242.201.2:8051/catalogos/crudVolatilidad", 
+    "spsVolatilidad": "http://177.242.201.2:8051/catalogos/spsVolatilidad",
+    "spsFraccParam": "http://177.242.201.2:8051/catalogos/spsFraccParam",
+    "crudFraccParametros": "http://177.242.201.2:8051/catalogos/crudFraccParam",
+  
+    "crudPolInversion":"http://177.242.201.2:8056/tesoreria/crudPolInversion", 
+    "spsPolInversion":"http://177.242.201.2:8056/tesoreria/spsPolInversion",
+    "spsClasificacionInv": "http://177.242.201.2:8056/tesoreria/spsClasificacionC",
+  
+    "getReporteMercado":"http://177.242.201.2:8053/digitalizacion/getReporteMercado",
+    "spsReporteLiquidez" : "http://177.242.201.2:8053/digitalizacion/spsReporteLiquidez",
+  
+    "crudGastos":        "http://177.242.201.2:8051/catalogos/crudGasto",
+    "listaGastos":       "http://177.242.201.2:8051/catalogos/spsGastos",
+    "listaGastosPorSuc": "http://177.242.201.2:8051/catalogos/spsGastosBySuc",
+    "crudDotacionesCaja": "http://177.242.201.2:8056/tesoreria/crudDotacionesCaja",
+    "spsDotacionesCaja": "http://177.242.201.2:8056/tesoreria/spsDotacionesCaja",
+    
+    "spsClabeCuentaCliente": "http://177.242.201.2:8056/tesoreria/cuentasClabeCliente",
+    "crudClabeClienteCajas": "http://177.242.201.2:8056/tesoreria/crudClabeClienteCajas",
+  
+    "spsEmpresasNomina":"http://177.242.201.2:8056/tesoreria/spsEmpresasNomina",
+    "crudEmpresasNomina":"http://177.242.201.2:8056/tesoreria/crudEmpresaNomina",
+    "spsPlantillas":"http://177.242.201.2:8056/tesoreria/spsPlantillasEmpresa",
+    "crudEmpleadosNomina":"http://177.242.201.2:8056/tesoreria/crudEmpleadosNomina",
+    "spsEmpleadosNomina": "http://177.242.201.2:8056/tesoreria/spsEmpleadosNomina",
+    "crudBitacoraPagoSPEI": "http://177.242.201.2:8056/tesoreria/crudBitPagoSPEI",
+  
+  
+    "spsTipoActivos":"http://177.242.201.2:8051/catalogos/listaTipoActivo",
+    "crudTipoActivos":"http://177.242.201.2:8051/catalogos/crudTipoActivo",
+    "spsTipoBajaActivo":"http://177.242.201.2:8051/catalogos/listaTipoBaja",
+    "crudTipoBajaActivo":"http://177.242.201.2:8051/catalogos/crudTipoBaja",
+    "crudParametros":"http://177.242.201.2:8051/catalogos/crudParametros",
+    "spsParametros": "http://177.242.201.2:8051/catalogos/spsParametros",
+    "spsActivoDepreciable":"http://177.242.201.2:8055/contabilidad/spsActivos",
+    "crudActivoDepreciable":"http://177.242.201.2:8055/contabilidad/crudActivo",
+    "crudActNoDepreciable":"http://177.242.201.2:8055/contabilidad/crudActivoNoDepre",
+    "spsActivosNoDepreciables":"http://177.242.201.2:8055/contabilidad/spsActivosNoDepreciables",
+    "crudActivoDetalle":"http://177.242.201.2:8055/contabilidad/crudActivoDetalle",
+    "spsDetalleActivo": "http://177.242.201.2:8055/contabilidad/spsDetalleActivo",
+    "crudActivoBaja":"http://177.242.201.2:8055/contabilidad/crudActivoBaja",
+    "spsActivoBaja": "http://177.242.201.2:8055/contabilidad/spsActivoBaja",
+    "crudPolActivo":"http://177.242.201.2:8055/contabilidad/crudPolizActivo",
+    "crudTipoCuentaBaja":"http://177.242.201.2:8051/catalogos/crudTipoCuentaB",
+    "spsTipoCuentaBaja":"http://177.242.201.2:8051/catalogos/spsTipoCuentaAct",
+  
+  
+    "isActivoMEAPI":"http://localhost:8089/meapi/getActivo",
+    "enviarOrdenesMEAPI":"http://localhost:8089/meapi/enviaOrdenes",
+    "getCatalogosMEAPI":"http://localhost:8089/speis/getCatalogos",
+    "crudBeneficiariosSPEI":"http://localhost:8089/spei/crudBeneficiariosSPEI",
+    "listaBeneficiariosSPEI":"http://localhost:8089/spei/listaBeneficiariosSPEI",
+    "crudPagoSPEI":"http://localhost:8089/spei/crudPagoSPEI",
+    "getFechaOperacion":"http://localhost:8089/speis/getFechaOperacion",
+    "spsPagoSPEI": "http://localhost:8089/spei/spsPagoSPEI",
+    "spsPagosRecibidosSPEI":"http://localhost:8089/spei/spsPagosRecibidosSPEI",
+  
+    "reporteActivo":"http://177.242.201.2:8055/contabilidad/reporteActivo",
+    "reporteBajaAct":"http://177.242.201.2:8055/contabilidad/reporteBajaAct",
+    "reporteInpcAct":"http://177.242.201.2:8055/contabilidad/reporteActivoInpc",
+    "reporteUbicacionAct":"http://177.242.201.2:8055/contabilidad/reporteActivosUbicacion",
+    "reporteCheckAct":"http://177.242.201.2:8055/contabilidad/reporteActivosCheck",
+    "reporteConciliacionAct":"http://177.242.201.2:8055/contabilidad/reporteActivosConciliacion",
+    "reporteSolicitudAdmision":"http://177.242.201.2:8054/creditos/reporteSolicitudAdmision",
+    "reporteSocieconomico":"http://177.242.201.2:8054/creditos/reporteEstudioSocioE",
+  
+    "bitacoraMTC":"http://177.242.201.2:8055/mtcenter/bitacoraMTC",
+    "loginMTC":"http://177.242.201.2:8055/mtcenter/login",
+    "vtae":"http://177.242.201.2:8055/mtcenter/vtae",
+    "saldoTAE":"http://177.242.201.2:8055/mtcenter/saldoTAE",
+    "saldoServicios":"http://177.242.201.2:8055/mtcenter/saldoServicios",
+    "vservicio":"http://177.242.201.2:8055/mtcenter/vservicio",
+    "consultaReferencia":"http://177.242.201.2:8055/mtcenter/consultaReferencia",
+    "reversoServicio":"http://177.242.201.2:8055/mtcenter/reversoServicio",
+    "reversoTAE":"http://177.242.201.2:8055/mtcenter/reversoTAE",
+
+    "listaEstablecimientosMTCenter":"http://177.242.201.2:8051/catalogos/spsEstablecimientosMTCenter",
+    "crduEstablecimientosMTCenter":"http://177.242.201.2:8051/catalogos/crudEstablecimientosMTCenter",
+    "spsVentasMTCenter":"http://177.242.201.2:8055/contabilidad/spsVentasMTCenter",
+    "reporteAvisoPrivacidad":"http://177.242.201.2:8054/creditos/reporteAvisoPrivacidad"
+  
+  
+  }
+  

@@ -1,0 +1,51 @@
+<h3 class="text-center">Empresas con servicio de dispersi&oacute;n de n&oacute;mina</h3>
+<div class="row">
+    <!-- Botón para registrar -->
+    <div class="col-md-2">
+        <button mat-raised-button color="primary" (click)="abrirModalServicio(1)">Registrar </button>
+    </div>
+   
+ <!--Filtro-->
+ <mat-form-field class="col-md-12">
+    <mat-label>Filtros de Busqueda</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Nombre" #input>
+</mat-form-field>
+</div>
+<!--Cuerpo de la tabla-->
+<div class="mat-elevation-z8 table-responsive">
+    <table aria-label="Busqueda de empresas" mat-table [dataSource]="dataSourceEmpresa" matSort>
+        <!-- No. Cuenta Column -->
+        <ng-container matColumnDef="noCuenta">
+            <th id="cuenta" mat-header-cell *matHeaderCellDef>N&uacute;mero de cuenta </th>
+            <td mat-cell *matCellDef="let empresa"> {{empresa.numero_cliente}} </td>
+        </ng-container>
+
+        <!-- Empresa Column -->
+        <ng-container matColumnDef="empresa">
+            <th id="nombre" mat-header-cell style="padding: 16px;" *matHeaderCellDef>Empresa </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let empresa">{{empresa.nombre}}
+                </td>
+        </ng-container>
+
+      
+        <!-- Dsipersion -->
+        <ng-container matColumnDef="medioDispersion">
+            <th id="dispersion" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Dispersion</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let empresa">
+                {{empresa.medio_dispersion}} </td>
+        </ng-container>
+        <!-- estado -->
+        <ng-container matColumnDef="estado">
+            <th id="estatus" mat-header-cell *matHeaderCellDef> Estatus</th>
+            <td mat-cell *matCellDef="let empresa">{{empresa.estatus}} 
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row id="poliza" (click)="getRecord(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+showFirstLastButtons aria-label="Seleccionar pagina de solicitudes">
+</mat-paginator>

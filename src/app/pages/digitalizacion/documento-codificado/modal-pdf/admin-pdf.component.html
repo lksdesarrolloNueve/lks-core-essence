@@ -1,0 +1,18 @@
+
+  <!--Se hace dinámico el título del modal, de acuerdo si es
+un guardado o  un editado-->
+  <h2 mat-dialog-title>Visualizador</h2>
+
+<!-- visualizador de archivos -->
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe style="position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;" onload="resizeIframe(this)" onresize="resizeIframe(this)" frameBorder="0" [src]="urlSafe" downloadFile="urlSafe"></iframe>
+  </div>
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onClickDownload()">Descargar<mat-icon>archive</mat-icon></button>
+    <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn">Cancelar</button>
+  </mat-dialog-actions>

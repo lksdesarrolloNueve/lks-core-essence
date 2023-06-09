@@ -1,0 +1,44 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formTipoAmortizacion">
+        <p></p>
+        <div class="row">
+            <div class="col-12">
+                <!-- clave descripcion -->
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Clave</mat-label>
+                        <input formControlName="clave" matInput placeholder="Ejemplo:Fijos.">
+                        <mat-icon matSuffix>code</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.clave" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formTipoAmortizacion.get('clave').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+            </div>
+            <div class="col-12">
+                <!-- breve descripcion -->
+                    <mat-form-field  class="full-width" appearance="outline">
+                        <mat-label>Descripcion</mat-label>
+                        <input formControlName="descripcion" matInput placeholder="Ejemplo:Fijos.">
+                        <mat-icon matSuffix>description_outlined</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formTipoAmortizacion.get('descripcion').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" (click)="guardartipoamort()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion === 2" (click)="EditarTipoAmort()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

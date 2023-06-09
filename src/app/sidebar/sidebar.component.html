@@ -1,0 +1,81 @@
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <a class="simple-text logo-normal">
+      <div class="logo-image-small">
+        <!--img  mat-card-xl-image src="assets/img/lkslogos/binmtec.jpeg" alt="Logo Empresarial"-->
+        <img  mat-card-xl-image src="assets/img/lkslogos/toliman.jpeg" alt="Logo Empresarial">
+      </div>
+    </a>
+  </div>
+  <ul class="nav">
+
+
+    <li *ngFor="let menu of listaMenus;" [routerLinkActive]="['active']">
+
+
+        
+      <a  *ngIf="menu.submenus.length > 0" data-toggle="collapse" href="#{{menu.cvemenu}}">
+        <i class="nc-icon {{menu.icon}} text-dark"></i>
+        <p>
+          <strong>
+            <p class="text-dark">{{menu.titulo}}</p>
+          </strong>
+          <strong class="caret text-dark"></strong>
+        </p>
+      </a>
+
+      <div *ngIf="menu.submenus.length > 0" class="collapse " id="{{menu.cvemenu}}">
+
+          <li *ngFor="let submenu2 of menu.submenus" [routerLinkActive]="['active']">
+
+                <a *ngIf="submenu2.submenus.length === 0" [routerLink]="[submenu2.pathurl]" 
+                routerLinkActive="active">
+                  <p class="text-dark" style="margin-left : 55px;">{{submenu2.titulo}} </p>
+                </a>
+
+                <a  *ngIf="submenu2.submenus.length > 0" data-toggle="collapse" href="#{{submenu2.cvemenu}}">
+                  <i class="nc-icon {{submenu2.icon}} text-dark"></i>
+                  <p>
+                    <strong>
+                      <p class="text-dark" style="margin-left : 45px;">{{submenu2.titulo}}</p>
+                    </strong>
+                    <strong class="caret text-dark"></strong>
+                  </p>
+                </a>
+
+                <div *ngIf="submenu2.submenus.length > 0"  class="collapse " id="{{submenu2.cvemenu}}">
+                  <ul class="nav">
+                    <li *ngFor="let submenu3 of submenu2.submenus" [routerLinkActive]="['active']">
+                      <a [routerLink]="[submenu3.pathurl]" routerLinkActive="active">
+                        <p class="text-dark" style="margin-left : 55px;">{{submenu3.titulo}} </p>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+          </li>
+
+
+      </div>
+
+
+
+
+    <a *ngIf="menu.submenus.length === 0" [routerLink]="[menu.pathurl]">
+      <i class="nc-icon {{menu.icon}} text-dark"></i>
+      <p>
+        <strong>
+          <p class="text-dark">{{menu.titulo}}</p>
+        </strong>
+      </p>
+    </a>
+
+  </li>
+
+
+  </ul>
+
+</div>
+
+
+

@@ -1,0 +1,53 @@
+<mat-card>
+
+    <div class="row">
+        <div class="col-4"></div>
+
+        <div class="col-4">
+            <mat-card-content>Consulta Saldo TAE MTCenter</mat-card-content>
+
+            <form [formGroup]="formLogin" autocomplete="off">
+                <ng-template matStepLabel>Usuario</ng-template>
+        
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Usuario</mat-label>
+                    <input formControlName="usuarioRecarga" autocomplete="off" matInput>
+                    <mat-icon matSuffix>person</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.usuarioRecarga" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formLogin.get('usuarioRecarga').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+        
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input formControlName="contraseniaRecarga" autocomplete="off" matInput type="password">
+                    <mat-icon matSuffix>password</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.contraseniaRecarga" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formLogin.get('contraseniaRecarga').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <button mat-raised-button (click)="consultarSaldo()" color="primary">Consultar</button>
+
+                <div *ngIf="saldo">
+                    <br>
+                    <h1>Fecha: <strong>{{saldo.fecha_hora}}</strong></h1>
+                    <h1>Saldo: <strong>{{saldo.saldo | currency: 'MXN'}}</strong></h1>
+                    <h1>Cr&eacute;dito: <strong>{{saldo.credito | currency: 'MXN'}}</strong></h1>
+
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-4"></div>
+
+    </div>
+
+
+
+</mat-card>

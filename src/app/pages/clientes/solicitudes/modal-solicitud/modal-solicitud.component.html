@@ -1,0 +1,96 @@
+<h2 mat-dialog-title class="align-items-center">{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    <div class="col-12">
+    <form [formGroup]="formSolicitud">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput formControlName="fecha"  [readonly]="lectura" placeholder="Fecha registro">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Estatus Solicitud</mat-label>
+                        <mat-select formControlName="estatus">
+                            <mat-option *ngFor="let principal of listaEstSolicitud" [value]="principal.generalesId">
+                                {{principal.descripcion}}
+                            </mat-option>
+                        </mat-select>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.estatus" ngProjectAs="mat-error">
+                          <mat-error *ngIf="formSolicitud.get('estatus').hasError(error.type)" >
+                              <strong> {{error.message}}</strong>
+                          </mat-error>                  
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="mayuscula">No. {{lblCliente}}</mat-label>
+                        <input formControlName="cliente" matInput placeholder="No. {{lblClientes}}" [readonly]="lectura">
+                        <button mat-button matSuffix mat-stroked-button color="primary" [disabled]="autoriza" (click)="modalClientes()">
+                            <mat-icon matSuffix matTooltip="Buscar cliente"><span
+                                    class="material-icons-outlined">person_search</span>
+                            </mat-icon>
+                        </button>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.cliente" ngProjectAs="mat-error">
+                          <mat-error *ngIf="formSolicitud.get('cliente').hasError(error.type)" >
+                              <strong> {{error.message}}</strong>
+                          </mat-error>                  
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Motivo</mat-label>
+                        <textarea matInput formControlName="motivo" type="text"
+                            placeholder="Motivo de actualizaci&oacute;n"></textarea>
+                        <mat-icon matSuffix>code</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.motivo" ngProjectAs="mat-error">
+                          <mat-error *ngIf="formSolicitud.get('motivo').hasError(error.type)" >
+                              <strong> {{error.message}}</strong>
+                          </mat-error>                  
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Secci&oacute;n</mat-label>
+                      <mat-select formControlName="seccion" multiple>
+                        <mat-option *ngFor="let modulo of listaModulos" [value]="modulo.generalesId">
+                          {{modulo.descripcion}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-icon matSuffix>view_module</mat-icon>
+                      <ng-template ngFor let-error [ngForOf]="validaciones.seccion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formSolicitud.get('seccion').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                      </ng-template>
+                    </mat-form-field>
+                  </div>
+                <div class="col-md-6" *ngIf="cargo && !estatusNueva">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Autorizaci&oacute;n</mat-label>
+                        <textarea matInput formControlName="autorizacion" MaxLength="250" placeholder="Descripci&oacute;n"></textarea>
+                        <mat-icon matSuffix>subject</mat-icon>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="cargo && !estatusNueva">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Autoriza</mat-label>
+                        <input matInput formControlName="usuario" placeholder="Autoriza">
+                        <mat-icon matSuffix>subject</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>  
+    </form>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end"> 
+    <button mat-raised-button *ngIf="!autoriza" (click)="guardarAutorizar(1)" color="primary">Guardar</button>
+    <button mat-raised-button *ngIf="autoriza" [disabled]="btnDisabled" (click)="guardarAutorizar(2)" color="primary">Autorizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

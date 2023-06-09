@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card card-body">
+        <h3 class="text-center">Cajas</h3>
+        <div class="row">
+            <div class="col-2"><button mat-raised-button color="primary" (click)="openDialog(0)">Registrar </button></div>
+            <div class="col-10"></div>
+          </div>
+
+        <!--Filtro-->
+    <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Cve Caja, Descripci&oacute;n, Sucursal" #input>
+      </mat-form-field>
+      <div class="mat-elevation-z8 table-responsive">
+        <table aria-label="infoCaja" mat-table [dataSource]="dataSourceCajas"   matSort>
+  
+          <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+  
+  
+          <!--Clave Caja Column -->
+          <ng-container matColumnDef="cveCaja">
+            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave Caja </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let caja"> {{caja.cvecaja}} </td>
+          </ng-container>
+  
+          <!-- Descripcion Column -->
+          <ng-container matColumnDef="desCaja">
+            <th  scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Descripci&oacute;n Caja</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let caja"> {{caja.descripcion}} </td>
+          </ng-container>
+  
+          <!-- sucursalID Column -->
+          <ng-container matColumnDef="cveCuentaBan">
+            <th  scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave Cuenta Bancaria</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let caja"> {{caja.cuentabancaria.claveCuenta}} </td>
+          </ng-container>
+  
+          <!-- Cuenta Bancaria Column -->
+          <ng-container matColumnDef="desCuentaBan">
+            <th  scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Descripci&oacute;n cuenta Bancaria</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let caja"> {{caja.cuentabancaria.descripcionCuenta}} </td>
+          </ng-container>
+  
+            <!-- Cuenta Bancaria Column -->
+            <ng-container matColumnDef="cveCuentaSuc">
+              <th  scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave Sucursal</th>
+              <td mat-cell style="padding: 16px;" *matCellDef="let caja"> {{caja.sucursal.cveSucursal}} </td>
+            </ng-container>
+
+            <!-- Cuenta Bancaria Column -->
+            <ng-container matColumnDef="nombreSucursal">
+              <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Nombre Sucursal</th>
+              <td mat-cell style="padding: 16px;" *matCellDef="let caja"> {{caja.sucursal.nombreSucursal}} </td>
+            </ng-container>
+
+              <!-- Estatus Cuenta Bancaria-->
+          <ng-container matColumnDef="estatusCuentaBan">
+            <th  scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus Cuenta Bancaria</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let element">
+              <mat-slide-toggle  [disabled]="disabled"
+              matTooltip="Estatus de la Cuenta Bancaria"
+              [ngModel]="element.cuentabancaria.estatus" color="primary">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+         
+          <!-- Estatus -->
+          <ng-container matColumnDef="estatus">
+            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let element">
+              <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)" color="primary">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+          <!-- Acciones Column -->
+          <ng-container matColumnDef="acciones">
+            <th scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+            <!-- Boton delete Column -->
+            <td mat-cell *matCellDef="let element">
+              <!-- Boton Editar Column -->
+              <button mat-mini-fab (click)="openDialog(element)" color="primary">
+                <mat-icon>mode_edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+          <!--Paginador para mostrar la tabla desde 5 a 100 registros-->
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+          </mat-paginator>
+    </div>
+  </div>
+</div>

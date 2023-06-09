@@ -1,0 +1,207 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h2 class="text-center">Comit&eacute; de cr&eacute;dito</h2>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="text-center">{{nombreTab}} </h2>
+                </div>
+                <div class="col-2" *ngIf="comiteID==0">
+                    <button mat-fab color="primary" (click)="crudComite(1)">
+                        <mat-icon matTooltip="Guardar">done_outline</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2" *ngIf="comiteID>0">
+                    <button mat-fab color="primary" (click)="crudComite(2)">
+                        <mat-icon matTooltip="Editar">create</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button mat-fab (click)="limpiarCampos()" color="primary">
+                        <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--termina encabezado-->
+<div class="row">
+    <!-- Lista de comite-->
+    <div class="col-md-4">
+        <div class="card card-body">
+            <mat-form-field>
+                <input matInput [(ngModel)]="textoBusqueda" placeholder="Filtrar comit&eacute;" autocomplete="off"
+                    (input)="buscarComite()">
+            </mat-form-field>
+            <mat-nav-list class="scroll-container" [ngStyle]="{'height': '450', 'width':'100%'}">
+                <mat-list-item *ngFor="let comite of listaComite" (click)="mostrarComite(comite.clave)">
+                    <p matListItemTitle>{{comite.nombre}}</p>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+        </div>
+        <!--form de comite-->
+        <div class="col-md-8">
+            <div class="card card-body">
+            <mat-tab-group backgroundColor="primary">
+                <mat-tab label="Comit&eacute;">
+                    <br>
+                    <!--Formulario Comite-->
+                    <form [formGroup]="formComite">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>Clave comite</mat-label>
+                                    <mat-icon matSuffix>code</mat-icon>
+                                    <input type="text" placeholder="Clave" [readonly]="true" matInput
+                                        formControlName="clave">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput formControlName="comite" placeholder="Nombre del comite">
+                                    <mat-icon matSuffix>group_work</mat-icon>
+                                    <ng-template ngFor let-error [ngForOf]="validacionesComite.comite" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formComite.get('comite').hasError(error.type)">
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <p>
+                                    <mat-slide-toggle formControlName="estatus" color="primary">
+                                        Estatus
+                                    </mat-slide-toggle>
+
+                                </p>
+                            </div>
+                            <!--tabla de sucursales donde opera el comite-->
+                            <h2 class="text-center col-md-12"><strong> Sucursales en las que opera el comite </strong></h2>
+                            <mat-divider class="col-md-12"> </mat-divider>
+                            <table aria-label="Sucursales" mat-table [dataSource]="dataSourceSucursales">
+
+                                <!-- Checkbox Column -->
+                                <ng-container matColumnDef="seleccion">
+                                    <th id="chk" mat-header-cell *matHeaderCellDef>
+                                        <mat-checkbox matTooltip="Seleccionados"
+                                            (change)="$event ? masterToggle() : null"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                            [aria-label]="casillaVerificacion()">
+                                        </mat-checkbox>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()"
+                                            (change)="$event ? selection.toggle(row) : null"
+                                            [checked]="selection.isSelected(row)"
+                                            [aria-label]="casillaVerificacion(row)">
+                                        </mat-checkbox>
+                                    </td>
+                                </ng-container>
+                                <!--  Column -->
+                                <ng-container matColumnDef="cveSucursal">
+                                    <th id="claveS" mat-header-cell *matHeaderCellDef> Clave </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.cveSucursal}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="nombreSucursal">
+                                    <th id="nombre" mat-header-cell *matHeaderCellDef> Sucursal </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.nombreSucursal}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="estatus">
+                                    <th id="estatus" mat-header-cell *matHeaderCellDef> Estatus </th>
+                                    <td mat-cell *matCellDef="let element"><span
+                                            *ngIf="element.estatus==true">Activa</span>
+                                        <span *ngIf="element.estatus==false">Inactiva</span>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                    (click)="selection.toggle(row)">
+                                </tr>
+
+                            </table>
+                            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5"
+                                [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                    </form>
+                    <!--Form grupo-->
+                </mat-tab>
+                <mat-tab label="Integrantes">
+                    <!--tabla de integrantes donde comite-->
+                    <h2 class="text-center col-md-12"><strong> Integrantes del comite </strong></h2>
+                    <mat-divider class="col-md-12"> </mat-divider>
+                    <!--Filtro -->
+                    <div class="row"> 
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Filtros de Busqueda</mat-label>
+                        <input matInput (keyup)="aplicarFiltro($event)" placeholder="Usuarios" #input>
+                    </mat-form-field>
+                </div>
+                    <form [formGroup]="formIntegrantes">
+                        <table aria-label="Integrantes" mat-table [dataSource]="dataSourceIntegrantes">
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="seleccionI">
+                                <th id="chk" mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox matTooltip="Seleccionados" (change)="$event ? allAny() : null"
+                                        [checked]="selectionI.hasValue() && estaSeleccionado()"
+                                        [indeterminate]="selectionI.hasValue() && !estaSeleccionado()"
+                                        [aria-label]="casillaVerificacionI()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selectionI.toggle(row) : null"
+                                        [checked]="selectionI.isSelected(row)" [aria-label]="casillaVerificacionI(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+                            <!--  Column -->
+                            <ng-container matColumnDef="alias">
+                                <th id="claveS" mat-header-cell *matHeaderCellDef> Alias </th>
+                                <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="nombre">
+                                <th id="nombre" mat-header-cell *matHeaderCellDef> Usuario </th>
+                                <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="cargo">
+                                <th id="cargo" mat-header-cell *matHeaderCellDef> Cargo </th>
+                                <td mat-cell *matCellDef="let element; let i = index;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Cargo</mat-label>
+                                        <mat-select formControlName="cargoC{{i}}" name="cargo"
+                                            [(value)]="element.email">
+                                            <mat-option *ngFor="let cargo of listaCargoComite" [value]="cargo">
+                                                {{cargo.descripcion}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="onCtrlValidate('cargoC' + i,'required')">Selecciona un cargo.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="estatusI">
+                                <th id="estatus" mat-header-cell *matHeaderCellDef> Estatus </th>
+                                <td mat-cell *matCellDef="let element"><span *ngIf="element.enabled==true">Activo</span>
+                                    <span *ngIf="element.enabled==false">Inactivo</span>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsIn"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsIn;">
+                            </tr>
+                        </table>
+                    </form>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+    <!--terminaform de comite-->
+</div>

@@ -1,0 +1,895 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field class="full-width" appearance="outline" class="full-width">
+                        <mat-label>Grupos</mat-label>
+                        <input type="text" matInput [matAutocomplete]="autoGrupos" [formControl]="grupos">
+                        <mat-icon matSuffix><span class="material-icons-outlined">list</span>
+                        </mat-icon>
+                        <mat-autocomplete autoActiveFirstOption #autoGrupos="matAutocomplete"
+                            [displayWith]="displayFnGrupos">
+                            <mat-option *ngFor="let option of opcionesGrupo | async" [value]="option"
+                                (click)="cargarInformacion(option)">
+                                {{option.nombreGrupo}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <h3>Grupo: <strong>{{lblNombreGrupo}}</strong></h3>
+                </div>
+                <div class="col-md-6">
+                    <button color="primary" mat-mini-fab aria-label="Boton para eliminar">
+                        <mat-icon>
+                            cancel
+                        </mat-icon>
+                    </button>
+                </div>
+
+                <div class="col-md-12">
+                    <mat-tab-group backgroundColor="primary">
+                        <mat-tab label="SOLICITUD">
+                            <mat-tab-group backgroundColor="primary">
+
+                                <mat-tab label="INTEGRANTES">
+                                    <br>
+                                    <section class="mat-elevation-z8 table-responsive" tabindex="0">
+                                        <table aria-label="Tabla Integrantes Grupo" mat-table
+                                            [dataSource]="dataSourceIntegrantes" matSort #sortIntegrantes="matSort">
+                                            <ng-container matColumnDef="numero_cliente">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef mat-sort-header>
+                                                    No. {{lblCliente}}
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.numero_cliente}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="nombre_completo" sticky>
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef mat-sort-header>
+                                                    Nombre
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.nombre_completo}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="edad">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Edad
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.edad}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="domicilio">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Domicilio
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.domicilio}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="profesion">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Profesi&oacute;n
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.profesion}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="estatus_cliente">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Estatus {{lblCliente}}
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.estatus_cliente}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="tipo_socio">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Tipo {{lblCliente}}
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.tipo_socio}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="tipointegrante">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Rol Grupal
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.tipointegrante}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="nombre_suc">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Sucursal
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.nombre_suc}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="acciones" stickyEnd>
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Acciones
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    <button color="primary" *ngIf="element.cve_generales === '41II'"
+                                                        (click)="eliminarParticipante(element)" mat-mini-fab
+                                                        aria-label="Boton para eliminar">
+                                                        <mat-icon>
+                                                            delete
+                                                        </mat-icon>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumnsIntegrantes">
+                                            </tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumnsIntegrantes;">
+                                            </tr>
+                                        </table>
+                                    </section>
+                                    <mat-paginator #paginatorIntegrantes="matPaginator" [length]="10" [pageSize]="10"
+                                        [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons
+                                        aria-label="Select page of users">
+                                    </mat-paginator>
+                                </mat-tab>
+
+                                <mat-tab label="CRÉDITO">
+                                    <br>
+                                    <form [formGroup]="formCredito">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Cr&eacute;dito</mat-label>
+                                                    <input type="text" matInput formControlName="credito"
+                                                        [matAutocomplete]="autoTipoCredito">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span>
+                                                    </mat-icon>
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoTipoCredito="matAutocomplete"
+                                                        [displayWith]="displayFnCredito">
+                                                        <mat-option *ngFor="let option of opcionesCredito | async"
+                                                            (click)="cargarInformacionCredito(option)" [value]="option">
+                                                            {{option.descripcion}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.credito" ngProjectAs="mat-error">
+                                                        <mat-error *ngIf="formCredito.get('credito').hasError(error.type)">
+                                                          <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <mat-form-field class="full-width" appearance="outline"
+                                                    class="full-width">
+                                                    <mat-label>Condici&oacute;n de Pago</mat-label>
+                                                    <input type="text" matInput formControlName="condicionPago" matInput
+                                                        [readonly]="true">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">list</span>
+                                                    </mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Finalidad</mat-label>
+                                                    <input formControlName="finalidad" matInput [readonly]="true">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">numbers</span>
+                                                    </mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Calificaci&oacute;n Buro</mat-label>
+                                                    <mat-icon matSuffix>list</mat-icon>
+                                                    <mat-select formControlName="calificacionBuro"
+                                                        name="calificacionBuro"
+                                                        matTooltip="Nulo - Cuenta sin Información o Muy reciente para ser calificada.                                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        Excelente - Cuenta al corriente, 0 días de atraso.
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        Muy Bueno -  Cuenta con atraso de 1 a 29 días.
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        Bueno - Cuenta con atraso de 30 a 59 días.
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        Regular - Cuenta con atraso de 60 a 89 días.
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        Malo - Cuenta con atraso de 90 a 119 días.
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                        Pésimo - Cuenta con atraso más 120 días de atraso.">
+                                                        <mat-option
+                                                            *ngFor="let calificacionBuro of listaCalificacionBuro"
+                                                            [value]="calificacionBuro">
+                                                            {{calificacionBuro.descripcion}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.calificacionBuro" ngProjectAs="mat-error">
+                                                        <mat-error *ngIf="formCredito.get('calificacionBuro').hasError(error.type)">
+                                                          <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <mat-slider [max]="max" [min]="min"
+                                                            [step]="step" [discrete]="thumbLabel" [(ngModel)]="value" color="primary"
+                                                            name="tasaInteres" ngDefaultControl
+                                                            formControlName="tasaInteres"
+                                                            aria-labelledby="example-name-label"><input matSliderThumb />
+                                                        </mat-slider>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h2 class="example-h2">Tasa Inter&eacute;s
+                                                        </h2>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <h2 class="example-h2">{{value}}%</h2>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Tasa Moratoria</mat-label>
+                                                    <input formControlName="tasaMoratoria" matInput [readonly]="true"
+                                                        placeholder="Tasa Moratoria">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">numbers</span>
+                                                    </mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Periodo</mat-label>
+                                                    <mat-icon matSuffix>format_list_numbered
+                                                    </mat-icon>
+                                                    <mat-select formControlName="periodo" name="periodo">
+                                                        <mat-option *ngFor="let periodo of listaFrecuenciaPago"
+                                                            [value]="periodo">
+                                                            {{periodo.descripcion}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.periodo" ngProjectAs="mat-error">
+                                                        <mat-error *ngIf="formCredito.get('periodo').hasError(error.type)">
+                                                          <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Pagos a Cubrir en</mat-label>
+                                                    <input formControlName="noPagos" matInput
+                                                        placeholder="Pagos a Cubrir en" [readonly]="!readOnly">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">numbers</span>
+                                                    </mat-icon>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.noPagos" ngProjectAs="mat-error">
+                                                        <mat-error *ngIf="formCredito.get('noPagos').hasError(error.type)">
+                                                          <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Monto Total Cr&eacute;dito</mat-label>
+                                                    <input formControlName="montoCredito" matInput
+                                                        placeholder="Monto Crédito" [value]="cantidad"
+                                                        (change)="updateValue($event.target.value)" [readonly]="true">
+                                                    <mat-icon matSuffix><span
+                                                            class="material-icons-outlined">numbers</span>
+                                                    </mat-icon>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!----- Filtro estado -------->
+                                            <div class="col-md-3">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Estado</mat-label>
+                                                    <mat-icon matSuffix>map</mat-icon>
+                                                    <input type="text" placeholder="Nombre Estado" matInput
+                                                        formControlName="estadoDestino" [matAutocomplete]="autoECl">
+                                                    <mat-autocomplete autoActiveFirstOption #autoECl="matAutocomplete"
+                                                        (optionSelected)="opcionSeleccionadaE($event)"
+                                                        [displayWith]="mostrarEstado">
+                                                        <mat-option *ngFor="let option of opcionesEstado | async"
+                                                            [value]="option">
+                                                            {{option.nombreEstado}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.estadoDestino" ngProjectAs="mat-error">
+                                                        <mat-error *ngIf="formCredito.get('estadoDestino').hasError(error.type)">
+                                                          <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-------Filtro Ciudad -->
+                                            <div class="col-md-3">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Destino de Recurso</mat-label>
+                                                    <mat-icon matSuffix>map</mat-icon>
+                                                    <input type="text" placeholder="Destino de Recurso" matInput
+                                                        formControlName="destinoRecurso"
+                                                        [matAutocomplete]="autoCiudadCre">
+                                                    <mat-autocomplete autoActiveFirstOption
+                                                        #autoCiudadCre="matAutocomplete"
+                                                        (optionSelected)="opcionSelecCiudad($event)"
+                                                        [displayWith]="mostrarCd">
+                                                        <mat-option *ngFor="let option of opcionesCiudades | async"
+                                                            [value]="option">
+                                                            {{option.nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <ng-template ngFor let-error [ngForOf]="validaciones.destinoRecurso" ngProjectAs="mat-error">
+                                                        <mat-error *ngIf="formCredito.get('destinoRecurso').hasError(error.type)">
+                                                          <strong> {{error.message}}</strong>
+                                                        </mat-error>
+                                                    </ng-template>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <br>
+                                    <mat-divider></mat-divider>
+                                    <h3 CLASS="text-center"><strong>Integrantes</strong></h3>
+
+
+                                    <section class="mat-elevation-z8 table-responsive" tabindex="0">
+                                        <table aria-label="Tabla Integrantes Grupo" mat-table
+                                            [dataSource]="dataSourceValores" matSort #sortValores="matSort">
+                                            <ng-container matColumnDef="numero_cliente">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    No. {{lblCliente}}
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.numero_cliente}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="nombre_completo" sticky>
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Nombre
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.nombre_completo}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="edad">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Edad
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.edad}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="domicilio">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Domicilio
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.domicilio}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="tipointegrante">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Rol Grupal
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.tipointegrante}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="monto">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Monto del Cr&eacute;dito
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    <mat-form-field floatLabel="never" appearance="outline"
+                                                        class="full-width">
+                                                        <strong> <input matInput placeholder="Monto" required
+                                                                [readonly]="!readOnly" pattern="[0-9]*\.?[0-9]*"
+                                                                [id]="element.numero_cliente" style="text-align:center;"
+                                                                mask="separator.2" thousandSeparator=","
+                                                                (keyup.enter)="agregarMonto(element)"></strong>
+                                                        <button mat-button matSuffix aria-label="search"
+                                                            (click)="agregarMonto(element)">
+                                                            <mat-icon matTooltip="Agregar Monto">add
+                                                            </mat-icon>
+                                                        </button>
+                                                    </mat-form-field>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="buro">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Calificaci&oacute;n Buro
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    <mat-form-field appearance="outline" class="full-width">
+                                                        <mat-label>Calificaci&oacute;n Buro</mat-label>
+                                                        <mat-icon matSuffix>list</mat-icon>
+                                                        <mat-select name="calificacionBuro"
+                                                            (selectionChange)="selectCalificacion($event,element)"
+                                                            matTooltip="Nulo - Cuenta sin Información o Muy reciente para ser calificada.                                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            Excelente - Cuenta al corriente, 0 días de atraso.
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            Muy Bueno -  Cuenta con atraso de 1 a 29 días.
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            Bueno - Cuenta con atraso de 30 a 59 días.
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            Regular - Cuenta con atraso de 60 a 89 días.
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            Malo - Cuenta con atraso de 90 a 119 días.
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                            Pésimo - Cuenta con atraso más 120 días de atraso.">
+                                                            <mat-option
+                                                                *ngFor="let calificacionBuro of listaCalificacionBuro"
+                                                                [value]="calificacionBuro">
+                                                                {{calificacionBuro.descripcion}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <ng-template ngFor let-error [ngForOf]="validaciones.calificacionBuro" ngProjectAs="mat-error">
+                                                            <mat-error *ngIf="formCredito.get('calificacionBuro').hasError(error.type)">
+                                                              <strong> {{error.message}}</strong>
+                                                            </mat-error>
+                                                        </ng-template>
+                                                    </mat-form-field>
+                                                </td>
+                                            </ng-container>
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumnsValores">
+                                            </tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumnsValores;">
+                                            </tr>
+                                        </table>
+                                    </section>
+                                    <mat-paginator #paginatorValores="matPaginator" [length]="10" [pageSize]="10"
+                                        [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons
+                                        aria-label="Select page of users">
+                                    </mat-paginator>
+
+                                </mat-tab>
+
+                                <mat-tab label="INGRESOS">
+                                    <br>
+
+                                    <div class="mat-elevation-z8 table-responsive">
+                                        <table aria-label="Tabla Integrantes Grupo" mat-table
+                                            [dataSource]="dataSourcePerfil" matSort #sortPerfil="matSort">
+                                            <ng-container matColumnDef="numero_cliente">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    No. {{lblCliente}}
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.numero_cliente}}
+                                                </td>
+                                                <td style="padding: 16px;" mat-footer-cell *matFooterCellDef> Total
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="nombre_completo" sticky>
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Nombre
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{element.nombre_completo}}
+                                                </td>
+                                                <td style="padding: 16px;" mat-footer-cell *matFooterCellDef> </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="ingresos">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Ingresos
+                                                </th>
+                                                <td style="padding: 16px;" matRipple mat-cell *matCellDef="let element">
+                                                    {{element.total_ingresos | currency:'MXN'}}
+                                                </td>
+                                                <td style="padding: 16px;" mat-footer-cell *matFooterCellDef>
+                                                    {{getTotalIngresos() | currency:'MXN'}}</td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="egresos">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Egresos
+                                                </th>
+                                                <td style="padding: 16px;" matRipple mat-cell *matCellDef="let element">
+                                                    {{element.total_egresos | currency:'MXN'}}
+                                                </td>
+                                                <td style="padding: 16px;" mat-footer-cell *matFooterCellDef>
+                                                    {{getTotalEgresos() | currency:'MXN'}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="disponible">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Disponible
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                                    {{(element.total_ingresos - element.total_egresos) |
+                                                    currency:'MXN'}}
+                                                </td>
+                                                <td style="padding: 16px;" mat-footer-cell *matFooterCellDef>
+                                                    {{ (getTotalIngresos() - getTotalEgresos()) | currency:'MXN'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="capacidad">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Capacidad de Pago
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+
+                                                </td>
+                                                <td style="padding: 16px;" mat-footer-cell *matFooterCellDef> Total
+                                                </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="liquidez">
+                                                <th style="padding: 16px;" scope="col" mat-header-cell
+                                                    *matHeaderCellDef>
+                                                    Liquidez
+                                                </th>
+                                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+
+                                                </td>
+                                                <td style="padding: 16px;" mat-footer-cell *matFooterCellDef> Total
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumnsPerfil">
+                                            </tr>
+                                            <tr mat-row id="poliza" (click)="showPerfil(row)"
+                                                *matRowDef="let row; columns: displayedColumnsPerfil;">
+                                            </tr>
+                                            <tr mat-footer-row *matFooterRowDef="displayedColumnsPerfil; sticky: true">
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <mat-paginator #paginatorPerfil="matPaginator" [length]="10" [pageSize]="10"
+                                        [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons
+                                        aria-label="Select ingresos">
+                                    </mat-paginator>
+
+                                </mat-tab>
+
+                                <mat-tab label="EXPEDIENTES">
+
+                                    <mat-tab-group backgroundColor="primary">
+
+                                        <mat-tab label="GRUPO">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="row">
+
+                                                        <div class="col-md-12" *ngIf="listaDocsGrupo.length > 0">
+                                                            <mat-divider></mat-divider>
+                                                            <h2 class="text-center">Documentos Grupo</h2>
+
+                                                            <mat-selection-list [multiple]="false">
+                                                                <mat-list-option
+                                                                    *ngFor="let documento of listaDocsGrupo"
+                                                                    [value]="documento">
+                                                                    <div class="row">
+                                                                        <div class="col-10">
+                                                                            {{documento.descripcion}}
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <input #digiCliInput hidden="true"
+                                                                                type="file"
+                                                                                [accept]="acceptFormatos(documento)"
+                                                                                (change)="subirArchivoGrupo($event,documento)" />
+                                                                            <button (click)="digiCliInput.click()"
+                                                                                mat-mini-fab color="primary">
+                                                                                <mat-icon>file_upload</mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </mat-list-option>
+                                                            </mat-selection-list>
+                                                        </div>
+
+
+                                                        <div class="col-md-12" *ngIf="listaDocsGrupoDgt.length > 0">
+                                                            <mat-divider></mat-divider>
+                                                            <h2 class="text-center">
+                                                                Documentos Grupo Digitalizados</h2>
+
+                                                            <mat-selection-list [multiple]="false">
+                                                                <mat-list-option
+                                                                    *ngFor="let documento of listaDocsGrupoDgt"
+                                                                    [value]="documento">
+                                                                    <div class="row">
+                                                                        <div class="col-10">
+                                                                            {{documento[2]}}
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <button mat-mini-fab color="primary"
+                                                                                (click)="verDocumento(documento)">
+                                                                                <mat-icon>visibility</mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </mat-list-option>
+                                                            </mat-selection-list>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-8">
+
+                                                    <iframe title="Docs" style="width: 100%;
+                                                height: 800px;" [src]="urlSafe" class="full-width"
+                                                        downloadFile="urlSafe"></iframe>
+
+                                                </div>
+                                            </div>
+
+                                        </mat-tab>
+
+                                        <mat-tab label="INTEGRANTES">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+                                                            <h2 class="text-center">Integrantes</h2>
+                                                            <mat-selection-list [multiple]="false">
+                                                                <mat-list-option
+                                                                    *ngFor="let cliente of listaIntegrantesGrupo"
+                                                                    [value]="cliente" (click)="setDocsCliente(cliente)">
+
+                                                                    {{cliente.numero_cliente}} -
+                                                                    {{cliente.nombre_completo}}
+
+                                                                </mat-list-option>
+                                                            </mat-selection-list>
+                                                        </div>
+
+                                                        <div class="col-md-12" *ngIf="listaDocsCliente.length > 0">
+                                                            <mat-divider></mat-divider>
+                                                            <h2 class="text-center">Documentos Clientes a Digitalizar
+                                                            </h2>
+                                                            <mat-selection-list [multiple]="false">
+                                                                <mat-list-option
+                                                                    *ngFor="let documento of listaDocsCliente"
+                                                                    [value]="documento">
+                                                                    <div class="row">
+                                                                        <div class="col-8">
+                                                                            {{documento.descripcion}}
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <input #digiCliInput hidden="true"
+                                                                                type="file"
+                                                                                [accept]="acceptFormatos(documento)"
+                                                                                (change)="subirArchivoCliente($event,documento)" />
+                                                                            <button (click)="digiCliInput.click()"
+                                                                                mat-mini-fab color="primary">
+                                                                                <mat-icon>file_upload</mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="col-2" *ngIf="documento.doc">
+                                                                            <button (click)="verDocCliente(documento)"
+                                                                                mat-mini-fab color="primary">
+                                                                                <mat-icon>visibility</mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </mat-list-option>
+                                                            </mat-selection-list>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <iframe title="Docs" style="width: 100%;
+                                                height: 800px;" [src]="urlDocCliente" class="full-width"
+                                                        downloadFile="urlDocCliente"></iframe>
+                                                </div>
+
+                                            </div>
+
+                                        </mat-tab>
+
+                                    </mat-tab-group>
+
+                                </mat-tab>
+
+                                <mat-tab label="EVALUACIÓN">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+
+
+                                            <h2 class="text-center">Integrantes</h2>
+                                            <mat-selection-list [multiple]="false">
+                                                <mat-list-option *ngFor="let cliente of listaIntegrantesGrupo"
+                                                    [value]="cliente" (click)="spsEvaluacionCinco(cliente)">
+
+                                                    {{cliente.numero_cliente}} -
+                                                    {{cliente.nombre_completo}}
+
+                                                </mat-list-option>
+                                            </mat-selection-list>
+                                        </div>
+
+
+                                        <div class="col-md-9">
+                                            <div class="mat-elevation-z8 table-responsive">
+                                                <table aria-label="Tabla 5" mat-table [dataSource]="dataSource5CS"
+                                                matSort #sortEvaluacion="matSort">
+                                                    <ng-container matColumnDef="Referencia">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef mat-sort-header>
+                                                            Referencia de
+                                                            cr&eacute;dito
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.referencia}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Monto">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef>
+                                                            Monto
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.monto_credito |
+                                                            currency:'MXN'}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Caracter">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef>
+                                                            Car&aacute;cter
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.caracter_resultado}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Capital">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef>
+                                                            Capital
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.capital}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="CPago">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef>
+                                                            Cap. de Pago
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.capacidad_pago_resultado}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Condicion">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef>
+                                                            Condici&oacute;n
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.condicion_resultado}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Colateral">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef>
+                                                            Colateral
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.colateral_resultado}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Resultado">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef mat-sort-header>
+                                                            Resultado
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{cinco.caracter_resultado+cinco.capital+cinco.capacidad_pago_resultado+cinco.condicion_resultado+cinco.colateral_resultado}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Dictamen">
+                                                        <th style="padding: 16px;" scope="col" mat-header-cell
+                                                            *matHeaderCellDef>
+                                                            Dictamen
+                                                        </th>
+                                                        <td style="padding: 16px;" mat-cell *matCellDef="let cinco">
+                                                            {{dictamen}}
+                                                        </td>
+                                                    </ng-container>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns5CS">
+                                                    </tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns5CS;">
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <mat-paginator #paginatorEvaluacion="matPaginator" [length]="5"
+                                                [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                                                aria-label="Select page of users">
+                                            </mat-paginator>
+                                        </div>
+
+                                    </div>
+
+                                </mat-tab>
+
+                                <mat-tab label="DISPERSIÓN"> Content 3 </mat-tab>
+                            </mat-tab-group>
+                        </mat-tab>
+                        <mat-tab label="APRBACIÓN O NEGACIÓN"> Content 2 </mat-tab>
+                        <mat-tab label="AUTORIZACIÓN"> Content 3 </mat-tab>
+                    </mat-tab-group>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

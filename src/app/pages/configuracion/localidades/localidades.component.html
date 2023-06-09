@@ -1,0 +1,133 @@
+<div class="row"> 
+    <div class="col-md-12">
+        <div class="card card-body">
+    <h3 class="text-center">Filtros de Busqueda</h3>
+    <div class="row">
+
+        <div class="col-6">
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Estado</mat-label>
+                <input type="text" placeholder="Nombre Estado" matInput [formControl]="estado" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                    (optionSelected)="opcionSeleccionada($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of opcionesEstado | async" [value]="option">
+                        {{option.nombreEstado}}
+                    </mat-option>
+                </mat-autocomplete>
+
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-6" *ngIf="mostrarCiudad">
+
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Ciudad</mat-label>
+                <input type="text" placeholder="Guanajuato" matInput [formControl]="ciudad" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                    (optionSelected)="opcionSelecCiudad($event)" [displayWith]="displayFnCiudad">
+                    <mat-option *ngFor="let option of opcionesCiudades | async" [value]="option">
+                        {{option.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+
+            </mat-form-field>
+        </div>
+
+        <div class="col-2">
+            <button mat-raised-button color="primary" (click)="abrirDialogoLocalidad(0)">Registrar Localidad</button>
+        </div>
+        <div class="col-10"></div>
+
+
+    </div>
+
+<div  [hidden]="!mostrar">
+
+    <h3 class="text-center">Cat&aacute;logo Localidades</h3>
+
+
+    <mat-form-field class="full-width">
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Nombre Ciudad" #input>
+    </mat-form-field>
+
+
+    <div class="mat-elevation-z8 table-responsive">
+        <table aria-label="infoLocalidad" mat-table [dataSource]="dataSourceLocalidades"  matSort>
+
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+
+            <!--  Nombre Localidad -->
+            <ng-container matColumnDef="nombreLocalidad">
+                <th  scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Nombre Localidad </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.nombreLocalidad}} </td>
+            </ng-container>
+
+            <!-- Cve Localidad Inegi -->
+            <ng-container matColumnDef="cveLocalidadInegi">
+                <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cve Localidad Inegi </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cveLocalidadInegi}} </td>
+            </ng-container>
+
+            <!-- Cve Municipio Inegi Column -->
+            <ng-container matColumnDef="cveMunicipioInegi">
+                <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cve Municipio Inegi </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cveMunicipioInegi}} </td>
+            </ng-container>
+
+            <!-- Cve Municipio Inegi Column -->
+            <ng-container matColumnDef="cveInegi">
+                <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Cve Municipio Inegi </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cveInegi}} </td>
+            </ng-container>
+
+
+            <!-- Ciudad-->
+            <ng-container matColumnDef="ciudad">
+                <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Ciudad </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.ciudad.nombre}} </td>
+            </ng-container>
+
+            <!-- Estado -->
+            <ng-container matColumnDef="estado">
+                <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estado </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.estado.nombreEstado}} </td>
+            </ng-container>
+
+            <!-- Estatus -->
+            <ng-container matColumnDef="estatus">
+                <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                    <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)"
+                        color="primary"> </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+
+            <!-- Acciones Column -->
+            <ng-container matColumnDef="acciones">
+                <th scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-mini-fab color="primary" (click)="abrirDialogoLocalidad(element)">
+                        <mat-icon>mode_edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+      
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+    </mat-paginator>
+</div>
+</div>
+
+</div>
+
+</div>

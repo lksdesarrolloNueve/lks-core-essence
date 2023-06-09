@@ -1,0 +1,31 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-divider></mat-divider>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formUdis">
+        <p></p>
+    <p>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Valor</mat-label>
+            <input formControlName="valor" matInput placeholder="Ejemplo: 23.344556">
+            <mat-icon matSuffix>published_with_changes</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.valor" ngProjectAs="mat-error">
+                <mat-error *ngIf="formUdis.get('valor').hasError(error.type)">
+                    <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>  
+        </mat-form-field>
+    </p>
+
+    <mat-slide-toggle class="example-margin" [color]="color" formControlName="estatus">
+        Estatus
+    </mat-slide-toggle>
+
+</form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" (click)="guardarUdi()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion === 2" (click)=" editarUdi()" mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  </mat-dialog-actions>

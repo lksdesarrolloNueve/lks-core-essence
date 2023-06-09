@@ -1,0 +1,112 @@
+<h3 mat-dialog-title>{{titulo | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formISR">
+        <p></p>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Clave ISR</mat-label>
+                    <input formControlName="cve_isr" matInput >
+                    <mat-icon matSuffix>tag</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cve_isr" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formISR.get('cve_isr').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput [matDatepicker]="dp3"  formControlName = "fecha" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formISR.get('fecha').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                    
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Salarios Min.</mat-label>
+                    <input formControlName="salarios_min" matInput type="number">
+                    <mat-icon matSuffix>numbers</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.salarios_min" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formISR.get('salarios_min').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>D&iacute;as Elevo</mat-label>
+                    <input formControlName="dias_elevo" matInput type="number">
+                    <mat-icon matSuffix>
+                        numbers
+                    </mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.dias_elevo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formISR.get('dias_elevo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Valor Uma.</mat-label>
+                    <input formControlName="valor_uma" matInput>
+                    <mat-icon matSuffix>
+                        monetization_on
+                    </mat-icon>
+                    <mat-error *ngFor="let validacion of validaciones.valor_uma">
+                        <div *ngIf="formISR.get('valor_uma').hasError(validacion.type) && formISR.get('valor_uma').touched">
+                            {{validacion.message}}
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Excento</mat-label>
+                    <input formControlName="excento" matInput>
+                    <mat-icon matSuffix>monetization_on</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.excento" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formISR.get('excento').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tasa</mat-label>
+                    <input formControlName="tasa" matInput>
+                    <mat-icon matSuffix>monetization_on</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tasa" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formISR.get('tasa').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus"  color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" color="primary" mat-raised-button (click)="crudISR(formISR.value)">Guardar</button>
+    <button *ngIf="accion === 2" color="primary" mat-raised-button (click)="crudISR(formISR.value)">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

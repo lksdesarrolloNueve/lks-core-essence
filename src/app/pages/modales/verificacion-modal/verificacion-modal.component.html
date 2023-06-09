@@ -1,0 +1,10 @@
+<h2 mat-dialog-title class="text-center">{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    {{cuerpo}}
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button  mat-raised-button [mat-dialog-close]="0"  color="primary" cdkFocusInitial>Aceptar</button>
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

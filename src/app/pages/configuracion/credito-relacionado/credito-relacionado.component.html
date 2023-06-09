@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-md-12">
+    
+        <div class="card card-body">
+        <h3 class="text-center">CAT&Aacute;LOGO PARAMETROS DE CR&Eacute;DITOS RELACIONADOS</h3>
+        <div class="row">
+            <div class="col-md-4"><button mat-raised-button color="primary" (click)="abrirDialogoParametro(0)">Registrar
+                    Nuevo</button></div>
+            <div class="col-md-8"></div>
+        </div>
+        <!--Filtro -->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+        </mat-form-field>
+
+        <!-- Cuerpo de la tablaa-->
+        <div class="mat-elevation-z8 table-responsive" > 
+        <div class="col-12">
+            <table aria-label="InfoCredRel" mat-table [dataSource]="dataSourceCredRel"  matSort>
+                <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+
+                <!-- Clave del parametro -->
+                <ng-container matColumnDef="claveParametro">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.claveParametro}} </td>
+                </ng-container>
+
+                <!-- valor en moneda -->
+                <ng-container matColumnDef="valor">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Valor</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.valor | currency:'MXN'}} </td>
+                </ng-container>
+
+                  <!-- descripcion -->
+                  <ng-container matColumnDef="descripcion">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Descripci&oacute;n </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.descripcion}} </td>
+                </ng-container>
+
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                        <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)"
+                            color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+
+                <!-- acciones -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                        <button mat-mini-fab color="primary" (click)="abrirDialogoParametro(element)">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+        </div>
+
+        </div>
+          <!--paginacion  de la tabla-->
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+    </div>
+
+</div>

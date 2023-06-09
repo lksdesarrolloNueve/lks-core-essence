@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center input-filtro">Operaciones Internas Preocupantes</h3>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogoOpintPreocupantes(1,'')">Registrar
+                        Denuncia</button>
+                </div>
+                <div class="col-md-10"></div>
+            </div>
+            <mat-form-field class="full-width">
+                <mat-label>Filter Denuncia</mat-label>
+                <input matInput (Keyup)=" applyFilter($event)" placeholder=" Nombre del denunciante " #input>
+            </mat-form-field>
+
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="InfoOpintPreocupantes" [dataSource]="dataSourceOpintPreocupante"
+                    #sortOpintPreocupante="matSort" matSort>
+
+                    <!-- Cliente -->
+                    <ng-container matColumnDef="cliente">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula"> {{lblCliente}} </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let preocupante">{{ (preocupante.cliente | jsonParse).nombre}}</td>
+                    </ng-container>
+
+                    <!-- Sucursal -->
+                    <ng-container matColumnDef="sucursal">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula"> Sucursal </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let preocupante">{{(preocupante.sucursal | jsonParse).cve_sucursal}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Usuario -->
+                    <ng-container matColumnDef="usuario">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula"> Usuario </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let preocupante">{{(preocupante.usuario | jsonParse).nombre}}</td>
+                    </ng-container>
+
+
+                    <!-- Descripcion -->
+                    <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef>Descripcion</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let preocupante">{{preocupante.descripcion}}</td>
+                    </ng-container>
+
+
+                    <!-- Denunciante -->
+                    <ng-container matColumnDef="denunciate">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Denunciante </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let preocupante">{{(preocupante.denunciante | jsonParse).nombre}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Fecha -->
+                    <ng-container matColumnDef="fecha">
+                        <th mat-header-cell style="padding: 16px;" *matHeaderCellDef>Fecha </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let preocupante">{{preocupante.fecha}}</td>
+                    </ng-container>
+
+
+                    <!--Acciones  -->
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell *matCellDef="let preocupante">
+                            <!-- Boton Editar Column -->
+                            <button mat-mini-fab color="primary"
+                                (click)=" abrirDialogoOpintPreocupantes(2,preocupante)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="ColumnsOpintPreocupantes"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ColumnsOpintPreocupantes;"></tr>
+                </table>
+            </div>
+            <mat-paginator #PaginatorOpintPreocupante [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<form [formGroup]="formEmpleado">
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label class="mayuscula">Empresa</mat-label>
+                <input formControlName="numeroCuenta" matInput placeholder="No. Cuenta" [matAutocomplete]="cuenta">
+                <mat-autocomplete autoActiveFirstOption #cuenta="matAutocomplete" [displayWith]="displayEmpresa"
+                    (optionSelected)="empresaSeleccionada()">
+                    <mat-option *ngFor="let option of opcionesEmpresa | async" [value]="option">
+                        {{option.numero_cliente}} {{option.nombre_comercial}}
+                    </mat-option>
+                </mat-autocomplete>
+                <ng-template ngFor let-error [ngForOf]="validaciones.numeroCuenta" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formEmpleado.get('numeroCuenta').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label class="mayuscula">Plantilla</mat-label>
+                <mat-select formControlName="plantilla" (selectionChange)="cargarEmpleados()">
+                    <mat-option *ngFor="let plant of listaPlantilla" [value]="plant">
+                        {{plant.nombre}}
+                    </mat-option>
+                </mat-select>
+                <ng-template ngFor let-error [ngForOf]="validaciones.plantilla" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formEmpleado.get('plantilla').hasError(error.type)">
+                      <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <button mat-raised-button color="primary" (click)="modalEmpleado()">
+                <mat-icon matTooltip="Registrar Empleado">person_add</mat-icon>
+            </button>
+        </div>
+        <div class="col-md-2" *ngIf="!correcto">
+            <button (click)="digiInput.click()" mat-raised-button color="primary">
+                <mat-icon matTooltip="Carga Masiva Empleado">group_add</mat-icon>
+            </button>
+            <input #digiInput hidden="true" type="file" multiple="false" (change)="seleccionMasiva($event)"
+                accept=".txt, .csv, .xlsx" />
+        </div>
+        <div class="col-md-2" *ngIf="correcto">
+            <button mat-raised-button  style="background-color: #1D6F42; color: white;" (click)="confirmarProceso()">
+                <mat-icon matTooltip="Registrar Carga Masiva ">done_outline</mat-icon>
+            </button>
+
+        </div>
+    </div>
+    <!--row-->
+</form>
+<!--tabla de errores-->
+<br>
+<!--Cuerpo de la tabla-->
+
+    <div class="mat-elevation-z8 table-responsive" *ngIf="this.listaErrores.length>0">
+        <table aria-label="Busqueda de error" mat-table [dataSource]="dataSourceError" matSort>
+            <!-- No. Cuenta Column -->
+            <ng-container matColumnDef="fila">
+                <th id="fila" mat-header-cell *matHeaderCellDef>Fila </th>
+                <td mat-cell *matCellDef="let error">{{error.fila}} </td>
+            </ng-container>
+
+            <!-- nombre Column -->
+            <ng-container matColumnDef="dato">
+                <th id="dato" mat-header-cell style="padding: 16px;" *matHeaderCellDef>Dato </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let error">{{error.dato}}
+                </td>
+            </ng-container>
+
+            <!-- sueldo -->
+            <ng-container matColumnDef="error">
+                <th id="error" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Error</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let error">{{error.error}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+            showFirstLastButtons aria-label="Seleccionar pagina de plantillas">
+        </mat-paginator>
+    </div>
+
+
+    <div class="mat-elevation-z8 table-responsive" *ngIf="correcto">
+        <table aria-label="Busqueda de empleados" mat-table [dataSource]="dataSourceEmple" matSort>
+            <!-- No. Cuenta Column -->
+            <ng-container matColumnDef="cuenta">
+                <th id="cuenta" mat-header-cell *matHeaderCellDef>Cuenta </th>
+                <td mat-cell *matCellDef="let error">{{error[0]}} </td>
+            </ng-container>
+
+            <!-- nombre Column -->
+            <ng-container matColumnDef="clave">
+                <th id="clave" mat-header-cell style="padding: 16px;" *matHeaderCellDef>Clave Banco </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let error">{{error[1]}}
+                </td>
+            </ng-container>
+
+            <!-- beneficiario -->
+            <ng-container matColumnDef="beneficiario">
+                <th id="ben" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Beneficiario</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let error">{{error[2]}}
+                </td>
+            </ng-container>
+            <!-- rfc -->
+            <ng-container matColumnDef="rfc">
+                <th id="rfc" style="padding: 16px;" mat-header-cell *matHeaderCellDef> RFC_CURP</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let error">{{error[3]}}
+                </td>
+            </ng-container>
+
+            <!-- fecha -->
+            <ng-container matColumnDef="fecha">
+                <th id="fecha" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Inicio Laboral</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let error">{{error[4]}}
+                </td>
+            </ng-container>
+            <!-- sueldo -->
+            <ng-container matColumnDef="sueldo">
+                <th id="sueldo" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Salario</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let error">{{error[5]|currency:'MXN'}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsE"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsE;"></tr>
+        </table>
+        <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+            showFirstLastButtons aria-label="Seleccionar pagina de plantillas">
+        </mat-paginator>
+    </div>

@@ -1,0 +1,55 @@
+<h2 mat-dialog-title class="text-center">{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+  <p></p>
+
+  <div class="col-md-12">
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Cuenta principal</mat-label>
+      <mat-icon matSuffix>account_balance</mat-icon>
+      <input type="text" placeholder="Cuenta" matInput [formControl]="cuentaPrincipal" [matAutocomplete]="cuentaPTCl">
+      <mat-autocomplete [displayWith]="mostrarCuenta" #cuentaPTCl="matAutocomplete">
+        <mat-option *ngFor="let optione of opcionesCuentaP | async" [value]="optione">
+          {{optione.cuenta}} {{optione.nombre}}
+        </mat-option>
+      </mat-autocomplete>
+      <ng-template ngFor let-error [ngForOf]="validaciones.cuentaPrincipal" ngProjectAs="mat-error">
+        <mat-error *ngIf="this.cuentaPrincipal.hasError(error.type)">
+          <strong> {{error.message}}</strong>
+        </mat-error>
+      </ng-template>
+    </mat-form-field>
+  </div>
+  <div class="col-md-12">
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Cuenta Grupal</mat-label>
+      <mat-icon matSuffix>account_balance</mat-icon>
+      <input type="text" placeholder="Cuenta" matInput [formControl]="cuentaGrupal" [matAutocomplete]="cuentaGTCl">
+      <mat-autocomplete autoActiveFirstOption [displayWith]="mostrarCuentaGrup" #cuentaGTCl="matAutocomplete">
+        <mat-option *ngFor="let grupal of opcionesCuentaG | async" [value]="grupal">
+          {{grupal.cuenta}} {{grupal.nombre}}
+
+        </mat-option>
+      </mat-autocomplete>
+      <ng-template ngFor let-error [ngForOf]="validaciones.cuentaGrupal" ngProjectAs="mat-error">
+        <mat-error *ngIf="this.cuentaGrupal.hasError(error.type)">
+          <strong> {{error.message}}</strong>
+        </mat-error>
+      </ng-template>
+    </mat-form-field>
+  </div>
+  <div class="col-md-12">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripci&oacute;n</mat-label>
+      <input matInput placeholder="Descripción" [formControl]="descripcion">
+      <mat-icon matSuffix>notes</mat-icon>
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" *ngIf="fraccParmID==0" (click)="crudFraccParam(1)"
+    cdkFocusInitial>Agregar</button>
+  <button mat-raised-button color="primary" *ngIf="fraccParmID>0" (click)="crudFraccParam(2)">Actualizar</button>
+  <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

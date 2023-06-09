@@ -1,0 +1,79 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formUma">
+    <p></p>
+    <div class="row">
+
+      <div class="col-md-4">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Año</mat-label>
+            <input formControlName="anio" matInput>
+            <mat-icon matSuffix>keyboard_hide_outlined</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.anio" ngProjectAs="mat-error">
+              <mat-error *ngIf="formUma.get('anio').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Valor Diario</mat-label>
+            <input formControlName="valorDiario" type="number" matInput placeholder="">
+            <mat-icon matSuffix>request_quote</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.valorDiario" ngProjectAs="mat-error">
+              <mat-error *ngIf="formUma.get('valorDiario').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Valor Mensual</mat-label>
+            <input formControlName="valorMensual" type="number" matInput placeholder="">
+            <mat-icon matSuffix>request_quote</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.valorMensual" ngProjectAs="mat-error">
+              <mat-error *ngIf="formUma.get('valorMensual').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Valor Anual</mat-label>
+            <input formControlName="valorAnual" type="number" matInput placeholder="">
+            <mat-icon matSuffix>request_quote</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.valorAnual" ngProjectAs="mat-error">
+              <mat-error *ngIf="formUma.get('valorAnual').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </p>
+        <br>
+      </div>
+      <div class="col-md-6">
+        <mat-slide-toggle class="example-margin" formControlName="estatus" color="primary">
+          Estatus
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="accion === 1" (click)="guardarUma()" mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="accion === 2" (click)="editarUma()" mat-raised-button color="primary">Actualizar</button>
+  <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

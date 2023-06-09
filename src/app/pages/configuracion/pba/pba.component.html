@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">Lista de personas buscadas por la autoridad</h3>
+            <div class="row">
+                <!-- Botón para registrar nuevo PBA -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="crudPBA(1,null)">Registrar PBA</button>
+                </div>
+                <!-- Botón para generar reporte en PDF -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="warn" (click)="exportarPdf()">Generar Reporte</button>
+                </div>
+            </div>
+
+            <!-- Filtro -->
+            <mat-form-field class="full-width">
+                <mat-label>Filtro de PBA</mat-label>
+                <input matInput (keyup)="filtrar($event)" placeholder="Filtro de PBA" #input>
+            </mat-form-field>
+
+            <!-- TABLA DE CORTES DE CAJA -->
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table [dataSource]="dataSourcePba" matSort aria-label="Tabla de PBA" class="demo-table">
+                    <!-- Nombre -->
+                    <ng-container matColumnDef="nombre">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef scope="col"> NOMBRE </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let elemento"> {{ elemento.nombre }} </td>
+                    </ng-container>
+                    <!-- RFC -->
+                    <ng-container matColumnDef="rfc">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef scope="col"> RFC </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let elemento"> {{ elemento.rfc }} </td>
+                    </ng-container>
+                    <!-- CURP -->
+                    <ng-container matColumnDef="curp">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef scope="col"> CURP </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let elemento"> {{ elemento.curp }} </td>
+                    </ng-container>
+                    <!-- Fecha de nacimiento -->
+                    <ng-container matColumnDef="fechaNac">
+                        <th style="padding: 16px;" mat-header-cell *matHeaderCellDef scope="col"> NACIMIENTO/CONSTITUCION </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let elemento"> {{ elemento.fechaNacimiento }} </td>
+                    </ng-container>
+                    <!-- Estatus -->
+                    <ng-container matColumnDef="estatus">
+                        <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let elemento">
+                            <mat-slide-toggle [ngModel]="elemento.estatus" (ngModelChange)="cambiaEstatus($event, elemento)"
+                                color="primary">
+                            </mat-slide-toggle>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna acciones PBA -->
+                    <ng-container matColumnDef="acciones">
+                        <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let elemento">
+
+                            <!-- Columna Botón Editar -->
+                            <button mat-mini-fab color="primary" (click)="crudPBA(2,elemento)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <!-- Paginacion -->
+                <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons
+                    aria-label="Seleccionar pagina de PBA">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

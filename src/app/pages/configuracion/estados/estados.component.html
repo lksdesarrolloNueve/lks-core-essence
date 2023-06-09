@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="card card-body">
+        <h3 class="text-center">Estados</h3>
+        <div class="row">
+            <div class="col-2"><button mat-raised-button color="primary" (click)="openDialog(0)">Registrar </button></div>
+          </div>
+
+        <!--Filtro-->
+    <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Estado, Cve Estado" #input>
+      </mat-form-field>
+      <div class="mat-elevation-z8 table-responsive">
+        <table aria-label="infoEstados" mat-table [dataSource]="dataSourceEstados" matSort>
+  
+          <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+  
+  
+          <!-- Nombre Estado Column -->
+          <ng-container matColumnDef="nombreEstado">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let estado"> {{estado.nombreEstado}} </td>
+          </ng-container>
+  
+          <!-- NivelRiesgo Column -->
+          <ng-container matColumnDef="nivelRiesgo">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> nivelRiesgo </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let estado"> {{estado.nivelRiesgo.descripcion}} </td>
+          </ng-container>
+  
+          <!-- Clave Estado Column -->
+          <ng-container matColumnDef="cveEstado">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave Estado</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let estado"> {{estado.cveEstado}} </td>
+          </ng-container>
+  
+          <!-- CveInegi Column -->
+          <ng-container matColumnDef="cveInegi">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>cveInegi</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let estado"> {{estado.cveInegi}} </td>
+          </ng-container>
+  
+          <!-- nacionalidadid Column -->
+          <ng-container matColumnDef="nacionalidadid">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Nacionalidad</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let estado"> {{estado.nacionalidad.nacion}} </td>
+          </ng-container>
+
+          <!--Cve Estado Buro-->
+          <ng-container matColumnDef="cveEstadoBuro">
+              <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cve Estado Buro</th>
+              <td mat-cell style="padding: 16px;" *matCellDef="let estado"> {{estado.cveEstadoBuro}}
+
+          </ng-container>
+          <!-- Estatus -->
+          <ng-container matColumnDef="estatus">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let element">
+              <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)" color="primary">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+          <!-- Acciones Column -->
+          <ng-container matColumnDef="acciones">
+            <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+            <!-- Boton delete Column -->
+            <td mat-cell *matCellDef="let element">
+              <!-- Boton Editar Column -->
+              <button mat-mini-fab (click)="openDialog(element)" color="primary">
+                <mat-icon>mode_edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  
+       
+      </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+      </mat-paginator>
+    </div>
+    </div>
+</div>

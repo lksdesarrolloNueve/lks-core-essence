@@ -1,0 +1,51 @@
+mat-slider {
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.example-label-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+
+  }
+
+.example-h2 {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .example-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+  }
+  
+  .example-margin {
+    margin: 8px;
+  }
+  
+  .example-width {
+    max-width: 180px;
+    width: 100%;
+  }
+  
+  
+  .mat-mdc-card + .mat-mdc-card {
+    margin-top: 8px;
+  }
+  
+  .example-result-card h2 {
+    margin: 0 8px;
+  }
+  
+
+  
+  .example-result-card .example-value-label {
+   font-size: large;
+  }
+  

@@ -1,0 +1,183 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formDetalle">
+
+    <div class="row">
+
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="usuario" [readonly]="true" placeholder="Usuario">
+          <mat-icon matSuffix>user</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field class="full-width" appearance="outline" class="full-width">
+          <mat-label>Sucursal</mat-label>
+          <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+            [matAutocomplete]="autoSucursal">
+          <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete" [displayWith]="displayFnSuc">
+            <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+              {{option.nombreSucursal}}
+            </mat-option>
+          </mat-autocomplete>
+          <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+            <mat-error *ngIf="formDetalle.get('sucursal').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Fecha Recibe</mat-label>
+          <input matInput [matDatepicker]="ff" formControlName="frecibe" [readonly]="true">
+          <mat-datepicker-toggle matSuffix [for]="ff"></mat-datepicker-toggle>
+          <mat-datepicker #ff [disabled]="isfRecibe"></mat-datepicker>
+          <ng-template ngFor let-error [ngForOf]="validaciones.frecibe" ngProjectAs="mat-error">
+            <mat-error *ngIf="formDetalle.get('frecibe').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Fecha Entrega</mat-label>
+          <input matInput [matDatepicker]="fe" formControlName="fentrega" [readonly]="true">
+          <mat-datepicker-toggle matSuffix [for]="fe"></mat-datepicker-toggle>
+          <mat-datepicker #fe [disabled]="isfEntrega"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Tipo Activo</mat-label>
+          <input type="text" placeholder="Tipo Activo" matInput formControlName="tpActivo"   [readonly]="isfRecibe" [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  (optionSelected)="tActivoSeleccionado($event)"
+            [displayWith]="displayTA">
+            <mat-option *ngFor="let option of opcionesTipoAct | async" [value]="option">
+              {{option.concepto}}
+            </mat-option>
+          </mat-autocomplete>
+          <ng-template ngFor let-error [ngForOf]="validaciones.tpActivo" ngProjectAs="mat-error">
+            <mat-error *ngIf="formDetalle.get('tpActivo').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Concepto</mat-label>
+          <input matInput formControlName="concepto" [readonly]="true" placeholder="">
+          <mat-icon matSuffix>article</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Clave</mat-label>
+          <input matInput formControlName="actSuc" [readonly]="true" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>No.Factura</mat-label>
+          <input matInput formControlName="factura" [readonly]="true" MaxLength="9" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Clave</mat-label>
+          <input matInput formControlName="consecutivo" [readonly]="true" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Clave</mat-label>
+          <input matInput formControlName="unidad" [readonly]="true" placeholder="">
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field class="full-width" appearance="fill" class="full-width">
+          <mat-label>Persona</mat-label>
+          <input type="text" placeholder="Encargado" matInput formControlName="nombreP"
+            [matAutocomplete]="autoPersona"  [readonly]="isfRecibe" >
+          <mat-autocomplete autoActiveFirstOption (optionSelected)="nombreSeleccion($event.option.value)" #autoPersona="matAutocomplete" [displayWith]="displayFnNomP">
+            <mat-option *ngFor="let option of opcionesPersonaDep | async" [value]="option">
+              {{option.nombre_persona}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Nombre Persona</mat-label>
+          <input matInput formControlName="persona" placeholder="" [readonly]="isfRecibe">
+          <mat-icon matSuffix>article</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.persona" ngProjectAs="mat-error">
+            <mat-error *ngIf="formDetalle.get('persona').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field class="full-width" appearance="fill" class="full-width">
+          <mat-label>Departamentos</mat-label>
+          <input type="text" placeholder="Departamneto" matInput formControlName="departamentoA"
+            [matAutocomplete]="autoDepartamento"  [readonly]="isfRecibe" >
+          <mat-autocomplete autoActiveFirstOption (optionSelected)="depaSeleccion($event.option.value)" #autoDepartamento="matAutocomplete" [displayWith]="displayFnDeparta">
+            <mat-option *ngFor="let option of opcionesDep | async" [value]="option">
+              {{option.departamento}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Departamento</mat-label>
+          <input matInput formControlName="departamento" placeholder="" [readonly]="isfRecibe">
+          <mat-icon matSuffix>article</mat-icon>
+          <ng-template ngFor let-error [ngForOf]="validaciones.departamento" ngProjectAs="mat-error">
+            <mat-error *ngIf="formDetalle.get('departamento').hasError(error.type)">
+              <strong> {{error.message}}</strong>
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripcion Recibido</mat-label>
+            <textarea formControlName="descripcionR" matInput placeholder="" [readonly]="isfRecibe">
+                <mat-icon matSuffix>edit_note</mat-icon>
+            </textarea>
+            <ng-template ngFor let-error [ngForOf]="validaciones.descripcionR" ngProjectAs="mat-error">
+              <mat-error *ngIf="formDetalle.get('descripcionR').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripcion Entrega</mat-label>
+            <textarea formControlName="descripcionE" matInput placeholder="" [readonly]="isfEntrega">
+                <mat-icon matSuffix>edit_note</mat-icon>
+            </textarea>
+        </mat-form-field>
+    </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="detalleID === 0" mat-raised-button color="primary" (click)="crudDetalleActivo()">Guardar</button>
+  <button *ngIf="detalleID > 0" mat-raised-button color="primary" (click)="crudDetalleActivo()">Actualizar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,85 @@
+
+<div class="row">
+
+    <div class="col-md-12 ">
+        <div class="card card-body">
+        <h3 class="text-center">Cat&aacute;logo Servidores</h3>
+
+        <div class="row">
+            <div class="col-2">
+                <button mat-raised-button color="primary" (click)="abrirDialogoServidores(0)">Registrar Servidor</button>
+            </div>
+         
+        </div>
+
+        
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Nombre Servidor, Nombre BD" #input>
+        </mat-form-field>
+
+
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="DatosServidores" mat-table [dataSource]="dataSourceServidores"  matSort>
+
+                <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+
+                <!-- Nombre Servidor -->
+                <ng-container matColumnDef="nombreServidor">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef> Nombre Servidor </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.nombreServidor}} </td>
+                </ng-container>
+
+                <!-- IP -->
+                <ng-container matColumnDef="ip">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef> IP </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.ip}} </td>
+                </ng-container>
+
+                <!-- Nombre Base de Datos Column -->
+                <ng-container matColumnDef="nombrebd">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef> Nombre Base de Datos</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.nombrebd}} </td>
+                </ng-container>
+
+                  <!-- puerto Column -->
+                  <ng-container matColumnDef="puerto">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef> Puerto</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.puerto}} </td>
+                </ng-container>
+
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> 
+                        <mat-slide-toggle  
+                        [ngModel]= "element.estatus"
+                        (ngModelChange)= "cambiaEstatus(element)"
+                         color="primary" >  </mat-slide-toggle>    
+                    </td>
+                </ng-container>
+
+
+                <!-- Acciones Column -->
+                <ng-container matColumnDef="acciones">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                        <button mat-mini-fab color="primary" (click)="abrirDialogoServidores(element)">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users"></mat-paginator>
+
+    </div>
+</div>
+
+</div>
+ 

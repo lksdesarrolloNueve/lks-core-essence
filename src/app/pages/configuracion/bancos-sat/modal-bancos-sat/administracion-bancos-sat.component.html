@@ -1,0 +1,44 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formBancosSat">
+    <p></p>
+    <p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Clave Banco</mat-label>
+        <input formControlName="clavebanco" matInput placeholder="Ejemplo: 09">
+        <mat-icon matSuffix>pin</mat-icon>
+        <ng-template ngFor let-error [ngForOf]="validaciones.clavebanco" ngProjectAs="mat-error">
+          <mat-error *ngIf="formBancosSat.get('clavebanco').hasError(error.type)">
+            <strong> {{error.message}}</strong>
+          </mat-error>
+        </ng-template>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre Banco</mat-label>
+        <input formControlName="nombreBanco" matInput placeholder="Ejemplo: BanBajio">
+        <mat-icon matSuffix>account_balance</mat-icon>
+        <ng-template ngFor let-error [ngForOf]="validaciones.nombreBanco" ngProjectAs="mat-error">
+          <mat-error *ngIf="formBancosSat.get('nombreBanco').hasError(error.type)">
+            <strong> {{error.message}}</strong>
+          </mat-error>
+        </ng-template>
+      </mat-form-field>
+    </p>
+
+    <mat-slide-toggle class="example-margin" [color]="color" formControlName="estatus">
+      Estatus
+    </mat-slide-toggle>
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="accion === 1" (click)="guardarbancoSat()" mat-raised-button color="primary">Guardar</button>
+  <button *ngIf="accion === 2" (click)=" editarbancoSat()" mat-raised-button color="primary">Editar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

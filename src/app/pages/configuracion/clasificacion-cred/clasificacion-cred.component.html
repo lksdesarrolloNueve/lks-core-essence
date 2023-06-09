@@ -1,0 +1,75 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center"> Clasificaci&oacute;n Cr&eacute;ditos</h3>
+
+        <div class="row">
+            <div class="col-2">
+                <button mat-raised-button color="primary" (click)="abrirDialogoClasificaciones(0)">Registrar
+                    Clasificaci&oacute;n </button>
+            </div>
+        </div>
+
+
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Clave, Clasificaci&oacute;n Cr&eacute;ditos" #input>
+        </mat-form-field>
+
+
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="info" mat-table [dataSource]="dataSourceClasificacion"  matSort>
+
+                <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Clave -->
+                <ng-container matColumnDef="cveClasificacion">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cveClasificacion}} </td>
+                </ng-container>
+
+                <!-- Descripción -->
+                <ng-container matColumnDef="descripcion">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Descripci&oacute;n </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.descripcion}} </td>
+                </ng-container>
+
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                        <mat-slide-toggle matTooltip="Activar/Desactivar el registro." [ngModel]="element.estatus"
+                            (ngModelChange)="cambiaEstatus(element)" color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+
+
+                <!-- Acciones -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td mat-cell *matCellDef="let element">
+
+                        <button mat-mini-fab color="primary" (click)="abrirDialogoClasificaciones(element)"
+                            matTooltip="Editar el registro.">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+
+
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+
+</div>
+</div>

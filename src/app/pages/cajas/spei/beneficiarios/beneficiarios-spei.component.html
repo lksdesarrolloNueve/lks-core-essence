@@ -1,0 +1,187 @@
+<h2 mat-dialog-title>Gesti&oacute;n Beneficiario SPEI</h2>
+<mat-dialog-content class="mat-typography">
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <mat-card appearance="outlined">
+            <form [formGroup]="formBeneficiario" autocomplete="off">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo Cuenta:</mat-label>
+                    <mat-select formControlName="claveTipoCuenta" (selectionChange)="validacionesPersonalizadas()">
+                        <mat-option *ngFor="let tipoCuenta of listaTipoCuentas" [value]="tipoCuenta.clave">
+                            {{tipoCuenta.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.claveTipoCuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBeneficiario.get('claveTipoCuenta').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>N&uacute;mero de Cuenta: </mat-label>
+                    <strong><input matInput formControlName="cuenta"></strong>
+                    <mat-icon matSuffix>credit_card</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.cuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBeneficiario.get('cuenta').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Banco:</mat-label>
+                    <mat-select formControlName="claveBancoReceptor">
+                        <mat-option *ngFor="let banco of listaBancos" [value]="banco.clave">
+                            {{banco.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.claveBancoReceptor" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBeneficiario.get('claveBancoReceptor').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Beneficiario: </mat-label>
+                    <strong><input matInput formControlName="beneficiario"></strong>
+                    <mat-icon matSuffix>badge</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.beneficiario" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBeneficiario.get('beneficiario').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+ 
+                </mat-form-field>
+
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>RFC/CURP: </mat-label>
+                    <strong><input matInput formControlName="rfcCurp"></strong>
+                    <mat-icon matSuffix>dns</mat-icon>
+
+                    <ng-template ngFor let-error [ngForOf]="validacion_msj.rfcCurp" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBeneficiario.get('rfcCurp').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+
+                </mat-form-field>
+
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+
+            </form>
+        </mat-card>
+        </div>
+
+
+        <div class="col-md-9">
+
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="nuevo()">Nuevo</button>
+                </div>
+                <div class="col-md-5">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Filtros de Busqueda</mat-label>
+                        <input matInput [formControl]="inputFiltro" autocomplete="off" placeholder="Nombre, No. Cuenta, RFC, CURP" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <button mat-mini-fab color="primary"
+                     (click)="buscarBeneficiario()" matTooltip="Buscar">
+                    <mat-icon>search</mat-icon>
+                </button>
+                </div>
+            </div>
+  
+
+            <mat-card appearance="outlined" *ngIf="listaBeneficiarios.length > 0">
+
+                <!--Filtro-->
+                <div class="mat-elevation-z8 table-responsive">
+                    <table aria-label="info" mat-table [dataSource]="dataSourceBeneficiarios" matSort>
+
+                        <!--   No. Cuenta Column -->
+                        <ng-container matColumnDef="cuenta">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> No. Cuenta</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let beneficiario">
+                                {{beneficiario.cuenta}} </td>
+                        </ng-container>
+
+
+
+                        <!--   beneficiario Column -->
+                        <ng-container matColumnDef="beneficiario">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Beneficiario</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let beneficiario">
+                                {{beneficiario.beneficiario}} </td>
+                        </ng-container>
+
+                        <!--   RFC/CURP Column -->
+                        <ng-container matColumnDef="rfccurp">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> RFC/CURP</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let beneficiario">
+                                {{beneficiario.rfcCurp}} </td>
+                        </ng-container>
+
+                        <!--   Estatus Column -->
+                        <ng-container matColumnDef="estatus">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let beneficiario">
+                                <mat-slide-toggle disabled="true"
+                                [ngModel]= "beneficiario.estatus"
+                                 color="primary" >  </mat-slide-toggle>   
+                            </td>
+                        </ng-container>
+
+                        <!-- acciones Column -->
+                        <ng-container matColumnDef="acciones">
+                            <th scope="col" mat-header-cell *matHeaderCellDef>Acciones</th>
+                            <td mat-cell *matCellDef="let beneficiario">
+                                <button mat-mini-fab color="primary" (click)="editarBeneficiario(beneficiario)"
+                                    matTooltip="Editar">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-mini-fab color="primary" (click)="setBeneficiario(beneficiario)"
+                                    matTooltip="Seleccionar">
+                                    <mat-icon>done</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                </div>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Paginado Inversiones">
+                </mat-paginator>
+            </mat-card>
+        </div>
+
+    </div>
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="crudBeneficiariosSPEI()">Guardar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

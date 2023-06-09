@@ -1,0 +1,127 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formEmpleado">
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">No. cuenta</mat-label>
+                    <strong><input formControlName="numeroCuenta" matInput placeholder="No. Cuenta"
+                            [readonly]="true"></strong>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.numeroCuenta" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formEmpleado.get('numeroCuenta').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-5">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Plantilla </mat-label>
+                    <!--  <strong><input matInput formControlName="plantilla" placeholder="" [readonly]="true"
+                        style="text-align:center;"></strong> -->
+                    <mat-icon matSuffix>folder_shared</mat-icon>
+                    <mat-select formControlName="plantilla">
+                        <mat-option *ngFor="let plant of listaPlantillas" [value]="plant">
+                            {{plant.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.plantilla" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formEmpleado.get('plantilla').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Fecha</mat-label>
+                    <input matInput [matDatepicker]="fN" formControlName="fecha" [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="fN"></mat-datepicker-toggle>
+                    <mat-datepicker #fN></mat-datepicker>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formEmpleado.get('fecha').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cuenta</mat-label>
+                    <input matInput formControlName="cuenta" MaxLength="18" MinLength="16" placeholder="">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formEmpleado.get('cuenta').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>CLABE Banco</mat-label>
+                    <input matInput formControlName="clabe"  placeholder="">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.clabe" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formEmpleado.get('clabe').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Empleado</mat-label>
+                    <input matInput formControlName="empleado" placeholder="Nombre">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.empleado" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formEmpleado.get('empleado').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <!--renglon-->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>RFC o CURP</mat-label>
+                    <input matInput formControlName="rfc" MaxLength="18" placeholder="">
+                    <ng-template ngFor let-error [ngForOf]="validaciones.rfc" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formEmpleado.get('rfc').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Sueldo: </mat-label>
+                    <strong><input matInput formControlName="sueldo" placeholder="" prefix="$ " mask="separator.2"
+                            thousandSeparator="," style="text-align:center;"></strong>
+                    <mat-icon matSuffix>money</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.sueldo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formEmpleado.get('sueldo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Estatus</mat-label>
+                    <mat-select formControlName="estatus">
+                        <mat-option *ngFor="let estatus of listaEstatusNomina" [value]="estatus">
+                        {{estatus.descripcion}}
+                    </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="altaEmpleado()" color="primary">{{boton}}</button>
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

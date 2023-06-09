@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="card card-body">
+        <h3 class="text-center mayuscula">Bit&aacute;cora Estatus {{lblClientes}}</h3>
+        <div class="row">
+        <div class="col-2 mayuscula"><button mat-raised-button color="primary" (click)="abrirDialogBusquedaCliente()">
+                Modificar Estatus del {{lblCliente}}</button></div>
+    </div>
+
+       <!--Filtro -->
+       <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ejemplo:LKS-0000001, JUAN, Solicitud Baja, etc. " #input>
+    </mat-form-field>
+     <!-- Cuerpo de lla tablaa-->
+     <div class="mat-elevation-z8 table-responsive">
+        <table mat-table [dataSource]="dataSourceBitEstCliente"  matSort>
+
+              <!-- Numero de Cliente -->
+              <ng-container matColumnDef="numero_cliente">
+                <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula"> No. {{lblCliente}}</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.numero_cliente}} </td>
+            </ng-container>
+
+             <!-- Nombres del Cliente -->
+             <ng-container matColumnDef="nombres">
+                <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Nombres</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.nombres}} </td>
+            </ng-container>
+
+              <!-- Fecha y Hora de la baja -->
+              <ng-container matColumnDef="fecha_hora">
+                <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Fecha-Hora</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.fecha_hora | date: 'short'}} </td>
+            </ng-container>
+
+              <!-- Descripción de la baja -->
+              <ng-container matColumnDef="desc_baja">
+                <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Estatus Baja</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.desc_baja}} </td>
+            </ng-container>
+
+              <!-- Nombres del Cliente -->
+              <ng-container matColumnDef="desc_mot_baja">
+                <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Motivo Baja</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.desc_mot_baja}} </td>
+            </ng-container>
+
+            <!-- sucursal pertenece -->
+            <ng-container matColumnDef="sucursal">
+              <th mat-header-cell style="padding: 16px;" *matHeaderCellDef class="mayuscula">Sucursal {{lblCliente}}</th>
+              <td mat-cell style="padding: 16px;"  *matCellDef="let element"> {{element.sucursal}} </td>
+          </ng-container>
+
+
+              <!-- Nombres del Cliente -->
+              <ng-container matColumnDef="first_name">
+                <th mat-header-cell *matHeaderCellDef> Usuario</th>
+                <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+            </ng-container>
+
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+     </div>
+      <!--Se realiza la paginacion  de la tabla-->
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+      </mat-paginator>
+    </div>
+</div>
+</div>

@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Carga Masiva Cuentas Anexo SAT</h2>
+<mat-dialog-content class="mat-typography">
+  
+    <form [formGroup]="formCarga"  >
+      <p></p>
+      <div class="row">
+        <div class="col-3">
+        <input #digiInput hidden="true" type="file" formControlName="archivo" multiple="false"  (change)= "cargaArchivo($event)" accept=".txt, .csv, .xlsx" />
+        <button (click)="digiInput.click()" mat-mini-fab color="primary">
+          <mat-icon>file_upload</mat-icon>
+        </button>
+      </div>
+
+      <div class="col-1">
+    </div>
+
+    <div class="col-8">
+        <mat-radio-group formControlName="actualizar" >
+          <mat-radio-button  value = "0"  color="primary"> Actualizar </mat-radio-button > 
+            <mat-radio-button value = "1" color="primary" > Omitir  </mat-radio-button > 
+        </mat-radio-group>   
+      </div>
+
+      </div>
+      
+    </form>
+
+    <div *ngIf="listaErrores.length > 0">
+      <mat-selection-list class="scroll-container" [multiple]="false">
+        <mat-list-option *ngFor="let error of listaErrores">
+         Fila: {{error[0]}}, Descripcion: {{error[1]}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button  (click)=" procesarCargaCuentas()" mat-raised-button color="primary">Procesar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

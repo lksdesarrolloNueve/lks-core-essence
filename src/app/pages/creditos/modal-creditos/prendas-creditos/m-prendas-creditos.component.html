@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{titulo}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formPrenda">
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>No. Factura</mat-label>
+            <input matInput formControlName="no_factura">
+            <ng-template ngFor let-error [ngForOf]="validaciones.no_factura" ngProjectAs="mat-error">
+                <mat-error *ngIf="formPrenda.get('no_factura').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Valor</mat-label>
+            <input matInput formControlName="valor_prenda">
+            <ng-template ngFor let-error [ngForOf]="validaciones.valor_prenda" ngProjectAs="mat-error">
+                <mat-error *ngIf="formPrenda.get('valor_prenda').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Fecha Endoso</mat-label>
+            <input matInput [matDatepicker]="dp1" formControlName="fecha_endoso">
+            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+            <ng-template ngFor let-error [ngForOf]="validaciones.fecha_endoso" ngProjectAs="mat-error">
+                <mat-error *ngIf="formPrenda.get('fecha_endoso').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre Titular</mat-label>
+            <input matInput formControlName="nombre_titular">
+            <ng-template ngFor let-error [ngForOf]="validaciones.nombre_titular" ngProjectAs="mat-error">
+                <mat-error *ngIf="formPrenda.get('nombre_titular').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" mat-raised-button color="primary" (click)="agregarGarantia()" >Guardar</button>
+    <button *ngIf="accion === 2" mat-raised-button color="primary" (click)="agregarGarantia()">Editar</button>
+    <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+</mat-dialog-actions>

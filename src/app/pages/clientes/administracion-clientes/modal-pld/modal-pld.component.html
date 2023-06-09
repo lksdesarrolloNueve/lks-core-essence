@@ -1,0 +1,14 @@
+<h2 mat-dialog-title class="text-center">{{titulo}} &nbsp;&nbsp;&nbsp;
+<mat-icon [ngStyle]="{'color': color}">notifications_active</mat-icon>
+
+</h2>
+
+<mat-dialog-content class="mat-typography">
+    <div class="text-center" >
+        <h3> <strong [ngStyle]="{'color': color}"> {{perfil}}</strong></h3>
+       <p innerHTML="{{contenido}}"></p>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button [mat-dialog-close]="0" color="primary" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>

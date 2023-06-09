@@ -1,0 +1,134 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formOcupaciones">
+        <p></p>
+        <div class="row ">
+
+            <div class="col-md-12">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Grupo Unitario</mat-label>
+                    <input type="text" placeholder="unitario" matInput formControlName="unitario"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of opcionesUnitario| async" [value]="option">
+                            {{option.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.unitario" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('unitario').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Clave</mat-label>
+                    <input matInput formControlName="cveOcu" MaxLength="4" placeholder="Clave Ocupaci&oacute;n">
+                    <mat-icon matSuffix>code</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveOcu" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('cveOcu').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripci&oacute;n</mat-label>
+                    <input matInput formControlName="descripcion" placeholder="Descripci&oacute;n">
+                    <mat-icon matSuffix>description</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('descripcion').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Sueldo</mat-label>
+                    <input matInput formControlName="sueldo" placeholder="Ejemplo: 50,755.67">
+                    <mat-icon matSuffix>monetization_on</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.sueldo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('sueldo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Actividad Vulnerable</mat-label>
+                    <input type="text" placeholder="vulnerable" matInput formControlName="vulnerable"
+                        [matAutocomplete]="autoV">
+                    <mat-autocomplete autoActiveFirstOption #autoV="matAutocomplete" [displayWith]="displayFnV">
+                        <mat-option *ngFor="let option of opcionesVulnerable| async" [value]="option">
+                            {{option.concepto}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.vulnerable" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('vulnerable').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>C&oacute;digo PLD</mat-label>
+                    <input matInput formControlName="codPLD" placeholder="C&oacute;digo PLD">
+                    <mat-icon matSuffix>lock</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.codPLD" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('codPLD').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>C&oacute;digo SCIAN</mat-label>
+                    <input matInput formControlName="codSCIAN" placeholder="C&oacute;digo SCIAN">
+                    <mat-icon matSuffix>lock</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.codSCIAN" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('codSCIAN').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nivel de Riesgo</mat-label>
+                    <mat-select formControlName="nivelRi">
+                        <mat-option *ngFor="let nivel of listaRiesgo" [value]="nivel.generalesId">
+                            {{nivel.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>error</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.nivelRi" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formOcupaciones.get('nivelRi').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+        </div>
+        <!--/div row-->
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion===1" (click)="guardarOcupacion()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion===2" (click)="actualizarOcupacion()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

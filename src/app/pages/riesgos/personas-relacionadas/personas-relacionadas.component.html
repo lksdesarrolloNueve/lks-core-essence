@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-md-12">
+         <div class="card card-body">
+            <h3 class="text-center">Reporte de Personas Relacionadas</h3>
+            <form [formGroup]="formPersonasRelacionadas">
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="row">
+                <!-- Sucursal -->
+                <div class="col-md-3">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Sucursal</mat-label>
+                        <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                            [matAutocomplete]="autoSucursal">
+                        <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                            (optionSelected)="opcionSelectSucursales($event)" [displayWith]="displayFnSucursal">
+                            <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                                {{option.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="listaValidaciones.sucursal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formPersonasRelacionadas.get('sucursal').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+            <!--Fecha-->
+            <div class="col-md-3">
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Mes y Año</mat-label>
+                    <input matInput [matDatepicker]="dp" [formControl]="date" [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)"
+                        panelClass="example-month-picker">
+                    </mat-datepicker>
+                </mat-form-field>
+
+            </div>
+
+            <!-- Checkbox Consolidado-->
+            <section class="col-md-3">
+                <mat-checkbox (change)="cambioConsolidado($event)" class="full-width" formControlName="consolidado">
+                    Consolidado</mat-checkbox>
+            </section>
+
+
+            <!--GENERAR PDF-->
+            <div class="col-md-1 a" id="container">
+                <button mat-fab color="primary" (click)="reportePersonasRelacionadas()">
+                    <mat-icon matTooltip="Generar PDF">file_download</mat-icon>
+                </button>
+
+            </div>
+                    </div>
+                </div>
+             </div>
+        </form>
+
+    </div>
+
+    </div>
+</div>

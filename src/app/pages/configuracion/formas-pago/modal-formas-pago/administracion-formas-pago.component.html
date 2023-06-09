@@ -1,0 +1,91 @@
+<h2 mat-dialog-title>{{encabezado | uppercase}} </h2>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formPago">
+        <p></p>
+        <div class="row">
+
+            <div class="col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Clave Forma Pago</mat-label>
+                        <input formControlName="cvePago" matInput placeholder="00">
+                        <mat-icon matSuffix>payment</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.cvePago" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formPago.get('cvePago').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Nombre Forma Pago</mat-label>
+                        <textarea formControlName="nombreFpago" style="resize: none;" matInput
+                            placeholder="Efectivo, Cheque, etc.."></textarea>
+                        <mat-icon matSuffix>description</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.nombreFpago" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formPago.get('nombreFpago').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="col-12">
+
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Tipo de Moneda</mat-label>
+                    <input type="text" placeholder="Nombre Moneda" matInput formControlName="moneda"
+                        [matAutocomplete]="auto">
+                    <mat-icon matSuffix>monetization_on</mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of filteredMonedas | async" [value]="option">
+                            {{option.nombreMoneda}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.moneda" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPago.get('moneda').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Icono</mat-label>
+                        <input formControlName="icono" style="resize: none;" matInput placeholder="Icono">
+                        <mat-icon matSuffix>brush</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.icono" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formPago.get('icono').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+
+                </p>
+            </div>
+
+            <div class="col-4">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+
+        </div>
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion===1" (click)="guardarFormaPago()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion===2" (click)="editarFormaPago()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

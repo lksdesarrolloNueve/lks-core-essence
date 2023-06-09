@@ -1,0 +1,42 @@
+<!-- <div class="row">
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h2 class="text-center">menu</h2>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <button mat-fab color="primary" >
+                        <mat-icon matTooltip="Guardar">done_outline</mat-icon>
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <button mat-fab color="primary" >
+                        <mat-icon matTooltip="Editar">create</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!--12 card-->
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body">
+            <mat-tab-group (selectedTabChange)="tabSeleccionada($event)" mat-align-tabs="start">
+                <mat-tab label="Alta de servicio">
+                    <br>
+                    <empresas-nomina></empresas-nomina>
+                </mat-tab>
+                <mat-tab label="Agregar plantilla">
+                    <plantilla></plantilla>
+                </mat-tab>
+                <mat-tab label="Alta de empleados">
+                    <empleados></empleados>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

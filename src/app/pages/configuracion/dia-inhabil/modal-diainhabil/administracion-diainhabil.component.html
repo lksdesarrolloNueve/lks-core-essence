@@ -1,0 +1,61 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formDiaInhabil">
+        <p></p>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput formControlName="fecha" type="date" placeholder="Fecha">
+                        <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formDiaInhabil.get('fecha').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <!-- breve descripcion -->
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Descripcion</mat-label>
+                        <input formControlName="descripcion" matInput placeholder="Ejemplo:dia domingo-inhabil.">
+                        <mat-icon matSuffix>description_outlined</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formDiaInhabil.get('descripcion').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-md-12">
+                <section class="row">
+                    <h4 class="col-md-12">Aplica</h4>
+                    <div class="col-md-3">
+                        <mat-checkbox class="example-margin " formControlName="aplinver">Inversion</mat-checkbox>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-checkbox class="example-margin " formControlName="aplicred">
+                            Credito</mat-checkbox>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <mat-slide-toggle formControlName="estatus" color="primary">
+                        Estatus
+                    </mat-slide-toggle>
+                </p>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" (click)="guardardia()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion === 2" (click)="EditarDia()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

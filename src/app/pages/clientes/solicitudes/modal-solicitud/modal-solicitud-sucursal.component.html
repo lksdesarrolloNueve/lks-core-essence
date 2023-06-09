@@ -1,0 +1,67 @@
+<mat-dialog-content class="mat-typography">
+    <mat-tab-group  backgroundColor="primary">
+        <mat-tab label="Nueva Solicitud"> <modal-solicitud></modal-solicitud> </mat-tab>
+        <mat-tab label="Solicitudes"> <div class="col-12">
+            <div class="card card-body">
+    
+                <!--Filtro-->
+                <mat-form-field>
+                    <mat-label>Filtros de Busqueda</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="No.{{lblClientes}}, Nombre, etc." #input>
+                </mat-form-field>
+                <!--Cuerpo de la tabla-->
+                <div class="mat-elevation-z8 table-responsive">
+                    <table aria-label="Busqueda de solicitudes" mat-table [dataSource]="dataSourceSolicitudes" matSort>
+                        <!-- No. Cliente Column -->
+                        <ng-container matColumnDef="numeroCliente">
+                            <th id="cliente" mat-header-cell *matHeaderCellDef mat-sort-header class="mayuscula">No.
+                                {{lblCliente}} </th>
+                            <td mat-cell *matCellDef="let solicitud"> {{solicitud.numero_cliente}} </td>
+                        </ng-container>
+    
+                        <!-- Nombre Column -->
+                        <ng-container matColumnDef="nombre">
+                            <th id="nombre" mat-header-cell *matHeaderCellDef mat-sort-header class="mayuscula">
+                               {{lblCliente}} </th>
+                            <td mat-cell *matCellDef="let solicitud"> {{solicitud.nombres}} {{solicitud.apellido_paterno}}
+                                {{solicitud.apellido_materno}} </td>
+                        </ng-container>
+    
+                        <!-- No. Solcitud Column -->
+                        <ng-container matColumnDef="numSolicitud">
+                            <th id="numSolicitud" mat-header-cell *matHeaderCellDef mat-sort-header>No. Solicitud </th>
+                            <td mat-cell *matCellDef="let solicitud">{{solicitud.num_solicitud}} </td>
+                        </ng-container>
+    
+                        <!-- motivo -->
+                        <ng-container matColumnDef="motivo">
+                            <th id="motivo" mat-header-cell *matHeaderCellDef mat-sort-header> Motivo</th>
+                            <td mat-cell *matCellDef="let solicitud"> {{solicitud.descripcion}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="observaciones">
+                            <th id="observaciones" mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones </th>
+                            <td mat-cell *matCellDef="let solicitud"> {{solicitud.observaciones}} </td>
+                        </ng-container>
+                        <!-- Estado Credito Column -->
+                        <ng-container matColumnDef="estadoComite">
+                            <th id="descEstadoCred" mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let solicitud"> {{solicitud.estatus}} </td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+    
+                <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5"
+                    [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                    aria-label="Seleccionar pagina de solicitudes">
+                </mat-paginator>
+    
+            </div>
+        </div>
+    </mat-tab>
+       
+      </mat-tab-group>
+</mat-dialog-content>
+

@@ -1,0 +1,67 @@
+<h3 mat-dialog-title class="text-center">{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <div class="row">
+
+        <div class="a col-12">
+            <h3 class="mayuscula">No. {{lblCliente}}: {{numSocio}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{lblCliente}}: {{nombreSocio}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sucursal: {{sucursal}}
+            </h3>
+            <mat-divider></mat-divider>
+
+
+        </div>
+
+        <div class="col-12">
+            <form [formGroup]="formNotificacion">
+                <div class="row">
+                    <div class="col-12">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Aviso</mat-label>
+                            <textarea formControlName="aviso" style="resize: none;" matInput
+                                placeholder="Socio debe entregar copia de IFE"></textarea>
+                            <mat-icon matSuffix>description</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.aviso" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formNotificacion.get('aviso').hasError(error.type)" >
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>                  
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-12">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Vigencia</mat-label>
+                            <input matInput formControlName="vigencia" [matDatepicker]="dp3">
+                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                    </div>
+
+                    <div class="col-12">
+                    <mat-slide-toggle formControlName="estatus"   color="primary">
+                        Estatus
+                    </mat-slide-toggle>
+                </div>
+
+                </div>
+
+
+       
+        </form>
+
+    </div>
+
+
+
+    </div>
+
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+
+    <button (click)="gestionAvisos()" mat-raised-button color="primary">{{data.titulo | uppercase}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

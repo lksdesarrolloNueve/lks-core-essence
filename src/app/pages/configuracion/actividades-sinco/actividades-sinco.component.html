@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">Actividades Econ&oacute;micas SINCO</h3>
+        <div class="row">
+            <div class="col-12" >
+                <mat-tab-group  
+                (selectedTabChange)="tabSeleccionada($event)"
+                backgroundColor="primary" mat-align-tabs="start">
+                    <mat-tab label="Divisi&oacute;n">
+                        <division></division>
+                    </mat-tab>
+                    <mat-tab label="Grupo Principal"> 
+                        <principal></principal>
+                    </mat-tab>
+                    <mat-tab label="Subgrupo">
+                        <subgrupo></subgrupo>
+                    </mat-tab>
+                    <mat-tab label="Grupo Unitario">
+                        <unitario></unitario>
+                    </mat-tab>
+                    <mat-tab label="Ocupaciones SINCO">
+                        <ocupacion></ocupacion>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--col12-->
+</div>
+<!--Row-->

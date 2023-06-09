@@ -1,0 +1,273 @@
+<div class="row" *ngIf="numero === 1">
+    <div class="col-md-12 card">
+        <h3 mat-dialog-title>{{titulo | uppercase}}</h3>
+        <!-- Aqui van los filtros etc. -->
+        <div class="row">
+
+            <!--Rango de fechas-->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width" >
+                    <mat-label>Rango de fechas</mat-label>
+                    <mat-date-range-input [formGroup]="formMovimiento" [rangePicker]="picker">
+                        <input matStartDate formControlName="start" placeholder="Fecha Inicio">
+                        <input matEndDate formControlName="end" placeholder="Fecha Fin">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+
+                    <mat-error *ngIf="formMovimiento.controls.start.hasError('matStartDateInvalid')"><strong>Invalid start date</strong>
+                    </mat-error>
+                    <mat-error *ngIf="formMovimiento.controls.end.hasError('matEndDateInvalid')"><strong>Invalid end date</strong>
+                    </mat-error>
+
+                    <!--Validación -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.start" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formMovimiento.get('start').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+
+                    <!--Validación -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.end" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formMovimiento.get('end').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+
+                </mat-form-field>
+            </div>
+
+            <!--Sucursal-->
+            <div class="col-md-4">
+                <mat-form-field [formGroup]="formMovimiento" appearance="outline" class="full-width">
+                    <mat-label>Sucursal</mat-label>
+                    <mat-icon matSuffix>tag</mat-icon>
+                    <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                        [matAutocomplete]="autoSucursal">
+                    <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                        (optionSelected)="opcionSelectSucursales($event)" [displayWith]="displayFnSucursal">
+                        <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                            {{option.nombreSucursal}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <!--Tipo-->
+            <div class="col-md-3">
+                <mat-form-field [formGroup]="formMovimiento" appearance="outline" class="full-width" >
+                    <mat-label>Tipo</mat-label>
+                    <mat-select formControlName="tipo">
+                        <mat-option *ngFor="let tipoPoliza of listaTipoPolizas" [value]="tipoPoliza.tipoPolizaId">
+                            {{tipoPoliza.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!--Boton buscar-->
+            <div class="col-md-1">
+                <button mat-mini-fab color="primary" (click)="spsBuscarPoliza()">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="example-container mat-elevation-z8" *ngIf="tablaVisible">
+
+            <!-- Loading -->
+            <div class="example-loading-shade" *ngIf="isLoadingResults  || isResultado">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+
+                <div class="example-rate-limit-reached" *ngIf="isResultado">
+                    No se encontraron pólizas.
+                </div>
+
+            </div>
+
+            <div class="example-table-container">
+
+                <table mat-table [dataSource]="dataSourcePolizas" class="example-table" 
+                       matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+
+                    <caption></caption>
+
+                    <!--FECHA-->
+                    <ng-container matColumnDef="fecha">
+                        <th id="fecha" class="text-center" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Fecha </th>
+                        <td class="text-center" mat-cell style="padding: 16px;" *matCellDef="let detalleP">
+                            {{detalleP.fecha}} </td>
+                    </ng-container>
+
+                    <!--USUARIO-->
+                    <ng-container matColumnDef="usuario">
+                        <th id="usuario" class="text-center" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Usuario </th>
+                        <td class="text-center" style="padding: 16px;" mat-cell *matCellDef="let detalleP">
+                            {{detalleP.extPoliza.usuario}} </td>
+                    </ng-container>
+
+                    <!--TIPO-->
+                    <ng-container matColumnDef="tipo">
+                        <th id="tipo" class="text-center" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Tipo </th>
+                        <td class="text-center" mat-cell style="padding: 16px;" *matCellDef="let detalleP">
+                            {{detalleP.extPoliza.descTipo}} </td>
+                    </ng-container>
+
+                    <!--CLAVE-->
+                    <ng-container matColumnDef="clave">
+                        <th id="clave" class="text-center" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave </th>
+                        <td class="text-center" mat-cell style="padding: 16px;" *matCellDef="let detalleP">
+                            {{detalleP.cvePoliza}} </td>
+                    </ng-container>
+
+                    <!--SUCURSAL-->
+                    <ng-container matColumnDef="sucursal">
+                        <th id="sucursal" class="text-center" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Sucursal </th>
+                        <td class="text-center" mat-cell style="padding: 16px;" *matCellDef="let detalleP">
+                            {{detalleP.extPoliza.sucursalDescripcion}} </td>
+                    </ng-container>
+
+                    <!--CONCEPTO-->
+                    <ng-container matColumnDef="concepto">
+                        <th id="concepto" style="padding: 16px;" class="text-center" mat-header-cell *matHeaderCellDef> Concepto </th>
+                        <td class="text-center" style="padding: 16px;" mat-cell *matCellDef="let detalleP">
+                            {{detalleP.concepto}} </td>
+                    </ng-container>
+
+                    <!--ESTATUS-->
+                    <ng-container matColumnDef="estatus">
+                        <th id="estatus" class="text-center" mat-header-cell *matHeaderCellDef> Estatus </th>
+                        <td mat-cell class="text-center" *matCellDef="let detalleP">{{detalleP.estatus ? 'Activo' : 'Cancelado'}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row id="poliza" (click)="registroSeleccionado(row)"  matRipple
+                        *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+            </div>
+
+            <mat-paginator  [length]="totalRows"
+                            [pageSize]="pageSize"
+                            [pageIndex]="currentPage"
+                            [pageSizeOptions]="pageSizeOptions"
+                            (page)="loadPage($event)"
+                            aria-label="Select page"
+                            showFirstLastButtons>
+            </mat-paginator>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-12 c">
+        <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    </div>
+    
+</div>
+
+
+<div *ngIf="numero === 2">
+    <h3 mat-dialog-title>{{titulo | uppercase}}</h3>
+    <mat-dialog-content class="mat-typography">
+        <form [formGroup]="formMovimiento">
+            <div class="row">
+
+                <!--Cuenta contable-->
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline" class="full-width">
+                        <mat-label>Cuenta</mat-label>
+                        <mat-icon matSuffix>tag</mat-icon>
+                        <input type="text" placeholder="Cuenta" matInput formControlName="cuenta"
+                            [matAutocomplete]="autoCuenta">
+                        <mat-autocomplete autoActiveFirstOption #autoCuenta="matAutocomplete"
+                            (optionSelected)="opcionSelectCuenta($event)" [displayWith]="displayFnCuenta">
+                            <mat-option *ngFor="let option of opcionesCuenta | async" [value]="option">
+                                {{option.cuenta}} / {{option.nombre}} /
+                                {{option.extencionCuentaContable.tipoCuenta.descripcion}}
+
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <!-- Validación -->     
+                        <ng-template ngFor let-error [ngForOf]="validaciones.cuenta" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formMovimiento.get('cuenta').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+                <!--Referencia-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Referencia</mat-label>
+                        <input formControlName="referencia" matInput>
+                        <mat-icon matSuffix>tag</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.referencia" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formMovimiento.get('referencia').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+                <!--Descripcion-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Descripci&oacute;n</mat-label>
+                        <input matInput formControlName="descripcion">
+                        <mat-icon matSuffix>mode_edit</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formMovimiento.get('descripcion').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+                <!--Debe-->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Debe</mat-label>
+                        <strong>
+                        <input (input)="inputDebe()" formControlName="debe" matInput
+                        style="text-align:center;" prefix="$ " mask="separator.2" thousandSeparator=","  ></strong>
+                        <mat-icon matSuffix>tag</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.debe" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formMovimiento.get('debe').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+                <!--Haber-->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Haber</mat-label>
+                        <strong>
+                        <input (input)="inputHaber()" formControlName="haber" matInput
+                        style="text-align:center;" prefix="$ " mask="separator.2" thousandSeparator=","  ></strong>
+                        <mat-icon matSuffix>tag</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.haber" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formMovimiento.get('haber').hasError(error.type)">
+                              <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </form>
+    </mat-dialog-content>
+
+    <div class="c">
+
+        <button color="primary" (click)="agregarCtaCont(formMovimiento)" mat-raised-button>Aceptar</button>
+        <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+
+    </div>
+
+</div>

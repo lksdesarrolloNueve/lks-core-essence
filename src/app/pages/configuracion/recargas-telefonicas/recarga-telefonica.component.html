@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+            <h3 class="text-center">Lista de Companñias</h3>
+            <div class="row">
+                <!-- Botón para registrar nuevo PEP -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogoRecargas(1,'')">Registrar
+                        Compania</button>
+                </div>
+                <div class="col-md-10"></div>
+                <div class="col-md-12"> 
+                <!-- FILTRO SERVICIOS -->
+                <mat-form-field class="full-width">
+                    <mat-label>Filtro de Compañias</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Servicio" #input>
+                </mat-form-field>
+
+                <!-- TABLA DE COMPAÑIAS -->
+                <div class="mat-elevation-z8 table-responsive">
+                    <table mat-table aria-label="Tabla de Companias" [dataSource]="dataSourceCompanias"
+                        #listasProducto="matSort" matSort>
+
+                        <!-- Columna Compañia -->
+                        <ng-container matColumnDef="compania">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Compañia
+                            </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let tae">{{tae.compania}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Estatus  -->
+                        <ng-container matColumnDef="estatus">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Estatus </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let tae">
+                                <mat-slide-toggle [ngModel]="tae.estatus"
+                                    (ngModelChange)="cambiaEstatus($event, tae)" color="primary">
+                                </mat-slide-toggle>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna acciones Recarga -->
+                        <ng-container matColumnDef="acciones">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Acciones </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let tae">
+
+                                <!-- Columna Botón Editar -->
+                                <button mat-mini-fab color="primary" (click)="abrirDialogoRecargas(2,tae)">
+                                    <mat-icon>mode_edit</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="columnsRecarga"></tr>
+                        <tr mat-row *matRowDef="let row; columns: columnsRecarga;"></tr>
+                    </table>
+                    <mat-paginator #PaginatorListaPeps [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,135 @@
+<h2 [hidden]="estado === true" mat-dialog-title>Baja cargo</h2>
+<h2 [hidden]="estado === false" mat-dialog-title>Reingreso cargo</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formCargo">
+        <p></p>
+        <div class="row">
+
+
+            <!-- Fecha Fin Cargo-->
+            <div [hidden]="estado === true" class="col-6">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha fin cargo</mat-label>
+                    <input formControlName="fechaFinC" matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.fechaFinC" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCargo.get('fechaFinC').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Fecha Fin fraccion-->
+            <div [hidden]="estado === true" class="col-6">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha baja fracci&oacute;n</mat-label>
+                    <input formControlName="fechaBajaF" matInput [matDatepicker]="picker2">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.fechaBajaF" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCargo.get('fechaBajaF').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <!-- [hidden]="estado === true" -->
+            <div [hidden]="estado === true" class="col-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>
+                        Raz&oacute;n baja
+                    </mat-label>
+                    <!-- formControlName="razonBaja" -->
+                    <input formControlName="razonBaja" matInput>
+                    <mat-icon matSuffix><span class="material-icons-outlined">edit_note</span></mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.razonBaja" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCargo.get('razonBaja').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+    <form [formGroup]="formCargo2">
+        <div class="row">
+
+            <!-- fecha inicio cargo -->
+            <div [hidden]="estado === false" class="col-6">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha inicio cargo</mat-label>
+                    <input formControlName="fechaInicioC" matInput [matDatepicker]="picker3">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                    <ng-template ngFor let-error [ngForOf]="validaciones2.fechaInicioC" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCargo2.get('fechaInicioC').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <!-- fecha califica fraccion -->
+            <div [hidden]="estado === false" class="col-6">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha califica fracci&oacute;n</mat-label>
+                    <!--  -->
+                    <input formControlName="fechaCalificaF" matInput [matDatepicker]="picker4">
+                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <mat-datepicker #picker4></mat-datepicker>
+                    <ng-template ngFor let-error [ngForOf]="validaciones2.fechaCalificaF" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCargo2.get('fechaCalificaF').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!--Cargo-->
+            <div [hidden]="estado === false" class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cargo</mat-label>
+                    <input formControlName="cargo" matInput placeholder="Cargo">
+                    <mat-icon matSuffix>person_pin_circle</mat-icon>
+                </mat-form-field>
+                <!-- <mat-error *ngFor="let validacion of validaciones.observaciones">
+                    <div *ngIf="formDirectivoFuncionario.get('observaciones').hasError(validacion.type)
+                        && formDirectivoFuncionario.get('observaciones').touched">
+                        {{validacion.message}}
+                    </div>
+                </mat-error> -->
+            </div>
+
+
+            <!--Observaciones-->
+            <div [hidden]="estado === false" class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Observaciones</mat-label>
+                    <input formControlName="observaciones" matInput placeholder="Observaciones">
+                    <mat-icon matSuffix>edit_note</mat-icon>
+                </mat-form-field>
+                <ng-template ngFor let-error [ngForOf]="validaciones2.observaciones" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formCargo2.get('observaciones').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </div>
+        </div>
+    </form>
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button *ngIf="estado === true" mat-raised-button color="primary" (click)="altaCargo(4)"
+        cdkFocusInitial>Guardar</button>
+    <button *ngIf="estado === false" mat-raised-button color="primary" (click)="bajaCargo(3)"
+        cdkFocusInitial>Editar</button>
+</mat-dialog-actions>

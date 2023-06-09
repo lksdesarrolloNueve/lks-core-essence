@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <div class="sidebar" style="z-index: 0;" data-color="white" data-active-color="danger">
+        <sidebar-cmp></sidebar-cmp>
+    </div>
+    <div class="main-panel">
+        <navbar-cmp></navbar-cmp>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+        <footer-cmp></footer-cmp>
+    </div>
+</div>
+<chat-cmp class="chat" id="chat" cdkDrag (cdkDragEnded)="reposicionarChat($event)"></chat-cmp>
+<fixedplugin-cmp></fixedplugin-cmp>

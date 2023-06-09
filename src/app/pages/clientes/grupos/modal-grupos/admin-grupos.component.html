@@ -1,0 +1,112 @@
+<h3 mat-dialog-title class="text-center">{{titulo | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formGrupos">
+        <div class="row">
+
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Sucursal</mat-label>
+                    <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                        [matAutocomplete]="autoSucursal">
+                    <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                        [displayWith]="displayFnSucursal">
+                        <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                            {{option.nombreSucursal}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formGrupos.get('sucursal').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+
+                </mat-form-field>
+            </div>
+
+            <!--CLAVE BÓVEDA-->
+            <div class="col-md-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Clave Grupo</mat-label>
+                    <input formControlName="cveGrupo" matInput placeholder="Clave Grupo">
+                    <mat-icon matSuffix>vpn_key</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveGrupo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formGrupos.get('cveGrupo').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!--DESCRIPCIÓN BÓVEDA-->
+            <div class="col-md-5">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nombre Grupo</mat-label>
+                    <input formControlName="nombreGrupo" matInput placeholder="Nombre Grupo">
+                    <mat-icon matSuffix>description</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.nombreGrupo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formGrupos.get('nombreGrupo').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!--Se hace el combo de registro de arraigo -->
+            <div class="col-md-5">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Roles</mat-label>
+                    <mat-icon matSuffix>supervisor_account</mat-icon>
+                    <mat-select [formControl]="rolesControl" name="catGenerales">
+                        <mat-option *ngFor="let catGenerales of listaRoles" [value]="catGenerales">
+                            {{catGenerales.cveGeneral}} / {{catGenerales.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.catGenerales" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formGrupos.get('catGenerales').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!--ESTATUS GRUPOS-->
+            <div class="col-md-4">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus Grupo
+                </mat-slide-toggle>
+            </div>
+
+            <div class="col-md-3">
+                <button mat-raised-button color="primary" (click)="abrirDialogCliente(0)">Buscar Socio</button>
+            </div>
+
+            <!--Lista que contendra a los clientes-->
+            <div class="col-md-12">
+                <mat-nav-list class="scroll-container" [ngStyle]="{'height': '100%', 'width':'100%'}">
+                    <mat-list-item *ngFor="let seleccionados of listaClientesSeleccionados">
+                        <mat-icon matSuffix>supervisor_account</mat-icon>
+                        <p matListItemTitle>{{seleccionados.catGenerales.descripcion}} /
+                            {{seleccionados.catCliente.cliente.sujeto.nombres}}
+                            {{seleccionados.catCliente.cliente.sujeto.apellidoPaterno}}
+                            {{seleccionados.catCliente.cliente.sujeto.apellidoMaterno}}
+                        </p>
+                        <button color="primary" matListItemMeta mat-mini-fab aria-label="Example icon-button with a heart icon"
+                            (click)="eliminarIntegranteGrupo(seleccionados)">
+                            <mat-icon>
+                                cancel
+                            </mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-nav-list>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    <button mat-raised-button *ngIf="accion === 1" (click)="crudGrupos()" color="primary"
+        cdkFocusInitial>Guardar</button>
+    <button mat-raised-button *ngIf="accion === 2" (click)="crudGrupos()" color="primary"
+        cdkFocusInitial>Editar</button>
+</mat-dialog-actions>

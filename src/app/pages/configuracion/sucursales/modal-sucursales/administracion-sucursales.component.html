@@ -1,0 +1,72 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]='formSucursal'>
+        <p></p>
+        <div class="row">
+            <div class="col-md-12">
+                    <mat-form-field  appearance="outline" class="full-width">
+                        <mat-label>Nombre Sucursal</mat-label>
+                        <input formControlName="nombreSucursal" matInput placeholder="Dolores Hidalgo">
+                        <mat-icon matSuffix>apartment</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.nombreSucursal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formSucursal.get('nombreSucursal').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+            </div>
+
+    
+            <div class="col-md-12">
+                    <mat-form-field  appearance="outline" class="full-width">
+                        <mat-label>Cve Sucursal</mat-label>
+                        <input formControlName="cveSucursal" matInput placeholder="DHO">
+                        <mat-icon matSuffix>code</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.cveSucursal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formSucursal.get('cveSucursal').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+            </div>
+
+
+            
+            <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Cuenta Contable Traspaso</mat-label>
+                        <input type="text" placeholder="Cuenta Contable" matInput formControlName="cuentaContableTras"
+                            [matAutocomplete]="autoCuentaConta">
+                        <mat-autocomplete autoActiveFirstOption #autoCuentaConta="matAutocomplete"
+                            (optionSelected)="opcionSeleccionCuentaC($event)" [displayWith]="displayFnCuentaConta">
+                            <mat-option *ngFor="let option of opcionesCuentaC | async" [value]="option">
+                                {{option.cuenta}} / {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.cuentaContableTras" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formSucursal.get('cuentaContableTras').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+            </div>
+
+            <div class="col-md-12">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>    
+
+        </div>
+
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+    <button (click)="crudSucursal()" mat-raised-button color="primary">{{data.titulo}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

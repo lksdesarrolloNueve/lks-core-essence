@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formSubgrupo">
+        <p></p>
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Divisi&oacute;n</mat-label>
+                <mat-select   formControlName="division" (selectionChange)="selectDiv()">
+                    <mat-option *ngFor="let principal of listaDivision"  [value]="principal.divisionId">
+                        {{principal.descripcion}}
+                    </mat-option>
+                </mat-select>
+                <mat-icon matSuffix>error</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.division" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formSubgrupo.get('division').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Grupo Principal</mat-label>
+                <input type="text" placeholder="Grupo Principal" matInput formControlName="principal" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of opcionesGrupo | async" [value]="option">
+                        {{option.descripcion}} 
+                    </mat-option>
+                </mat-autocomplete>
+                <ng-template ngFor let-error [ngForOf]="validaciones.principal" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formSubgrupo.get('principal').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>               
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Clave Subgrupo</mat-label>
+                <input matInput formControlName="cveSub" MaxLength="3" placeholder="Clave Subgrupo">
+                <mat-icon matSuffix>code</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.cveSub" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formSubgrupo.get('cveSub').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>        
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Descripción</mat-label>
+                <input matInput formControlName="descripcion" MaxLength="250" placeholder="Descripción">
+                <mat-icon matSuffix>subject</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formSubgrupo.get('descripcion').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>        
+            </mat-form-field>
+        </p>        
+        <p>
+            <mat-slide-toggle formControlName="estatus"  color="primary">
+                Estatus
+            </mat-slide-toggle>
+        </p>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion===1" (click)="guardarSubgrupo()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion===2" (click)="actualizarSubgrupo()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">Grupos</h3>
+        <div class="row">
+
+            <div class="col-md-5">
+                <form [formGroup]="formGrupos">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Sucursal</mat-label>
+                        <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                            [matAutocomplete]="autoSucursal">
+                        <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                            [displayWith]="displayFnSucursal">
+                            <mat-option *ngFor="let option of opcionesSucursales | async" [value]="option">
+                                {{option.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formGrupos.get('sucursal').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+                    </mat-form-field>
+                </form>
+
+            </div>
+
+            <div class="col-md-2">
+                <button mat-fab color="primary" (click)="buscarGrupos()">
+                    <mat-icon matTooltip="Buscar Grupos de Crédito">search</mat-icon>
+                </button>
+            </div>
+
+            <div class="col-md-3">
+
+            </div>
+
+            <div class="col-md-2">
+                <button mat-raised-button 
+                (click)="abrirAdminGrupos('',1)" color="primary">
+                Registrar 
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="listaGrupos.length > 0">
+        <!--Filtro-->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilterGrupos($event)" placeholder="Clave Grupo, Nombre Grupo" #input>
+        </mat-form-field>
+     
+        <div class="mat-elevation-z8 table-responsive">
+            <table mat-table aria-label="Info Grupos" [dataSource]="dataSourceGrupos"  matSort>
+
+                <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Nombre Clave Column -->
+                <ng-container matColumnDef="cveGrupo">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Clave Grupo</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let grupos"> {{grupos.cveGrupo}} </td>
+                </ng-container>
+
+                <!-- Nombre Grupo Column -->
+                <ng-container matColumnDef="nombreGrupo">
+                    <th mat-header-cell style="padding: 16px;"  *matHeaderCellDef> Nombre Grupo</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let grupos"> {{grupos.nombreGrupo}} </td>
+                </ng-container>
+
+                <!-- Estatus Grupo Column -->
+                <ng-container matColumnDef="estatus">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef> Estatus Grupo</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let grupos"> 
+                        <mat-slide-toggle (ngModelChange)="crudGrupos(grupos,$event)" 
+                        matTooltip="Activar/Desactivar el registro."
+                        [ngModel]= "grupos.estatus"
+                         color="primary" >  
+                        </mat-slide-toggle>    
+                    </td>
+                </ng-container>
+
+
+                <!-- Acciones Column -->
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <!-- Boton delete Column -->
+                    <td mat-cell *matCellDef="let grupos">
+                        <!-- Boton Editar Column -->
+                        <button mat-mini-fab (click)="abrirAdminGrupos(grupos,2)" color="primary">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </div>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+
+    </div>
+    </div>
+</div>

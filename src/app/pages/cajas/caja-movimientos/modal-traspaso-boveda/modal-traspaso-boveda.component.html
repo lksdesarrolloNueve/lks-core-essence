@@ -1,0 +1,54 @@
+<h1>Traspaso a boveda</h1>
+
+<div class="row">
+    <div class="card card-body">
+
+
+        <form [formGroup]="formTrBoveda">
+            <div class="row">
+                <!--Monto-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Monto</mat-label>
+                        <strong><input matInput placeholder="Monto" style="text-align:center;" prefix="$ "
+                                mask="separator.2" thousandSeparator="," formControlName="monto"></strong>
+                        <mat-icon matSuffix>paid</mat-icon>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.monto" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formTrBoveda.get('monto').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+                <!--Concepto-->
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Concepto</mat-label>
+                        <textarea matInput placeholder="Concepto" MaxLength="256" formControlName="concepto"></textarea>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.concepto" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formTrBoveda.get('concepto').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="guardarEditarDialog()">Aceptar</button>
+    <button mat-raised-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

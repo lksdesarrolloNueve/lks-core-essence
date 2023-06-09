@@ -1,0 +1,163 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+            <br>
+            <h3 class="text-center">Filtros de Busqueda</h3>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Sucursal</mat-label>
+                        <input type="text" placeholder="Sucursal" matInput [formControl]="sucursal"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                            (optionSelected)="opcionSeleccionadaTCuenta($event)" [displayWith]="displayFn">
+                            <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                                {{option.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="sucursal.hasError('invalidAutocompleteObject')">
+                            <strong> No existe la sucursal elige otra.</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Tipo Cuenta</mat-label>
+                        <input type="text" placeholder="Cuenta Banco" matInput [formControl]="tipocuenta"
+                            [matAutocomplete]="autoTipoCuenta">
+                        <mat-autocomplete autoActiveFirstOption #autoTipoCuenta="matAutocomplete"
+                            (optionSelected)="opcionSeleccionadaTCuenta($event)" [displayWith]="displayFnTCuenta">
+                            <mat-option *ngFor="let option of opcionesTCuenta | async" [value]="option">
+                                {{option.descripcion}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="tipocuenta.hasError('invalidAutocompleteObject')">
+                            <strong> No existe el tipo de cuenta elige otra.</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <h3 class="text-center"><strong>Cat&aacute;logo Cuentas Bancarias</strong></h3>
+
+            <div class="col-md-2"><button mat-raised-button color="primary" (click)="abrirdialogo(0)">
+                    Registrar Nuevo</button>
+            </div>
+
+            <div [hidden]="!mostrar" id="divTbl">
+                
+                <div class="col-md-12">
+                    <div class="row">
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Filtros de Busqueda</mat-label>
+                            <input matInput (keyup)="applyFilter($event)" placeholder="clave cuenta," #input>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="mat-elevation-z8 table-responsive">
+                        <table aria-label="CuentaBDatos" mat-table [dataSource]="dataSourceCuentaBancaria" matSort>
+                            <!-- clave de la cuenta  -->
+                            <ng-container matColumnDef="clave_cuenta">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Clave</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">{{element.claveCuenta}}
+                                </td>
+                            </ng-container>
+                            <!-- descripcion -->
+                            <ng-container matColumnDef="descripcion_cuenta">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>
+                                    Descripc&iacute;on</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.descripcionCuenta}}</td>
+                            </ng-container>
+                            <!-- numero de cheque -->
+                            <ng-container matColumnDef="cheque_cuenta">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>No.Cheque</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">{{element.chequeCuenta}}
+                                </td>
+                            </ng-container>
+                            <!--monto minimo en la cuenta-->
+                            <ng-container matColumnDef="monto_minimo">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>M.M&iacute;nimo
+                                </th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.montoMinimo|currency:'MXN'}}</td>
+                            </ng-container>
+                            <!--monto maximo en la cuenta-->
+                            <ng-container matColumnDef="monto_maximo">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>M.M&aacute;ximo
+                                </th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.montoMaximo|currency:'MXN'}}</td>
+                            </ng-container>
+                            <!--monto excedente en la cuenta-->
+                            <ng-container matColumnDef="monto_excedente">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>M.Excedente
+                                </th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.montoExcedente|currency:'MXN'}}</td>
+                            </ng-container>
+                            <!--nombre del banco sat-->
+                            <ng-container matColumnDef="nombre_banco_sat">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>B.Sat</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.extencionCuentaBancaria.bancoSat.nombreBanco}}</td>
+                            </ng-container>
+                            <!--nombre del banco siti-->
+                            <ng-container matColumnDef="nombre_banco_siti">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>B.Siti</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.extencionCuentaBancaria.bancoSiti.nombreBanco}}</td>
+                            </ng-container>
+                            <!--nombre cuenta contable -->
+                            <ng-container matColumnDef="nombre_cuenta_contable">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>C.Contable</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.extencionCuentaBancaria.cuentaContable.nombre}}</td>
+                            </ng-container>
+                            <!--nombre sucursal -->
+                            <ng-container matColumnDef="nombre_sucursal">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Sucursal</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.extencionCuentaBancaria.sucursal.nombreSucursal}}</td>
+                            </ng-container>
+                            <!--tipo cuenta -->
+                            <ng-container matColumnDef="tipo_cuenta">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>T.Cuenta</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    {{element.extencionCuentaBancaria.cuentaBanco.descripcion}}</td>
+                            </ng-container>
+                            <!-- Estatus -->
+                            <ng-container matColumnDef="estatus">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef
+                                    style="width: 50px"> Estatus</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    <mat-slide-toggle matTooltip="Activar/Desactivar el registro."
+                                        [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)"
+                                        color="primary"> </mat-slide-toggle>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="acciones">
+                                <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Acciones</th>
+                                <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                                    <button mat-mini-fab color="primary" (click)="abrirdialogo(element)"
+                                        matTooltip="Editar registro">
+                                        <mat-icon>editar</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+
+                </div>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+                    aria-label="Select page of users">
+                </mat-paginator>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

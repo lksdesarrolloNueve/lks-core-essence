@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">Depreciaciones</h3>
+        <div class="row">
+            <div class="col-2"><button mat-raised-button color="primary" (click)="abrirAdminDepreciacion('',1)">Registrar </button></div>
+        </div>
+
+        <!--Filtro-->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilterDepreciaciones($event)" placeholder="" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="info" mat-table [dataSource]="dataSourceDepreciaciones"  matSort >
+
+                <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Clave Depreciacion Column -->
+                <ng-container matColumnDef="cveDepreciacion">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave Depreciaciones</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.cveDepreciacion}} </td>
+                </ng-container>
+                <!-- Descripcion Column -->
+                <ng-container matColumnDef="descripcion">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Descripci&oacute;n</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.descripcion}} </td>
+                </ng-container>
+                <!-- Tasa Contable Column -->
+                <ng-container matColumnDef="tasaContable">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Tasa Contable</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.tasaContable}} %</td>
+                </ng-container>
+                <!-- Tasa Fiscal Column -->
+                <ng-container matColumnDef="tasaFiscal">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Tasa Fiscal</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.tasaFiscal}} %</td>
+                </ng-container>
+                <!-- Maximo Deducible Column -->
+                <ng-container matColumnDef="maximoDeducible">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>M&aacute;ximo Deducible</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.maximoDeducible}} </td>
+                </ng-container>
+                <!-- Porcentaje Column -->
+                <ng-container matColumnDef="porcentaje">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Porcentaje</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.porcentaje}} %</td>
+                </ng-container>
+                <!-- Cuenta Activo Column -->
+                <ng-container matColumnDef="cuentaActivo">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cuenta Activo</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.cuentaActivo}} </td>
+                </ng-container>
+                <!-- Cuenta Depreciacion Column -->
+                <ng-container matColumnDef="cuentaDepreciacion">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cuenta Depreciaci&oacute;n</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.cuentaDepreciacion}} </td>
+                </ng-container>
+                <!-- Cuenta Gastos Column -->
+                <ng-container matColumnDef="cuentaGastos">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cuenta Gastos</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.cuentaGastos}} </td>
+                </ng-container>
+                <!-- Cuenta Baja Column -->
+                <ng-container matColumnDef="cuentaBaja">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cuenta Baja</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion"> {{depreciacion.cuentaBaja}} </td>
+                </ng-container>
+                <!-- Estatus Column-->
+                <ng-container matColumnDef="estatus">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let depreciacion">
+                        <mat-slide-toggle (ngModelChange)="crudDepreciaciones(depreciacion, $event)"
+                            matTooltip="Baja / Alta de Registro" [ngModel]="depreciacion.estatus" color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+                <!-- Acciones Column -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <!-- Boton delete Column -->
+                    <td mat-cell *matCellDef="let depreciacion">
+                        <!-- Boton Editar Column -->
+                        <button mat-mini-fab color="primary" (click)="abrirAdminDepreciacion(depreciacion,2)">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+</div>
+</div>

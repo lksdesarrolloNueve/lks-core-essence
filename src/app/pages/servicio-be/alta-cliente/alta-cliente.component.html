@@ -1,0 +1,225 @@
+<!--Contenido para tabla Clientes -->
+<div>
+  <!-- Columna -->
+  <div class="col-md">
+    <div class="card card-body">
+      <h4 class="text-center">Busqueda de {{ lblClientes }}</h4>
+
+      <!-- Filtra -->
+      <form [formGroup]="formGetCliente" class="example-form">
+ 
+        <mat-form-field class="example-selection">
+          <mat-label> Elije uno </mat-label>
+          <mat-select
+            [(ngModel)]="selectedValue"
+            name="catalogo"
+            formControlName="cvesocio"
+          >
+            <mat-option
+              *ngFor="let lista of listaCatalogoClientes"
+              [value]="lista.cveGeneral"
+            >
+              {{ lista.descripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-input">
+          <mat-label> Filtros de Busqueda </mat-label>
+          <input
+            matInput
+            formControlName="filtro"
+            placeholder="Buscar por nombre o nombre completo"
+            #input
+          />
+          <mat-icon matSuffix> person </mat-icon>
+        </mat-form-field>
+      </form>
+
+      <button
+        mat-button
+        class="button-search"
+        (click)="buscar()"
+        #input
+        id="input"
+      >
+        <mat-icon> search </mat-icon> Buscar
+      </button>
+
+      <!-- Cuerpo de la tabla -->
+      <div class="mat-elevation-z8 table-responsive">
+        <table
+          aria-label="info"
+          mat-table
+          [dataSource]="dataSourceClientes"
+          matSort
+        >
+          <!--
+            "Tenga en cuenta que estas columnas se pueden definir en cualquier orden.
+            Las columnas representadas reales se establecen como una propiedad en la definición de fila"
+          -->
+
+          <!-- Numero Cliente -->
+          <ng-container matColumnDef="numero_cliente">
+            <th
+              scope="column"
+              style="padding: 16px"
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-center center"
+            >
+              No. {{ lblCliente }}
+            </th>
+            <td
+              mat-cell
+              style="padding: 16px"
+              *matCellDef="let element"
+              class="text-center center"
+            >
+              {{ element.numero_cliente }}
+            </td>
+          </ng-container>
+
+          <!-- Nombre Cliente -->
+          <ng-container matColumnDef="nombres">
+            <th
+              scope="column"
+              style="padding: 16px"
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-center center"
+            >
+              Nombre Cliente
+            </th>
+            <td
+              mat-cell
+              style="padding: 16px"
+              *matCellDef="let element"
+              class="text-center center"
+            >
+              {{ element.nombres }} {{ element.apellido_paterno }}
+              {{ element.apellido_materno }}
+            </td>
+          </ng-container>
+
+          <!-- Sucursal -->
+          <ng-container matColumnDef="nombre_sucursal">
+            <th
+              scope="column"
+              style="padding: 16px"
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-center center"
+            >
+              Sucursal
+            </th>
+            <td
+              mat-cell
+              style="padding: 16px"
+              *matCellDef="let element"
+              class="text-center center"
+            >
+              {{ element.nombre_sucursal }}
+            </td>
+          </ng-container>
+
+          <!-- Estatus -->
+          <ng-container matColumnDef="estatus">
+            <th
+              scope="column"
+              style="padding: 16px"
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-center center"
+            >
+              Estatus
+            </th>
+            <td
+              mat-cell
+              style="padding: 16px"
+              *matCellDef="let element"
+              class="text-center center"
+            >
+              <mat-slide-toggle
+                [ngModel]="element.estatus"
+                color="primary"
+              ></mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <!-- Tipo de Socio -->
+          <ng-container matColumnDef="descripcion">
+            <th
+              scope="column"
+              style="padding: 16px"
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-center center"
+            >
+              Tipo Socio
+            </th>
+            <td
+              mat-cell
+              style="padding: 16px"
+              *matCellDef="let element"
+              class="text-center center"
+            >
+              {{ element.descripcion }}
+            </td>
+          </ng-container>
+
+          <!-- Genero -->
+          <ng-container matColumnDef="genero">
+            <th
+              scope="column"
+              style="padding: 16px"
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-center center"
+            >
+              Genero
+            </th>
+            <td
+              mat-cell
+              style="padding: 16px"
+              *matCellDef="let element"
+              class="text-center center"
+            >
+              {{ element.genero }}
+            </td>
+          </ng-container>
+
+          <!-- Fecha Alta Columna -->
+          <ng-container matColumnDef="acciones">
+            <th
+              scope="column"
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-center center"
+            >
+              Acciones
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-center center">
+              <button
+                mat-mini-fab
+                class="button-edit"
+                (click)="altaCliente(element)"
+              >
+                <mat-icon> description </mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        showFirstLastButtons
+        aria-label="Select page of users"
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,233 @@
+<h3 mat-dialog-title class="text-center">{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formCuentaBancaria">
+        <p></p>
+        <div class="row">
+
+            <!-- clave -->
+            <div class="col-md-6">
+                <p>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Clave Cuenta</mat-label>
+                    <input formControlName="cveCuenta" matInput  placeholder="0000000-23">
+                    <mat-icon matSuffix>language</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveCuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('cveCuenta').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            <br>
+            </div>
+            <!-- descripcion -->
+            <div class="col-md-6">
+                <p>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripci&oacute;n</mat-label>
+                    <input  formControlName="descripcion" matInput  placeholder="Cuenta Banamex">
+                    <mat-icon matSuffix>language</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('descripcion').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            <br>
+            </div>
+
+
+            <div class="col-md-12">
+                <p>
+                <!----- Filtro -------->
+                <mat-form-field  appearance="outline" class="full-width">
+                    <mat-label>Sucursal</mat-label>
+                    <input type="text" placeholder="Sucursal" matInput formControlName="Sucursal"
+                        [matAutocomplete]="autoSucursal">
+                    <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                        (optionSelected)="opcionSeleccionSuc($event)" [displayWith]="displayFnSuc">
+                        <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option">
+                            {{option.nombreSucursal}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.Sucursal" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('Sucursal').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+                </p>
+            </div>
+
+            <!-- monto minimo -->
+            <div class="col-md-4">
+                <p>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto M&iacute;nimo</mat-label>
+                    <input formControlName="MontoMin" matInput placeholder="1">
+                    <mat-icon matSuffix>monetization_on_outlined</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.MontoMin" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('MontoMin').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            <br>
+            </div>
+            <!-- monto maximo -->
+            <div class="col-md-4">
+                <p>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto M&aacute;ximo</mat-label>
+                    <input formControlName="MontoMax" matInput placeholder="1">
+                    <mat-icon matSuffix>monetization_on_outlined</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.MontoMax" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('MontoMax').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            <br>
+            </div>
+            <!-- monto Excento -->
+            <div class="col-md-4">
+                <p>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto excedente</mat-label>
+                    <input formControlName="MontoExc" matInput placeholder="1">
+                    <mat-icon matSuffix>monetization_on_outlined</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.MontoExc" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('MontoExc').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            <br>
+            </div>
+            <!-- cheque -->
+            <div class="col-md-4">
+                <p>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>No. Cheque</mat-label>
+                    <input formControlName="numCheque" matInput placeholder="1">
+                    <mat-icon matSuffix>language</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.numCheque" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('numCheque').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            <br>
+            </div>
+
+
+            <div class="col-md-8">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo cuenta</mat-label>
+                    <mat-select formControlName="TipoCuenta"(selectionChange)="seleccionTCuenta($event)" [compareWith]="comparaCuenta">
+                        <mat-option *ngFor="let nivel of listaAsentamiento"  [value]="nivel">
+                            {{nivel.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>exposure</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.TipoCuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('TipoCuenta').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+
+            </div>
+
+            <div class="col-md-12" [hidden]="!mostrar">
+            <p >
+                <!----- Filtro -------->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Banco Sat</mat-label>
+                    <input type="text" placeholder="Nombre BancoSat" matInput formControlName="BancoSat"
+                        [matAutocomplete]="autoBancoSat">
+                    <mat-autocomplete autoActiveFirstOption #autoBancoSat="matAutocomplete"
+                        (optionSelected)="opcionSeleccionada($event)" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of opcionesBancoSat | async" [value]="option">
+                            {{option.nombreBanco}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.BancoSat" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('BancoSat').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            </div>
+
+            <div class="col-md-12" [hidden]="!mostrar">
+                <p>
+                <!----- Filtro -------->
+                <mat-form-field  appearance="outline" class="full-width">
+                    <mat-label>Banco Siti</mat-label>
+                    <input type="text" placeholder="Nombre BancoSiti" matInput formControlName="BancoSiti"
+                        [matAutocomplete]="autoBancoSiti">
+                    <mat-autocomplete autoActiveFirstOption #autoBancoSiti="matAutocomplete"
+                        (optionSelected)="opcionSeleccionadaBsiti($event)" [displayWith]="displayFnBsiti">
+                        <mat-option *ngFor="let option of opcionesBancoSiti | async" [value]="option">
+                            {{option.nombreBanco}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.BancoSiti" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('BancoSiti').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            </div>
+
+    
+            <div class="col-md-12">
+                <p>
+                <!----- Filtro -------->
+                <mat-form-field  appearance="outline" class="full-width">
+                    <mat-label>Cuenta contable afectable</mat-label>
+                    <input type="text" placeholder="Cuenta contable afectable" matInput formControlName="CuentaContable"
+                        [matAutocomplete]="autoCuentaConta">
+                    <mat-autocomplete autoActiveFirstOption #autoCuentaConta="matAutocomplete"
+                        (optionSelected)="opcionSeleccionCuentaC($event)" [displayWith]="displayFnCuentaConta">
+                        <mat-option *ngFor="let option of opcionesCuentaC | async" [value]="option">
+                           {{option.cuenta}} / {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.CuentaContable" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaBancaria.get('CuentaContable').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </p>
+            </div>
+
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <!--- Metodo Guardar-->
+    <button *ngIf="accion === 1" (click)="guardarCuentaBancaria()" mat-raised-button color="primary">Guardar</button>
+    <!--- Metodo Editar/Actualizar-->
+    <button *ngIf="accion === 2" (click)="editarCuentaBancaria()" mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

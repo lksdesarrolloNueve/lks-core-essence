@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-12" >
+        <div class="card card-body">
+        <div class="row">
+            <div class="col-md-6" style="padding-top: 2em; padding-left: 2em;">
+                <!-- Selector de sucursal-->
+                <mat-form-field appearance="fill" style="width: 100%;">
+                  <mat-label>Sucursal</mat-label>
+                  <mat-select (selectionChange)="seleccionarSucursal($event.value)">
+                    <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
+                        {{ sucursal.nombreSucursal }}
+                      </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6" style="padding-top: 2em; padding-right: 2em;">
+                <!-- Selector de tipo de cuenta -->
+                <mat-form-field appearance="fill" style="width: 100%;">
+                  <mat-label>Tipo de cuenta</mat-label>
+                  <mat-select (selectionChange)="seleccionarTipoCuenta($event.value)">
+                      <mat-option *ngFor="let tipoCuenta of listaTipoCuentas" [value]="tipoCuenta">
+                        {{ tipoCuenta.descripcion }}
+                      </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <!-- Tabla de cuentas bancarias -->
+        <div class="mat-elevation-z8 table-responsive">
+            <table mat-table [dataSource]="dataSourceCuentas" matSort aria-label="Tabla de cuentas">
+
+                <!-- Clave de la cuenta -->
+                <ng-container matColumnDef="cveCuenta">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> Clave Cuenta </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let cuentas"> {{ cuentas.claveCuenta }} </td>
+                </ng-container>
+
+                <!-- Nombre de la cuenta -->
+                <ng-container matColumnDef="nombreCuenta">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> Nombre Cuenta </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let cuentas"> {{ cuentas.descripcionCuenta }} </td>
+                </ng-container>
+
+                <!-- Sucursal de la cuenta -->
+                <ng-container matColumnDef="sucursal">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> Sucursal </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let cuentas"> {{ cuentas.extencionCuentaBancaria.sucursal.nombreSucursal }} </td>
+                </ng-container>
+
+                <!-- Tipo de cuenta -->
+                <ng-container matColumnDef="tipoCuenta">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> Tipo de cuenta </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let cuentas"> {{ cuentas.extencionCuentaBancaria.cuentaBanco.descripcion }} </td>
+                </ng-container>
+
+                <!-- Saldo actual -->
+                <ng-container matColumnDef="saldo">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> Saldo </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let cuentas"> {{ cuentas.saldo | currency:'MXN'}} </td>
+                </ng-container>
+
+                <!-- Porcentaje de la cuenta (en base al monto actual, maximo y minimo) -->
+                <ng-container matColumnDef="porcentaje">
+                    <th mat-header-cell style="padding: 16px;" *matHeaderCellDef scope="col"> Porcentaje </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let cuentas" > {{ cuentas.porcentaje }}% </td>
+                </ng-container>
+
+                <!-- Estatus de la cuenta (en base al porcentaje) -->
+                <ng-container matColumnDef="estatus">
+                    <th mat-header-cell *matHeaderCellDef scope="col"> Estatus </th>
+                    <td mat-cell *matCellDef="let cuentas" >
+                        <mat-icon *ngIf="cuentas.porcentaje > 15 && cuentas.porcentaje < 75" style="color:green" matTooltip="Saldo en rango ideal">check_circle</mat-icon>
+                        <mat-icon *ngIf="(cuentas.porcentaje >= 0 && cuentas.porcentaje <= 15) || (cuentas.porcentaje >= 75 && cuentas.porcentaje <= 100)" style="color:rgb(230, 230, 0)" matTooltip="Saldo acercandose a los límites">warning</mat-icon>
+                        <mat-icon *ngIf="cuentas.porcentaje < 0 || cuentas.porcentaje > 100" style="color:rgb(180, 0, 0)" matTooltip="Saldo fuera del límite">error</mat-icon>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+            <!-- Paginacion -->
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of accounts">
+            </mat-paginator>
+        
+        </div>
+    </div>
+</div>

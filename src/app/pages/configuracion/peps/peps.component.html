@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">Lista de personas políticas</h3>
+            <div class="row">
+                <!-- Botón para registrar nuevo PEP -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogoPEP(1,'')">Registrar PEP</button>
+                </div>
+                <div class="col-md-10"></div>
+            </div>
+
+            <mat-form-field class="full-width">
+                <mat-label>Filtro de PEP</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filtro de PEP" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de PEP" [dataSource]="dataSourcePEP" #listasPEPS="matSort" matSort>
+
+                    <!-- Columna Folio -->
+                    <ng-container matColumnDef="folio">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Folio </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps"> {{peps.folio}} </td>
+                    </ng-container>
+
+                    <!-- Columna Nombre  -->
+                    <ng-container matColumnDef="nombre">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps"> {{peps.nombres}} </td>
+                    </ng-container>
+
+                    <!-- Columna Apellido Paterno -->
+                    <ng-container matColumnDef="apellidoPaterno">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Apellido Paterno </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps"> {{peps.apellidoPaterno}} </td>
+                    </ng-container>
+
+                    <!-- Columna Apellido Materno  -->
+                    <ng-container matColumnDef="apellidoMaterno">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Apellido Materno </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps"> {{peps.apellidoMaterno}} </td>
+                    </ng-container>
+
+                    <!-- Columna Descripción del Cargo  -->
+                    <ng-container matColumnDef="descripcion">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Cargo </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps"> {{peps.descripcion}} </td>
+                    </ng-container>
+
+                    <!-- Columna Obervaciones  -->
+                    <ng-container matColumnDef="observaciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Observaciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps"> {{peps.observaciones}} </td>
+                    </ng-container>
+
+                    <!-- Columna Estatus SMS -->
+                    <ng-container matColumnDef="estatus">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps">
+                            <mat-slide-toggle [ngModel]="peps.estatus" (ngModelChange)="cambiaEstatus($event, peps)"
+                                color="primary">
+                            </mat-slide-toggle>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna acciones PEP -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let peps">
+                            
+                            <!-- Columna Botón Editar -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogoPEP(2,peps)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnaPEP"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnaPEP;"></tr>
+
+                </table>
+
+                <mat-paginator #PaginatorListaPeps [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+
+        </div>

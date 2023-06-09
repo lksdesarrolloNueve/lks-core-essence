@@ -1,0 +1,132 @@
+<br>
+<div class="row">
+
+    <div class="col-2"></div>
+
+    <div class="col-6">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Periodos de fechas</mat-label>
+            <mat-date-range-input [formGroup]="formFechas" [rangePicker]="picker">
+                <input matStartDate formControlName="fechainicio" placeholder="Fecha Inicio">
+                <input matEndDate formControlName="fechadetermino" placeholder="Fecha Fin">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+            </mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+            <!--Validación fechainicio-->
+            <ng-template ngFor let-error [ngForOf]="validacionesPeriodoPruebas.fechainicio" ngProjectAs="mat-error">
+                <mat-error *ngIf="formFechas.get('fechainicio').hasError(error.type)" >
+                    <strong> {{error.message}}</strong>
+                </mat-error>                  
+            </ng-template>
+
+            <!--Validación fechadetermino-->
+            <ng-template ngFor let-error [ngForOf]="validacionesPeriodoPruebas.fechadetermino" ngProjectAs="mat-error">
+                <mat-error *ngIf="formFechas.get('fechadetermino').hasError(error.type)" >
+                    <strong> {{error.message}}</strong>
+                </mat-error>                  
+            </ng-template>
+        </mat-form-field>
+    </div>
+    <!--Imprimir reporte de citatorio-->
+    <div class="col-2">
+        <button mat-mini-fab color="primary" (click)="spsExtrajudicialCitatorioPorfecha()">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-body">
+            <br>
+            <h3 class="text-center">Lista de Citatorios</h3>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <mat-table #table [dataSource]="dataSourceGeneral">
+                    <!-- numero de cliente y nombre Column -->
+                    <ng-container matColumnDef="numero_cliente">
+                        <mat-header-cell *matHeaderCellDef ><div class="mayuscula">{{lblCliente}}</div> </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.moroso.numeroCliente}} -
+                            {{element.moroso.nombreCliente}}</mat-cell>
+                    </ng-container>
+                    <!-- referencia Column -->
+                    <ng-container matColumnDef="referencia">
+                        <mat-header-cell *matHeaderCellDef>Referencia </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.moroso.referencia}}</mat-cell>
+                    </ng-container>
+
+                    <!-- monto de credito Column -->
+                    <ng-container matColumnDef="monto_credito">
+                        <mat-header-cell *matHeaderCellDef>Monto</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.moroso.montoCredito | currency:'MXN'}}</mat-cell>
+                    </ng-container>
+
+                    <!-- saldo de credito Column -->
+                    <ng-container matColumnDef="saldo_credito">
+                        <mat-header-cell *matHeaderCellDef>Saldo</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.moroso.saldoCredito | currency:'MXN'}}</mat-cell>
+                    </ng-container>
+
+                    <!-- Dias Column -->
+                    <ng-container matColumnDef="dias">
+                        <mat-header-cell *matHeaderCellDef>D&iacute;as</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.moroso.dias}}</mat-cell>
+                    </ng-container>
+
+                    <!-- fecha creacion Column -->
+                    <ng-container matColumnDef="fechacreacion">
+                        <mat-header-cell *matHeaderCellDef>F. Creaci&oacute;n</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.fechaCreacion}}</mat-cell>
+                    </ng-container>
+
+                    <!-- Fecha contestar y hora Column -->
+                    <ng-container matColumnDef="fechacontestar">
+                        <mat-header-cell *matHeaderCellDef>F. Contestar </mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.fechaContestar}} {{element.horaContestar}}
+                        </mat-cell>
+                    </ng-container>
+                    <!-- Aviso Column -->
+                    <ng-container matColumnDef="aviso">
+                        <mat-header-cell *matHeaderCellDef>Aviso</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <p *ngFor="let av of (element.aviso | jsonParse)">{{av.descripcion}}</p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Licenciado Column -->
+                    <ng-container matColumnDef="licenciado">
+                        <mat-header-cell *matHeaderCellDef>Licenciado </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <p *ngFor="let li of (element.licenciado | jsonParse)">{{li.descripcion}}</p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Acciones Column -->
+                    <ng-container matColumnDef="acciones">
+                        <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+
+                        <!-- Boton  Editar Column -->
+                        <mat-cell *matCellDef="let element">
+                            <button mat-mini-fab color="primary"
+                                (click)="abrirDialogoClientesMorososCitatorio(2,element)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+
+                            <!-- Boton  Imprimir el reporte Column -->
+                            <button mat-mini-fab color="primary" (click)="imprimirCitatorio(element)">
+                                <mat-icon>print</mat-icon>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+            </div>
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Select page of users">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,217 @@
+<h2 mat-dialog-title>Sistema de Pagos Electr&oacute;nicos Interbancarios (SPEI)</h2>
+<mat-dialog-content class="mat-typography">
+
+
+    <mat-tab-group (selectedTabChange)="tabSeleccionada($event)" animationDuration="80ms" backgroundColor="primary">
+
+        <mat-tab label="ENVIAR SPEI">
+            <br>
+            <form [formGroup]="formSPEI" autocomplete="off">
+                <div class="row">
+
+                    <div class="col-md-4">
+
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Nombre Emisor</mat-label>
+                            <strong><input matInput formControlName="nombreEmisor" [readonly]="true"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>RFC/CURP Emisor</mat-label>
+                            <strong><input matInput formControlName="rfcCurpEmisor" [readonly]="true"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Cuenta de Retiro</mat-label>
+                            <mat-select formControlName="cuentaRetiro" (selectionChange)="setClabeEmisor()">
+                                <mat-option *ngFor="let cuenta of listaClabeCuenta" [value]="cuenta">
+                                    {{cuenta.cuenta}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>list</mat-icon>
+
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.cuentaRetiro" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formSPEI.get('cuentaRetiro').hasError(error.type)" >
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>                  
+                            </ng-template>
+           
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Clabe Emisor</mat-label>
+                            <strong><input matInput formControlName="clabeEmisor" [readonly]="true"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+
+                        <div class="row">
+
+                            <div class="col-md-9">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>Beneficiario</mat-label>
+                                    <input matInput formControlName="beneficiario" [matAutocomplete]="autoBeneficiario">
+                                    <mat-icon matSuffix><span class="material-icons-outlined">people</span>
+                                    </mat-icon>
+                                    <mat-autocomplete autoActiveFirstOption #autoBeneficiario="matAutocomplete"
+                                        [displayWith]="displayStBeneficiario">
+                                        <mat-option *ngFor="let beneficiario of opcionesBeneficiarios | async"
+                                            (click)="cargarInformacionBeneficiario(beneficiario)"
+                                            [value]="beneficiario">
+                                            {{beneficiario.beneficiario}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+
+                                    <ng-template ngFor let-error [ngForOf]="validacion_msj.beneficiario" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formSPEI.get('beneficiario').hasError(error.type)" >
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>                  
+                                    </ng-template>
+
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-3">
+                                <button mat-raised-button (click)="abrirGestionBeneficiariosSPEI()"
+                                    color="primary">Nuevo</button>
+                            </div>
+                        </div>
+
+
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>RFC/CURP Beneficiario</mat-label>
+                            <strong><input matInput formControlName="rfcCurpBeneficiario" [readonly]="true"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+                        </mat-form-field>
+
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>No. Cuenta Beneficiario</mat-label>
+                            <strong><input matInput formControlName="cuentaBeneficiario" [readonly]="true"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tipo Cuenta</mat-label>
+                            <strong><input matInput formControlName="tipoCuenta" [readonly]="true"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Banco Receptor</mat-label>
+                            <strong><input matInput formControlName="bancoReceptor" [readonly]="true"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Concepto</mat-label>
+                            <strong><input matInput formControlName="concepto"></strong>
+                            <mat-icon matSuffix>user</mat-icon>
+
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.concepto" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formSPEI.get('concepto').hasError(error.type)" >
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>                  
+                            </ng-template>
+
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Monto</mat-label>
+                            <strong><input matInput formControlName="monto" style="text-align:center;" prefix="$ "
+                                    mask="separator.2" thousandSeparator=","></strong>
+                            <mat-icon matSuffix>paid</mat-icon>
+
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.monto" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formSPEI.get('monto').hasError(error.type)" >
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>                  
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </form>
+        </mat-tab>
+
+        <mat-tab label="PAGOS SPEI">
+            <br>
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de Pagos SPEI" [dataSource]="dataSourcePagos" matSort>
+                
+                    <!-- Columna beneficiario -->
+                    <ng-container matColumnDef="beneficiario">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Beneficiario
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.beneficiario}} </td>
+                    </ng-container>
+
+                    <!-- Columna cuenta -->
+                    <ng-container matColumnDef="cuenta">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Cuenta
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cuenta}} </td>
+                    </ng-container>
+
+                    <!-- Columna cuenta -->
+                    <ng-container matColumnDef="cveRastreo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Cve Rastreo
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.cveRastreo}} </td>
+                    </ng-container>
+
+                    <!-- Columna fechaOperacion -->
+                    <ng-container matColumnDef="fecha">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Fecha
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.fechaOperacion }} </td>
+                    </ng-container>
+
+                    <!-- Columna monto -->
+                    <ng-container matColumnDef="monto">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Monto
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.monto | currency:'MXN'}} </td>
+                    </ng-container>
+
+                    <!-- Columna Estatus -->
+                    <ng-container matColumnDef="estatus">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Estatus
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.detallePago.estatus}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnsPagos"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnsPagos;"></tr>
+
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Seleccion pagos SPEI">
+            </mat-paginator>
+        </mat-tab>
+
+    </mat-tab-group>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" [hidden]="!showBotonEnviar" (click)="enviarPago()">Enviar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

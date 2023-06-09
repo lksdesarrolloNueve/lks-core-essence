@@ -1,0 +1,197 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body">
+            <h3 class="text-center mayuscula">Reportes PLD</h3>
+            <div class="row">
+                <form [formGroup]="formReporte">
+                    <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Tipo de reporte</mat-label>
+                        <mat-select formControlName="reporte">
+                            <mat-option *ngFor="let option of opcionesReporte" [value]="option">
+                                {{option.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.reporte" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formReporte.get('reporte').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Ingresa el rango de fecha</mat-label>
+                        <mat-date-range-input [rangePicker]="rangePicker">
+                            <input matStartDate formControlName="mesIn" placeholder="Start date">
+                            <input matEndDate formControlName="mesFin" placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #rangePicker>
+                            <mat-date-range-picker-actions>
+                                <button mat-button matDateRangePickerCancel>Cancelar</button>
+                                <button mat-raised-button color="primary" matDateRangePickerApply>Aplicar</button>
+                            </mat-date-range-picker-actions>
+                        </mat-date-range-picker>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.mesIn" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formReporte.get('mesIn').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                        <mat-checkbox color="primary" formControlName="optConsolidado" (change)="cambioRadio($event)">
+                            Consolidado</mat-checkbox>
+                </div>
+                <div class="col-md-2" [hidden]="!mostrarSucursal">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Sucursal</mat-label>
+                        <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                            [matAutocomplete]="autoSucursal">
+                        <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                            (optionSelected)="opcionSeleccionSuc($event)" [displayWith]="displayFnSuc">
+                            <mat-option *ngFor="let option of opcionesSucursal | async" [value]="option"
+                                matTooltip="{{option.nombreSucursal}}">
+                                {{option.nombreSucursal}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formReporte.get('sucursal').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                </div>
+</form>
+
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-4">
+                            <button color="primary" mat-mini-fab aria-label="Buscar Operaciones"
+                                (click)="seleccionaTipoReporte()">
+                                <mat-icon matTooltip="Buscar">search</mat-icon>
+                            </button>
+                        </div>
+                        <div class="col-1">
+
+                        </div>
+                        <div class="col-4">
+                            <button mat-raised-button color="primary" (click)="generarReporte()">
+                                <mat-icon matTooltip="Imprimir reporte">print</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- row -->
+            </div>
+        </div>
+    </div>
+    <!--12 card encabezado-->
+    <div class="col-12">
+        <div class="card card-body">
+            <mat-form-field class="full-width">
+                <mat-label>Filtros de Busqueda</mat-label>
+                <input matInput placeholder="" (keyup)="applyFilter($event)"  #input>
+            </mat-form-field>
+            <!--Cuerpo de la tabla-->
+            <div class="mat-elevation-z8 table-responsive">
+                <table aria-label="infoRelevante" mat-table [dataSource]="dataSourceRelevantes" matSort>
+
+                    <!-- organismo Column -->
+                    <ng-container matColumnDef="organismo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Organismo Sup.</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.organismo_supervisor}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="casfim">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave Ent.Financiera</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.casfim}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sucursal">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Sucursal</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.nombre_sucursal}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="operacion">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Movimiento </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep">{{rep.descripcion}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="instrumento">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Instr.Monetario </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.nombre_fpago}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cuenta">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cuenta </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.numero_cliente}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="monto">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Monto </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.cantidad | currency:'MXN'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fechaOp">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Fecha Operacion </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.fecha_operacion | date:'dd-MM-yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cliente">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>{{lblCliente}} </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.nombres}} {{rep.apellido_paterno}}
+                            {{rep.apellido_materno}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="act">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Act.Economica </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.actividad}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="consecutivo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Consecutivo Cuenta </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="numC">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Num.Cuenta </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="clave">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> </td>
+                    </ng-container>
+                    <ng-container matColumnDef="titular">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Titular </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="decripcion">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Descripci&oacute;n </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let rep"> {{rep.notificacion}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="razonA">
+                        <th scope="col" mat-header-cell *matHeaderCellDef> Raz&oacute;n </th>
+                        <td mat-cell *matCellDef="let rep"> </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+            </div>
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Seleccionada paginado">
+            </mat-paginator>
+        </div>
+    </div>
+    <!--12 card-->
+
+</div>

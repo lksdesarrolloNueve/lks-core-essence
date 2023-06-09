@@ -1,0 +1,83 @@
+
+<div class="row">
+<div class="col-md-12">
+    <div class="card card-body">
+    <br>
+    <h3 class="text-center"> Sectores SCIAN </h3>
+
+    <div class="row">
+        <div class="col-2">
+            <button mat-raised-button color="primary" (click)="openDialog(0)">Registrar</button>
+        </div>
+    </div>
+
+
+    <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Descripción, clave" #input>
+    </mat-form-field>
+
+
+    <div class="mat-elevation-z8 table-responsive">
+        <table aria-label="infoSector" mat-table [dataSource]="dataSourceSectores" matSort>
+
+            <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Clave SCIAN-->
+            <ng-container matColumnDef="codSector">
+                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clave </th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.codSector}} </td>
+            </ng-container>
+
+            <!-- Descripcion SCIAN -->
+            <ng-container matColumnDef="descripcion">
+                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Descripci&oacute;n</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.descripcion}} </td>
+            </ng-container>
+
+
+            <!-- Nivel SCIAN -->
+            <ng-container matColumnDef="nivel">
+                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Nivel</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.nivel.descripcion}} </td>
+            </ng-container>
+
+            <!-- Clasificación SCIAN -->
+            <ng-container matColumnDef="clasificacion">
+                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Clasificaci&oacute;n</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element"> {{element.clasificacion.descripcion}} </td>
+            </ng-container>
+
+            <!-- Estatus -->
+            <ng-container matColumnDef="estatus">
+                <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                    <mat-slide-toggle matTooltip="Activar/Desactivar el registro." [ngModel]="element.estatus"
+                    (ngModelChange)="cambiaEstatus(element)"  color="primary">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+
+            <!-- Acciones -->
+            <ng-container matColumnDef="acciones">
+                <th scope="col" mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <button (click)="openDialog(element)" mat-mini-fab color="primary" matTooltip="Editar el registro.">
+                        <mat-icon>mode_edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+       
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+    </mat-paginator>
+</div>
+</div>
+</div>

@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-12 card ">
+        <h3>Domicilios</h3>
+        <div class="row">
+            <div class="col-2"><button mat-raised-button (click)="abrirAdminDomicilios('',1)" color="primary">Registrar </button></div>
+            <div class="col-10"></div>
+          </div>
+
+        <!--Filtro-->
+    <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Domicilio" #input>
+      </mat-form-field>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceDomicilios" class="mat-elevation-z8" matSort>
+  
+          <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+  
+          <!-- Nombre de la calle -->
+          <ng-container matColumnDef="calle">
+            <th mat-header-cell *matHeaderCellDef style="text-align: left"> Calle </th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.calle}} </td>
+          </ng-container>
+                       
+          <!-- Número exterior del domicilio -->
+          <ng-container matColumnDef="numeroExterior">
+            <th mat-header-cell *matHeaderCellDef style="text-align: left"> N. Exterior </th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.numeroExterior}} </td>
+          </ng-container>
+  
+          <!-- Número interior del domicilio -->
+          <ng-container matColumnDef="numeroInterior">
+            <th mat-header-cell *matHeaderCellDef style="text-align: left"> N. Interior </th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.numeroInterior}} </td>
+          </ng-container>
+
+          <!-- Calle 1 paralela al domicilio -->
+          <ng-container matColumnDef="entreCalle1">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center"> Entre Calle 1 </th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.entreCalle1}} </td>
+          </ng-container>
+
+          <!-- Calle 2 paralela al domicilio -->
+          <ng-container matColumnDef="entreCalle2">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center"> Entre Calle 2 </th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.entreCalle2}} </td>
+          </ng-container>
+
+          <!-- Referencia de ubicación del domicilio -->
+          <ng-container matColumnDef="referencia">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center"> Referencia </th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.referencia}} </td>
+          </ng-container>
+          
+        <!-- Colonia del domicilio -->
+          <ng-container matColumnDef="colonia">
+            <th mat-header-cell *matHeaderCellDef style="text-align: left"> Colonia</th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.catColonia.nombrecolonia}} </td>
+          </ng-container>   
+
+          <!-- Nacionalidad del domicilio -->
+          <ng-container matColumnDef="nacionalidad">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center">  Nacionalidad</th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.catNacionalidad.nacion}} </td>
+          </ng-container>   
+
+          <!-- Residecncia extranjera del domicilio -->
+          <ng-container matColumnDef="resExtranjera">
+            <th mat-header-cell *matHeaderCellDef  style="text-align: center"> Residencia Extranjera</th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: center">
+              <mat-slide-toggle [ngModel]="domicilio.extencionDomicilio.resExtranjera" (ngModelChange)="crudDomicilios($event,domicilio)" color="primary">
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <!-- Tiempo de arraigo en el domicilio -->
+          <ng-container matColumnDef="tiempoArraigo">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center"> Tiempo de Arraigo</th>
+            <td mat-cell *matCellDef="let domicilio" style="text-align: left"> {{domicilio.extencionDomicilio.catGeneral.descripcion}} </td>
+          </ng-container>  
+
+          <!-- Acciones Column -->
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <!-- Boton delete Column -->
+            <td mat-cell *matCellDef="let domicilio">
+              <!-- Boton Editar Column -->
+              <button mat-mini-fab (click)="abrirAdminDomicilios(domicilio,2)" color="primary">
+                <mat-icon>mode_edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+      </div>
+    </div>
+</div>

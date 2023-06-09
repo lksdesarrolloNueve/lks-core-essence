@@ -1,0 +1,28 @@
+<mat-dialog-content class="mat-typography">
+        <div class="col-md-12">
+            <div class="row">
+                <mat-tab-group mat-align-tabs="start">
+                    <mat-tab label="Notificaciones por Cliente">
+                        <mat-lis class="col-12" role="list" *ngFor="let av of listaAvisosGlobales; let i = index;">
+                            <mat-list-item role="listitem">
+                                <strong>{{i+1}}.</strong>&nbsp; &nbsp; &nbsp;{{av.aviso}}
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                        </mat-lis>
+                    </mat-tab>
+
+                    <mat-tab label="Notificaciones por sucursal">
+                        <mat-list class="col-12" role="list" *ngFor="let gsuc of listaNotSuc; let i = index;">
+                            <mat-list-item role="listitem">
+                                <strong>{{i+1}}.</strong>&nbsp; &nbsp; &nbsp;{{gsuc.aviso}}
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                        </mat-list>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button [mat-dialog-close]="0" color="primary" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>

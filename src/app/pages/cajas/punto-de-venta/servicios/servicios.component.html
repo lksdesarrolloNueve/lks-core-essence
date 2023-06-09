@@ -1,0 +1,219 @@
+<h2 mat-dialog-title class="text-center">Pago de Servicios</h2>
+<mat-dialog-content class="mat-typography">
+    <p></p>
+
+    <div class="row">
+        <div class="col-4">
+            <div *ngIf="varValidacionFirst">
+
+                <ng-template ngFor let-error [ngForOf]="validaciones.servicio" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServicios.get('servicio').hasError(error.type)">
+                        <strong>Servicio: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+        
+                <ng-template ngFor let-error [ngForOf]="validaciones.referencia" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServicios.get('referencia').hasError(error.type)">
+                        <strong>Referencia: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+        
+                <ng-template ngFor let-error [ngForOf]="validaciones.digitoVerif" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServicios.get('digitoVerif').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+        
+                <ng-template ngFor let-error [ngForOf]="validaciones.monto" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServicios.get('monto').hasError(error.type)">
+                        <strong>Monto {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+        
+                <ng-template ngFor let-error [ngForOf]="validaciones.confMonto" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServicios.get('confMonto').hasError(error.type)">
+                        <strong>Confirmar Monto: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+        
+            </div>
+        </div>
+        <div class="col-4">
+            <div *ngIf="varValidacionSecond">
+
+                <ng-template ngFor let-error [ngForOf]="validaciones.usuario" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServiciosSecond.get('usuario').hasError(error.type)">
+                        <strong>Usuario {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+        
+        
+                <ng-template ngFor let-error [ngForOf]="validaciones.contrasenia" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServiciosSecond.get('contrasenia').hasError(error.type)">
+                        <strong>Contraseña: {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+        
+            </div>
+        </div>
+
+        <div class="col-4">
+
+        </div>
+
+    </div>
+
+
+
+
+    <mat-stepper #stepper>
+
+        <mat-step [stepControl]="formServicios" errorMessage="Campos requeridos.">
+            <form [formGroup]="formServicios" autocomplete="off">
+                <ng-template matStepLabel>Servicio</ng-template>
+                <!-- SERVICIO -->
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Servicio</mat-label>
+                    <mat-icon matSuffix>warehouse</mat-icon>
+                    <input type="text" placeholder="Servicio" matInput formControlName="servicio"
+                        [matAutocomplete]="autoServicio">
+                    <mat-autocomplete autoActiveFirstOption #autoServicio="matAutocomplete"
+                        (optionSelected)="opcionSelectServicio($event)" [displayWith]="displayFnServicios">
+                        <mat-option *ngFor="let option of opcionesServicios | async" [value]="option">
+                            {{option.producto}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.servicio" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formServicios.get('servicio').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+                <div class="row">
+
+                    <div class="col-6">
+                        <!-- REFERENCIA -->
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Referencia</mat-label>
+                            <input formControlName="referencia" matInput [value]="lblReferenciaUno"
+                            (input)="lblReferenciaUno=$event.target.value">
+                            <mat-icon matSuffix>description</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.referencia" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formServicios.get('referencia').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-6">
+
+                        <!-- DIGITO VERIFCADOR -->
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>D&iacute;gito Verificador</mat-label>
+                            <input formControlName="digitoVerif" matInput [value]="lblReferenciaDos"
+                            (input)="lblReferenciaDos=$event.target.value">
+                            <mat-icon matSuffix>dialpad</mat-icon>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.digitoVerif" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formServicios.get('digitoVerif').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <!-- MONTO -->
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto</mat-label>
+                    <input formControlName="monto" [value]="lblMonto"
+                    (input)="lblMonto=$event.target.value" matInput prefix="$ " mask="separator.2" thousandSeparator=",">
+                    <mat-icon matSuffix>paid</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.monto" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formServicios.get('monto').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+
+                <!-- CONFIRMAR MONTO -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Confirmar Monto</mat-label>
+                    <input formControlName="confMonto" matInput prefix="$ " mask="separator.2" thousandSeparator=",">
+                    <mat-icon matSuffix>paid</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.confMonto" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formServicios.get('confMonto').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="formServicios" errorMessage="Usuario requerido.">
+            <form [formGroup]="formServiciosSecond" autocomplete="off">
+                <ng-template matStepLabel>Usuario</ng-template>
+                <!-- USUARIO -->
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Usuario</mat-label>
+                    <input formControlName="usuario" matInput>
+                    <mat-icon matSuffix>person</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.usuario" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formServiciosSecond.get('usuario').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+
+
+                <!-- CONTRASEÑA -->
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input formControlName="contrasenia" matInput type="password">
+                    <mat-icon matSuffix>password</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.contrasenia" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formServiciosSecond.get('contrasenia').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Regresar</button>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Verificaci&oacute;n</ng-template>
+            <p>Verifica que los datos que ingresaste sean correctos, haz clic en "Aceptar" para
+                procesar la transacci&oacute;n.</p>
+
+            <p><strong>Servicio: </strong>{{lblServicios}}</p><br>
+            <p><strong>Referencia: </strong>{{lblReferenciaUno}}</p><br>
+            <p><strong>Referencia (DV): </strong>{{lblReferenciaDos}}</p><br>
+            <p><strong>Monto: </strong>{{lblMonto}}</p><br>
+
+            <div>
+                <button mat-button matStepperPrevious>Regresar</button>
+                <button mat-button (click)="stepper.reset()">Resetear</button>
+            </div>
+        </mat-step>
+
+    </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="crudServicio()" color="primary">Aceptar</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

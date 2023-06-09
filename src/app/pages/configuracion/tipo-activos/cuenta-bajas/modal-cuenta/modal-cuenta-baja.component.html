@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formCuentaTipoActivo">
+        <p></p>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Sucursal</mat-label>
+                    <input matInput formControlName="sucursal" placeholder="Sucursal" [readonly]="true">
+                    <mat-icon matSuffix>drive_file_rename_outline</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Tipo Activo </mat-label>
+                    <input type="text" placeholder="tActivo" matInput formControlName="tActivo"
+                        [matAutocomplete]="autoAc">
+                    <mat-autocomplete autoActiveFirstOption #autoAc="matAutocomplete" [displayWith]="displayActivo">
+                        <mat-option *ngFor="let option of opcionesTipoAct | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tActivo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaTipoActivo.get('tActivo').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Cuenta </mat-label>
+                    <input type="text" placeholder="Cuenta" matInput formControlName="cuenta" [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCuentaD">
+                        <mat-option *ngFor="let option of opcionesCuentaD | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cuenta" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formCuentaTipoActivo.get('cuenta').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="tipoCuentaID==0" (click)="crudCuentaTipoActivos()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="tipoCuentaID>0" (click)="crudCuentaTipoActivos()" mat-raised-button
+        color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,443 @@
+<mat-dialog-content class="mat-typography" *ngIf="data.accion == 1">
+    <div class="row">
+        <!-- Filtro cliente -->
+        <div class="col-12">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label class="mayuscula">No. {{lblCliente}}</mat-label>
+                <input [formControl]="numeroCliente" matInput placeholder="No.{{lblCliente}}" [readonly]="true">
+                <button mat-button matSuffix mat-stroked-button color="primary" (click)="modalClientes()">
+                    <mat-icon matSuffix matTooltip="Buscar {{lblCliente}}"><span
+                            class="material-icons-outlined">person_search</span>
+                    </mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="line">
+            <mat-divider></mat-divider>
+        </div>
+        <div class="text mat-typography"><strong>DATOS DEL CRÉDITO</strong></div>
+
+        <div class="line">
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+    <br>
+
+    <form [formGroup]="formNuevo" (ngSubmit)="validar()">
+        <div class="row">
+            <!-- REF. CREDITO -->
+            <div class="col-12">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Ref. Crédito</mat-label>
+                    <input type="text" placeholder="Ref. Crédito" matInput formControlName="credito"
+                        [matAutocomplete]="autoCredito">
+                    <mat-autocomplete autoActiveFirstOption #autoCredito="matAutocomplete"
+                        [displayWith]="displayCredito"
+                        (optionSelected)='spsDatosCredito($event.option.value.creditoID)'>
+                        <mat-option *ngFor="let credito of opcionesCredito | async" [value]="credito">
+                            {{credito.refCredito}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- Validación para credito -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formNuevo.get('credito').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="row col-12">
+                <!-- DIAS INTERES -->
+                <div class="col-6">
+                    <strong>Días de Interés: </strong>{{diasInteres}}
+                </div>
+                <!-- DIAS VENCIDO -->
+                <div class="col-6">
+                    <strong>Días Vencido: </strong>{{diasVencido}}
+                </div>
+            </div>
+
+            <div class="row col-12">
+                <!-- AMORTIZACIONES -->
+                <div class="col-6">
+                    <strong>Amortizaciones: </strong>{{amortizaciones}}
+                </div>
+                <!-- DIAS VENCIDO -->
+                <div class="col-6">
+                    <strong>Monto del crédito: </strong>{{montoCredito}}
+                </div>
+            </div>
+
+            <div class="row col-12">
+                <!-- MONTO VENCIDO -->
+                <div class="col-6">
+                    <strong>Monto Vencido: </strong>{{montoVencido}}
+                </div>
+                <!-- MORATORIO -->
+                <div class="col-6">
+                    <strong>Moratorio: </strong>{{moratorio}}
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="container">
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+            <div class="text mat-typography"><strong>DETALLES DEL CONVENIO</strong></div>
+
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <!-- MANERA DE ENTREGA -->
+            <div class="col-6">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Manera de entrega</mat-label>
+                    <input type="text" placeholder="Método de entrega" matInput formControlName="maneraEntrega"
+                        [matAutocomplete]="autoEntrega">
+                    <mat-autocomplete autoActiveFirstOption #autoEntrega="matAutocomplete"
+                        [displayWith]="displayEntrega">
+                        <mat-option *ngFor="let opcion of opcionesEntrega | async" [value]="opcion">
+                            {{opcion.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- Validación para maneraEntrega -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formNuevo.get('maneraEntrega').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- SOLICITANTE -->
+            <div class="col-6">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Solicitante</mat-label>
+                    <input type="text" placeholder="Solicitante" matInput formControlName="solicitante"
+                        [matAutocomplete]="autoSolicitante">
+                    <mat-autocomplete autoActiveFirstOption #autoSolicitante="matAutocomplete"
+                        [displayWith]="displaySolicitante">
+                        <mat-option *ngFor="let solicitante of opcionesSolicitante | async" [value]="solicitante">
+                            {{solicitante.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- Validación para solicitante -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formNuevo.get('solicitante').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- FECHA DE ALTA -->
+            <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Fecha de alta</mat-label>
+                <input formControlName="fechaAlta" matInput [matDatepicker]="pickerAlta" [disabled]="true">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerAlta"></mat-datepicker-toggle>
+                <mat-datepicker #pickerAlta></mat-datepicker>
+
+                <!-- Validación para fechaAlta -->
+                <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formNuevo.get('fechaAlta').hasError(error.type)" >
+                        <strong> {{error.message}}</strong>
+                    </mat-error>                  
+                </ng-template>
+            </mat-form-field>
+
+            <!-- FECHA DE VIGENCIA -->
+            <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Fecha de vigencia</mat-label>
+                <input formControlName="fechaVigencia" matInput [matDatepicker]="pickerVigencia">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerVigencia"></mat-datepicker-toggle>
+                <mat-datepicker #pickerVigencia></mat-datepicker>
+
+                <!-- Validación para fechaVigencia -->
+                <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formNuevo.get('fechaVigencia').hasError(error.type)" >
+                        <strong> {{error.message}}</strong>
+                    </mat-error>                  
+                </ng-template>
+            </mat-form-field>
+        </div>
+
+        <!-- MONTO -->
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto</mat-label>
+                    <input formControlName="monto" matInput placeholder="Monto">
+                    <mat-icon matSuffix>attach_money</mat-icon>
+                    <!-- Validación para monto -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formNuevo.get('monto').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- COMENTARIOS -->
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Comentarios</mat-label>
+                    <input formControlName="comentario" matInput placeholder="Comentarios">
+                    <mat-icon matSuffix>edit_note</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formNuevo.get('comentario').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <mat-dialog-actions align="end" *ngIf="data.accion == 1">
+            <button (click)="crud(1)" type="submit" mat-raised-button color="primary" cdkFocusInitial>Agregar</button>
+            <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-content class="mat-typography" *ngIf="data.accion == 2">
+    <div class="row">
+        <!-- Filtro cliente -->
+        <div class="col-12">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label class="mayuscula">No. {{lblCliente}}</mat-label>
+                <input [formControl]="numeroClienteUpdate" matInput placeholder="No. {{lblCliente}}" [readonly]="true"
+                    [disabled]="true">
+                <button mat-button matSuffix mat-stroked-button color="primary" [disabled]="true">
+                    <mat-icon matSuffix matTooltip="Buscar cliente"><span
+                            class="material-icons-outlined">person_search</span>
+                    </mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="line">
+            <mat-divider></mat-divider>
+        </div>
+        <div class="text mat-typography"><strong>DATOS DEL CRÉDITO</strong></div>
+
+        <div class="line">
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+    <br>
+
+    <form [formGroup]="formUpdate" (ngSubmit)="validar()">
+        <div class="row">
+            <!-- REF. CREDITO -->
+            <div class="col-12">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Ref. Crédito</mat-label>
+                    <input type="text" placeholder="Ref. Crédito" matInput formControlName="credito"
+                        [matAutocomplete]="autoCredito" [readonly]="true" [disabled]="true">
+                    <mat-autocomplete autoActiveFirstOption #autoCredito="matAutocomplete"
+                        [displayWith]="displayCredito">
+                        <mat-option *ngFor="let credito of opcionesCredito | async" [value]="credito">
+                            {{credito.refCredito}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- Validación para credito -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formUpdate.get('credito').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="row col-12">
+                <!-- DIAS INTERES -->
+                <div class="col-6">
+                    <strong>Días de Interés: </strong>{{diasInteres}}
+                </div>
+                <!-- DIAS VENCIDO -->
+                <div class="col-6">
+                    <strong>Días Vencido: </strong>{{diasVencido}}
+                </div>
+            </div>
+
+            <div class="row col-12">
+                <!-- AMORTIZACIONES -->
+                <div class="col-6">
+                    <strong>Amortizaciones: </strong>{{amortizaciones}}
+                </div>
+                <!-- DIAS VENCIDO -->
+                <div class="col-6">
+                    <strong>Monto del crédito: </strong>{{montoCredito}}
+                </div>
+            </div>
+
+            <div class="row col-12">
+                <!-- MONTO VENCIDO -->
+                <div class="col-6">
+                    <strong>Monto Vencido: </strong>{{montoVencido}}
+                </div>
+                <!-- MORATORIO -->
+                <div class="col-6">
+                    <strong>Moratorio: </strong>{{moratorio}}
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="container">
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+            <div class="text mat-typography"><strong>DETALLES DEL CONVENIO</strong></div>
+
+            <div class="line">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <!-- MANERA DE ENTREGA -->
+            <div class="col-6">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Manera de entrega</mat-label>
+                    <input type="text" placeholder="Método de entrega" matInput formControlName="maneraEntrega"
+                        [matAutocomplete]="autoEntrega">
+                    <mat-autocomplete autoActiveFirstOption #autoEntrega="matAutocomplete"
+                        [displayWith]="displayEntrega">
+                        <mat-option *ngFor="let opcion of opcionesEntrega | async" [value]="opcion">
+                            {{opcion.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- Validación para maneraEntrega -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formUpdate.get('maneraEntrega').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- SOLICITANTE -->
+            <div class="col-6">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Solicitante</mat-label>
+                    <input type="text" placeholder="Solicitante" matInput formControlName="solicitante"
+                        [matAutocomplete]="autoSolicitante">
+                    <mat-autocomplete autoActiveFirstOption #autoSolicitante="matAutocomplete"
+                        [displayWith]="displaySolicitante">
+                        <mat-option *ngFor="let solicitante of opcionesSolicitante | async" [value]="solicitante">
+                            {{solicitante.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- Validación para solicitante -->
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formUpdate.get('solicitante').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- FECHA DE ALTA -->
+            <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Fecha de alta</mat-label>
+                <input formControlName="fechaAlta" matInput [matDatepicker]="pickerAlta" [disabled]="true">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerAlta"></mat-datepicker-toggle>
+                <mat-datepicker #pickerAlta></mat-datepicker>
+
+                <!-- Validación para fechaAlta -->
+                <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formUpdate.get('fechaAlta').hasError(error.type)" >
+                        <strong> {{error.message}}</strong>
+                    </mat-error>                  
+                </ng-template>
+            </mat-form-field>
+
+            <!-- FECHA DE VIGENCIA -->
+            <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Fecha de vigencia</mat-label>
+                <input formControlName="fechaVigencia" matInput [matDatepicker]="pickerVigencia">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerVigencia"></mat-datepicker-toggle>
+                <mat-datepicker #pickerVigencia></mat-datepicker>
+
+                <!-- Validación para fechaVigencia -->
+                <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formUpdate.get('fechaVigencia').hasError(error.type)" >
+                        <strong> {{error.message}}</strong>
+                    </mat-error>                  
+                </ng-template>
+            </mat-form-field>
+        </div>
+
+        <!-- MONTO -->
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Monto</mat-label>
+                    <input formControlName="monto" matInput placeholder="Monto">
+                    <mat-icon matSuffix>attach_money</mat-icon>
+                </mat-form-field>
+
+                <!-- Validación para monto -->
+                <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formUpdate.get('monto').hasError(error.type)" >
+                        <strong> {{error.message}}</strong>
+                    </mat-error>                  
+                </ng-template>
+            </div>
+        </div>
+
+        <!-- COMENTARIOS -->
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Comentarios</mat-label>
+                    <input formControlName="comentario" matInput placeholder="Comentarios">
+                    <mat-icon matSuffix>edit_note</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.validacionGenerica" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formUpdate.get('comentario').hasError(error.type)" >
+                            <strong> {{error.message}}</strong>
+                        </mat-error>                  
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <mat-dialog-actions align="end" *ngIf="data.accion == 2">
+            <button (click)="crud(2)" type="submit" mat-raised-button color="primary" cdkFocusInitial>Actualizar</button>
+            <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>
+
+
+

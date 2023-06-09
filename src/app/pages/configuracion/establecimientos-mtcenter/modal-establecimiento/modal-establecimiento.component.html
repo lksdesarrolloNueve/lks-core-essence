@@ -1,0 +1,89 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formEstablecimiento">
+        <p></p>
+        <div class="row">
+
+            <div class="col-6">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Establecimiento</mat-label>
+                        <input formControlName="establecimiento" matInput  MaxLength="6" placeholder="Nombre">
+                        <mat-icon matSuffix>account_balance</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validacion.establecimiento" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formEstablecimiento.get('establecimiento').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="col-6">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Cadena</mat-label>
+                        <input formControlName="cadena" matInput MaxLength="6"  placeholder="Cadena">
+                        <mat-icon matSuffix>confirmation_number</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validacion.cadena" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formEstablecimiento.get('cadena').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="col-6">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Terminal</mat-label>
+                        <input formControlName="terminal" MaxLength="6" matInput placeholder="Terminal">
+                        <mat-icon matSuffix>vpn_key</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validacion.terminal" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formEstablecimiento.get('terminal').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Sucursal</mat-label>
+                  <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                    [matAutocomplete]="autoSucursal">
+                 <mat-autocomplete autoActiveFirstOption #autoSucursal="matAutocomplete"
+                 [displayWith]="mostrarSucursal">
+                    <mat-option *ngFor="let option of opcionesSucursal| async" [value]="option">
+                      {{option.nombreSucursal}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-icon matSuffix>map</mat-icon>
+                  <ng-template ngFor let-error [ngForOf]="validacion.sucursal" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formEstablecimiento.get('sucursal').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>                 
+                  </ng-template>
+                </mat-form-field>
+              </div>
+            <div class="col-6">
+                <p>
+                    <mat-slide-toggle formControlName="estatus" color="primary">
+                        Estatus
+                    </mat-slide-toggle>
+
+                </p>
+            </div>
+
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+
+    <button *ngIf="accion === 1" (click)="crudEstablecimiento()" mat-raised-button color="primary">Guardar</button>
+
+    <button *ngIf="accion === 2" (click)="crudEstablecimiento()" mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

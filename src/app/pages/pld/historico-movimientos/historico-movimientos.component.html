@@ -1,0 +1,121 @@
+<div class="col-12">
+    <div class="card card-body">
+        <h3 class="text-center mayuscula">Historico de movimientos</h3>
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Desde:</mat-label>
+                    <input matInput [matDatepicker]="fi" [formControl]="fechaIn" [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="fi"></mat-datepicker-toggle>
+                    <mat-datepicker #fi></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Hasta:</mat-label>
+                    <input matInput [matDatepicker]="ff" [formControl]="fechaFin" [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="ff"></mat-datepicker-toggle>
+                    <mat-datepicker #ff></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">No. {{lblCliente}}</mat-label>
+                    <input [formControl]="numeroCliente" matInput placeholder="No.{{lblCliente}}" [readonly]="true">
+                    <button mat-button matSuffix mat-stroked-button color="primary" (click)="modalClientes()">
+                        <mat-icon matSuffix matTooltip="Buscar {{lblCliente}}"><span
+                                class="material-icons-outlined">person_search</span>
+                        </mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+
+            <div class="col-2">
+                <button color="primary" mat-mini-fab aria-label="Buscar" (click)="spsHistMov()">
+                    <mat-icon matTooltip="Buscar">search</mat-icon>
+                </button>
+            </div>
+        </div><!-- row -->
+    </div>
+</div>
+<!--12 card-->
+<div class="col-12">
+    <div class="card card-body">
+        <!--Filtro-->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="No.{{lblCliente}}, Nombre" #input>
+        </mat-form-field>
+        <!--Cuerpo de la tabla-->
+        <div class="mat-elevation-z8 table-responsive">
+            <table id="tblHistorico" mat-table [dataSource]="dataSourceMovimientos" multiTemplateDataRows class="mat-elevation-z8">
+                <!-- No. Cliente Column -->
+                <ng-container matColumnDef="numeroCliente">
+                    <th id="cliente" style="padding: 16px;" mat-header-cell *matHeaderCellDef class="mayuscula">No.
+                        {{lblCliente}} </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let movimientos"> {{movimientos.numero_cliente}} </td>
+                </ng-container>
+
+                <!-- Nombre Column -->
+                <ng-container matColumnDef="nombre">
+                    <th id="nombre" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Nombre </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let movimientos"> {{movimientos.apellido_paterno}}
+                        {{movimientos.apellido_materno}} {{movimientos.nombres}} </td>
+                </ng-container>
+
+                <!-- Tipo Socio Column -->
+                <ng-container matColumnDef="fecha">
+                    <th id="fecha" style="padding: 16px;" mat-header-cell *matHeaderCellDef class="mayuscula">Fecha </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let movimientos"> {{movimientos.fecha}}</td>
+                </ng-container>
+
+                <!-- aviso Column -->
+                <ng-container matColumnDef="icon">
+                    <th id="icon" style="padding: 16px;" mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let movimientos">
+                        <mat-icon *ngIf="movimientos.monto>movimientos.ingresos"
+                            matTooltip="Los movimientos superan los ingresos registrados,Total de ingresos: {{movimientos.ingresos |currency:'MXN'}}"
+                            style="color: rgb(230, 230, 0);">warning</mat-icon>
+                    </td>
+                </ng-container>
+                <!-- Total Column -->
+                <ng-container matColumnDef="total">
+                    <th id="total" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Total </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let movimientos">
+                        {{movimientos.monto |currency:'MXN'}} </td>
+                </ng-container>
+                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+
+                <!--Tabla Hija -->
+                <ng-container matColumnDef="expandedDetail">
+
+                    <td mat-cell *matCellDef="let movimientos" [attr.colspan]="displayedColumns.length">
+                        <div class="example-element-detail"
+                            [@detailExpand]="movimientos == expandedElement ? 'expanded' : 'collapsed'">
+                            <mat-list role="list" *ngFor="let des of (movimientos.movimientos | jsonParse); let i = index;">
+                                <mat-list-item role="listitem">
+                                <strong>{{i+1}}.-</strong> {{des.nombre_movimiento | uppercase}} {{des.monto |currency:'MXN'}} </mat-list-item>
+                            </mat-list>
+
+                        </div>
+                    </td>
+
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                <tr mat-row id="poliza" matRipple
+                    *matRowDef="let movimientos; columns: displayedColumns; let k = dataIndex;" class="example-element-row"
+                    [class.example-expanded-row]="expandedElement === movimientos"
+                    (click)="expandedElement = expandedElement === movimientos ? null : movimientos"></tr>
+
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+            </table>
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Seleccionar pagina de solicitudes">
+            </mat-paginator>
+        </div>
+        <!--fin tabla-->
+    </div>
+</div>
+<!--12 card-->

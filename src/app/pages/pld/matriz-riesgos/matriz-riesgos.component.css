@@ -1,0 +1,17 @@
+/* Se agrega una separacion entre columnas para que no esten tan juntas */
+th.mat-mdc-header-cell,
+td.mat-mdc-cell,
+td.mat-mdc-footer-cell {
+    padding: 1em;
+}
+
+/* Se cambia el cursor cuando pasa sobre una fila, para indicar que se puede dar click en ésta */
+.mat-mdc-row .mat-mdc-cell {
+    cursor: pointer;
+}
+
+/* Se cambia el fondo de la fila ligeramente cuando se pasa el cursor por encima,
+esto para indicar que se puede interactuar con la fila */
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: lightgray;
+}

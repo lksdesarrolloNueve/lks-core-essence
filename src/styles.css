@@ -1,0 +1,249 @@
+/* You can add global styles to this file, and also import other style files */
+.texto-verde{
+    color: #a1cb41;
+}
+
+.texto-azul{
+    color: #054a67;
+}
+
+input[type="checkbox"] {
+    visibility: hidden;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+input[type="checkbox"] + label:before {
+    border: 1px solid #51cbce;
+    content: "\00a0";
+    display: inline-block;
+    font: 16px/1em sans-serif;
+    height: 16px;
+    margin: 0 .25em 0 0;
+    padding: 0;
+    vertical-align: top;
+    width: 16px;
+  }
+  input[type="checkbox"]:checked + label:before {
+    background: #fff;
+    color: #51cbce;
+    content: "\2713";
+    text-align: center;
+  }
+  input[type="checkbox"]:checked + label:after {
+    font-weight: bold;
+  }
+
+  input[type="checkbox"]:focus + label::before {
+      outline: rgb(59, 153, 252) auto 5px;
+  }
+
+
+  .input-tokens {
+    width: 10%;
+    height: 80px;
+    color: #51cbce;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 4px solid #51cbce;
+    border-radius: .25rem;
+    margin-right: 20px;
+    font-size: 40px;
+    text-align: center;
+  }
+
+  .color-footer{
+    color: #fff ;
+    background-color: #2a3852;
+  }
+
+  /* Block UI Wrapper (Backdrop) */
+div.block-ui-wrapper {
+  background-color: rgba(212, 205, 205, 0.7);
+}
+
+/* Spinner */
+div.block-ui-wrapper .loader {
+  border-color: #fff; /* Circle color */
+  border-left-color: black; /* Spinning section in circle color */
+  font-size: 15px;
+}
+
+/* Message */
+div.block-ui-spinner .message {
+  color: black; /* Loading text color */
+  font-weight: bold;
+  font-size: x-large;
+}
+
+
+.input-filtro{
+  text-transform: uppercase;
+}
+
+
+
+
+button.calendar, button.calendar:active {
+  width: 2.75rem;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=') !important;
+  background-repeat: no-repeat;
+  background-size: 23px;
+  background-position: center;
+}
+
+.alertvalidation{
+  background-color: #fed3d3;
+  color: #820000;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+div.a {
+  text-align: center;
+}
+
+
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+table {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+  max-width: 100%;
+}
+
+.autocompcaja-width {
+  width: 60%;
+}
+
+tr.mat-mdc-footer-row {
+  font-weight: bold;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.scroll-container {
+  height: 400px;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.scroll-container-cuentas {
+  height: 560px;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.scroll-nav {
+  height: 150px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.card label {
+  font-size: 0.8571em;
+  color: #040404;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+#poliza:hover {
+  background-color: #E8EAF6;
+  cursor: pointer;
+}
+.example-container {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.disabledNoOfCasesDiv{ pointer-events: none; opacity: 2.0;}
+
+.tablaScroll {
+  position: relative;
+  min-height: 100px;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.perfil-container {
+  height: 270px;
+  overflow: auto;
+}
+
+.scroll-container-form {
+  height: 400px;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version. */
+mat-slider {
+  width: 100%;
+}
+
+.mayuscula{
+  text-transform: capitalize;
+}
+
+
+.navbar.navbar-absolute {
+  position: absolute;
+  width: 100%;
+  padding-top: 10px;
+  z-index: 1;
+}
+
+td.mat-column-star {
+  width: 20px;
+  padding-right: 8px;
+}
+
+th.mat-column-position, td.mat-column-position {
+  padding-left: 8px;
+}
+
+.mat-mdc-table-sticky-border-elem-right {
+  border-left: 1px solid #e0e0e0;
+}
+
+.mat-mdc-table-sticky-border-elem-left {
+  border-right: 1px solid #e0e0e0;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+/*
+.text-dark {
+  color: #2B3751 !important;
+}
+*/

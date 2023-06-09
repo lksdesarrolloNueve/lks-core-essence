@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">Sujetos</h3>
+        <div class="row">
+            <div class="col-2"><button mat-raised-button color="primary" (click)="abrirAdminSujetos('',1)">Registrar </button></div>
+        </div>
+
+        <!--Filtro-->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilterSujetos($event)" placeholder="Nombre, RFC, CURP, Nacionalidad, Estado Nac., Ciudad Nac., Teléfono, Correo" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="infoSujeto" mat-table [dataSource]="dataSourceSujetos" matSort >
+
+                <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Nombres, Apellido Paterno, Apellido Materno Column -->
+                <ng-container matColumnDef="nombres">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Nombre</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.nombres}} </td>
+                </ng-container>
+                <!-- RFC Column -->
+                <ng-container matColumnDef="rfc">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>RFC</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.rfc}} </td>
+                </ng-container>
+                <!-- CURP Column -->
+                <ng-container matColumnDef="curp">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>CURP</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.curp}} </td>
+                </ng-container>
+                <!-- Nacionalidad Column -->
+                <ng-container matColumnDef="nacionalidad">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Nacionalidad</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.nacionalida}} </td>
+                </ng-container>
+                <!-- Estado Nac Column -->
+                <ng-container matColumnDef="estadoNac">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Estado Nac.</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.estadoNac}} </td>
+                </ng-container>
+                <!-- Ciudad Nac Column -->
+                <ng-container matColumnDef="ciudadNac">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Ciudad Nac.</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.ciudadNac}} </td>
+                </ng-container>
+                <!-- Teléfono Column -->
+                <ng-container matColumnDef="telefono">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Tel&eacute;fono</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.telefono}} </td>
+                </ng-container>
+                <!-- Teléfono Column -->
+                <ng-container matColumnDef="correoElectronico">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Correo</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto"> {{sujeto.correoElectronico}} </td>
+                </ng-container>
+                <!-- Estatus Column-->
+                <ng-container matColumnDef="estatus">
+                    <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let sujeto">
+                        <mat-slide-toggle (ngModelChange)="crudSujetos(sujeto, $event)"
+                            matTooltip="Baja / Alta de Registro" [ngModel]="sujeto.estatus" color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+                <!-- Acciones Column -->
+                <ng-container matColumnDef="acciones">
+                    <th scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <!-- Boton delete Column -->
+                    <td mat-cell *matCellDef="let sujeto" (click)="abrirAdminSujetos(sujeto,2)">
+                        <!-- Boton Editar Column -->
+                        <button mat-mini-fab color="primary">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-md-5">
+        <div class="card card-body">
+            <h2 class=" text-center">Calificaci&oacute;n Cartera</h2>
+        </div>
+    </div>
+
+    <div class="col-md-7 text-center">
+        <div class="card card-body">
+            <form [formGroup]="formCalificacionCartera">
+                <div class="row">
+
+                    <div class="col-2" *ngIf="mostrarGuardar">
+                        <button mat-fab color="primary" (click)="guardarCalificacionCartera()">
+                            <mat-icon matTooltip="Guardar Calificación Cartera">done_outline</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="col-2" *ngIf="mostrarEditar">
+                        <button mat-fab color="primary" (click)="editarCalificacionCartera()">
+                            <mat-icon matTooltip="Editar Cartera">create</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="col-2">
+                        <button mat-fab color="primary" (click)="nuevaCalificacionCartera()">
+                            <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <!-- Lista de calificacion Cartera-->
+    <div class="col-md-5">
+        <div class="card card-body">
+            <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+                <mat-list-item *ngFor="let calificacionCartera of listaCalificacionCartera" (click)="spsCalificacionCarteraById(calificacionCartera.calificacionCarteraID)">
+                    <p matListItemTitle>De {{calificacionCartera.diasI }} a {{calificacionCartera.diasF }}</p>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card card-body">
+            <mat-tab-group backgroundColor="primary">
+                <mat-tab label="Calificaci&oacute;n Cartera">
+                    <form [formGroup]="formCalificacionCartera">
+                        <p></p>
+                        <div class="row">
+
+                            <!--Dia Inicial-->
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>D&iacute;a inicial</mat-label>
+                                    <input formControlName="diasI" matInput placeholder="Día Inicial">
+                                    <mat-icon matSuffix>tag</mat-icon>
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.diasI" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formCalificacionCartera.get('diasI').hasError(error.type)">
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+                            </div>
+                            <!--Dia Final-->
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>D&iacute;a final</mat-label>
+                                    <input formControlName="diasF" matInput placeholder="Día Final">
+                                    <mat-icon matSuffix>tag</mat-icon>
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.diasF" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formCalificacionCartera.get('diasF').hasError(error.type)">
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+                            </div>
+                            <!-- Caliciacion-->
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Calificac&oacute;n </mat-label>
+                                    <input formControlName="calificacion" matInput placeholder="Calificación">
+                                    <mat-icon matSuffix>tag</mat-icon>
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.calificacion" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formCalificacionCartera.get('calificacion').hasError(error.type)">
+                                            <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

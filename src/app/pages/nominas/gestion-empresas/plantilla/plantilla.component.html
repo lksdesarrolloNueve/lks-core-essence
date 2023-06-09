@@ -1,0 +1,129 @@
+<div class="row">
+    <div class="col-md-3">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label class="mayuscula">No. cuenta</mat-label>
+            <input [formControl]="numeroCuenta" matInput placeholder="No. Cuenta" [matAutocomplete]="cuenta">
+            <mat-autocomplete autoActiveFirstOption #cuenta="matAutocomplete" [displayWith]="displayEmpresa"
+                (optionSelected)="empresaSeleccionada($event.option)">
+                <mat-option *ngFor="let option of opcionesEmpresa | async" [value]="option">
+                    {{option.numero_cliente}} {{option.nombre_comercial}}
+                </mat-option>
+            </mat-autocomplete>
+            <ng-template ngFor let-error [ngForOf]="validaciones.numeroCuenta" ngProjectAs="mat-error">
+                <mat-error *ngIf="this.numeroCuenta.hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </div>
+    <div class="col-md-3">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre plantilla: </mat-label>
+            <input matInput placeholder="" [formControl]="plantilla" style="text-align:center;">
+            <mat-icon matSuffix>code</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.plantilla" ngProjectAs="mat-error">
+                <mat-error *ngIf="this.plantilla.hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </div>
+    <div class="col-md-2">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Periodo de dispersion</mat-label>
+            <mat-select [formControl]="plazo">
+                <mat-option *ngFor="let plazo of listaPeriodos" [value]="plazo">
+                    {{plazo.descripcion}}
+                </mat-option>
+            </mat-select>
+            <ng-template ngFor let-error [ngForOf]="validaciones.plazo" ngProjectAs="mat-error">
+                <mat-error *ngIf="this.plazo.hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+            </ng-template>
+        </mat-form-field>
+    </div>
+    <div class="col-md-2" *ngIf="plantillaID>0">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Estatus</mat-label>
+            <mat-select [formControl]="estatus" (selectionChange)="cambioStatus()">
+                <mat-option *ngFor="let estatus of listaEstNomina" [value]="estatus">
+                    {{estatus.descripcion}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-md-1">
+        <button mat-raised-button color="primary" (click)="agregarPlantilla()"> {{boton}} </button>
+    </div>
+</div>
+<!--table-->
+<div class="row">
+    <div class="col-md-4">
+        <!-- Lista de plantillas-->
+        <mat-form-field>
+            <input matInput [(ngModel)]="searchText" placeholder="Filtrar empresa" autocomplete="off"
+                (input)="buscarPlantilla()">
+        </mat-form-field>
+        <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+            <mat-list-item *ngFor="let plant of listaPlantilla">
+                <p matListItemTitle (click)="spsNomina(plant.nombre)"> {{plant.nombre }}</p>
+                <button color="primary" matListItemMeta mat-mini-fab aria-label="Example icon-button with a heart icon"
+                    (click)="editarPlantilla(plant)">
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-nav-list>
+    </div>
+    <div class="col-md-8">
+        <!--Filtro-->
+        <mat-form-field class="full-width">
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Nombre" #input>
+        </mat-form-field>
+
+        <!--Cuerpo de la tabla-->
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="Busqueda de nomina" mat-table [dataSource]="dataSourceNomina" matSort>
+                <!-- No. Cuenta Column -->
+                <ng-container matColumnDef="noCuenta">
+                    <th id="cuenta" mat-header-cell *matHeaderCellDef>N&uacute;mero de cuenta </th>
+                    <td mat-cell *matCellDef="let empresa">{{empresa.numero_cuenta}} </td>
+                </ng-container>
+
+                <!-- nombre Column -->
+                <ng-container matColumnDef="nombre">
+                    <th id="nombre" mat-header-cell style="padding: 16px;" *matHeaderCellDef>Nombre </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let empresa">{{empresa.empleado}}
+                    </td>
+                </ng-container>
+
+                <!-- sueldo -->
+                <ng-container matColumnDef="sueldo">
+                    <th id="sueldo" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Sueldo</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let empresa">{{empresa.sueldo | currency:'MXN'}}
+                    </td>
+                </ng-container>
+                <!-- periodo -->
+                <ng-container matColumnDef="periodo">
+                    <th id="periodo" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Periodo</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let empresa"> {{empresa.plazo}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="plantilla">
+                    <th id="plantilla" mat-header-cell *matHeaderCellDef> Plantilla</th>
+                    <td mat-cell *matCellDef="let empresa"> {{empresa.plantilla}}
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row id="poliza" (click)="getRecord(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+            showFirstLastButtons aria-label="Seleccionar pagina de plantillas">
+        </mat-paginator>
+    </div>

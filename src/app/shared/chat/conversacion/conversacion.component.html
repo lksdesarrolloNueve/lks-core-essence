@@ -1,0 +1,55 @@
+<div class="row chat-header">
+    <div class="col-1 chat-back" (click)="regresar()">
+        <mat-icon>arrow_back</mat-icon>
+    </div>
+    <div class="col-10 chat-titulo">{{ chat.nombre }}</div>
+    <div class="col-1 chat-acciones" *ngIf="chat.tipo == 2">
+        <div mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones del chat">
+            <mat-icon>more_vert</mat-icon>
+        </div>
+        <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="editarChat(1)">
+                <!-- 1. Detalles del grupo -->
+                <mat-icon>info</mat-icon>
+                <span>Detalles</span>
+            </button>
+            <button mat-menu-item (click)="editarChat(2)" *ngIf="chat.creador == usuarioId">
+                <!-- 2. Agregar miembros -->
+                <mat-icon>add</mat-icon>
+                <span>Agregar miembros</span>
+            </button>
+            <button mat-menu-item (click)="editarChat(3)" *ngIf="chat.creador == usuarioId">
+                <!-- 3. Eliminar miembros -->
+                <mat-icon>clear</mat-icon>
+                <span>Eliminar miembros</span>
+            </button>
+        </mat-menu>
+    </div>
+</div>
+<div class="chat-content">
+    <div *ngFor="let mensaje of listaMensajes">
+        <div class="container-propio" *ngIf="mensaje.remitente == usuarioId">
+            <div class="mensaje-propio mensaje">
+                {{ mensaje.texto }}
+            </div>
+            <div class="detalles" *ngIf="mensaje.fechaSinFormato == hoy">{{ mensaje.hora }}</div>
+            <div class="detalles" *ngIf="mensaje.fechaSinFormato != hoy">{{ mensaje.fechaFormato }}</div>
+        </div>
+        <div class="container-ajeno" *ngIf="mensaje.remitente != usuarioId">
+            <div class="mensaje-ajeno mensaje" *ngIf="mensaje.remitente != usuarioId">
+                {{ mensaje.texto }}
+            </div>
+            <div class="detalles" *ngIf="mensaje.fechaSinFormato == hoy">{{ mensaje.nombreRemitente }} • {{ mensaje.hora
+                }}</div>
+            <div class="detalles" *ngIf="mensaje.fechaSinFormato != hoy">{{ mensaje.nombreRemitente }} • {{
+                mensaje.fechaFormato }}</div>
+        </div>
+    </div>
+</div>
+<form (submit)="enviarMensaje()" class="chat-mensaje">
+    <input matInput placeholder="Escribir..." (keypress)="enviarConEnter($event)" [(ngModel)]="inputMensaje"
+        name="inputMensaje" #input>
+    <button (click)="enviarMensaje()">
+        <mat-icon>send</mat-icon>
+    </button>
+</form>

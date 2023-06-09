@@ -1,0 +1,23 @@
+<!--Se agrega el nombre del modal
+<h2 mat-dialog-title>{{titulo | uppercase}}</h2>
+<mat-dialog-content class="mat-typography">
+
+-->
+  <!--Se inicia la estructura del formMapa
+  <form [formGroup]="formMapa">
+    <div class="row">
+      <google-map height="400px" width="750px" [center]="center" [zoom]="zoom" (mapClick)="addMarker($event)">
+        <map-marker *ngFor="let markerPosition of markerPositions" [position]="markerPosition"
+          [options]="markerOptions"></map-marker>
+      </google-map>
+    </div>
+  </form>
+-->
+  <!--Se hacen los botones y se manda llamar el método de agregar Marcador Map.
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="markerPositions">Aceptar</button>
+</mat-dialog-actions>
+
+-->

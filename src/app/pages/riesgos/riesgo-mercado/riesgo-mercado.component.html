@@ -1,0 +1,43 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <div class="card card-body">
+            <h3 class="text-center">Reporte de Riesgos de Mercado</h3>
+
+            <form [formGroup]="formRiesgoCredito">
+                <div class="row">
+
+                    <!--Fecha-->
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput [matDatepicker]="fN" formControlName="fecha" [readonly]="true">
+                            <mat-datepicker-toggle matSuffix [for]="fN"></mat-datepicker-toggle>
+                            <mat-datepicker #fN></mat-datepicker>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formRiesgoCredito.get('fecha').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                       
+                    </div>
+   
+                    <!--GENERAR PDF-->
+                    <div class="col-1 a">
+                        <button mat-fab color="primary" (click)="generarReporte()">
+                            <mat-icon matTooltip="Generar PDF">file_download</mat-icon>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

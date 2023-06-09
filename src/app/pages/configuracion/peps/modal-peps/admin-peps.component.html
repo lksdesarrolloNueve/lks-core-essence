@@ -1,0 +1,132 @@
+<h2 mat-dialog-title>{{titulo | uppercase}} PEP'S</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formPEP">
+        <p></p>
+        <div class="row">
+
+            <!-- PEP'S ID  -->
+            <div *ngIf="accion ===2" class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>ID</mat-label>
+                    <input formControlName="pepsId" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <!-- Folio  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Folio</mat-label>
+                    <input formControlName="folio" matInput>
+                    <mat-icon matSuffix>numbers</mat-icon>
+
+                    <!-- Validación para folio-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.folio" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPEP.get('folio').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Cargos  -->
+            <div class="col-md-8">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipos de cargos</mat-label>
+                    <input type="text" placeholder="Cargo" matInput formControlName="descripcion"
+                        [matAutocomplete]="auto">
+                    <mat-icon matSuffix>map</mat-icon>
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let peps of opcionesCargo | async" [value]="peps">
+                            {{peps.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- Validación para cargos-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.descripcion" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPEP.get('descripcion').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Nombre  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nombre</mat-label>
+                    <input formControlName="nombres" matInput>
+                    <mat-icon matSuffix>person</mat-icon>
+
+                    <!-- Validación para nombres-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.nombres" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPEP.get('nombres').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Apellido Paterno  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Apellido Paterno</mat-label>
+                    <input formControlName="apellidoPaterno" matInput>
+                    <mat-icon matSuffix>person</mat-icon>
+
+                    <!-- Validación para apellidoPaterno-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.apellidoPaterno" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPEP.get('apellidoPaterno').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Apellido Materno  -->
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Apellido Materno</mat-label>
+                    <input formControlName="apellidoMaterno" matInput>
+                    <mat-icon matSuffix>person</mat-icon>
+
+                    <!-- Validación para apellidoMaterno-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.apellidoMaterno" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPEP.get('apellidoMaterno').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Observaciones  -->
+            <div class="col-md-9">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Observaciones</mat-label>
+                    <input formControlName="observaciones" matInput>
+                    <mat-icon matSuffix>description</mat-icon>
+
+                    <!-- Validación para observaciones-->
+                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.observaciones" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formPEP.get('observaciones').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <!-- Estatus  -->
+            <div class="col-md-3">
+                <mat-label>Estatus</mat-label>
+                <mat-slide-toggle formControlName="estatus" color="primary"> </mat-slide-toggle>
+            </div>
+
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="crudPeps()" cdkFocusInitial>{{titulo}}</button>
+    <button mat-raised-button mat-dialog-close color="warn" >Cancelar</button>
+</mat-dialog-actions>

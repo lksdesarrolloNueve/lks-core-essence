@@ -1,0 +1,127 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formServidor">
+        <p></p>
+        <p>
+            <mat-form-field appearance="outline" class="full-width" >
+                <mat-label>Nombre Servidor</mat-label>
+                <input formControlName="nombreServidor"  matInput placeholder="Dolores Hidalgo">
+                <mat-icon matSuffix>router</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.nombreServidor" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServidor.get('nombreServidor').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>        
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre BD</mat-label>
+                <input formControlName="nombrebd" matInput placeholder="Nombre de la Base de Datos">
+                <mat-icon matSuffix>label</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.nombrebd" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServidor.get('nombrebd').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+
+        <div class="row">
+
+            <div class="col-md-7">
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>IP</mat-label>
+                <input formControlName="ip" matInput placeholder="192.168.1.124">
+                <mat-icon matSuffix>storage</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.ip" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServidor.get('ip').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+    </div>
+
+        <div class="col-md-5">
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Puerto</mat-label>
+                <input formControlName="puerto" matInput placeholder="5432">
+                <mat-icon matSuffix>router</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.puerto" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServidor.get('puerto').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+    </div>
+
+    </div>
+
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Usuario</mat-label>
+                <input formControlName="usuario" matInput placeholder="systemas">
+                <mat-icon matSuffix>mood</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.usuario" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServidor.get('usuario').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Contraseña</mat-label>
+                <input formControlName="contrasenia" matInput placeholder="SySt3m4s">
+                <mat-icon matSuffix>password</mat-icon>
+                <ng-template ngFor let-error [ngForOf]="validaciones.contrasenia" ngProjectAs="mat-error">
+                    <mat-error *ngIf="formServidor.get('contrasenia').hasError(error.type)">
+                        <strong> {{error.message}}</strong>
+                    </mat-error>
+                </ng-template>
+            </mat-form-field>
+        </p>
+          <p>
+              <mat-form-field class="example-chip-list" appearance="outline" class="full-width">
+            <mat-label>Sucursales</mat-label>
+            <mat-chip-grid #chipList >
+              <mat-chip-row
+              *ngFor="let su of listaLimpiaSucursales"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(su)">
+                {{su.nombreSucursal}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip-row>
+              <input
+                placeholder="Nueva Sucursal..."
+                #sucursalInput
+                [formControl]="sucursales"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                >
+            </mat-chip-grid>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let sucursal of filteredSucursales | async" [value]="sucursal">
+                {{sucursal.nombreSucursal}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          </p>
+          <mat-slide-toggle formControlName="estatus" color="primary">
+            Estatus
+        </mat-slide-toggle>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button  (click)="crudServidor()" mat-raised-button color="primary">{{data.titulo|uppercase}}</button>
+    <button mat-raised-button mat-dialog-close color="warn">CANCELAR</button>
+</mat-dialog-actions>

@@ -1,0 +1,50 @@
+<div class="row chat-header">
+    <div class="col-1 chat-back" (click)="regresar()">
+        <mat-icon>arrow_back</mat-icon>
+    </div>
+    <div class="col-10 chat-titulo" >{{ chat.nombre }}</div>
+</div>
+
+<h2 class="chat-subtitle" *ngIf="accion == 1">Miembros Actuales</h2>
+<h2 class="chat-subtitle" *ngIf="accion == 2">Agregar Miembros</h2>
+<h2 class="chat-subtitle" *ngIf="accion == 3">Eliminar Miembros</h2>
+
+<!-- DETALLES/AGREGAR/ELIMINAR MIEMBROS -->
+<div class="chat-content">
+    <table mat-table [dataSource]="dataSourceMiembros" matSort aria-label="Usuarios">
+
+        <!-- Columna con checkbox -->
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>Select</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? seleccionMiembros.toggle(row) : null"
+                    [checked]="seleccionMiembros.isSelected(row)" [hidden]="accion == 1">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- Nombre -->
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let elemento">
+                <div class="row tarjeta-chat">
+                    <div class="icono-chat">
+                        <mat-icon>person</mat-icon>
+                    </div>
+                    <div class="col-10">
+                        <div class="nombre-chat">{{ elemento.nombre }} <strong *ngIf="elemento.id == usuarioId"> (admin)</strong></div>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-row (click)="seleccionMiembros.toggle(row)" *matRowDef="let row; columns: columnasMiembros;"></tr>
+    </table>
+</div>
+
+<button mat-flat-button class="chat-button" [disabled]="seleccionMiembros.selected.length < 1" (click)="agregarMiembros()" *ngIf="accion == 2">
+    AGREGAR MIEMBROS
+</button>
+<button mat-flat-button class="chat-button" [disabled]="seleccionMiembros.selected.length < 1" (click)="eliminarMiembros()" *ngIf="accion == 3">
+    ELIMINAR MIEMBROS
+</button>

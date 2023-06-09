@@ -1,0 +1,140 @@
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Balanza de comprobaci&oacute;n</h3>
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <form  [formGroup]="formFiltros">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                              
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Fecha</mat-label>
+                                    <input matInput formControlName="fecha"[matDatepicker]="dp">
+                                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp></mat-datepicker>
+                                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.fecha" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formFiltros.get('fecha').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                  </mat-form-field>
+                            </div>      
+                            
+                            <div class="col-md-3">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Sucural</mat-label>
+                                    <mat-select formControlName="sucursal">
+                                        <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
+                                            {{sucursal.nombreSucursal}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <ng-template ngFor let-error [ngForOf]="listaValidaciones.sucursal" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formFiltros.get('sucursal').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                    
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-checkbox formControlName="acumulado">Acumulada</mat-checkbox>
+                                    </div>
+        
+                                    <div class="col-md-4">
+                                        <mat-checkbox formControlName="movimientos">Con movimientos</mat-checkbox>
+                                    </div>
+        
+                                    <div class="col-md-4">
+                                        <mat-checkbox color="primary" formControlName="csv">CSV</mat-checkbox>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <mat-checkbox color="primary" formControlName="trece">Periodo 13</mat-checkbox>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <mat-checkbox formControlName="consolidado">Consolidada</mat-checkbox>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <button mat-fab color="primary" (click)="generarBalanza()">
+                                    <mat-icon matTooltip="Generar CVS">file_download</mat-icon>
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                    <hr>
+                </div>
+              
+
+                <!-- Tabla para la gestion de arbol de cuentas Contables-->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Filtro</mat-label>
+                        <input matInput minlength="2" (keyup)="applyFilter($event.target['value'])"
+                            placeholder="Bancos, Cajas" #input>
+                    </mat-form-field>
+
+                    <mat-tree [dataSource]="dataSourceCuentas" class="scroll-container" [treeControl]="treeControl">
+                        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                            <button mat-icon-button disabled></button>
+                            <mat-checkbox color="primary" class="checklist-leaf-node"
+                                [checked]="checklistSelection.isSelected(node)"
+                                (change)="todoLeafItemSelectionToggle(node)">{{node.cuenta}} / {{node.nombre}}
+                            </mat-checkbox>
+                        </mat-tree-node>
+
+                        <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+                            <button mat-icon-button disabled></button>
+                        </mat-tree-node>
+                        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.nombre">
+                                <mat-icon class="mat-icon-rtl-mirror">
+                                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                </mat-icon>
+                            </button>
+                            <mat-checkbox [checked]="descendantsAllSelected(node)" color="primary"
+                                [indeterminate]="descendantsPartiallySelected(node)"
+                                (change)="todoItemSelectionToggle(node)">{{node.cuenta}} / {{node.nombre}}
+                            </mat-checkbox>
+                        </mat-tree-node>
+                    </mat-tree>
+                </div>
+
+                <div class="col-md-6">
+                    <h3>Cuentas Seleccionadas</h3>
+                    <mat-error *ngFor="let validacion of listaValidaciones.cuenta">
+                        <div *ngIf="vacio">
+                            <strong>{{validacion.message}}</strong>
+                        </div>
+                    </mat-error>
+                    <hr>
+                    <mat-selection-list class="scroll-container" [multiple]="false">
+                        <mat-list-option *ngFor="let setCuenta of checklistSelection.selected" [value]="setCuenta">
+                            {{setCuenta.cuenta}}
+                        </mat-list-option>
+
+                    </mat-selection-list>
+
+                </div>
+            </div>
+           
+        </div>
+
+    </div>
+
+</div>

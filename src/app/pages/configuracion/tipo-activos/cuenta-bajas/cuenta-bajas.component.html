@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">Baja de Activo Cuentas Contables</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Tipo Activo </mat-label>
+                        <input type="text" placeholder="tActivo" matInput [formControl]="tActivo"
+                            [matAutocomplete]="autoAc">
+                        <mat-autocomplete autoActiveFirstOption #autoAc="matAutocomplete" [displayWith]="displayActivo">
+                            <mat-option *ngFor="let option of opcionesTipoAct | async" [value]="option">
+                                {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.tActivo" ngProjectAs="mat-error">
+                            <mat-error *ngIf="this.tActivo.hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="spsTipoCuentaBaja()">Buscar</button>
+                </div>
+                <!-- Botón para registrar nuevo  -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogo(1,'')">Registrar</button>
+                </div>
+
+            </div>
+
+            <mat-form-field class="full-width">
+                <mat-label>Filtro para tipo de activo</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filtro de activo" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de TipoActivo" [dataSource]="dataSource" #listaTipoAct="matSort"
+                    matSort>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="activo">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Activo
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna cuenta  -->
+                    <ng-container matColumnDef="cuenta">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Cuenta
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.cuenta}} </td>
+                    </ng-container>
+
+                    <!-- Columna Sucursal -->
+                    <ng-container matColumnDef="sucursal">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Sucursal </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.nombre_sucursal}} </td>
+                    </ng-container>
+                    <!-- Columna acciones -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti">
+                            <button mat-mini-fab color="primary" (click)="confirmarProceso(3,acti)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;
+                            <!-- Columna Botón Editar -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogo(2,acti)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumna"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumna;"></tr>
+
+                </table>
+
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+
+        </div>

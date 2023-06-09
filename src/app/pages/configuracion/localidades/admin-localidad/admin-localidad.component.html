@@ -1,0 +1,120 @@
+<h3 mat-dialog-title class="text-center">{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formLocalidad">
+        <p></p>
+        <div class="row">
+
+            <div class="col-6">
+
+                <mat-form-field  appearance="outline" class="full-width">
+                    <mat-label>Estado</mat-label>
+                    <input type="text" placeholder="Nombre Estado" matInput  formControlName="estado"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete"
+                        (optionSelected)="opcionSeleccionada($event)" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of opcionesEstado | async" [value]="option">
+                            {{option.nombreEstado}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.estado" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formLocalidad.get('estado').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6" *ngIf="mostrarCiudad">
+                <mat-form-field  appearance="outline" class="full-width">
+                    <mat-label>Ciudad</mat-label>
+                    <input type="text" placeholder="Guanajuato" matInput [formControl]="ciudad"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete"
+                        (optionSelected)="opcionSelecCiudad($event)" [displayWith]="displayFnCiudad">
+                        <mat-option *ngFor="let option of opcionesCiudades | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.ciudad" ngProjectAs="mat-error">
+                        <mat-error *ngIf="ciudad.hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Localidad</mat-label>
+                    <input formControlName="localidad" matInput  placeholder="Nombre localidad">
+                    <mat-icon matSuffix>language</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.localidad" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formLocalidad.get('localidad').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Localidad Inegi</mat-label>
+                    <input  formControlName="cveLocalidadInegi" matInput  placeholder="4568">
+                    <mat-icon matSuffix>qr_code_2</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveLocalidadInegi" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formLocalidad.get('cveLocalidadInegi').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Municipio Inegi</mat-label>
+                    <input formControlName="cveMunicipioInegi" matInput   placeholder="8965">
+                    <mat-icon matSuffix>qr_code_2</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveMunicipioInegi" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formLocalidad.get('cveMunicipioInegi').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cve Inegi</mat-label>
+                    <input formControlName="cveInegi" matInput type="text" MaxLength="15"  placeholder="8965464888">
+                    <mat-icon matSuffix>qr_code_2</mat-icon>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.cveInegi" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formLocalidad.get('cveInegi').hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-6">
+                <mat-slide-toggle formControlName="estatus"   color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+
+
+
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+
+    <button *ngIf="accion === 1" (click)="guardarLocalidad()" mat-raised-button color="primary">Guardar</button>
+
+    <button *ngIf="accion === 2" (click)="editarLocalidad()" mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

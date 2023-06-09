@@ -1,0 +1,169 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Polizas y Auxiliares (SAT)</h3>
+
+            <form [formGroup]="formPolizasAuxi">
+                <div class="row">
+                    <!--Tipo de reporte-->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Tipo de reporte</mat-label>
+                            <input type="text" placeholder="Reporte" matInput formControlName="tipoReporte"
+                                [matAutocomplete]="auto1">
+                            <mat-autocomplete (optionSelected)="opcionReporte($event) " autoActiveFirstOption
+                                #auto1="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let reporte of opcionesReporte | async" [value]="reporte">
+                                    {{reporte.descripcion}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.tipoReporte" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPolizasAuxi.get('tipoReporte').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                            
+                        </mat-form-field>
+
+                    </div>
+                    <!--Fecha Inicio y fin -->
+                    <div class="col-md-6">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Ingresa el rango de fecha</mat-label>
+                            <mat-date-range-input [rangePicker]="rangePicker">
+                                <input matStartDate formControlName="fechain" placeholder="Fecha Inicio">
+                                <input matEndDate formControlName="fechafin" placeholder="Fecha Fin">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #rangePicker>
+                                <mat-date-range-picker-actions>
+                                    <button mat-button matDateRangePickerCancel color="warn">Cancelar</button>
+                                    <button mat-raised-button color="primary" matDateRangePickerApply>Aplicar</button>
+                                </mat-date-range-picker-actions>
+                            </mat-date-range-picker>
+
+                            <ng-template ngFor let-error [ngForOf]="validaciones.mesIn" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPolizasAuxi.get('fechain').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                            <ng-template ngFor let-error [ngForOf]="validaciones.mesFin" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPolizasAuxi.get('fechafin').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                    <!--Tipo-->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tipo de Poliza</mat-label>
+                            <mat-select formControlName="tipo" (selectionChange)="selectipo($event)">
+                                <mat-option *ngFor="let tp of listatipos" [value]="tp">
+                                    {{tp.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!--Tipo de Solicitud-->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Tipo de Solicitud</mat-label>
+                            <input type="text" placeholder="Solicitud" matInput formControlName="tipoSolicitud"
+                                [matAutocomplete]="auto2">
+                            <mat-autocomplete (optionSelected)="opcionesSolicitu($event)" autoActiveFirstOption
+                                #auto2="matAutocomplete" [displayWith]="displayFn1">
+                                <mat-option *ngFor="let solicitud of  opcionesSolicitud | async" [value]="solicitud">
+                                    {{solicitud.descripcion}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.tipoSolicitud" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPolizasAuxi.get('tipoSolicitud').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- Numero de orden -->
+                    <div class="col-md-6" *ngIf="numOrdenAvtivo">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Numero de Orden</mat-label>
+                            <input matInput formControlName="numeroOrden">
+                            <mat-icon matSuffix></mat-icon>
+
+                            <!--Msj error-->
+                            <ng-template ngFor let-error [ngForOf]="validaciones.numeroOrden" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPolizasAuxi.get('numeroOrden').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <!-- Numero de tramite -->
+                    <div class="col-md-6" *ngIf="numTramiteActivo">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Numero de Tramite</mat-label>
+                            <input matInput formControlName="numeroTramite">
+                            <mat-icon matSuffix></mat-icon>
+
+                            <!--Msj error-->
+                            <ng-template ngFor let-error [ngForOf]="validaciones.numeroTramite" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPolizasAuxi.get('numeroTramite').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Sucursal</mat-label>
+                            <mat-select formControlName="sucursal">
+                                <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
+                                    {{sucursal.nombreSucursal}}
+                                </mat-option>
+                            </mat-select>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formPolizasAuxi.get('sucursal').hasError(error.type)">
+                                  <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <!-- Checkbox Consolidado-->
+
+                    <div class="col-md-6">
+                        <mat-checkbox formControlName="consolidado">Consolidado</mat-checkbox>
+                    </div>
+                    <div class="col-md-6" *ngIf="movimiento">
+                        <!-- Checkbox Solo con movimientos-->
+                        <mat-checkbox class="example-margin" color="warn" formControlName="movimientos">
+                            Solo con movimientos
+
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-md-3" *ngIf="saldoacomulado">
+                        <mat-checkbox color="primary" formControlName="acumulado">Saldo Acomulado</mat-checkbox>
+                    </div>
+                    <!--GENERAR xml-->
+                    <div class="col-1 a">
+                        <button mat-fab color="primary" (click)="seleccionaTipoReporte()">
+                            <mat-icon matTooltip="Generar XML">file_download</mat-icon>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,108 @@
+<div class="row">   
+    <div class="col-md-12">
+      
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card card-body">
+        <h2 class="text-center">Roles</h2>
+    </div>
+    </div>
+            <div class="col-md-9  text-center">
+                <div class="card card-body">
+                <div class="row">
+         <div class="col-8" *ngIf="showRol">
+                <h2>Rol: {{rol}}</h2>
+            </div>
+
+            <div class="col-md-4">
+                <div class="row">
+            <div class="col-6">
+                <button mat-fab color="primary" (click)="guardarPermisos()">
+                    <mat-icon matTooltip="Guardar Menú">done_outline</mat-icon>
+                </button>
+            </div>
+
+            <div class="col-6">
+                <button mat-fab color="primary">
+                    <mat-icon matTooltip="Limpiar Formulario Menú">restore_page</mat-icon>
+                </button>
+            </div>
+        </div>
+        </div>
+
+        </div>
+        </div>
+    </div>
+
+</div>
+   
+
+<div class="row">
+    <!-- Div COl para la gestion de arbol de cuentas Contables  {{rol.cveGeneral}} - {{rol.descripcion}}-->
+    <div class="col-md-3">
+        <div class="card card-body  ">
+        <button mat-raised-button color="primary" (click)="openDialog(0)">Registrar Nuevo Rol</button>
+        <hr>
+        <mat-selection-list [multiple]="false" class="scroll-container" >
+            <mat-list-option *ngFor="let rol of listaRoles" [value]="rol" (click)="gestionRol(rol)">
+                {{rol.name}} 
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card card-body">
+        <div class="row">
+            <div class="a col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput  (keyup)="applyFilter($event.target['value'])"
+                        placeholder="Digitalización, Configuración, etc." #input>
+                </mat-form-field>
+                <div>
+                <mat-tree [dataSource]="dataSourceMenus"  class="scroll-container"  [treeControl]="treeControl">
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                        <button mat-icon-button disabled></button>
+                        <mat-checkbox color="primary" class="checklist-leaf-node"
+                            [checked]="checklistSelection.isSelected(node)"
+                            (change)="todoLeafItemSelectionToggle(node)">{{node.titulo}}</mat-checkbox>
+                    </mat-tree-node>
+
+                    <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+                        <button mat-icon-button disabled></button>
+                    </mat-tree-node>
+                    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.titulo">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                        </button>
+                        <mat-checkbox [checked]="descendantsAllSelected(node)" color="primary"
+                            [indeterminate]="descendantsPartiallySelected(node)"
+                            (change)="todoItemSelectionToggle(node)">{{node.titulo}}</mat-checkbox>
+                    </mat-tree-node>
+               
+               
+               
+                </mat-tree>
+
+            </div>
+
+            </div>
+            <div class="col-md-6">
+                <h2>Men&uacute;s Seleccionados</h2>
+                <hr>
+                <mat-selection-list class="scroll-container" [multiple]="false">
+                    <mat-list-option *ngFor="let setRol of checklistSelection.selected" [value]="setRol">
+                        {{setRol.titulo}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+</div>
+</div>

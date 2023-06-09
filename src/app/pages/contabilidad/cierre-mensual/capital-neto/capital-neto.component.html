@@ -1,0 +1,100 @@
+<div class="col-md-12">
+  <div class="card card-body">
+    <h3 class="text-center">CAPITAL NETO</h3>
+    <form [formGroup]="formPeriodo">
+      <div class="row">
+
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Ejercicio</mat-label>
+            <input formControlName="ejercicioP" matInput placeholder="año">
+            <mat-icon matSuffix>text_rotation_none</mat-icon>
+            <ng-template ngFor let-error [ngForOf]="validaciones.ejercicioP" ngProjectAs="mat-error">
+              <mat-error *ngIf="formPeriodo.get('ejercicioP').hasError(error.type)">
+                <strong> {{error.message}}</strong>
+              </mat-error>
+            </ng-template>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-2" *ngIf="mostrarFiltrar">
+          <button color="primary" mat-mini-fab aria-label="filtar registros" (click)="spsCapNeto2()">
+            <mat-icon matTooltip="Buscar">search</mat-icon>
+          </button>
+        </div>
+
+        <div class="col-md-2">
+          <button mat-raised-button color="primary" class="full-width" (click)="abrirdialogo(0)" style="right: 12px;">
+            Registrar Nuevo</button>
+        </div>
+        <div class="col-3"></div>
+      </div>
+
+    </form>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="card card-body">
+    <mat-form-field>
+      <mat-label>Filtros de Busqueda</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="ejercicio, periodo" #input>
+    </mat-form-field>
+    <div class="mat-elevation-z8 table-responsive">
+      <table aria-label="info" mat-table [dataSource]="dataSourceCapNeto" matSort>
+
+        <!-- Fecha dia inhabil Column -->
+        <ng-container matColumnDef="periodo">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Periodo</th>
+          <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.periodo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ejercicio">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Ejercicio</th>
+          <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.ejercicio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="capitalNeto">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Capital Neto</th>
+          <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.capitalNeto|currency:'MXN'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="limiteFisica">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Limite Fisicas</th>
+          <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.limiteFisica|currency:'MXN'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="limiteMoral">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Limite Morales</th>
+          <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.limiteMoral|currency:'MXN'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="montoRelacionado">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Monto Relacionado</th>
+          <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.montoRelacionado|currency:'MXN'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sucursal">
+          <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Sucursal</th>
+          <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.sucursal.nombreSucursal}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th scope="col" mat-header-cell *matHeaderCellDef> Actualizar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-mini-fab color="primary" (click)="abrirdialogo(element)" matTooltip="Editar registro">
+              <mat-icon>editar</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+
+    </div>
+    <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+      showFirstLastButtons aria-label="Select page of users">
+    </mat-paginator>
+  </div>
+</div>

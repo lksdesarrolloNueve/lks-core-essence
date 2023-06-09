@@ -1,0 +1,568 @@
+<!--Generales-->
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Generales</h3>
+
+            <div class="row" *ngIf="isEditVisible">
+
+                <!--Clave movimiento-->
+                <div class="col-md-7">
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>Clave movimiento: </mat-label>
+                        <strong><input matInput value="{{claveMovimiento}}" placeholder="Clave." [readonly]="true"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix>code</mat-icon>
+
+
+                    </mat-form-field>
+                </div>
+
+                <!--Clase movimiento  -->
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>Clase movimiento: </mat-label>
+                        <strong><input matInput value="{{claseMovimiento}}" placeholder="Clase movimiento."
+                                [readonly]="true" style="text-align:center;"></strong>
+                        <mat-icon matSuffix>code</mat-icon>
+
+
+                    </mat-form-field>
+                </div>
+
+                <!--Estatus-->
+                <div class="col-md-2">
+
+                    <mat-form-field appearance="outline" class="full-width">
+
+                        <mat-label>Estatus: </mat-label>
+                        <strong><input matInput value="{{isActivo  ? 'Activo' : 'Cancelado'}}" placeholder="Estatus."
+                                [readonly]="true" style="text-align:center;"></strong>
+                        <mat-icon matSuffix *ngIf="isActivo">check_circle</mat-icon>
+                        <mat-icon matSuffix *ngIf="!isActivo">cancel</mat-icon>
+
+                    </mat-form-field>
+
+                </div>
+
+
+
+            </div>
+
+
+            <div class="row">
+
+                <!--Tipo Movimiento-->
+                <div class="col-md-2">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Tipo Movimiento</mat-label>
+                        <mat-select (valueChange)="opcionSeleccionadaTMovimiento($event)"
+                            [formControl]="tipoMovimiento">
+                            <mat-option *ngFor="let optionTm of listaTipoMovimiento" [value]="optionTm">
+                                {{optionTm.descripcion}}
+                            </mat-option>
+                        </mat-select>
+
+                    </mat-form-field>
+                </div>
+
+                <!--Forma de pago -->
+                <div class="col-md-2" *ngIf="cuentaOrigenVisible">
+                    <mat-form-field appearance="outline" class="full-width" [multiple]="false">
+                        <mat-label>Forma de pago</mat-label>
+                        <mat-select [formControl]="formaPago">
+                            <mat-option *ngFor="let forma of listaFormasPago" [value]="forma">
+                                {{forma.nombrefpago}}
+                            </mat-option>
+                        </mat-select>
+
+                        <!--Validación-->
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.formaPago" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formaPago.hasError(error.type)">
+                            <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+
+                    </mat-form-field>
+                </div>
+
+                <!--USUARIO-->
+                <div class="col-md-3">
+
+                    <mat-form-field appearance="outline" class="full-width" *ngIf="isEditVisible">
+
+                        <mat-label>Usuario: </mat-label>
+                        <strong><input matInput value="{{usuario}}" placeholder="Usuario." [readonly]="true"
+                                style="text-align:center;"></strong>
+                        <mat-icon matSuffix>code</mat-icon>
+
+
+                    </mat-form-field>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <!--GUARDAR detalle-->
+                        <div class="col-2">
+
+                            <button mat-fab *ngIf="!isEditVisible && isActivo" color="primary"
+                                (click)="guardarEditarDialog(1)">
+                                <!--Guardar movimiento-->
+                                <mat-icon matTooltip="Guardar movimiento."> done_outline </mat-icon>
+                            </button>
+
+                            <button mat-fab *ngIf="!isDisabledTransito && isEditVisible && isActivo" color="primary"
+                                (click)="guardarEditarDialog(2)">
+                                <!--Editar movimiento-->
+                                <mat-icon matTooltip="Editar movimiento."> create </mat-icon>
+                            </button>
+
+                        </div>
+<!--BOTÓN REGISTAR INVERSION-->
+<div class="col-2" *ngIf="polizaId>0">
+    <button mat-fab color="primary" (click)="abrirPolizaInversion()">
+        <mat-icon matTooltip="Registrar Inversi&oacute;n.">savings</mat-icon>
+    </button>
+</div>
+                        <!--BOTÓN LIMPIAR-->
+                        <div class="col-2">
+                            <button mat-fab color="primary" (click)="limpiarFormGeneral()">
+                                <mat-icon matTooltip="Limpiar.">restore_page</mat-icon>
+                            </button>
+                        </div>
+
+                        <!--BOTÓN BUSCAR-->
+                        <div class="col-2">
+                            <button mat-fab color="primary" (click)="abrirBusquedaMov(0)">
+                                <mat-icon matTooltip="Buscar movimiento.">search</mat-icon>
+                            </button>
+                        </div>
+
+                        <!--BOTON CANCELAR-->
+                        <div class="col-2">
+                            <button *ngIf="isEditVisible && isActivo" mat-fab (click)="guardarEditarDialog(3)">
+                                <mat-icon matTooltip="Cancelar movimiento.">delete</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!--Fecha-->
+                <div class="col-md-3">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Fecha:</mat-label>
+                        <strong><input matInput value="{{CurrentDate}}" placeholder="Fecha Solicitud" [readonly]="true"
+                                style="text-align:center;"></strong>
+                        <mat-datepicker-toggle matSuffix disabled></mat-datepicker-toggle>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<form [formGroup]="formMovBancario">
+
+    <!--Cuenta Origen-->
+    <div class="row" *ngIf="cuentaOrigenVisible">
+
+        <div class="col-md-12">
+            <div class="card card-body">
+
+                <h3 class="text-center">Cuenta Origen</h3>
+
+                <div class="row">
+
+                    <!--Sucursal-->
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Sucursal</mat-label>
+
+                            <input type="text" placeholder="Sucursal" matInput formControlName="sucursal"
+                                [matAutocomplete]="autoSuc">
+                            <mat-autocomplete autoActiveFirstOption #autoSuc="matAutocomplete"
+                                (optionSelected)="opcionSeleccionadaSucursal($event)" [displayWith]="displaySucursal">
+                                <mat-option *ngFor="let optionSuc of opcionesSucursalOri | async" [value]="optionSuc">
+                                    {{optionSuc.cveSucursal}} / {{optionSuc.nombreSucursal}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.sucursal" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formMovBancario.get('sucursal').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+
+                    <!--Tipo Cuenta-->
+                    <div class="col-md-3">
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tipo cuenta</mat-label>
+                            <mat-select (selectionChange)="opcionSeleccionadaTipoCuenta($event)"
+                                formControlName="tipoCuenta">
+                                <mat-option *ngFor="let optionTc of listaTipoCuentaOri" [value]="optionTc">
+                                    {{optionTc.descripcion}}
+                                </mat-option>
+                            </mat-select>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.tipoCuenta" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formMovBancario.get('tipoCuenta').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                    <!--Cuenta Bancaria Origen-->
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Cuenta</mat-label>
+
+                            <input type="text" placeholder="Cuenta bancaria" matInput formControlName="cuentaBancOri"
+                                [matAutocomplete]="autoCuentaBO">
+                            <mat-autocomplete autoActiveFirstOption #autoCuentaBO="matAutocomplete"
+                                (optionSelected)="opcionSeleccionadaCuenta($event)"
+                                [displayWith]="displayCuentaBancOri">
+                                <mat-option *ngFor="let optionCBO of opcionesCuentaBancoOri | async"
+                                    [value]="optionCBO">
+                                    {{optionCBO.claveCuenta}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.cuentaBancOri" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formMovBancario.get('cuentaBancOri').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                    <!--SALDO-->
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="full-width">
+
+                                <mat-label>Saldo origen: </mat-label>
+                                <strong><input matInput value="{{saldo | currency:'MXN'}}" placeholder="Saldo cuenta"
+                                        [readonly]="true" style="text-align:center;"></strong>
+                                <mat-icon matSuffix>payments</mat-icon>
+
+
+                            </mat-form-field>
+                        </p>
+                    </div>
+
+
+                </div>
+
+
+                <!--Cuenta Destino-->
+                <div class="row" *ngIf="cuentaDestinoVisible">
+
+                    <div class="col-md-12">
+                        <h3 class="text-center">Cuenta Destino</h3>
+                    </div>
+
+                    <!--Sucursal Destino-->
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Sucursal</mat-label>
+
+                            <input type="text" placeholder="Sucursal" matInput formControlName="sucursalDest"
+                                [matAutocomplete]="autoSucDest">
+                            <mat-autocomplete autoActiveFirstOption #autoSucDest="matAutocomplete"
+                                (optionSelected)="opcionSeleccionadaSucursalDest($event)"
+                                [displayWith]="displaySucursalDest">
+                                <mat-option *ngFor="let optionSucDest of opcionesSucursalDest | async"
+                                    [value]="optionSucDest">
+                                    {{optionSucDest.cveSucursal}} / {{optionSucDest.nombreSucursal}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.sucursalDest" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formMovBancario.get('sucursalDest').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                    <!--Tipo Cuenta Destino-->
+                    <div class="col-md-3">
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Tipo cuenta</mat-label>
+                            <mat-select (selectionChange)="opcionSeleccionadaTipoCuentaDest($event)"
+                                formControlName="tipoCuentaDest">
+                                <mat-option *ngFor="let optionTcD of listaTipoCuentaDest" [value]="optionTcD">
+                                    {{optionTcD.descripcion}}
+                                </mat-option>
+                            </mat-select>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.tipoCuentaDest" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formMovBancario.get('tipoCuentaDest').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+
+                    <!--Cuenta Bancaria Destino-->
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Cuenta</mat-label>
+
+                            <input type="text" placeholder="Cuenta bancaria" matInput formControlName="cuentaBancoDest"
+                                [matAutocomplete]="autoCuentaBD">
+                            <mat-autocomplete autoActiveFirstOption #autoCuentaBD="matAutocomplete"
+                                (optionSelected)="opcionSeleccionadaCuentaDest($event)"
+                                [displayWith]="displayCuentaBancOri">
+                                <mat-option *ngFor="let optionCBD of opcionesCuentaBancoDest | async"
+                                    [value]="optionCBD">
+                                    {{optionCBD.claveCuenta}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <!--Validación-->
+                            <ng-template ngFor let-error [ngForOf]="validacion_msj.cuentaBancoDest" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formMovBancario.get('cuentaBancoDest').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+
+                        </mat-form-field>
+                    </div>
+
+                    <!--Saldo destion-->
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="full-width">
+
+                                <mat-label>Saldo destino: </mat-label>
+                                <strong><input matInput value="{{saldoDest | currency:'MXN'}}"
+                                        placeholder="Saldo cuenta destino." [readonly]="true"
+                                        style="text-align:center;"></strong>
+                                <mat-icon matSuffix>payments</mat-icon>
+
+
+                            </mat-form-field>
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!--DATOS-->
+                <div class="row">
+
+                    <!--Cantidad-->
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Cantidad</mat-label>
+                                <strong><input matInput (input)="limpiaTabla()" placeholder="Cantidad"
+                                        style="text-align:center;" prefix="$ " mask="separator.2" thousandSeparator=","
+                                        formControlName="cantidad"></strong>
+                                <mat-icon matSuffix>paid</mat-icon>
+
+                                <!--Validación-->
+                                <ng-template ngFor let-error [ngForOf]="validacion_msj.cantidad" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formMovBancario.get('cantidad').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+
+                            </mat-form-field>
+                        </p>
+                    </div>
+
+                    <!--Beneficiario-->
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Beneficiario</mat-label>
+                                <input (input)="limpiaCliente()" matInput placeholder="Beneficiario"
+                                    formControlName="beneficiario">
+                                <button mat-button matSuffix aria-label="search" (click)="abrirDialog()">
+                                    <mat-icon matTooltip="Buscar beneficiario." *ngIf="!isEditVisible">person_add
+                                    </mat-icon>
+                                </button>
+
+                                <!--Validación-->
+                                <ng-template ngFor let-error [ngForOf]="validacion_msj.beneficiario" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formMovBancario.get('beneficiario').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+
+                            </mat-form-field>
+                        </p>
+
+                    </div>
+
+                    <!--Concepto-->
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Concepto</mat-label>
+                                <textarea matInput placeholder="Concepto" (input)="limpiaTabla()"
+                                    formControlName="concepto"></textarea>
+
+                                <!--Validación-->
+                                <ng-template ngFor let-error [ngForOf]="validacion_msj.concepto" ngProjectAs="mat-error">
+                                    <mat-error *ngIf="formMovBancario.get('concepto').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                    </mat-error>
+                                </ng-template>
+
+                            </mat-form-field>
+                        </p>
+                    </div>
+
+                    <!--Tránsito-->
+                    <div class="col-md-1 center">
+                        <p>
+                            <mat-slide-toggle formControlName="transito" color="primary" *ngIf="!isDisabledTransito">
+                                En tránsito
+                            </mat-slide-toggle>
+                        </p>
+                    </div>
+
+                    <!--Botón-->
+                    <div class="col-md-2 ">
+
+                        <button mat-fab color="primary" *ngIf="isActivo && !isEditVisible" (click)="agregarDetalle()">
+                            <mat-icon matTooltip="Agregar detalle del movimiento."> add </mat-icon>
+                        </button>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+<!--TABLA-->
+<div class="row" *ngIf="cuentaOrigenVisible">
+    <div class="col-md-12">
+        <div class="card card-body">
+
+            <div class="row">
+                <!--mat-elevation-z8-->
+
+                <table mat-table [dataSource]="dataSourceCuentas">
+
+                    <caption></caption>
+
+                    <!--Número-->
+                    <ng-container matColumnDef="no">
+                        <th id="no" style="padding: 16px;" mat-header-cell *matHeaderCellDef>No.</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element; let i = index">{{i + 1}}</td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef></td>
+                    </ng-container>
+
+                    <!--Cuenta-->
+                    <ng-container matColumnDef="cuentaContable">
+                        <th id="cuentaContable" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Cuenta</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.cuentaContable}}</td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef></td>
+                    </ng-container>
+
+                    <!--Concepto-->
+                    <ng-container matColumnDef="concepto">
+                        <th id="concepto" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Concepto</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.concepto}}</td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef></td>
+                    </ng-container>
+
+                    <!--Referencia-->
+                    <ng-container matColumnDef="ref">
+                        <th id="ref" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Referencia</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.ref}}</td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef>Total</td>
+                    </ng-container>
+
+                    <!--Debe-->
+                    <ng-container matColumnDef="debe">
+                        <th id="debe" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Debe</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.debe | currency:'MXN'}}</td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef>{{getTotalDebe()| currency:'MXN'}}</td>
+                    </ng-container>
+
+                    <!--Haber-->
+                    <ng-container matColumnDef="haber">
+                        <th id="haber" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Haber</th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let element">{{element.haber | currency:'MXN'}}</td>
+                        <td mat-footer-cell style="padding: 16px;" *matFooterCellDef>{{getTotalHaber()| currency:'MXN'}}</td>
+                    </ng-container>
+
+                    <!--Acciones-->
+                    <ng-container matColumnDef="acciones">
+                        <th id="acciones" mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="action-link">
+
+                            <div *ngIf="!isDisabledButton">
+                                <div *ngIf="i != 0 && isActivo && !isEditVisible">
+                                    <button mat-button (click)="abrirCtasContDetalle(element)"
+                                        matTooltip="Editar registro." color="primary">Editar</button>|
+                                    <button (click)="abrirAdvertenciaEliminar(element)" mat-button
+                                        matTooltip="Eliminar registro." color="accent">Eliminar</button>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef></td>
+                    </ng-container>
+
+
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
+                </table>
+            </div>
+
+            <!--Botón agregar cuenta contable -->
+            <div class="col-md-12 c">
+                <button mat-flat-button color="primary" *ngIf="isDisabledButtonAM && isActivo && !isEditVisible"
+                    matTooltip="Agregar contrapartida." (click)="abrirCtasContDetalle(0)">Contrapartida<mat-icon>
+                        add_circle_outline</mat-icon></button>
+            </div>
+
+            <!--Espacio-->
+            <div><br></div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,231 @@
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formBaja">
+        <div class="row">
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput formControlName="usuario" [readonly]="true" placeholder="Usuario">
+                    <mat-icon matSuffix>user</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="full-width" appearance="outline" class="full-width">
+                    <mat-label>Sucursal</mat-label>
+                    <input type="text" placeholder="Sucursal en sesion" matInput formControlName="sucursal">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Tipo Activo</mat-label>
+                    <input type="text" placeholder="Tipo Activo" matInput formControlName="tpActivo"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                        (optionSelected)="tActivoSeleccionado($event)" [displayWith]="displayTA">
+                        <mat-option *ngFor="let option of opcionesTipoAct | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.tpActivo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBaja.get('tpActivo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Activo</mat-label>
+                    <input type="text" placeholder="Activo" matInput formControlName="activo"
+                        [matAutocomplete]="autoAc">
+                    <mat-autocomplete autoActiveFirstOption #autoAc="matAutocomplete"
+                        (optionSelected)="activoSeleccionado($event)" [displayWith]="displayActivo">
+                        <mat-option *ngFor="let option of opcionesAct | async" [value]="option">
+                            {{option.concepto}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.activo" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBaja.get('activo').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Clave</mat-label>
+                    <input matInput formControlName="actSuc" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>No.Factura</mat-label>
+                    <input matInput formControlName="factura" [readonly]="true" MaxLength="9" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Clave</mat-label>
+                    <input matInput formControlName="consecutivo" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Clave</mat-label>
+                    <input matInput formControlName="unidad" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Concepto</mat-label>
+                    <input matInput formControlName="concepto" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>article</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>MOI</mat-label>
+                    <input matInput formControlName="moi" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Fecha Depreciar</mat-label>
+                    <input matInput [matDatepicker]="fe" formControlName="fDepreciar">
+                    <mat-datepicker-toggle matSuffix [for]="fe"></mat-datepicker-toggle>
+                    <mat-datepicker #fe></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Depresiación acumulada</mat-label>
+                    <input matInput formControlName="dAcumulada" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Saldo por depreciar</mat-label>
+                    <input matInput formControlName="saldoDepreciar" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>INPC Inicial</mat-label>
+                    <input matInput formControlName="inpcIni" [readonly]="true" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripcion </mat-label>
+                    <textarea formControlName="descripcionR" matInput placeholder="">
+              <mat-icon matSuffix>edit_note</mat-icon>
+          </textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Causa Baja</mat-label>
+                    <input type="text" placeholder="Baja" matInput formControlName="baja" [matAutocomplete]="autoBaja">
+                    <mat-autocomplete autoActiveFirstOption #autoBaja="matAutocomplete"
+                        [displayWith]="displayBaja">
+                        <mat-option *ngFor="let option of opcionesBaja | async" [value]="option">
+                            {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.baja" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBaja.get('baja').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Costo venta</mat-label>
+                    <input matInput formControlName="venta" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1">
+                <mat-checkbox class="example-margin" (change)="calculariVA()" formControlName="porcentaje" color="warn">
+                    1.16%
+                </mat-checkbox>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>I.V.A</mat-label>
+                    <input matInput formControlName="iva" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Vendido a</mat-label>
+                    <input matInput formControlName="vendido" placeholder="">
+                    <mat-icon matSuffix>confirmation_number</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Fecha Venta</mat-label>
+                    <input matInput [matDatepicker]="ff" formControlName="fventa" (dateChange)="verINPC($event.value)"
+                        [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="ff"></mat-datepicker-toggle>
+                    <mat-datepicker #ff></mat-datepicker>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.fventa" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBaja.get('fventa').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>INPC Final</mat-label>
+                    <input matInput formControlName="inpcFin" placeholder="" [matAutocomplete]="autoI">
+                    <mat-autocomplete autoActiveFirstOption #autoI="matAutocomplete" [displayWith]="displayIncp">
+                        <mat-option *ngFor="let option of opcionesIncp | async" [value]="option">
+                            {{option.inpcD |currency:'MXN'}}/{{option.fecha}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+                <button color="primary" (click)="agregarINCP()" mat-mini-fab aria-label="Agregar">
+                    <mat-icon matTooltip="Agregar INPC">add_chart</mat-icon>
+                </button>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descripcion Baja</mat-label>
+                    <textarea formControlName="descripcionBaja" matInput placeholder="">
+                        <mat-icon matSuffix>edit_note</mat-icon>
+                    </textarea>
+                    <ng-template ngFor let-error [ngForOf]="validaciones.descripcionBaja" ngProjectAs="mat-error">
+                        <mat-error *ngIf="formBaja.get('descripcionBaja').hasError(error.type)">
+                          <strong> {{error.message}}</strong>
+                        </mat-error>
+                    </ng-template>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" *ngIf="bajaID==0" (click)="crudBajActivo(1)">Guardar</button>
+    <button mat-raised-button color="primary" *ngIf="bajaID>0" (click)="crudBajActivo(2)">Actualizar</button>
+    <button mat-raised-button color="primary" *ngIf="bajaID>0" (click)="crudBajActivo(3)">Eliminar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+        <h3 class="text-center">CAT&Aacute;LOGO PROOVEEDORES</h3>
+        <div class="row">
+            <div class="col-4"><button mat-raised-button color="primary" (click)="abrirdialogo(0)">Registrar
+                    Nuevo</button></div>
+        </div>
+
+        <!--Filtro -->
+        <mat-form-field>
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="claveProveedor,nombreProveedor,sucursal" #input>
+        </mat-form-field>
+
+        <!-- Cuerpo de lla tablaa-->
+        <div class="mat-elevation-z8 table-responsive">
+
+             <table aria-label="infoProv" mat-table [dataSource]="dataSourceProveedor"  matSort>
+                <!-- Clave proveedor -->
+                <ng-container matColumnDef="claveProveedor">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Clave</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.claveProveedor}} </td>
+                </ng-container>
+                <!-- RFC -->
+                <ng-container matColumnDef="rfc">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>RFC</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.rfc}} </td>
+                </ng-container>
+                <!-- Nombre Poveedor -->
+                <ng-container matColumnDef="nombreProveedor">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Nombre</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.nombreProveedor}} </td>
+                </ng-container>
+                     <!-- Tipo Proveedor -->
+                     <ng-container matColumnDef="tipo_proveedor">
+                        <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Tipo</th>
+                        <td style="padding: 16px;" mat-cell *matCellDef="let element">{{element.extencionProveedor.tipoTercera.descripcion}} </td>
+                    </ng-container>
+                         <!-- Numero cuenta -->
+                <ng-container matColumnDef="num_cuenta">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>N.cuenta</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element">{{element.numeroCuenta}} </td>
+                </ng-container>
+                <!-- Sucursal -->
+                <ng-container matColumnDef="sucursal">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Sucursal</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element">{{element.extencionProveedor.sucursal.nombreSucursal}}</td>
+                </ng-container>
+                <!-- Estatus -->
+                <ng-container matColumnDef="estatus">
+                    <th style="padding: 16px;" scope="col" mat-header-cell *matHeaderCellDef>Estatus</th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                        <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)"
+                            color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+                <!-- Fecha Alta Column -->
+                <ng-container matColumnDef="acciones">
+                    <th style="padding: 16px;" scope="col"  mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td style="padding: 16px;" mat-cell *matCellDef="let element">
+                        <button mat-mini-fab color="primary" (click)="abrirdialogo(element) ">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </div>
+             <!--paginacion  de la tabla-->
+             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

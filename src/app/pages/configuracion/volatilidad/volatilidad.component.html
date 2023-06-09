@@ -1,0 +1,247 @@
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h2 class=" text-center">Volatilidad</h2>
+        </div>
+    </div>
+
+    <div class="col-md-8 text-center">
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-2">
+                    <button mat-fab color="primary" *ngIf="volatilidadID==0" (click)="crudVolatilidad(2)">
+                        <mat-icon matTooltip="Guardar Fondeo">done_outline</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button mat-fab color="primary" (click)="crudVolatilidad(3)" *ngIf="volatilidadID>0">
+                        <mat-icon matTooltip="Editar Fondeo">create</mat-icon>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button mat-fab color="primary" (click)="limpiar()">
+                        <mat-icon matTooltip="Nuevo">restore_page</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <!-- Lista de volatilidad -->
+    <div class="col-md-4">
+        <div class="card card-body">
+            <mat-form-field>
+                <input matInput [(ngModel)]="searchText" placeholder="Filtrar" autocomplete="off"
+                    (input)="buscarVolatilidad()">
+            </mat-form-field>
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Ingresa el rango de fecha</mat-label>
+                <mat-date-range-input [rangePicker]="rangePicker">
+                    <input matStartDate [formControl]="mesIn" placeholder="Inicio fecha">
+                    <input matEndDate [formControl]="mesFin" placeholder="Fin fecha">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #rangePicker>
+                    <mat-date-range-picker-actions>
+                        <button mat-button matDateRangePickerCancel>Cancelar</button>
+                        <button mat-raised-button color="primary" matDateRangePickerApply
+                            (click)="spsVolatilidad()">Buscar</button>
+                    </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+
+            </mat-form-field>
+
+            <mat-nav-list class="scroll-container" [ngStyle]="{'height': '650', 'width':'100%'}">
+                <mat-list-item *ngFor="let vol of listaVolatilidad" (click)="mostrarV(vol,1)">
+                    <p matListItemTitle> {{vol.fecha}}</p>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+    </div>
+    <!--FORMULARIO-->
+    <div class="col-md-8">
+        <div class="card card-body">
+            <form [formGroup]="formVolatilidad">
+                <div class="row">
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Fecha:</mat-label>
+                            <input matInput [matDatepicker]="fi" formControlName="fecha">
+                            <mat-datepicker-toggle matSuffix [for]="fi"></mat-datepicker-toggle>
+                            <mat-datepicker #fi>
+                                <mat-datepicker-actions>
+                                    <button mat-button matDatepickerCancel>Cancelar</button>
+                                    <button mat-raised-button color="primary" (click)="crudVolatilidad(1)" matDatepickerApply>Calcular</button>
+                                </mat-datepicker-actions>
+                            </mat-datepicker>
+                            <ng-template ngFor let-error [ngForOf]="validaciones.fecha" ngProjectAs="mat-error">
+                                <mat-error *ngIf="formVolatilidad.get('fecha').hasError(error.type)">
+                                    <strong> {{error.message}}</strong>
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Min</mat-label>
+                            <input formControlName="min" matInput [readonly]="true" placeholder="0.0">
+                            <mat-icon matSuffix>minimize</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Max</mat-label>
+                            <input formControlName="max" matInput [readonly]="true" placeholder="0.0">
+                            <mat-icon matSuffix>add</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Media</mat-label>
+                            <input formControlName="media" matInput [readonly]="true" placeholder="0.0">
+                            <mat-icon matSuffix>density_medium</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Desviacion estandar</mat-label>
+                            <input formControlName="desv" matInput [readonly]="true" placeholder="0.0">
+                            <mat-icon matSuffix>filter_hdr</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <!--etiquetas-->
+                    <div class="col-md-3">
+                        <mat-label><strong>Tiempo</strong></mat-label>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-label><strong>Limite Inferior</strong></mat-label>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-label><strong>Limite Superior</strong></mat-label>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-label><strong>Volatilidad</strong></mat-label>
+                    </div>
+                    <!--calculos-->
+                    <div class="col-md-3">
+                        <mat-label><strong>Tasa 1 d&iacute;a</strong></mat-label>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limInf1" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>arrow_downward</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limSup1" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>straight</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="volat1" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label><strong>Tasa 7 d&iacute;as</strong></mat-label>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limInf7" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>arrow_downward</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limSup7" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>straight</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="volat7" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-label><strong>Tasa 30 d&iacute;as</strong></mat-label>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limInf30" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>arrow_downward</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limSup30" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>straight</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="volat30" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-label><strong>Tasa 90 d&iacute;as</strong></mat-label>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limInf90" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>arrow_downward</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limSup90" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>straight</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="volat90" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-label><strong>Tasa 360 d&iacute;as</strong></mat-label>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limInf360" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>arrow_downward</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="limSup360" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>straight</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input formControlName="volat360" [readonly]="true" matInput placeholder="0.0">
+                            <mat-icon matSuffix>paid</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

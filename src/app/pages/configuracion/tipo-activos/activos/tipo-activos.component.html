@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">Tipos de activos</h3>
+            <div class="row">
+                <!-- Botón para registrar nuevo  -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogo(1,'')">Registrar</button>
+                </div>
+                <div class="col-md-10"></div>
+            </div>
+
+            <mat-form-field class="full-width">
+                <mat-label>Filtro para tipo de activo</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filtro de activo" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de TipoActivo" [dataSource]="dataSourceTipActi" #listaTipoAct="matSort" matSort>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="nombre">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna Porcentaje  -->
+                    <ng-container matColumnDef="porcentaje">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Tasa de depreciaci&oacute;n </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.porcentaje}}% </td>
+                    </ng-container>
+
+                    <!-- Columna Meses por depreciar -->
+                    <ng-container matColumnDef="mesesDepreciar">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Meses por depreciar </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.meses_por_depreciar}} </td>
+                    </ng-container>
+
+                    <!-- Columna  ceuntadebe  -->
+                    <ng-container matColumnDef="cuentaDebe">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Debe </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.cuenta_debe}} </td>
+                    </ng-container>
+
+                    <!-- Columna cuenta  -->
+                    <ng-container matColumnDef="cuentaHaber">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Cuenta Haber </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.cuenta_haber}} </td>
+                    </ng-container>
+
+                    <!-- Columna Obervaciones  -->
+                    <ng-container matColumnDef="usuario">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti"> {{acti.usuario}} </td>
+                    </ng-container>
+
+                    <!-- Columna Estatus SMS -->
+                    <ng-container matColumnDef="estatus">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti">
+                            <mat-slide-toggle [ngModel]="acti.estatus" (ngModelChange)="cambiaEstatus($event, acti)"
+                                color="primary">
+                            </mat-slide-toggle>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna acciones PEP -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let acti">
+                            
+                            <!-- Columna Botón Editar -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogo(2,acti)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnaTipoAct"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnaTipoAct;"></tr>
+
+                </table>
+
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+
+        </div>

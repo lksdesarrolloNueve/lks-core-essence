@@ -1,0 +1,132 @@
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Mayor General</h3>
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <form  [formGroup]="formFiltros">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>Ingresa el rango de fecha</mat-label>
+                                    <mat-date-range-input [rangePicker]="rangePicker">
+                                        <input matStartDate formControlName="mesIn" placeholder="Fecha Inicio">
+                                        <input matEndDate formControlName="mesFin" placeholder="Fecha Fin">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #rangePicker>
+                                        <mat-date-range-picker-actions>
+                                            <button mat-button matDateRangePickerCancel color="warn">Cancelar</button>
+                                            <button mat-raised-button color="primary" matDateRangePickerApply>Aplicar</button>
+                                        </mat-date-range-picker-actions>
+                                    </mat-date-range-picker>
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.mesIn" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formFiltros.get('mesIn').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.mesFin" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formFiltros.get('mesFin').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+            
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-2">
+                                <mat-checkbox formControlName="consolidado">Consolidado</mat-checkbox>
+                            </div>
+
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Sucural</mat-label>
+                                    <mat-select formControlName="sucursal">
+                                        <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
+                                            {{sucursal.nombreSucursal}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <ng-template ngFor let-error [ngForOf]="validaciones.sucursal" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="formFiltros.get('sucursal').hasError(error.type)">
+                                          <strong> {{error.message}}</strong>
+                                        </mat-error>
+                                    </ng-template>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button mat-fab color="primary" (click)="generarMayorGeneral()">
+                                    <mat-icon matTooltip="Generar CVS">file_download</mat-icon>
+                                </button>
+                            </div>
+                        
+
+                        </div>
+                    </form>
+                    <hr>
+                </div>
+              
+
+                <!-- Div COl para la gestion de arbol de cuentas Contables-->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Filtro</mat-label>
+                        <input matInput minlength="2" (keyup)="applyFilter($event.target['value'])"
+                            placeholder="Bancos, Cajas" #input>
+                    </mat-form-field>
+
+                    <mat-tree [dataSource]="dataSourceCuentas" class="scroll-container" [treeControl]="treeControl">
+                        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                            <button mat-icon-button disabled></button>
+                            <mat-checkbox color="primary" class="checklist-leaf-node"
+                                [checked]="checklistSelection.isSelected(node)"
+                                (change)="todoLeafItemSelectionToggle(node)">{{node.cuenta}} / {{node.nombre}}
+                            </mat-checkbox>
+                        </mat-tree-node>
+
+                        <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+                            <button mat-icon-button disabled></button>
+                        </mat-tree-node>
+                        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.nombre">
+                                <mat-icon class="mat-icon-rtl-mirror">
+                                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                </mat-icon>
+                            </button>
+                            <mat-checkbox [checked]="descendantsAllSelected(node)" color="primary"
+                                [indeterminate]="descendantsPartiallySelected(node)"
+                                (change)="todoItemSelectionToggle(node)">{{node.cuenta}} / {{node.nombre}}
+                            </mat-checkbox>
+                        </mat-tree-node>
+                    </mat-tree>
+                </div>
+
+                <div class="col-md-6">
+                    <h2>Cuentas Seleccionadas</h2>
+                    <mat-error *ngFor="let validacion of validaciones.cuenta">
+                        <div *ngIf="vacio">
+                            <strong>{{validacion.message}}</strong>
+                        </div>
+                    </mat-error>
+                    <hr>
+                    <mat-selection-list class="scroll-container" [multiple]="false">
+                        <mat-list-option *ngFor="let setCuenta of checklistSelection.selected" [value]="setCuenta">
+                            {{setCuenta.cuenta}}
+                        </mat-list-option>
+
+                    </mat-selection-list>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

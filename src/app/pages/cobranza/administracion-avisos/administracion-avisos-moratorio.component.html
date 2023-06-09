@@ -1,0 +1,99 @@
+<div class="col-12">
+    <div class="card card-body">
+        <h3 class="text-center mayuscula">Avisos moratorios</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="mayuscula">No. {{lblCliente}}</mat-label>
+                    <input [formControl]="cliente" matInput placeholder="No.{{lblCliente}}" [readonly]="true">
+                    <button mat-button matSuffix mat-stroked-button color="primary" (click)="modalClientes()">
+                        <mat-icon matSuffix matTooltip="Buscar {{lblCliente}}"><span
+                                class="material-icons-outlined">person_search</span>
+                        </mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+   
+            <div class="col-md-4">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Aviso</mat-label>
+                    <mat-select [formControl]="avisos">
+                        <mat-option *ngFor="let option of listaAvisos" [value]="option">
+                            {{option.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1">
+                <button color="primary" mat-mini-fab aria-label="Buscar Avisos" (click)="spsAvisosMoratorios(2)">
+                    <mat-icon matTooltip="Buscar">search</mat-icon>
+                </button>
+            </div>
+            <div class="col-md-1">
+                <button mat-raised-button color="primary" (click)="reporte()">
+                    <mat-icon matTooltip="Imprimir reporte XLSX">print</mat-icon>
+                </button>
+            </div>
+            <div class="col-md-1">
+                <button mat-raised-button color="warn" (click)="avisosAutomaticos()">
+                    <mat-icon matTooltip="Generar Avisos PDF">print</mat-icon>
+                </button>
+            </div>
+        </div><!-- row -->
+    </div>
+</div>
+<!--12 card-->
+<div class="col-12">
+    <div class="card card-body">
+        <mat-form-field class="col-12">
+            <mat-label>Filtros de Busqueda</mat-label>
+            <input matInput  placeholder="" (keyup)="applyFilter($event)"  #input>
+        </mat-form-field>
+        <!--Cuerpo de la tabla-->
+        <div class="mat-elevation-z8 table-responsive">
+            <table aria-label="infoMoratorio" mat-table [dataSource]="dataSource"  matSort>
+                
+                <!-- Nombre Ciudad Column -->
+                <ng-container matColumnDef="numeroCliente">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Numero {{lblCliente}}</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let aviso"> {{aviso.numero_cliente}} </td>
+                </ng-container>
+        
+                <!-- cliente Column -->
+                <ng-container matColumnDef="nombre">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> {{lblCliente}} </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let aviso"> {{aviso.nombre}} {{aviso.apellido_paterno}} {{aviso.apellido_materno}} </td>
+                </ng-container>
+        
+                <!-- fecha Column -->
+                <ng-container matColumnDef="fecha">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let aviso"> {{aviso.fecha | date:'dd-MM-yyyy' }} </td>
+                </ng-container>
+                 <!-- descripcion Column -->
+                 <ng-container matColumnDef="descripcion">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Descripci&oacute;n </th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let aviso"> {{aviso.descripcion}} </td>
+                </ng-container>
+
+                 <!-- dias Column -->
+                 <ng-container matColumnDef="dias">
+                    <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> D&iacute;as  <br>de<br>mora</th>
+                    <td mat-cell style="padding: 16px;" *matCellDef="let aviso"> {{aviso.dias_mora}} </td>
+                </ng-container>
+                 <!-- monto Column -->
+                 <ng-container matColumnDef="monto">
+                    <th scope="col" mat-header-cell *matHeaderCellDef> Adeudo </th>
+                    <td mat-cell *matCellDef="let aviso"> {{aviso.monto_vencido|currency:'MXN'}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        
+        </div>
+        <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+        showFirstLastButtons aria-label="Select page of moratorios">
+        </mat-paginator>
+    </div>
+</div>
+<!--12 card-->

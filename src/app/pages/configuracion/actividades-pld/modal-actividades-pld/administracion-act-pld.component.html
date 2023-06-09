@@ -1,0 +1,58 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formActividadesPLD">
+        <p></p>
+        <div class="row">
+
+            <div class="col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Clave</mat-label>
+                        <input formControlName="clave" matInput placeholder="Clave actividad">
+                        <mat-icon matSuffix>vpn_key</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.clave" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formActividadesPLD.get('clave').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Actividad econ&oacute;mica</mat-label>
+                        <textarea formControlName="actividadPLD" matInput placeholder="Actividad econ&oacute;mica"></textarea>
+                        <mat-icon matSuffix>mode_edit</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validacion_msj.actividadPLD" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formActividadesPLD.get('actividadPLD').hasError(error.type)" >
+                                <strong> {{error.message}}</strong>
+                            </mat-error>                  
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="col-12">
+                <p>
+                    <mat-slide-toggle formControlName="estatus" color="primary">
+                        Estatus
+                    </mat-slide-toggle>
+
+                </p>
+            </div>
+
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+    <button *ngIf="accion === 1" (click)="guardarActividad()" mat-raised-button color="primary">Guardar</button>
+
+    <button *ngIf="accion === 2" (click)="editarActividad()" mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

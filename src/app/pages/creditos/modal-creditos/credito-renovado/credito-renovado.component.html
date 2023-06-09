@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>{{encabezado}}</h2>
+<mat-dialog-content class="mat-typography">
+            <table aria-label="creditoCliente" mat-table [dataSource]="dataSourceCredCliente">
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="seleccionI">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let row" > 
+                    <mat-radio-group [(ngModel)]="selection" (change)="estaSeleccionado()">
+                        <mat-radio-button [value]="row" ></mat-radio-button>
+                      </mat-radio-group>
+                      </td>
+                </ng-container>
+                <!--  Column -->
+                <ng-container matColumnDef="referencia">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef style="padding:16px"> Referencia </th>
+                    <td mat-cell *matCellDef="let element" style="padding:16px"> {{element.referencia}}
+                         </td>
+                </ng-container>
+                <!-- Column -->
+                <ng-container matColumnDef="cveCredito">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef style="padding:16px">Cve Credito </th>
+                    <td mat-cell *matCellDef="let element" style="padding:16px"> {{element.cveCredito}}
+                         </td>
+                </ng-container>
+                 <!-- Column -->
+                <ng-container matColumnDef="descripcion">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef style="padding:16px"> Descripcion </th>
+                    <td mat-cell *matCellDef="let element" style="padding:16px"> {{element.descripcion}}
+                         </td>
+                </ng-container>
+                 <!-- Column -->
+                <ng-container matColumnDef="montoCredito">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef style="padding:16px"> Monto </th>
+                    <td mat-cell *matCellDef="let element" style="padding:16px"> {{element.extRenov.montoCredito | currency:'MXN'}}
+                         </td>
+                </ng-container>
+                 <!-- Column -->
+                <ng-container matColumnDef="saldoCredito">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef style="padding:16px">Saldo Credito </th>
+                    <td mat-cell *matCellDef="let element" style="padding:16px"> {{element.extRenov.saldoCredito | currency:'MXN'}}
+                         </td>
+                </ng-container>
+
+                 <!-- Column -->
+                <ng-container matColumnDef="porcentajePagado">
+                    <th id="claveS" mat-header-cell *matHeaderCellDef style="padding:16px">Porcentaje Pagado </th>
+                    <td mat-cell *matCellDef="let element" style="padding:16px"> {{element.extRenov.porcentajePagado}}
+                         </td>
+                </ng-container>
+           
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsIn"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsIn;">
+                </tr>
+            </table>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" (click)="agregarCredito()">Guardar</button>
+        <button mat-raised-button [mat-dialog-close]="1" color="warn">Cancelar</button>
+    </mat-dialog-actions>

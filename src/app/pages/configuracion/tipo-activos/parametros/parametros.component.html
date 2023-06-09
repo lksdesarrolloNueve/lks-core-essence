@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+
+            <br>
+            <h3 class="text-center">Lista de parametros</h3>
+            <div class="row">
+                <!-- Botón para registrar nuevo  -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogo(1,'')">Registrar</button>
+                </div>
+                <div class="col-md-10"></div>
+            </div>
+
+            <mat-form-field class="full-width">
+                <mat-label>Filtro para parametros</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filtro de parametros" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 table-responsive">
+                <table mat-table aria-label="Tabla de Parametros" [dataSource]="dataSourceParametros" matSort>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="nombre">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre
+                        </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para"> {{para.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna Registra eventa  -->
+                    <ng-container matColumnDef="valor">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                           Valor </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para"> {{para.valor}} </td>
+                    </ng-container>
+                    <!-- Columna Estatus  -->
+                    <ng-container matColumnDef="estatus">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Estatus </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para">
+                            <mat-slide-toggle [ngModel]="para.estatus" (ngModelChange)="cambiaEstatus($event, para)"
+                                color="primary">
+                            </mat-slide-toggle>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna acciones  -->
+                    <ng-container matColumnDef="acciones">
+                        <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Acciones </th>
+                        <td mat-cell style="padding: 16px;" *matCellDef="let para">
+
+                            <!-- Columna Botón Editar -->
+                            <button mat-mini-fab color="primary" (click)="abrirDialogo(2,para)">
+                                <mat-icon>mode_edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnaParametros"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnaParametros;">
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                showFirstLastButtons aria-label="Seleccionar pagina de parametros">
+            </mat-paginator>
+        </div>
+
+    </div>
+</div>

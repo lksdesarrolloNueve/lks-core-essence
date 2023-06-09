@@ -1,0 +1,127 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card card-body">
+            <h3 class="text-center">Ciudades</h3>
+            <div class="row">
+                <div class="col-12">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Estado</mat-label>
+                        <input type="text" placeholder="Estado" matInput [formControl]="estado"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                            (optionSelected)="opcionSeleccionada($event)" [displayWith]="displayFn">
+                            <mat-option *ngFor="let option of opcionesEstado | async" [value]="option">
+                                {{option.nombreEstado}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="estado.hasError('invalidAutocompleteObject')">
+                            <strong> No existe el estado elige otro.</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-2"><button mat-raised-button color="primary" (click)="openDialog(0)">Registrar </button>
+                </div>
+                <div class="col-10"></div>
+            </div>
+
+            <div [hidden]="!mostrar" id="divTbl">
+                <mat-form-field class="full-width">
+                    <mat-label>Filtros de Busqueda</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Ciudad" #input>
+
+                </mat-form-field>
+                <!--Cuerpo de la tabla-->
+                <div class="mat-elevation-z8 table-responsive">
+                    <table aria-label="infoCiudad" mat-table [dataSource]="dataSourceCiudades" matSort>
+
+                        <!--- Note that these columns can be defined in any order.
+                       The actual rendered columns are set as a property on the row definition" -->
+                        <!-- Consecutivo Column -->
+                        <ng-container matColumnDef="consecutivo">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element; let i = index;"> {{
+                                (paginatorRef.pageIndex * paginatorRef.pageSize) +
+                                (i + 1) }} </td>
+                        </ng-container>
+
+                        <!-- Nombre Ciudad Column -->
+                        <ng-container matColumnDef="ciudad">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Ciudad </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let ciudad"> {{ciudad.nombre}} </td>
+                        </ng-container>
+
+                        <!-- Poblacion Column -->
+                        <ng-container matColumnDef="poblacion">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>
+                                Poblaci&oacute;n </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let ciudad"> {{ciudad.poblacion}} </td>
+                        </ng-container>
+
+                        <!-- Nivel Marginacion Column -->
+                        <ng-container matColumnDef="nivMarg">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Nivel
+                                Marginaci&oacute;n</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let ciudad">
+                                {{ciudad.nivelMarginacion.descripcion}} </td>
+                        </ng-container>
+
+                        <!-- Cv Mun. Inegi Column -->
+                        <ng-container matColumnDef="cveMunicipio">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave INEGI</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let ciudad"> {{ciudad.cveMunicipioInegi}}
+                            </td>
+                        </ng-container>
+
+                        <!-- nivelRiesgo Column -->
+                        <ng-container matColumnDef="nivelR">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Riesgo</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let ciudad">
+                                {{ciudad.nivelRiesgo.descripcion}}</td>
+                        </ng-container>
+                        <!-- cvePPLD Column -->
+                        <ng-container matColumnDef="cvePLD">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Clave PLD</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let ciudad"> {{ciudad.cvePld}} </td>
+                        </ng-container>
+                        <!-- Estado Column -->
+                        <ng-container matColumnDef="estado">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef>Estado</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let ciudad"> {{ciudad.estado.nombreEstado}}
+                            </td>
+                        </ng-container>
+                        <!-- Estatus -->
+                        <ng-container matColumnDef="estatus">
+                            <th scope="column" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Estatus</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let element">
+                                <mat-slide-toggle [ngModel]="element.estatus" (ngModelChange)="cambiaEstatus(element)"
+                                    color="primary">
+                                </mat-slide-toggle>
+                            </td>
+                        </ng-container>
+                        <!-- Acciones Column -->
+                        <ng-container matColumnDef="acciones">
+                            <th scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <!-- Boton delete Column -->
+                            <td mat-cell *matCellDef="let element">
+                                <!-- Boton Editar Column -->
+                                <button mat-mini-fab (click)="openDialog(element)" color="primary">
+                                    <mat-icon>mode_edit</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+
+                </div>
+                <mat-paginator fxFlex="100" #paginatorRef [length]="5" [pageSize]="5"
+                    [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+                </mat-paginator>
+            </div><!-- MOSTRAR-->
+        </div>
+    </div>
+</div>

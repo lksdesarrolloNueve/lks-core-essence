@@ -1,0 +1,84 @@
+.chat-header {
+    margin: 0;
+    padding: 1em;
+    background-color: #343A40;
+    border-radius: 1em 1em 0 0;
+    flex-wrap: nowrap;
+}
+
+.chat-back,
+.chat-titulo,
+.chat-acciones {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.chat-back,
+.chat-acciones {
+    cursor: pointer;
+    height: 1.2em;
+}
+
+.chat-content {
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: scroll;
+    height: 79.5%;
+}
+
+.container-propio,
+.container-ajeno {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+}
+
+.container-propio {
+    align-items: flex-end;
+}
+
+.container-ajeno {
+    align-items: flex-start;
+}
+
+.mensaje {
+    display: flex;
+    padding: 0.5rem;
+    max-width: 60%;
+    word-break: break-all;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+        0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 1px 5px 2px rgba(0, 0, 0, 0.12);
+}
+
+.mensaje-propio {
+    justify-content: flex-end;
+    border-radius: 1em 1em 0 1em;
+    background-color: #949494;
+    color: white;
+}
+
+.mensaje-ajeno {
+    justify-content: flex-start;
+    border-radius: 1em 1em 1em 0;
+}
+
+.detalles {
+    font-size: 0.7rem;
+}
+
+.chat-mensaje {
+    border: solid 1px #949494;
+    display: flex;
+    border-radius: 1em 1em 0;
+    padding: 0.5rem;
+}
+
+.chat-mensaje button {
+    border: 0;
+    border-radius: 1em;
+    background-color: white;
+}

@@ -1,0 +1,57 @@
+
+<h2 mat-dialog-title>{{encabezado}} </h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formGarantia">
+        <p></p>
+        <div class="row">
+            <div class="col-md-12"> 
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Clave Garant&iacute;a</mat-label>
+                        <input matInput formControlName="cveGarantia" MaxLength="5" placeholder="Clave Garant&iacute;a">
+                        <mat-icon matSuffix>star_rate </mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.cveGarantia" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formGarantia.get('cveGarantia').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-md-12"> 
+                <p>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Descripci&oacute;n</mat-label>
+                        <input matInput formControlName="descripcion" MaxLength="200" placeholder="Descripci&oacute;n">
+                        <mat-icon matSuffix>subject</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formGarantia.get('descripcion').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-md-4"> 
+                <p>
+                    <mat-slide-toggle formControlName="estatus" color="primary">
+                        Estatus
+                    </mat-slide-toggle>
+                </p>
+            </div>
+        </div>
+
+ 
+
+
+
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button *ngIf="accion===1" (click)=" guardarGarantia()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion===2" (click)="actualizarGarantia($elemento)" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

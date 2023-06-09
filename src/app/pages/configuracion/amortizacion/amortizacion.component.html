@@ -1,0 +1,282 @@
+<div class="row">
+  <div class="col-md-12 ">
+    <div class="card card-body">
+      <h3>Amortizacion</h3>
+      <form [formGroup]="formAmortizacion">
+
+        <div class="row">
+
+          <!--Tipo de Credito-->
+          <div class="col-md-4">
+            <mat-form-field class="full-width" appearance="outline" class="full-width">
+              <mat-label>Cr&eacute;dito</mat-label>
+              <input type="text" matInput formControlName="tipoCredito" [matAutocomplete]="autoTipoCredito">
+              <mat-icon matSuffix><span class="material-icons-outlined">list</span>
+              </mat-icon>
+              <mat-autocomplete autoActiveFirstOption #autoTipoCredito="matAutocomplete"
+                [displayWith]="displayFnTipoCredito">
+                <mat-option *ngFor="let option of opcionesTipoCredito | async" [value]="option"
+                  (click)="cargarInformacion(option)">
+                  {{option.descripcion}}
+                </mat-option>
+              </mat-autocomplete>
+              <ng-template ngFor let-error [ngForOf]="validaciones.tipoCredito" ngProjectAs="mat-error">
+                <mat-error *ngIf="formAmortizacion.get('tipoCredito').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+          <!--Tipo periodo-->
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Periodo</mat-label>
+              <mat-icon matSuffix>format_list_numbered</mat-icon>
+              <mat-select formControlName="periodo" name="periodo"  (selectionChange)="onSelectionPeriodo($event)">
+                <mat-option *ngFor="let periodo of listaFrecuenciaPago" [value]="periodo">
+                  {{periodo.descripcion}}
+                </mat-option>
+              </mat-select>
+              <ng-template ngFor let-error [ngForOf]="validaciones.periodo" ngProjectAs="mat-error">
+                <mat-error *ngIf="formAmortizacion.get('periodo').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+          <!--Numero de Amortizaciones-->
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Numero Amortizaciones</mat-label>
+              <input formControlName="numamortizaciones" matInput placeholder="Numero Amortizaciones">
+              <mat-icon matSuffix>pin</mat-icon>
+              <ng-template ngFor let-error [ngForOf]="validaciones.numamortizaciones" ngProjectAs="mat-error">
+                <mat-error *ngIf="formAmortizacion.get('numamortizaciones').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+
+        </div>
+
+        <div class="row">
+
+          <!-- monto-->
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Monto</mat-label>
+              <input formControlName="monto" matInput placeholder="Monto" style="text-align:center; font-weight: bold;"
+                prefix="$ " mask="separator.2" thousandSeparator=",">
+              <mat-icon matSuffix>price_change</mat-icon>
+              <ng-template ngFor let-error [ngForOf]="validaciones.monto" ngProjectAs="mat-error">
+                <mat-error *ngIf="formAmortizacion.get('monto').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+          <!-- Tasa Interes -->
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-12">
+
+                <div class="example-label-container">
+                  <label style="font-size: 18pt;" id="example-name-label" class="example-name-label">Tasa
+                    Inter&eacute;s</label>
+                  <label style="font-size: 18pt;" class="example-value-label"><strong>{{value}}%</strong></label>
+                </div>
+
+                <mat-slider [max]="max" [min]="min" [step]="step" [(ngModel)]="value"
+                  color="primary" name="tasaInteres" ngDefaultControl formControlName="tasaInteres"
+                  aria-labelledby="example-name-label" class="full-width"><input matSliderThumb>
+                </mat-slider>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Fecha Otorga -->
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Fecha Otorga</mat-label>
+              <input formControlName="pfechaotorga" matInput [matDatepicker]="pfechaotorga">
+              <mat-datepicker-toggle matSuffix [for]="pfechaotorga"></mat-datepicker-toggle>
+              <mat-datepicker #pfechaotorga></mat-datepicker>
+              <ng-template ngFor let-error [ngForOf]="validaciones.pfechaotorga" ngProjectAs="mat-error">
+                <mat-error *ngIf="formAmortizacion.get('pfechaotorga').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+
+          <!--Pago Futuro-->
+          <div class="col-md-1">
+            <mat-slide-toggle formControlName="aplicaFuturo" 
+              (change)="filtroFuturo($event)" color="primary">
+              Aplica pago futuro
+            </mat-slide-toggle>
+          </div>
+
+          <!-- Fecha Primer Pago -->
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Fecha Primer Pago</mat-label>
+              <input formControlName="primerpago" matInput [matDatepicker]="fN1erPago" [readonly]="true">
+              <mat-datepicker-toggle matSuffix [for]="fN1erPago"></mat-datepicker-toggle>
+              <mat-datepicker #fN1erPago></mat-datepicker>
+              <ng-template ngFor let-error [ngForOf]="validaciones.primerpago" ngProjectAs="mat-error">
+                <mat-error *ngIf="formAmortizacion.get('primerpago').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+          <!--Dias pago-->
+          <div class="col-md-4">
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Dias pago</mat-label>
+              <mat-select formControlName="dias" multiple (selectionChange)="onSelectionChange($event)">
+                <mat-option *ngFor="let vDias of listaDias" [value]="vDias">{{vDias}}</mat-option>
+              </mat-select>
+
+              <ng-template ngFor let-error [ngForOf]="validaciones.dias" ngProjectAs="mat-error">
+                <mat-error *ngIf="formAmortizacion.get('dias').hasError(error.type)">
+                  <strong> {{error.message}}</strong>
+                </mat-error>
+              </ng-template>
+
+            </mat-form-field>
+          </div>
+        
+          <!-- ¿Aplica IVA ?-->
+          <div class="col-md-3">
+            <mat-slide-toggle formControlName="paplicaiva" color="primary">
+              ¿Aplica IVA?
+            </mat-slide-toggle>
+          </div>
+
+
+          <div class="col-md-3"></div>
+
+          <!-- Boton Generar Tabla -->
+          <div class="col-md-2">
+            <button mat-raised-button (click)="spsAmortizaciones()" matTooltip="Generar Tabla" color="primary">Generar
+              Tabla
+            </button>
+          </div>
+
+          <div class="col-2">
+            <button mat-raised-button *ngIf="listaAmortizacion.length > 0" (click)="imprimirTabla()"
+              matTooltip="Imprimir Cotizaci&oacute;n" color="primary">Imprimir
+              Tabla
+            </button>
+          </div>
+
+          <!-- Boton Limpiar Tabla -->
+          <div class="col-2">
+            <button mat-raised-button (click)="limpiarDatos()" matTooltip="Limpiar Datos" color="primary">Limpiar
+              Tabla
+            </button>
+          </div>
+
+          <div class="col-md-3"></div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-12" *ngIf="listaAmortizacion.length > 0">
+    <div class="card card-body">
+
+      <!--Filtro-->
+      <div id="print-section" class="mat-elevation-z8 table-responsive">
+        <table aria-label="info" mat-table [dataSource]="dataSourceAmortizacion" matSort>
+          <!--- Note that these columns can be defined in any order.
+                           The actual rendered columns are set as a property on the row definition" -->
+          <!--  ejercicio Column -->
+
+          <ng-container matColumnDef="numamortizacion">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Num Amortizaci&oacute;n </th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">
+              {{amortizacion.numamortizacion}} </td>
+          </ng-container>
+
+          <!-- fechapago Column -->
+          <ng-container matColumnDef="fechapago">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Fecha Pago</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">{{amortizacion.fechapago}}</td>
+          </ng-container>
+
+          <!-- interes Column -->
+          <ng-container matColumnDef="interes">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Inter&eacute;s</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">{{amortizacion.interes.toFixed(2)}}</td>
+          </ng-container>
+
+          <!-- interes Column -->
+          <ng-container matColumnDef="importe">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Importe</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">{{amortizacion.importe|
+              currency:'MXN'}}</td>
+          </ng-container>
+
+          <!-- interes Column -->
+          <ng-container matColumnDef="interesnormal">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Inter&eacute;s Normal</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">{{amortizacion.interesnormal|
+              currency:'MXN'}}</td>
+          </ng-container>
+
+          <!-- iva Column -->
+          <ng-container matColumnDef="iva">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Iva</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">{{amortizacion.iva|
+              currency:'MXN'}}</td>
+          </ng-container>
+
+          <!-- saldo Column -->
+          <ng-container matColumnDef="saldo">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Saldo</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">{{amortizacion.saldo|
+              currency:'MXN'}}</td>
+          </ng-container>
+
+          <!-- pagototal Column -->
+          <ng-container matColumnDef="pagototal">
+            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef> Pago Total</th>
+            <td mat-cell style="padding: 16px;" *matCellDef="let amortizacion">{{amortizacion.pagototal|
+              currency:'MXN'}}</td>
+          </ng-container>
+
+          <!-- monto Column -->
+          <ng-container matColumnDef="monto">
+            <th scope="col" mat-header-cell *matHeaderCellDef> Monto</th>
+            <td mat-cell *matCellDef="let amortizacion">{{amortizacion.monto|
+              currency:'MXN'}}</td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+      </div>
+      <mat-paginator [pageSizeOptions]="[30]" showFirstLastButtons aria-label="Select page of users">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

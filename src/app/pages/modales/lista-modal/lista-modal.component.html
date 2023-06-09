@@ -1,0 +1,14 @@
+<h2 mat-dialog-title class="text-center">{{encabezado}} </h2>
+
+
+<mat-dialog-content class="mat-typography">
+    <mat-list class="col-12" role="list" *ngFor="let des of lista; let i = index;">
+        <mat-list-item role="listitem">
+            <strong>{{i+1}}.-</strong>&nbsp; &nbsp; &nbsp;{{des.mensaje}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button [mat-dialog-close]="0" color="primary" cdkFocusInitial>Aceptar</button> 
+</mat-dialog-actions>

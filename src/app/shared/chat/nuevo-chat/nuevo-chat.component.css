@@ -1,0 +1,87 @@
+.chat-header {
+    margin: 0;
+    padding: 1em;
+    background-color: #343A40;
+    border-radius: 1em 1em 0 0;
+}
+
+.chat-back,
+.chat-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.chat-back {
+    cursor: pointer;
+}
+
+/* Se cambia el cursor cuando pasa sobre una fila, para indicar que se puede dar click en ésta */
+.mat-mdc-row .mat-mdc-cell {
+    cursor: pointer;
+}
+
+/* Se cambia el fondo de la fila ligeramente cuando se pasa el cursor por encima,
+esto para indicar que se puede interactuar con la fila */
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: lightgray;
+}
+
+.row {
+    padding: 1em;
+}
+
+.tarjeta-chat {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.icono-chat .material-icons {
+    font-size: 3em;
+    margin-right: 0.5em;
+}
+
+.chat-content-individual {
+    max-height: 26em;
+    overflow: scroll;
+}
+
+.chat-content-grupal {
+    max-height: 17.1em;
+    overflow: scroll;
+}
+
+.chat-button:not(:disabled) {
+    background-color: #343A40;
+    color: white;
+}
+
+.chat-button:hover:not(:disabled) {
+    background-color: black;
+}
+
+.chat-button {
+    background-color: rgb(234, 234, 234);
+    width: 100%;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    border-radius: 0 0 0 1em;
+    padding: 1rem;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #343A40 !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #343A40;
+}

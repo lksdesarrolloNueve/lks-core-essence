@@ -1,0 +1,50 @@
+<h3 mat-dialog-title>{{encabezado | uppercase}}</h3>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formFinalidadCred">
+        <p></p>
+        <div class="row">
+            <!-- clave de la finalidad -->
+            <div class="col-md-6">
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>clave finalidad</mat-label>
+                        <input formControlName="clavefinalidad" matInput placeholder="Ejemplo: 001">
+                        <mat-icon matSuffix>description_outlined</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.clavefinalidad" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formFinalidadCred.get('clavefinalidad').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <!-- breve descripcion de la finalidad -->
+            <div class="col-md-6">
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Descripcion</mat-label>
+                        <input formControlName="descripcion" matInput placeholder="Ejemplo: Credito al consumo">
+                        <mat-icon matSuffix>description_outlined</mat-icon>
+                        <ng-template ngFor let-error [ngForOf]="validaciones.descripcion" ngProjectAs="mat-error">
+                            <mat-error *ngIf="formFinalidadCred.get('descripcion').hasError(error.type)">
+                                <strong> {{error.message}}</strong>
+                            </mat-error>
+                        </ng-template>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <mat-slide-toggle formControlName="estatus" color="primary">
+                    Estatus
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button *ngIf="accion === 1" (click)="guardarfinalidad()" mat-raised-button color="primary">Guardar</button>
+    <button *ngIf="accion === 2" (click)="Editarfinalidad()" mat-raised-button color="primary">Actualizar</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+</mat-dialog-actions>

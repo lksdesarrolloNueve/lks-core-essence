@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card card-body">
+            <h3 class="text-center">Lista de Servicios</h3>
+            <div class="row">
+                <!-- Botón para registrar nuevo PEP -->
+                <div class="col-md-2">
+                    <button mat-raised-button color="primary" (click)="abrirDialogoServicios(1,'')">Registrar
+                        Servicio</button>
+                </div>
+                <div class="col-md-10"></div>
+<div class="col-md-12"> 
+                <!-- FILTRO SERVICIOS -->
+                <mat-form-field class="full-width">
+                    <mat-label>Filtro de Servicios</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Servicio" #input>
+                </mat-form-field>
+
+                <!-- TABLA DE PRODCUTOS -->
+                <div class="mat-elevation-z8 table-responsive">
+                    <table mat-table aria-label="Tabla de Productos" [dataSource]="dataSourceProducto"
+                        #listasProducto="matSort" matSort>
+
+                        <!-- Columna Productos -->
+                        <ng-container matColumnDef="producto">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Servicio
+                            </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let servicios">{{servicios.producto}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna codigo  -->
+                        <ng-container matColumnDef="codigo">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                C&oacute;digo
+                            </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let servicios">{{servicios.codigo}}</td>
+                        </ng-container>
+
+                        <!-- Columna Comision  -->
+                        <ng-container matColumnDef="comision">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Comisi&oacute;n</th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let servicios">
+                                {{servicios.comision|currency :'MXN'}}</td>
+                        </ng-container>
+
+                        <!-- Columna Bonificación  -->
+                        <ng-container matColumnDef="bonificacion">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Bonificaci&oacute;n
+                            </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let servicios">
+                                {{servicios.bonificacion|currency : 'MXN'}}
+                            </td>
+                        </ng-container>
+
+                        <!-- DV  -->
+                        <ng-container matColumnDef="dv">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header> DV
+                            </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let servicios">
+                                <mat-slide-toggle [ngModel]="servicios.dv" (ngModelChange)="cambiaDV($event, servicios)"
+                                    color="primary">
+                                </mat-slide-toggle>
+                            </td>
+                        </ng-container>
+
+                        <!-- Estatus  -->
+                        <ng-container matColumnDef="estatus">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Estatus </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let servicios">
+                                <mat-slide-toggle [ngModel]="servicios.estatus"
+                                    (ngModelChange)="cambiaEstatus($event, servicios)" color="primary">
+                                </mat-slide-toggle>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna acciones Productos -->
+                        <ng-container matColumnDef="acciones">
+                            <th scope="col" style="padding: 16px;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Acciones </th>
+                            <td mat-cell style="padding: 16px;" *matCellDef="let servicios">
+
+                                <!-- Columna Botón Editar -->
+                                <button mat-mini-fab color="primary" (click)="abrirDialogoServicios(2,servicios)">
+                                    <mat-icon>mode_edit</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="columnsProduct"></tr>
+                        <tr mat-row *matRowDef="let row; columns: columnsProduct;"></tr>
+                    </table>
+                    <mat-paginator #PaginatorListaPeps [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
