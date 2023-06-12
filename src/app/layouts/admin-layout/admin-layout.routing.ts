@@ -204,9 +204,9 @@ import { SolicitudesOnboardingComponent } from '../../pages/onboarding/solicitud
 
 export const AdminLayoutRoutes: Routes = [
   { path: 'sol-onboarding', component: SolicitudesOnboardingComponent, canActivate: [AuthGuard] },
-  { path: 'be-alta-cliente', component: AltaClienteComponent, canActivate: [AuthGuard] },
-  { path: 'be-baja-cliente', component: BajaClienteComponent, canActivate: [AuthGuard] },
-  { path: 'filtro-cliente-be', component: FiltroBEComponent, canActivate: [AuthGuard] },
+  { path: 'be-alta-cliente', component: AltaClienteComponent, canActivate: [AuthGuard]},
+  { path: 'be-baja-cliente', component: BajaClienteComponent},
+  { path: 'filtro-cliente-be', component: FiltroBEComponent },
   { path: 'be-clientes', component: ClienteBEComponent, canActivate: [AuthGuard] },
   { path: 'saldo-servicios', component: SaldoServiciosComponent, canActivate: [AuthGuard] },
   { path: 'saldo-tae', component: SaldoTaeComponent, canActivate: [AuthGuard] },
