@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-
 //Rutas para CATALOGOS
 import { SucursalesComponent } from '../../pages/configuracion/sucursales/sucursales.component';
 import { TipoSociosComponent } from '../../pages/configuracion/tipos-socios/tipos-socios.component';
@@ -75,15 +74,13 @@ import { EstablecimientoMTCenterComponent } from '../../pages/configuracion/esta
 import { RecargasMTCenterComponent } from '../../pages/mtcenter/bitacora-recargas/recargas.component';
 import { ServiciosMTCenterComponent } from '../../pages/mtcenter/bitacora-servicios/servicios.component';
 
-
-
 //RUTAS PARA CLIENTES
 import { DomiciliosComponent } from '../../pages/clientes/domicilios/domicilios.component';
 import { ClientesAComponent } from '../../pages/clientes/administracion-clientes/clientes.component';
 import { SujetosComponent } from '../../pages/clientes/administracion-sujetos/sujetos.component';
 import { AvisosClientesComponent } from '../../pages/clientes/notificaciones/notificaciones-clientes/avisos-clientes/avisos-clientes.component';
 import { NotGloClientesComponent } from '../../pages/clientes/notificaciones/notificaciones-globales/noti-globales-cli.component';
-import { BloqueoClientesComponent } from '../../pages/clientes/notificaciones/not-bloqueo-clientes/bloqueo-clientes.component'
+import { BloqueoClientesComponent } from '../../pages/clientes/notificaciones/not-bloqueo-clientes/bloqueo-clientes.component';
 import { GruposComponent } from '../../pages/clientes/grupos/grupos.component';
 import { EmpresaComponent } from '../../pages/clientes/empresa/empresa.component';
 import { ClientesMComponent } from '../../pages/clientes/administracion-clientes/clientes-morales.component';
@@ -93,15 +90,12 @@ import { BloqueoClienteComponent } from '../../pages/clientes/bloqueos-cliente/b
 import { SolicitudActualizacionComponent } from '../../pages/clientes/solicitudes/solicitud-actualizacion.component';
 import { ClabesClienteComponent } from '../../pages/clientes/clabes-cliente/clabes-cliente.component';
 
-
-
 //RUTAS PARA CRÉDITOS
 import { AdminCreditosComponent } from '../../pages/creditos/admin-creditos/admin-creditos.component';
 import { ComiteComponent } from '../../pages/configuracion/comite-credito/comite.component';
 import { GestionSolicitudesCredComponent } from '../../pages/creditos/solicitudes/solicitudes.component';
 import { SolicitudesAprobadas } from '../../pages/creditos/solicitudes/solicitudes-aprobadas/solicitudes-aprobadas.component';
 import { AdminCreditosGrupalesComponent } from '../../pages/creditos/admin-grupales/admin-grupales.component';
-
 
 //RUTAS PARA CONTABILIDAD
 import { PolizasComponent } from '../../pages/contabilidad/polizas/polizas.component';
@@ -110,7 +104,7 @@ import { DevInversionesComponent } from '../../pages/contabilidad/cierre-mensual
 import { DevAhorroComponent } from '../../pages/contabilidad/cierre-mensual/dev-ahorro/dev-ahorro.component';
 import { CierreDiaComponent } from '../../pages/contabilidad/cierre-diario/cierre-dia/cierre-dia.component';
 import { MayorGeneralComponent } from '../../pages/contabilidad/reportes/financieros/mayor-general/mayor-general.component';
-import { CapitalNetoComponent } from '../../pages/contabilidad/cierre-mensual/capital-neto/capital-neto.component'
+import { CapitalNetoComponent } from '../../pages/contabilidad/cierre-mensual/capital-neto/capital-neto.component';
 import { BalanceComponent } from '../../pages/contabilidad/reportes/prudenciales/balance/balance.component';
 import { EstadoResultadosComponent } from '../../pages/contabilidad/reportes/prudenciales/estados-resultados/estadosResultados.component';
 import { OrigenAplicacionComponent } from '../../pages/contabilidad/reportes/prudenciales/origen-aplicacion/origen-aplicacion.component';
@@ -129,8 +123,6 @@ import { ActivoBajaComponent } from '../../pages/contabilidad/activos/baja/activ
 import { CuentasBajasComponent } from '../../pages/configuracion/tipo-activos/cuenta-bajas/cuenta-bajas.component';
 import { ReporteActivosComponent } from '../../pages/contabilidad/activos/reportes/reporte-activos.component';
 
-
-
 //RUTAS PARA TESORERIA
 import { MovimientosBancariosComponent } from '../../pages/tesoreria/movimientos-bancarios/movimientos-bancarios.component';
 import { ConciliacionBancariaComponent } from '../../pages/tesoreria/conciliacion-bancaria/conciliacion-bancaria.component';
@@ -142,7 +134,6 @@ import { CajasSucursalComponent } from '../../pages/cajas/cajas-sucursal/cajas-s
 import { CortesCajaComponent } from '../../pages/cajas/cortes-caja/cortes-caja.component';
 import { PuntoDeVentaComponent } from '../../pages/cajas/punto-de-venta/punto-de-venta.component';
 import { FondoCajasComponent } from '../../pages/cajas/fondo-cajas/fondo-cajas.component';
-
 
 //RUTAS para Inversiones
 import { InversionComponent } from '../../pages/inversiones/inversion/inversion.component';
@@ -169,12 +160,10 @@ import { PersonasRelacionadasComponent } from '../../pages/riesgos/personas-rela
 import { RiesgoMercadoComponent } from '../../pages/riesgos/riesgo-mercado/riesgo-mercado.component';
 import { RiesgoLiquidezComponent } from '../../pages/riesgos/riesgo-liquidez/riesgo-liquidez.component';
 
-
 //Rutas para Cobranza
 //Componentes para cobranza
 import { HistorialCrediticioComponent } from '../../pages/cobranza/historial-crediticio/historial-crediticio.component';
 import { AdminConveniosComponent } from '../../pages/cobranza/administracion-convenios/admin-convenios.component';
-
 
 import { AdministracionAvisosMoratorioComponent } from '../../pages/cobranza/administracion-avisos/administracion-avisos-moratorio.component';
 import { ExtraclimoCitaroriosComponent } from '../../pages/cobranza/historial-crediticio/extrajudicial/extra-climo-citatorios.component';
@@ -193,7 +182,7 @@ import { SpeiInComponent } from '../../pages/spei/spei-in/spei-in.component';
 import { SaldoServiciosComponent } from '../../pages/mtcenter/saldos/saldo-servicios/saldo-servicios.component';
 import { SaldoTaeComponent } from '../../pages/mtcenter/saldos/saldo-tae/saldo-tae.component';
 
-//BANCA 
+//BANCA
 import { FiltroBEComponent } from '../../pages/servicio-be/filtro-cliente-be/filtro-cliente-be.component';
 import { BajaClienteComponent } from '../../pages/servicio-be/baja-cliente/baja-cliente.component';
 import { AltaClienteComponent } from '../../pages/servicio-be/alta-cliente/alta-cliente.component';
@@ -203,120 +192,428 @@ import { ClienteBEComponent } from '../../pages/servicio-be/cliente-be/cliente-b
 import { SolicitudesOnboardingComponent } from '../../pages/onboarding/solicitudes/solicitudes.component';
 
 export const AdminLayoutRoutes: Routes = [
-  { path: 'sol-onboarding', component: SolicitudesOnboardingComponent, canActivate: [AuthGuard] },
-  { path: 'be-alta-cliente', component: AltaClienteComponent, canActivate: [AuthGuard]},
-  { path: 'be-baja-cliente', component: BajaClienteComponent},
+  {
+    path: 'sol-onboarding',
+    component: SolicitudesOnboardingComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'be-alta-cliente',
+    component: AltaClienteComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'be-baja-cliente', component: BajaClienteComponent },
   { path: 'filtro-cliente-be', component: FiltroBEComponent },
-  { path: 'be-clientes', component: ClienteBEComponent, canActivate: [AuthGuard] },
-  { path: 'saldo-servicios', component: SaldoServiciosComponent, canActivate: [AuthGuard] },
+  {
+    path: 'be-clientes',
+    component: ClienteBEComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'saldo-servicios',
+    component: SaldoServiciosComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'saldo-tae', component: SaldoTaeComponent, canActivate: [AuthGuard] },
-  { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
-  { path: 'tiposocio', component: TipoSociosComponent, canActivate: [AuthGuard] },
-  { path: 'nacionalidades', component: NacionalidadesComponent, canActivate: [AuthGuard] },
-  { path: 'calidadextranjero', component: CalidadExtranjeroComponent, canActivate: [AuthGuard] },
-  { path: 'actividadesPLD', component: ActividadesPLDComponent, canActivate: [AuthGuard] },
+  {
+    path: 'sucursales',
+    component: SucursalesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tiposocio',
+    component: TipoSociosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'nacionalidades',
+    component: NacionalidadesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'calidadextranjero',
+    component: CalidadExtranjeroComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'actividadesPLD',
+    component: ActividadesPLDComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'bancosat', component: BancosSatComponent, canActivate: [AuthGuard] },
-  { path: 'clasificacionCred', component: ClasificacionCredComponent, canActivate: [AuthGuard] },
-  { path: 'finalidadcred', component: FinalidadCreditoComponent, canActivate: [AuthGuard] },
-  { path: 'monedassat', component: MonedasSATComponent, canActivate: [AuthGuard] },
-  { path: 'garantias', component: GarantiasComponent, canActivate: [AuthGuard] },
-  { path: 'estadoCred', component: EstadoCredComponent, canActivate: [AuthGuard] },
-  { path: 'categorias', component: CategoriaGeneralesComponent, canActivate: [AuthGuard] },
-  { path: 'monedassat', component: MonedasSATComponent, canActivate: [AuthGuard] },
-  { path: 'garantias', component: GarantiasComponent, canActivate: [AuthGuard] },
-  { path: 'estadoCred', component: EstadoCredComponent, canActivate: [AuthGuard] },
+  {
+    path: 'clasificacionCred',
+    component: ClasificacionCredComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'finalidadcred',
+    component: FinalidadCreditoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'monedassat',
+    component: MonedasSATComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'garantias',
+    component: GarantiasComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'estadoCred',
+    component: EstadoCredComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'categorias',
+    component: CategoriaGeneralesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'monedassat',
+    component: MonedasSATComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'garantias',
+    component: GarantiasComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'estadoCred',
+    component: EstadoCredComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'udis', component: UdisComponent, canActivate: [AuthGuard] },
-  { path: 'tipoAmort', component: TipoAmortizacionComponent, canActivate: [AuthGuard] },
-  { path: 'servidores', component: ServidoresComponent, canActivate: [AuthGuard] },
-  { path: 'diasinhabiles', component: DiaInhabilComponent, canActivate: [AuthGuard] },
-  { path: "localidades", component: LocalidadesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'tipoAmort',
+    component: TipoAmortizacionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'servidores',
+    component: ServidoresComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diasinhabiles',
+    component: DiaInhabilComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'localidades',
+    component: LocalidadesComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'ciudades', component: CiudadesComponent, canActivate: [AuthGuard] },
   { path: 'estados', component: EstadosComponent, canActivate: [AuthGuard] },
-  { path: 'diasinhabiles', component: DiaInhabilComponent, canActivate: [AuthGuard] },
-  { path: 'actividadesVul', component: ActividadesVulnerablesComponent, canActivate: [AuthGuard] },
-  { path: 'cuentas-contables', component: CuentasContablesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'diasinhabiles',
+    component: DiaInhabilComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'actividadesVul',
+    component: ActividadesVulnerablesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cuentas-contables',
+    component: CuentasContablesComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'colonias', component: ColoniaComponent, canActivate: [AuthGuard] },
-  { path: 'actividades-scian', component: ActividadesSCIANComponent, canActivate: [AuthGuard] },
-  { path: 'actividades-sinco', component: ActividadesSincoComponent, canActivate: [AuthGuard] },
-  { path: 'formas-pagos', component: FormasPagoComponent, canActivate: [AuthGuard] },
-  { path: 'bancositi', component: BancosSitiComponent, canActivate: [AuthGuard] },
-  { path: 'cuentas-bancarias', component: CuentaBancariaComponent, canActivate: [AuthGuard] },
-  { path: 'bancositi', component: BancosSitiComponent, canActivate: [AuthGuard] },
-  { path: 'inversiones', component: InversionesComponent, canActivate: [AuthGuard] },
-  { path: 'bancositi', component: BancosSitiComponent, canActivate: [AuthGuard] },
+  {
+    path: 'actividades-scian',
+    component: ActividadesSCIANComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'actividades-sinco',
+    component: ActividadesSincoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'formas-pagos',
+    component: FormasPagoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bancositi',
+    component: BancosSitiComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cuentas-bancarias',
+    component: CuentaBancariaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bancositi',
+    component: BancosSitiComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'inversiones',
+    component: InversionesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bancositi',
+    component: BancosSitiComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'avisos', component: AvisosComponent, canActivate: [AuthGuard] },
   { path: 'inpc', component: InpcComponent, canActivate: [AuthGuard] },
   { path: 'bovedas', component: BovedaComponent, canActivate: [AuthGuard] },
   { path: 'isr', component: IsrComponent, canActivate: [AuthGuard] },
   { path: 'cajas', component: CajasComponent, canActivate: [AuthGuard] },
-  { path: 'tipo-plazo', component: TipoPlazoComponent, canActivate: [AuthGuard] },
-  { path: 'movimientos-caja', component: MovimientosCajaComponent, canActivate: [AuthGuard] },
-  { path: 'domicilios', component: DomiciliosComponent, canActivate: [AuthGuard] },
-  { path: 'tipo-documento', component: TipoDocumentoComponent, canActivate: [AuthGuard] },
+  {
+    path: 'tipo-plazo',
+    component: TipoPlazoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'movimientos-caja',
+    component: MovimientosCajaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'domicilios',
+    component: DomiciliosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tipo-documento',
+    component: TipoDocumentoComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'menus', component: MenusComponent, canActivate: [AuthGuard] },
-  { path: 'permisos', component: AltaPermisosComponent, canActivate: [AuthGuard] },
-  { path: 'rango-inversiones', component: RangoInversionesComponent, canActivate: [AuthGuard] },
-  { path: 'asigna-documento', component: AsignaDocumentoComponent, canActivate: [AuthGuard] },
-  { path: 'documento-codificado', component: DocumentoCodificadoComponent, canActivate: [AuthGuard] },
-  { path: 'catalogo-creditos', component: CreditosComponent, canActivate: [AuthGuard] },
-  { path: 'clientesA', component: ClientesAComponent, canActivate: [AuthGuard] },
-  { path: 'clientesM', component: ClientesMComponent, canActivate: [AuthGuard] },
-  { path: 'depreciaciones', component: DepreciacionesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'permisos',
+    component: AltaPermisosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'rango-inversiones',
+    component: RangoInversionesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'asigna-documento',
+    component: AsignaDocumentoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'documento-codificado',
+    component: DocumentoCodificadoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'catalogo-creditos',
+    component: CreditosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'clientesA',
+    component: ClientesAComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'clientesM',
+    component: ClientesMComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'depreciaciones',
+    component: DepreciacionesComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'sujetos', component: SujetosComponent, canActivate: [AuthGuard] },
-  { path: 'proveedores', component: ProveedorComponent, canActivate: [AuthGuard] },
-  { path: 'calificacion-cartera', component: CalificacionCarteraComponent, canActivate: [AuthGuard] },
-  { path: 'proveedores', component: ProveedorComponent, canActivate: [AuthGuard] },
-  { path: 'calificacion-cartera', component: CalificacionCarteraComponent, canActivate: [AuthGuard] },
-  { path: 'avisos-clientes', component: AvisosClientesComponent, canActivate: [AuthGuard] },
-  { path: 'noti-globales', component: NotGloClientesComponent, canActivate: [AuthGuard] },
-  { path: 'bloqueo-cliente', component: BloqueoClientesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'proveedores',
+    component: ProveedorComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'calificacion-cartera',
+    component: CalificacionCarteraComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'proveedores',
+    component: ProveedorComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'calificacion-cartera',
+    component: CalificacionCarteraComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'avisos-clientes',
+    component: AvisosClientesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'noti-globales',
+    component: NotGloClientesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bloqueo-cliente',
+    component: BloqueoClientesComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'grupos', component: GruposComponent, canActivate: [AuthGuard] },
-  { path: 'proveedores', component: ProveedorComponent, canActivate: [AuthGuard] },
-  { path: 'calificacion-cartera', component: CalificacionCarteraComponent, canActivate: [AuthGuard] },
-  { path: 'cuentas-cont-anexo24', component: CuentasContablesAnexo24Component, canActivate: [AuthGuard] },
+  {
+    path: 'proveedores',
+    component: ProveedorComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'calificacion-cartera',
+    component: CalificacionCarteraComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cuentas-cont-anexo24',
+    component: CuentasContablesAnexo24Component,
+    canActivate: [AuthGuard],
+  },
   { path: 'indiceshh', component: IndicehhComponent },
   { path: 'calificacion-cartera', component: CalificacionCarteraComponent },
   { path: 'cargos', component: CargosComponent },
   { path: 'polizas', component: PolizasComponent },
 
-  { path: 'calificacion-cartera', component: CalificacionCarteraComponent, canActivate: [AuthGuard] },
+  {
+    path: 'calificacion-cartera',
+    component: CalificacionCarteraComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'cargos', component: CargosComponent, canActivate: [AuthGuard] },
-  { path: 'creditorelacionado', component: CreditoRelacionadoComponent, canActivate: [AuthGuard] },
-  { path: 'conciliacionbancaria', component: ConciliacionBancariaComponent, canActivate: [AuthGuard] },
-  { path: 'admin-creditos', component: AdminCreditosComponent, canActivate: [AuthGuard] },
-  { path: 'admin-usuarios', component: AdminUsuariosComponent, canActivate: [AuthGuard] },
-  { path: 'entidades', component: EntidadesComponent, canActivate: [AuthGuard] },
-  { path: 'admin-bancarias', component: MovimientosBancariosComponent, canActivate: [AuthGuard] },
-  { path: 'direc-funcionarios', component: DirecFuncionariosComponent, canActivate: [AuthGuard] },
-  { path: 'direct-func-fam', component: DirecFuncFamiliaresComponent, canActivate: [AuthGuard] },
-  { path: 'admin-bancarias', component: MovimientosBancariosComponent, canActivate: [AuthGuard] },
+  {
+    path: 'creditorelacionado',
+    component: CreditoRelacionadoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'conciliacionbancaria',
+    component: ConciliacionBancariaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-creditos',
+    component: AdminCreditosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-usuarios',
+    component: AdminUsuariosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'entidades',
+    component: EntidadesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-bancarias',
+    component: MovimientosBancariosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'direc-funcionarios',
+    component: DirecFuncionariosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'direct-func-fam',
+    component: DirecFuncFamiliaresComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-bancarias',
+    component: MovimientosBancariosComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'empresa', component: EmpresaComponent, canActivate: [AuthGuard] },
-  { path: 'admin-bancarias', component: MovimientosBancariosComponent, canActivate: [AuthGuard] },
-  { path: 'periodo', component: CierrePeriodoComponent, canActivate: [AuthGuard] },
-  { path: 'estatus-clientes', component: EstatusCliComponent, canActivate: [AuthGuard] },
-  { path: 'monitor-cuentas', component: MonitorCuentasComponent, canActivate: [AuthGuard] },
-  { path: 'tres-sesenta-fisicos', component: TresSesentaFisicosComponent, canActivate: [AuthGuard] },
-  { path: 'tipo-fondos', component: TipoFondosComponent, canActivate: [AuthGuard] },
+  {
+    path: 'admin-bancarias',
+    component: MovimientosBancariosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'periodo',
+    component: CierrePeriodoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'estatus-clientes',
+    component: EstatusCliComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'monitor-cuentas',
+    component: MonitorCuentasComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tres-sesenta-fisicos',
+    component: TresSesentaFisicosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tipo-fondos',
+    component: TipoFondosComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: 'caja-movimientos', component: CajaMovimientosComponent },
-  { path: 'cajas-sucursal', component: CajasSucursalComponent, canActivate: [AuthGuard] },
-  { path: 'cortes-cajas', component: CortesCajaComponent, canActivate: [AuthGuard] },
-  { path: 'puntoVenta', component: PuntoDeVentaComponent, canActivate: [AuthGuard] },
-  { path: 'fondo-caja', component: FondoCajasComponent, canActivate: [AuthGuard] },
-
-
-
+  {
+    path: 'cajas-sucursal',
+    component: CajasSucursalComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cortes-cajas',
+    component: CortesCajaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'puntoVenta',
+    component: PuntoDeVentaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fondo-caja',
+    component: FondoCajasComponent,
+    canActivate: [AuthGuard],
+  },
 
   //{ path: 'tres-sesenta-fisicos', component: TresSesentaFisicosComponent , canActivate: [AuthGuard]},
-  { path: 'tipo-fondos', component: TipoFondosComponent, canActivate: [AuthGuard] },
+  {
+    path: 'tipo-fondos',
+    component: TipoFondosComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'comite', component: ComiteComponent, canActivate: [AuthGuard] },
   { path: 'correos', component: CorreoComponent, canActivate: [AuthGuard] },
   { path: 'sms', component: SMSComponent, canActivate: [AuthGuard] },
 
-
   { path: 'comite', component: ComiteComponent, canActivate: [AuthGuard] },
-  { path: 'amortizacion', component: AmortizacionComponent, canActivate: [AuthGuard] },
-  { path: 'solicitudes', component: GestionSolicitudesCredComponent, canActivate: [AuthGuard] },
+  {
+    path: 'amortizacion',
+    component: AmortizacionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'solicitudes',
+    component: GestionSolicitudesCredComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'correos', component: CorreoComponent, canActivate: [AuthGuard] },
   { path: 'sms', component: SMSComponent, canActivate: [AuthGuard] },
   { path: 'valor-uma', component: UmaComponent, canActivate: [AuthGuard] },
@@ -324,102 +621,390 @@ export const AdminLayoutRoutes: Routes = [
 
   { path: 'galeria', component: LogoComponent, canActivate: [AuthGuard] },
 
-  { path: 'inversion', component: InversionComponent, canActivate: [AuthGuard] },
-  { path: 'cot-inversion', component: CotizadorInversionComponent, canActivate: [AuthGuard] },
+  {
+    path: 'inversion',
+    component: InversionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cot-inversion',
+    component: CotizadorInversionComponent,
+    canActivate: [AuthGuard],
+  },
 
+  {
+    path: 'histor-movimientos',
+    component: HistoricoMovComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'matriz-riesgos',
+    component: MatrizRiesgosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'riesgos-cliente',
+    component: RiesgosClienteComponent,
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'histor-movimientos', component: HistoricoMovComponent, canActivate: [AuthGuard] },
-  { path: 'matriz-riesgos', component: MatrizRiesgosComponent, canActivate: [AuthGuard] },
-  { path: 'riesgos-cliente', component: RiesgosClienteComponent, canActivate: [AuthGuard] },
-
-
-  { path: 'bloqueo-clientes', component: BloqueoClienteComponent, canActivate: [AuthGuard] },
-  { path: 'op-relevante', component: OpRelevanteComponent, canActivate: [AuthGuard] },
-  { path: 'reporte-pld', component: ReportePldComponent, canActivate: [AuthGuard] },
-  { path: 'opint-preocupante', component: OpintPreocupante, canActivate: [AuthGuard] },
+  {
+    path: 'bloqueo-clientes',
+    component: BloqueoClienteComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'op-relevante',
+    component: OpRelevanteComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'reporte-pld',
+    component: ReportePldComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'opint-preocupante',
+    component: OpintPreocupante,
+    canActivate: [AuthGuard],
+  },
   { path: 'pep', component: PepComponent, canActivate: [AuthGuard] },
-  { path: 'admin-peps', component: AdminPepsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'admin-peps',
+    component: AdminPepsComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'pba', component: PbaComponent, canActivate: [AuthGuard] },
-  { path: 'op-inusual', component: OpinusualComponent, canActivate: [AuthGuard] },
+  {
+    path: 'op-inusual',
+    component: OpinusualComponent,
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'op-relevante', component: OpRelevanteComponent, canActivate: [AuthGuard] },
+  {
+    path: 'op-relevante',
+    component: OpRelevanteComponent,
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'riesgo-comun', component: RiesgoComunComponent, canActivate: [AuthGuard] },
-  { path: 'riesgo-credito', component: RiesgoCreditoComponent, canActivate: [AuthGuard] },
-  { path: 'op-relevante', component: OpRelevanteComponent, canActivate: [AuthGuard] },
-  { path: 'reporte-pld', component: ReportePldComponent, canActivate: [AuthGuard] },
-  { path: 'opint-preocupante', component: OpintPreocupante, canActivate: [AuthGuard] },
+  {
+    path: 'riesgo-comun',
+    component: RiesgoComunComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'riesgo-credito',
+    component: RiesgoCreditoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'op-relevante',
+    component: OpRelevanteComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'reporte-pld',
+    component: ReportePldComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'opint-preocupante',
+    component: OpintPreocupante,
+    canActivate: [AuthGuard],
+  },
   { path: 'pep', component: PepComponent, canActivate: [AuthGuard] },
-  { path: 'admin-peps', component: AdminPepsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'admin-peps',
+    component: AdminPepsComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'pba', component: PbaComponent, canActivate: [AuthGuard] },
-  { path: 'op-inusual', component: OpinusualComponent, canActivate: [AuthGuard] },
-  { path: 'sol-actualizacion', component: SolicitudActualizacionComponent, canActivate: [AuthGuard] },
-  { path: 'op-relevante', component: OpRelevanteComponent, canActivate: [AuthGuard] },
+  {
+    path: 'op-inusual',
+    component: OpinusualComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'sol-actualizacion',
+    component: SolicitudActualizacionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'op-relevante',
+    component: OpRelevanteComponent,
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'riesgo-comun', component: RiesgoComunComponent, canActivate: [AuthGuard] },
-  { path: 'personas-relacion', component: PersonasRelacionadasComponent, canActivate: [AuthGuard] },
+  {
+    path: 'riesgo-comun',
+    component: RiesgoComunComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'personas-relacion',
+    component: PersonasRelacionadasComponent,
+    canActivate: [AuthGuard],
+  },
 
+  {
+    path: 'cobranza',
+    component: HistorialCrediticioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-convenios',
+    component: AdminConveniosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cla-cartera',
+    component: ClaCarteraComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'hist-cob',
+    component: HistorialCobranzaComponet,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'avisos-moratorio',
+    component: AdministracionAvisosMoratorioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'citatorios',
+    component: ExtraclimoCitaroriosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cla-cartera',
+    component: ClaCarteraComponent,
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'cobranza', component: HistorialCrediticioComponent, canActivate: [AuthGuard] },
-  { path: 'admin-convenios', component: AdminConveniosComponent, canActivate: [AuthGuard] },
-  { path: 'cla-cartera', component: ClaCarteraComponent, canActivate: [AuthGuard] },
-  { path: 'hist-cob', component: HistorialCobranzaComponet, canActivate: [AuthGuard] },
-  { path: 'avisos-moratorio', component: AdministracionAvisosMoratorioComponent, canActivate: [AuthGuard] },
-  { path: 'citatorios', component: ExtraclimoCitaroriosComponent, canActivate: [AuthGuard] },
-  { path: 'cla-cartera', component: ClaCarteraComponent, canActivate: [AuthGuard] },
-
-  { path: 'cla-cartera', component: ClaCarteraComponent, canActivate: [AuthGuard] },
-  { path: 'mov-poliza', component: MovimientoPolizasComponent, canActivate: [AuthGuard] },
-  { path: 'dev-inversion', component: DevInversionesComponent, canActivate: [AuthGuard] },
-  { path: 'dev-ahorro', component: DevAhorroComponent, canActivate: [AuthGuard] },
-  { path: 'mayor-general', component: MayorGeneralComponent, canActivate: [AuthGuard] },
-  { path: 'capital-neto', component: CapitalNetoComponent, canActivate: [AuthGuard] },
-  { path: 'cierre-dia', component: CierreDiaComponent, canActivate: [AuthGuard] },
-  { path: 'mayor-general', component: MayorGeneralComponent, canActivate: [AuthGuard] },
+  {
+    path: 'cla-cartera',
+    component: ClaCarteraComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mov-poliza',
+    component: MovimientoPolizasComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'dev-inversion',
+    component: DevInversionesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'dev-ahorro',
+    component: DevAhorroComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mayor-general',
+    component: MayorGeneralComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'capital-neto',
+    component: CapitalNetoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cierre-dia',
+    component: CierreDiaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mayor-general',
+    component: MayorGeneralComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'balance', component: BalanceComponent, canActivate: [AuthGuard] },
-  { path: 'estados-resultados', component: EstadoResultadosComponent, canActivate: [AuthGuard] },
-  { path: 'origen-aplicacion', component: OrigenAplicacionComponent, canActivate: [AuthGuard] },
+  {
+    path: 'estados-resultados',
+    component: EstadoResultadosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'origen-aplicacion',
+    component: OrigenAplicacionComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'balanza', component: BalanzaComponent, canActivate: [AuthGuard] },
-  { path: 'origen-aplicacion', component: OrigenAplicacionComponent, canActivate: [AuthGuard] },
-  { path: 'cuenta-contable-xml', component: CuentaContableXmlComponent, canActivate: [AuthGuard] },
-  { path: 'cambio-capital', component: CambioCapitalComponent, canActivate: [AuthGuard] },
-  { path: 'polizas-auxiliares', component: PolizasAuxiliaresSatComponent, canActivate: [AuthGuard] },
-  { path: 'report-razones-fin', component: ReportrazonesFinComponent, canActivate: [AuthGuard] },
-  { path: 'dev-creditos', component: DevCreditosComponent, canActivate: [AuthGuard] },
-  { path: 'com-cartera', component: ArchivoCarteraComponent, canActivate: [AuthGuard] },
-  { path: 'admin-grupales', component: AdminCreditosGrupalesComponent, canActivate: [AuthGuard] },
-  { path: 'precierre', component: PrecierreComponent, canActivate: [AuthGuard] },
-  { path: 'fondeo-ban', component: FondeoBancarioComponent, canActivate: [AuthGuard] },
-  { path: 'volatilidad', component: VolatilidadComponent, canActivate: [AuthGuard] },
-  { path: 'fraccion-param', component: FraccionParamComponent, canActivate: [AuthGuard] },
+  {
+    path: 'origen-aplicacion',
+    component: OrigenAplicacionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cuenta-contable-xml',
+    component: CuentaContableXmlComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cambio-capital',
+    component: CambioCapitalComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'polizas-auxiliares',
+    component: PolizasAuxiliaresSatComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'report-razones-fin',
+    component: ReportrazonesFinComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'dev-creditos',
+    component: DevCreditosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'com-cartera',
+    component: ArchivoCarteraComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-grupales',
+    component: AdminCreditosGrupalesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'precierre',
+    component: PrecierreComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fondeo-ban',
+    component: FondeoBancarioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'volatilidad',
+    component: VolatilidadComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'fraccion-param',
+    component: FraccionParamComponent,
+    canActivate: [AuthGuard],
+  },
 
-
-  { path: 'servicios', component: ProdcutosServiciosComponent, canActivate: [AuthGuard] },
-  { path: 'admin-productos', component: AdminProductoServicioComponent, canActivate: [AuthGuard] },
-  { path: 'tae', component: RecargaTelefonicaComponent, canActivate: [AuthGuard] },
-  { path: 'admin-recarga', component: AdminRecargaTelefonicaComponent, canActivate: [AuthGuard] },
-  { path: 'rsgmercado', component: RiesgoMercadoComponent, canActivate: [AuthGuard] },
-  { path: 'repor_liqui', component: RiesgoLiquidezComponent, canActivate: [AuthGuard] },
+  {
+    path: 'servicios',
+    component: ProdcutosServiciosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-productos',
+    component: AdminProductoServicioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tae',
+    component: RecargaTelefonicaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-recarga',
+    component: AdminRecargaTelefonicaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'rsgmercado',
+    component: RiesgoMercadoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'repor_liqui',
+    component: RiesgoLiquidezComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: 'gastos', component: GastosComponent, canActivate: [AuthGuard] },
   { path: 'nominas', component: NominaComponent, canActivate: [AuthGuard] },
-  { path: 'disp-nomina', component: DispersionNominaComponent, canActivate: [AuthGuard] },
-  { path: 'archivo-nomina', component: ArchivoComponent, canActivate: [AuthGuard] },
-  { path: 'clabes-cliente', component: ClabesClienteComponent, canActivate: [AuthGuard] },
+  {
+    path: 'disp-nomina',
+    component: DispersionNominaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'archivo-nomina',
+    component: ArchivoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'clabes-cliente',
+    component: ClabesClienteComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: 'spei-out', component: SpeiOutComponent, canActivate: [AuthGuard] },
   { path: 'spei-in', component: SpeiInComponent, canActivate: [AuthGuard] },
 
-  { path: 'tipo-activo', component: TipoActivosComponent, canActivate: [AuthGuard] },
-  { path: 'tipo-baja', component: TipoBajasComponent, canActivate: [AuthGuard] },
-  { path: 'parametros', component: ParametrosComponent, canActivate: [AuthGuard] },
-  { path: 'actdepreciable', component: ActivoDepreciableComponent, canActivate: [AuthGuard] },
-  { path: 'actnodepreciable', component: ActivoNoDepreciableComponent, canActivate: [AuthGuard] },
-  { path: 'detalleActivo', component: DetalleActivoComponent, canActivate: [AuthGuard] },
-  { path: 'bajaActivo', component: ActivoBajaComponent, canActivate: [AuthGuard] },
-  { path: 'cuentaBaja', component: CuentasBajasComponent, canActivate: [AuthGuard] },
-  { path: 'reporteActivo', component: ReporteActivosComponent, canActivate: [AuthGuard] },
-  { path: 'sucMTCenter', component: EstablecimientoMTCenterComponent, canActivate: [AuthGuard] },
-  { path: 'serMTCenter', component: ServiciosMTCenterComponent, canActivate: [AuthGuard] },
-  { path: 'recMTCenter', component: RecargasMTCenterComponent, canActivate: [AuthGuard] },
+  {
+    path: 'tipo-activo',
+    component: TipoActivosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tipo-baja',
+    component: TipoBajasComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'parametros',
+    component: ParametrosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'actdepreciable',
+    component: ActivoDepreciableComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'actnodepreciable',
+    component: ActivoNoDepreciableComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'detalleActivo',
+    component: DetalleActivoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bajaActivo',
+    component: ActivoBajaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cuentaBaja',
+    component: CuentasBajasComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'reporteActivo',
+    component: ReporteActivosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'sucMTCenter',
+    component: EstablecimientoMTCenterComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'serMTCenter',
+    component: ServiciosMTCenterComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'recMTCenter',
+    component: RecargasMTCenterComponent,
+    canActivate: [AuthGuard],
+  },
 ];

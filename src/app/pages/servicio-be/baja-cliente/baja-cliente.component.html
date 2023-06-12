@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="justify-content: center">
   <!-- Título de alta usuarios -->
   <div class="col-md-8">
     <div class="card card-body">
@@ -52,7 +52,10 @@
         <div class="col-md-12">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Estatus .</mat-label>
-            <mat-select [(ngModel)]="cveEstatusCliente" formControlName="estatus">
+            <mat-select
+              [(ngModel)]="cveEstatusCliente"
+              formControlName="estatus"
+            >
               <mat-option
                 *ngFor="let status of listaStatusBe"
                 [value]="status.cve_generales"
@@ -91,9 +94,7 @@
             [ngForOf]="validaciones.comentarios"
             ngProjectAs="mat-error"
           >
-            <mat-error
-              *ngIf="myForm.get('comentarios').hasError(error.type)"
-            >
+            <mat-error *ngIf="myForm.get('comentarios').hasError(error.type)">
               <strong> {{ error.message }}</strong>
             </mat-error>
           </ng-template>
@@ -111,17 +112,15 @@
             <mat-icon matSuffix>email</mat-icon>
           </mat-form-field>
           <ng-template
-              ngFor
-              let-error
-              [ngForOf]="validaciones.correo"
-              ngProjectAs="mat-error"
-            >
-              <mat-error
-                *ngIf="myForm.get('correo').hasError(error.type)"
-              >
-                <strong> {{ error.message }}</strong>
-              </mat-error>
-            </ng-template>
+            ngFor
+            let-error
+            [ngForOf]="validaciones.correo"
+            ngProjectAs="mat-error"
+          >
+            <mat-error *ngIf="myForm.get('correo').hasError(error.type)">
+              <strong> {{ error.message }}</strong>
+            </mat-error>
+          </ng-template>
         </div>
 
         <!--telefono-->
@@ -140,9 +139,7 @@
               [ngForOf]="validaciones.telefono"
               ngProjectAs="mat-error"
             >
-              <mat-error
-                *ngIf="myForm.get('telefono').hasError(error.type)"
-              >
+              <mat-error *ngIf="myForm.get('telefono').hasError(error.type)">
                 <strong> {{ error.message }}</strong>
               </mat-error>
             </ng-template>
@@ -168,7 +165,7 @@
           >
             Guardar
           </button>
-          <button 
+          <button
             *ngIf="cveEstatusCliente === cveEstatus"
             (click)="insertClienteBE(3)"
             mat-raised-button

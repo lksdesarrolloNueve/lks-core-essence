@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
 export class FiltroBEComponent {
   //variables
   title = 'alta-cliente';
-  
+
   telefono: number;
   correo: any;
   estatus: any; // Estatus del cliente BE (por defecto es ACTIVO - 438)
@@ -52,7 +52,6 @@ export class FiltroBEComponent {
 
   responseCliente: Object;
   iblResultado: any;
-
 
   //contructos condatos el formulario y http
   constructor(
@@ -73,13 +72,15 @@ export class FiltroBEComponent {
       this.valorRespuesta = cliente;
     }
 
-
     //obtener valores del formulario en el html
     this.myForm = this.formBuilder.group({
       nombreCliente: new FormControl(''), //valor del campo de id cliente en el html
       persona_juridica_id: new FormControl(''),
       sucursal_id: new FormControl(''), //valor del campo usuario id en el html
-      telefono: new UntypedFormControl('', [Validators.maxLength(10),Validators.pattern(/^[0-9]+$/)]),
+      telefono: new UntypedFormControl('', [
+        Validators.maxLength(10),
+        Validators.pattern(/^[0-9]+$/),
+      ]),
       correo: new UntypedFormControl('', [Validators.email]),
       estatus: new FormControl(''),
     });
@@ -104,7 +105,7 @@ export class FiltroBEComponent {
         origen_id: this.origenID,
         telefono: this.myForm.get('telefono').value,
         correo: this.myForm.get('correo').value,
-        estatus: this.estatus,
+        estatus_id: this.estatus,
       },
       // Accion a realizar
       accion: opcion,
@@ -118,13 +119,23 @@ export class FiltroBEComponent {
         this.blockUI.stop();
         this.resultadoCrud = resultado;
         if (this.resultadoCrud.codigo !== '0') {
-          this.service.showNotification('top', 'rigth', 3, this.resultadoCrud.mensaje);
+          this.service.showNotification(
+            'top',
+            'rigth',
+            3,
+            this.resultadoCrud.mensaje
+          );
           return;
         }
 
-        this.service.showNotification('top','right',2,this.resultadoCrud.mensaje);
+        this.service.showNotification(
+          'top',
+          'right',
+          2,
+          this.resultadoCrud.mensaje
+        );
         this.myForm.reset();
-        
+
         setTimeout(() => this.router.navigate(['/be-clientes']));
       },
       (error) => {
@@ -132,7 +143,6 @@ export class FiltroBEComponent {
         this.service.showNotification('top', 'right', 4, error.Message);
       }
     );
-   
   }
 
   //metodo para canselar accion y redireccionar a alta clientes
@@ -146,14 +156,17 @@ export class FiltroBEComponent {
     this.vUsuarioId = this.servicePermisos.usuario.id;
   }
 
-      validaciones = {
-      telefono: [
-        {type: 'maxlength', message: 'Campo maximo 10 dígitos.'},
-        {type: 'pattern', message: 'Campo solo acepta numeros'}
-      ],
-      correo: [{type: 'email', message: 'Email inválido.'}],
-      comentarios: [{
-        type: 'maxlength', message: 'Campo maximo 255 dígitos.'
-      }],
-    };
+  validaciones = {
+    telefono: [
+      { type: 'maxlength', message: 'Campo maximo 10 dígitos.' },
+      { type: 'pattern', message: 'Campo solo acepta numeros' },
+    ],
+    correo: [{ type: 'email', message: 'Email inválido.' }],
+    comentarios: [
+      {
+        type: 'maxlength',
+        message: 'Campo maximo 255 dígitos.',
+      },
+    ],
+  };
 }
