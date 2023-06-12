@@ -8,9 +8,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {
   FormGroup,
-  FormControl,
   FormBuilder,
+  FormControl,
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
   Validators,
+  ValidatorFn,
+  AbstractControl,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -38,11 +43,12 @@ export class BajaClienteComponent {
 
   //vaiables
   vUsuarioId: any;
-  listaRolesBe: any = [];
-  listaPermisos: any = [];
+  
   myForm: FormGroup;
   valorRespuesta: any;
   resultadoCrud: any;
+  cveEstatus: any; // Clave del estatus de los generales
+  cveEstatusCliente: any; // Clave del estatus del cliente
   estatus: any;
   origenID: any;
   selectedRole: any;
@@ -54,11 +60,12 @@ export class BajaClienteComponent {
   //constructor
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private service: GestionGenericaService,
     private servicePermisos: PermisosService
   ) {
     this.origenID = environment.generales.origenMov;
+    this.cveEstatus = environment.generales.cveEstatusBEAC;
 
     const navigation = this.router.getCurrentNavigation();
 
@@ -66,11 +73,17 @@ export class BajaClienteComponent {
       const cliente = navigation.extras.state.cliente;
       this.valorRespuesta = cliente;
 
+      console.log(this.valorRespuesta);
+
       this.estatus = this.valorRespuesta.estatusId;
+      this.cveEstatusCliente = this.valorRespuesta.claveEstatus;
+      console.log(this.cveEstatus);
+      console.log(this.cveEstatusCliente);
+      console.log(this.cveEstatusCliente === this.cveEstatus);
+      console.log(this.cveEstatusCliente !== this.cveEstatus);
     }
 
     this.getUser();
-    this.spsRolesBe();
     this.spsEstatus();
     this.spsMotivos();
 
@@ -81,9 +94,9 @@ export class BajaClienteComponent {
       rol: new FormControl(''),
       estatus: new FormControl(''),
       motivoBaja: new FormControl(''), // Establecer el valor inicial como falso (false) en el slider
-      comentario: new FormControl(''), //valor del check list en el html numerico
-      telefono: new FormControl(''),
-      correo: new FormControl(''),
+      comentarios: new UntypedFormControl('', [Validators.maxLength(255)]),
+      telefono: new UntypedFormControl('', [Validators.maxLength(10),Validators.pattern(/^[0-9]+$/)]),
+      correo: new UntypedFormControl('', [Validators.email]),
     });
   }
 
@@ -91,49 +104,45 @@ export class BajaClienteComponent {
   ngOnInit(): void {}
 
   insertClienteBE(opcion: number) {
-    //archivo a insertar en la base de datos
+    // Se valida el formulario
+    if (this.myForm.invalid) {
+      this.validateAllFormFields(this.myForm);
+      return;
+    }
+        
+
     const JSONGuardar = {
-      //datos a insertar de los form controls
+      // Datos a insertar de los form controls
       datos: {
         id_cliente_be: this.valorRespuesta.clienteBEId,
         cliente_id: this.valorRespuesta.clienteID,
         usuario_alta_id: this.vUsuarioId,
         origen_id: this.origenID,
         estatus_id: this.myForm.get('estatus').value,
-        rol_id: this.myForm.get('rol').value,
         motivos_id: this.myForm.get('motivoBaja').value,
-        comentarios: this.myForm.get('comentario').value,
+        comentarios: this.myForm.get('comentarios').value,
         correo: this.myForm.get('correo').value,
         telefono: this.myForm.get('telefono').value,
       },
-      // Accion a realizar
-      accion: opcion,
-    };
+        // Accion a realizar
+        accion: opcion,
+      };
+      console.log(JSONGuardar);
+      this.blockUI.start('Guardando ...');
 
-    this.blockUI.start('Guardando ...');
-
-    //metodo de inserccion mediante un post y mensaje de proceso realizado con exito o falla
-    this.service.registrar(JSONGuardar, 'crudClientesBe').subscribe(
+      this.service.registrar(JSONGuardar, 'crudClientesBe').subscribe(
       (resultado) => {
         this.blockUI.stop();
         this.resultadoCrud = resultado;
-        if (this.resultadoCrud.codigo === '0') {
-          this.service.showNotification(
-            'top',
-            'right',
-            2,
-            this.resultadoCrud.mensaje
-          );
-          this.myForm.reset();
-          this.listaPermisos = [];
-        } else {
-          this.service.showNotification(
-            'top',
-            'right',
-            3,
-            this.resultadoCrud.mensaje
-          );
+
+        if (this.resultadoCrud.codigo !== '0') {
+          this.service.showNotification('top', 'rigth', 3, this.resultadoCrud.mensaje);
+          return;
         }
+
+        this.service.showNotification('top','right',2,this.resultadoCrud.mensaje);
+        this.myForm.reset();
+
         this.router.navigate(['/be-clientes']);
       },
       (error) => {
@@ -146,32 +155,6 @@ export class BajaClienteComponent {
   //metodo para cancelar y redirecionar
   cancelar() {
     this.router.navigate(['/be-clientes']);
-  }
-
-  /**
-   * Metodo para listar los roles be
-   */
-  spsRolesBe() {
-    this.blockUI.start('Cargando datos...');
-
-    this.service
-      .getListByObjet(
-        {
-          datos: {},
-          accion: 1,
-        },
-        'spsRolesBe'
-      )
-      .subscribe(
-        (data) => {
-          this.blockUI.stop();
-          this.listaRolesBe = data.info;
-        },
-        (error) => {
-          this.blockUI.stop();
-          this.service.showNotification('top', 'right', 4, error.Message);
-        }
-      );
   }
 
   //metodo para listar estatus de be
@@ -222,35 +205,39 @@ export class BajaClienteComponent {
       );
   }
 
-  /**
-   * Metodo para listar permisos del rol seleccionado en el formulario
-   * @param rol - evento a filtrar
-   */
-  listaPermisosRol(rol: any) {
-    this.blockUI.start();
-    this.service
-      .getListByObjet(
-        {
-          datos: { rolId: rol.generales_id },
-          accion: 1,
-        },
-        'spsPermisosRolBe'
-      )
-      .subscribe(
-        (data) => {
-          this.listaPermisos = data.info;
-          this.blockUI.stop();
-        },
-        (error) => {
-          this.blockUI.stop();
-          this.service.showNotification('top', 'right', 4, error.Message);
-        }
-      );
-  }
 
   //obtiener el usuario con sesion activa
   getUser() {
     //Usuario id y sucursal id.
     this.vUsuarioId = this.servicePermisos.usuario.id;
   }
+
+      /**
+   * Valida Cada atributo del formulario
+   * @param formGroup - Recibe cualquier tipo de FormGroup
+   */
+      validateAllFormFields(formGroup: UntypedFormGroup) {
+        Object.keys(formGroup.controls).forEach((field) => {
+          const control = formGroup.get(field);
+          if (control instanceof UntypedFormControl) {
+            control.markAsTouched({ onlySelf: true });
+          } else if (control instanceof UntypedFormGroup) {
+            this.validateAllFormFields(control);
+          }
+        });
+      }
+
+    /**
+   * Validacion para los campos
+   */
+    validaciones = {
+      telefono: [
+        {type: 'maxlength', message: 'Campo maximo 10 dígitos.'},
+        {type: 'pattern', message: 'Campo solo acepta numeros'}
+      ],
+      correo: [{type: 'email', message: 'Email inválido.'}],
+      comentarios: [{
+        type: 'maxlength', message: 'Campo maximo 255 dígitos.'
+      }],
+    };
 }

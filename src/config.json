@@ -553,14 +553,9 @@
   "jsonMenusBe":"http://177.242.201.2:9080/banca/get-menus-clientes-json",
   "spsMotivosBe":"http://177.242.201.2:9080/banca/get-motivos-be",
   "spsEstatusBe":"http://177.242.201.2:9080/banca/get-estatus-be",
-  "spsRolesBe":"http://177.242.201.2:9080/banca/get-roles-be",
-  "spsPermisosRolBe":"http://177.242.201.2:9080/banca/get-permisos-roles-be",
-  "crudPermisosRolBe":"http://177.242.201.2:9080/banca/crud-permisos-roles",
 
   "listaDocumentosOnboarding":"http://177.242.201.2:9080/banca/get-documentos-onboarding",
   "listaImagenesOnboarding": "http://177.242.201.2:9080/banca/get-imagenes-onboarding",
   "listaSolicitudesOnboarding":"http://177.242.201.2:9080/banca/get-solicitudes-onboarding",
   "revisionSolicitudesOnboarding":"http://177.242.201.2:9080/banca/revision-solicitudes-onboarding"
-
-
 }

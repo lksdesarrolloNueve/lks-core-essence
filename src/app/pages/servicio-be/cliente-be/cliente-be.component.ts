@@ -28,7 +28,6 @@ export class ClienteBEComponent {
     'personaJuridica',
     'nombreSucursal',
     'fechaAlta',
-    'ROL',
     'estatus',
     'acciones',
   ];
@@ -110,11 +109,11 @@ export class ClienteBEComponent {
     const navigationExtras: NavigationExtras = {
       state: {
         accion: 2,
-        titulo: 'id',
         cliente: cliente,
       },
     };
 
     this.router.navigate(['/be-baja-cliente'], navigationExtras);
   }
+  
 }
