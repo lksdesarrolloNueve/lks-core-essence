@@ -79,7 +79,14 @@ export const generales = {
     cveEstatusBEAC: '90AC',
     cveEstatusBEIA: '90IA',
     cveEstatusBEBJ: '90BJ',
-    cveEstatusBEBQ: '90BQ'
+    cveEstatusBEBQ: '90BQ',
+
+    cveSolicitudRevision: '88RV',
+    cveSolicitudAceptada: '88AC',
+    cveSolicitudRechazada: '88RE',
+    cveERP_LK: '51EL',
+    cveAppAndroid: '51AA',
+    cveAppIos: '51AI',
 }
 
 export default generales;

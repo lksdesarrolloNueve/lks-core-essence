@@ -365,11 +365,17 @@ import { ReferenciaMTCComponent } from '../../pages/cajas/punto-de-venta/referen
 import { SaldoServiciosComponent } from '../../pages/mtcenter/saldos/saldo-servicios/saldo-servicios.component';
 import { SaldoTaeComponent } from '../../pages/mtcenter/saldos/saldo-tae/saldo-tae.component';
 
-//BANCA ONBOARDING
+//BANCA
 import { FiltroBEComponent } from '../../pages/servicio-be/filtro-cliente-be/filtro-cliente-be.component';
 import { BajaClienteComponent } from '../../pages/servicio-be/baja-cliente/baja-cliente.component';
 import { AltaClienteComponent } from '../../pages/servicio-be/alta-cliente/alta-cliente.component';
 import { ClienteBEComponent } from '../../pages/servicio-be/cliente-be/cliente-be.component';
+
+//ONBOARDING
+import { SolicitudesOnboardingComponent } from '../../pages/onboarding/solicitudes/solicitudes.component';
+import { AdministracionSolicitudesOnboardingComponent } from '../../pages/onboarding/solicitudes/administracion-solicitudes/administracion-solicitudes-onboarding.component';
+import { ExpedienteSolicitudesComponent } from '../../pages/onboarding/solicitudes/expediente-solicitudes/expediente-solicitudes.component';
+
 
 //Material Disenio
 import { MatInputModule } from '@angular/material/input';
@@ -458,6 +464,9 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     NgxMaskModule.forRoot()
   ],
   declarations: [
+    SolicitudesOnboardingComponent,
+    AdministracionSolicitudesOnboardingComponent,
+    ExpedienteSolicitudesComponent,
     FiltroBEComponent,
     ClienteBEComponent,
     BajaClienteComponent,
