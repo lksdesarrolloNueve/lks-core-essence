@@ -104,7 +104,7 @@ export class FiltroBEComponent {
         origen_id: this.origenID,
         telefono: this.myForm.get('telefono').value,
         correo: this.myForm.get('correo').value,
-        estatus: this.estatus,
+        estatus_id: this.estatus,
       },
       // Accion a realizar
       accion: opcion,
