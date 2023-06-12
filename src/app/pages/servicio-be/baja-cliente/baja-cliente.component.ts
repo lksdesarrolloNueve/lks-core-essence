@@ -8,16 +8,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {
   FormGroup,
-  FormBuilder,
   FormControl,
   UntypedFormGroup,
   UntypedFormBuilder,
   UntypedFormControl,
-  Validators,
-  ValidatorFn,
-  AbstractControl,
+  Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { GestionGenericaService } from '../../../shared/service/gestion/gestion.service';
 import { environment } from '../../../../environments/environment';
@@ -43,7 +40,7 @@ export class BajaClienteComponent {
 
   //vaiables
   vUsuarioId: any;
-  
+
   myForm: FormGroup;
   valorRespuesta: any;
   resultadoCrud: any;
@@ -95,13 +92,13 @@ export class BajaClienteComponent {
       estatus: new FormControl(''),
       motivoBaja: new FormControl(''), // Establecer el valor inicial como falso (false) en el slider
       comentarios: new UntypedFormControl('', [Validators.maxLength(255)]),
-      telefono: new UntypedFormControl('', [Validators.maxLength(10),Validators.pattern(/^[0-9]+$/)]),
+      telefono: new UntypedFormControl('', [Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]),
       correo: new UntypedFormControl('', [Validators.email]),
     });
   }
 
   /* Metodo OnInit de la clase */
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   insertClienteBE(opcion: number) {
     // Se valida el formulario
@@ -109,7 +106,7 @@ export class BajaClienteComponent {
       this.validateAllFormFields(this.myForm);
       return;
     }
-        
+
 
     const JSONGuardar = {
       // Datos a insertar de los form controls
@@ -124,13 +121,13 @@ export class BajaClienteComponent {
         correo: this.myForm.get('correo').value,
         telefono: this.myForm.get('telefono').value,
       },
-        // Accion a realizar
-        accion: opcion,
-      };
-      console.log(JSONGuardar);
-      this.blockUI.start('Guardando ...');
+      // Accion a realizar
+      accion: opcion,
+    };
+    console.log(JSONGuardar);
+    this.blockUI.start('Guardando ...');
 
-      this.service.registrar(JSONGuardar, 'crudClientesBe').subscribe(
+    this.service.registrar(JSONGuardar, 'crudClientesBe').subscribe(
       (resultado) => {
         this.blockUI.stop();
         this.resultadoCrud = resultado;
@@ -140,7 +137,7 @@ export class BajaClienteComponent {
           return;
         }
 
-        this.service.showNotification('top','right',2,this.resultadoCrud.mensaje);
+        this.service.showNotification('top', 'right', 2, this.resultadoCrud.mensaje);
         this.myForm.reset();
 
         this.router.navigate(['/be-clientes']);
@@ -212,32 +209,32 @@ export class BajaClienteComponent {
     this.vUsuarioId = this.servicePermisos.usuario.id;
   }
 
-      /**
-   * Valida Cada atributo del formulario
-   * @param formGroup - Recibe cualquier tipo de FormGroup
-   */
-      validateAllFormFields(formGroup: UntypedFormGroup) {
-        Object.keys(formGroup.controls).forEach((field) => {
-          const control = formGroup.get(field);
-          if (control instanceof UntypedFormControl) {
-            control.markAsTouched({ onlySelf: true });
-          } else if (control instanceof UntypedFormGroup) {
-            this.validateAllFormFields(control);
-          }
-        });
+  /**
+* Valida Cada atributo del formulario
+* @param formGroup - Recibe cualquier tipo de FormGroup
+*/
+  validateAllFormFields(formGroup: UntypedFormGroup) {
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
+      if (control instanceof UntypedFormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof UntypedFormGroup) {
+        this.validateAllFormFields(control);
       }
+    });
+  }
 
-    /**
-   * Validacion para los campos
-   */
-    validaciones = {
-      telefono: [
-        {type: 'maxlength', message: 'Campo maximo 10 dígitos.'},
-        {type: 'pattern', message: 'Campo solo acepta numeros'}
-      ],
-      correo: [{type: 'email', message: 'Email inválido.'}],
-      comentarios: [{
-        type: 'maxlength', message: 'Campo maximo 255 dígitos.'
-      }],
-    };
+  /**
+ * Validacion para los campos
+ */
+  validaciones = {
+    telefono: [
+      { type: 'maxlength', message: 'Campo maximo 10 dígitos.' },
+      { type: 'pattern', message: 'Campo solo acepta numeros' }
+    ],
+    correo: [{ type: 'email', message: 'Email inválido.' }],
+    comentarios: [{
+      type: 'maxlength', message: 'Campo maximo 255 dígitos.'
+    }],
+  };
 }

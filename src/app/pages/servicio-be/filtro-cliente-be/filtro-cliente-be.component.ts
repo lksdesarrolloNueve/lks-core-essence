@@ -6,18 +6,12 @@ import {
   UntypedFormGroup,
   UntypedFormBuilder,
   UntypedFormControl,
-  Validators,
-  ValidatorFn,
-  AbstractControl,
+  Validators
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { ActivatedRoute, Params } from '@angular/router';
-import { data, param } from 'jquery';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { GestionGenericaService } from '../../../shared/service/gestion';
-import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
 import { environment } from '../../../../environments/environment';
 import { PermisosService } from '../../../shared/service/permisos.service';
 import { Router } from '@angular/router';
