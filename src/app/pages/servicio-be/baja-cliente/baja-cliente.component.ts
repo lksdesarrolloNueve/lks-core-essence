@@ -73,14 +73,8 @@ export class BajaClienteComponent {
       const cliente = navigation.extras.state.cliente;
       this.valorRespuesta = cliente;
 
-      console.log(this.valorRespuesta);
-
       this.estatus = this.valorRespuesta.estatusId;
       this.cveEstatusCliente = this.valorRespuesta.claveEstatus;
-      console.log(this.cveEstatus);
-      console.log(this.cveEstatusCliente);
-      console.log(this.cveEstatusCliente === this.cveEstatus);
-      console.log(this.cveEstatusCliente !== this.cveEstatus);
     }
 
     this.getUser();
@@ -127,7 +121,7 @@ export class BajaClienteComponent {
         // Accion a realizar
         accion: opcion,
       };
-      console.log(JSONGuardar);
+      
       this.blockUI.start('Guardando ...');
 
       this.service.registrar(JSONGuardar, 'crudClientesBe').subscribe(
