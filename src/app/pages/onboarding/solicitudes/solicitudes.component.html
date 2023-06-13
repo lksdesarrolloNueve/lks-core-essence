@@ -1,90 +1,90 @@
 <div class="row">
-    <div class="col-md-12">
-        <div class="card card-body">
-            <h3 class="text-center">Revisi&oacute;n Solicitudes</h3>
+  <div class="col-md-12">
+    <div class="card card-body">
+      <h3 class="text-center">Revisi&oacute;n Solicitudes</h3>
 
-            <mat-form-field>
-                <mat-label>Filtros de Busqueda</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Nombre Cliente, Estatus" #input>
-            </mat-form-field>
+      <mat-form-field>
+        <mat-label>Filtros de Busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Nombre Cliente, Estatus" #input>
+      </mat-form-field>
 
 
-            <div class="mat-elevation-z8 table-responsive">
-                <table aria-label="infoSuc" mat-table [dataSource]="dataSourceSolicitudes" matSort>
+      <div class="mat-elevation-z8 table-responsive">
+        <table aria-label="infoSuc" mat-table [dataSource]="dataSourceSolicitudes" matSort>
 
-                    <!--- Note that these columns can be defined in any order.
+          <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
 
 
-                    <!-- ID Solicitud -->
-                    <ng-container matColumnDef="solicitud_id">
-                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> ID Solicitud
-                        </th>
-                        <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.solicitud_id}} </td>
-                    </ng-container>
+          <!-- ID Solicitud -->
+          <ng-container matColumnDef="solicitud_id">
+            <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> ID Solicitud
+            </th>
+            <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.solicitud_id}} </td>
+          </ng-container>
 
-                    <!-- Nombre Cliente -->
-                    <ng-container matColumnDef="nombre_cliente">
-                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Nombre Cliente
-                        </th>
-                        <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.nombre_cliente}} </td>
-                    </ng-container>
+          <!-- Nombre Cliente -->
+          <ng-container matColumnDef="nombre_cliente">
+            <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Nombre Cliente
+            </th>
+            <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.nombre_prospecto}} </td>
+          </ng-container>
 
-                    <!-- Fecha Solicitud -->
-                    <ng-container matColumnDef="fecha_solicitud">
-                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Fecha Solicitud
-                        </th>
-                        <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.fecha_solicitud}} </td>
-                    </ng-container>
+          <!-- Fecha Solicitud -->
+          <ng-container matColumnDef="fecha_solicitud">
+            <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Fecha Solicitud
+            </th>
+            <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.fecha_solicitud}} </td>
+          </ng-container>
 
-                    <!-- Estatus -->
-                    <ng-container matColumnDef="estatus">
-                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Estatus
-                        </th>
-                        <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
-                    </ng-container>
-
-
-                    <!-- Revisar expediente -->
-                    <ng-container matColumnDef="expediente">
-                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Expediente </th>
-                        <td style="padding: 16px;" mat-cell *matCellDef="let element">
-                            <button mat-mini-fab color="primary" (click)="abrirDialogoExpediente(element)">
-                                <mat-icon>chrome_reader_mode</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
+          <!-- Estatus -->
+          <ng-container matColumnDef="estatus">
+            <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Estatus
+            </th>
+            <td style="padding: 16px;" mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+          </ng-container>
 
 
-                    <!-- Observaciones -->
-                    <ng-container matColumnDef="observaciones_solicitud">
-                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Observaciones
-                        </th>
-                        <td style="padding: 16px;" mat-cell *matCellDef="let element">
-                            {{element.observaciones_solicitud}}
-                        </td>
-                    </ng-container>
+          <!-- Revisar expediente -->
+          <ng-container matColumnDef="expediente">
+            <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Expediente </th>
+            <td style="padding: 16px;" mat-cell *matCellDef="let element">
+              <button mat-mini-fab color="primary" (click)="abrirDialogoExpediente(element)">
+                <mat-icon>chrome_reader_mode</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
 
-                    <!-- Revisión solicitud -->
-                    <ng-container matColumnDef="acciones">
-                        <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
-                        <td style="padding: 16px;" mat-cell *matCellDef="let element">
-                            <button mat-mini-fab color="primary" (click)="abrirDialogoSolicitud(element, 1)">
-                                <mat-icon>check_circle</mat-icon>
-                            </button>
-                            <button mat-mini-fab color="primary" (click)="abrirDialogoSolicitud(element, 2)">
-                                <mat-icon>block</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
+          <!-- Observaciones -->
+          <ng-container matColumnDef="observaciones_solicitud">
+            <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Observaciones
+            </th>
+            <td style="padding: 16px;" mat-cell *matCellDef="let element">
+              {{element.observaciones_solicitud}}
+            </td>
+          </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-            </div>
-            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
-                aria-label="Select page of users"></mat-paginator>
-        </div>
+
+          <!-- Revisión solicitud -->
+          <ng-container matColumnDef="acciones">
+            <th style="padding: 16px;" scope="column" mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td style="padding: 16px;" mat-cell *matCellDef="let element">
+              <button mat-mini-fab color="primary" (click)="abrirDialogoSolicitud(element, 1)">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+              <button mat-mini-fab color="primary" (click)="abrirDialogoSolicitud(element, 2)">
+                <mat-icon>block</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
+        aria-label="Select page of users"></mat-paginator>
     </div>
+  </div>
 </div>

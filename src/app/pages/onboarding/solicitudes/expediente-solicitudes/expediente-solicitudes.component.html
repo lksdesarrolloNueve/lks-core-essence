@@ -1,58 +1,69 @@
 <h3 mat-dialog-title>Expediente</h3>
 
 <mat-dialog-content>
-    <div class="col-md-12">
-        <div class="row">
-            <form [formGroup]='formExpediente'>
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Nombre Cliente</mat-label>
-                    <input formControlName="nombreCliente" matInput placeholder="Jose Alexander ..." readonly>
-                    <mat-icon matSuffix>person</mat-icon>
-                </mat-form-field>
-            </form>
-        </div>
+  <div class="col-md-12">
+    <form [formGroup]='formExpediente'>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre Cliente</mat-label>
+        <input formControlName="nombreCliente" matInput placeholder="Jose Alexander ..." readonly>
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
 
-        <mat-accordion>
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngIf="flagFoto"
-                (click)="spsImagenesOnboarding(1)">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Foto
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <img src="{{'data:image/jpg;base64,' + foto}}" alt="" style="width: 500px; height: 500px;">
-            </mat-expansion-panel>
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngIf="flagFoto"
+      (click)="spsImagenesOnboarding(1)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Foto
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <img src="{{'data:image/jpg;base64,' + foto}}" alt="" style="width: 100%; height: 100%;">
+    </mat-expansion-panel>
 
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
-                *ngIf="flagFrontalIne" (click)="spsImagenesOnboarding(2)">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Frontal INE
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <img src="{{'data:image/jpg;base64,' + frontalIne}}" alt="" style="width: 500px; height: 500px;">
-            </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngIf="flagFrontalIne"
+      (click)="spsImagenesOnboarding(2)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Frontal INE
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <img src="{{'data:image/jpg;base64,' + frontalIne}}" alt="" style="width: 100%; height: 100%;">
+    </mat-expansion-panel>
 
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
-                *ngIf="flagReversoIne" (click)="spsImagenesOnboarding(3)">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Reverso INE
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <img src="{{'data:image/jpg;base64,' + reversoIne}}" alt="" style="width: 500px; height: 500px;">
-            </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngIf="flagReversoIne"
+      (click)="spsImagenesOnboarding(3)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Reverso INE
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <img src="{{'data:image/jpg;base64,' + reversoIne}}" alt="" style="width: 100%; height: 100%;">
+    </mat-expansion-panel>
 
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
-                *ngIf="flagComprobanteDomicilio" (click)="spsImagenesOnboarding(4)">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Comprobante Domicilio
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <img src="{{'data:image/jpg;base64,' + comprobanteDomicilio}}" alt=""
-                    style="width: 500px; height: 500px;">
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+      *ngIf="flagComprobanteDomicilio" (click)="spsImagenesOnboarding(4)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Comprobante Domicilio
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <img src="{{'data:image/jpg;base64,' + comprobanteDomicilio}}" alt="" style="width: 100%; height: 100%;">
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngIf="flagFirma"
+      (click)="spsImagenesOnboarding(5)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Firma
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <img src="{{firma}}" alt="" style="width: 100%; height: 100%;">
+    </mat-expansion-panel>
+  </mat-accordion>
 </mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn">Cerrar</button>
+</mat-dialog-actions>

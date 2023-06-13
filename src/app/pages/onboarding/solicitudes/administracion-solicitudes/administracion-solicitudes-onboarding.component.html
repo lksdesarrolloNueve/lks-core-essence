@@ -1,36 +1,36 @@
 <h3 mat-dialog-title>Revisión Solicitud</h3>
 
 <mat-dialog-content class="mat-typography">
-    <div class="col-md-12">
-        <form [formGroup]='formSolicitud'>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>ID Solicitud</mat-label>
-                <input formControlName="solicitudId" matInput placeholder="Rechazada por ..." readonly>
-                <mat-icon matSuffix>vpn_key</mat-icon>
-            </mat-form-field>
-        </form>
+  <div class="col-md-12">
+    <form [formGroup]='formSolicitud'>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>ID Solicitud</mat-label>
+        <input formControlName="solicitudId" matInput placeholder="1 ..." readonly>
+        <mat-icon matSuffix>vpn_key</mat-icon>
+      </mat-form-field>
+    </form>
 
-        <form [formGroup]='formSolicitud'>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Nombre Cliente</mat-label>
-                <input formControlName="nombreCliente" matInput placeholder="Rechazada por ..." readonly>
-                <mat-icon matSuffix>person</mat-icon>
-            </mat-form-field>
-        </form>
+    <form [formGroup]='formSolicitud'>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre Cliente</mat-label>
+        <input formControlName="nombreCliente" matInput placeholder="Jose Juan ..." readonly>
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+    </form>
 
-        <form [formGroup]='formSolicitud'>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Observaciones</mat-label>
-                <input formControlName="observacionesSolicitud" matInput placeholder="Rechazada por ...">
-                <mat-icon matSuffix>description</mat-icon>
-            </mat-form-field>
-        </form>
-    </div>
+    <form [formGroup]='formSolicitud'>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Observaciones</mat-label>
+        <input formControlName="observacionesSolicitud" matInput placeholder="Rechazada por ...">
+        <mat-icon matSuffix>description</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
 
-    <button mat-raised-button mat-dialog-close cdkFocusInitial color="primary"
-        (click)="revisarSolicitudes()">Aceptar</button>
-    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  <button mat-raised-button mat-dialog-close cdkFocusInitial color="primary"
+    (click)="revisarSolicitudes()">Aceptar</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
 </mat-dialog-actions>

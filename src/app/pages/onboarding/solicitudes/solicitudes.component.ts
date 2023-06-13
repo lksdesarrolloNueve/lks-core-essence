@@ -47,7 +47,7 @@ export class SolicitudesOnboardingComponent {
      * @param dialog - Servicio para la gestion de Dialogos Tipo Modal
      */
   constructor(private service: GestionGenericaService, public dialog: MatDialog, private formbuilder: UntypedFormBuilder) {
-    this.spsSucurales();
+    this.spsSolicitudes();
 
     this.formObservaciones = this.formbuilder.group({
       inputObservaciones: new UntypedFormControl('')
@@ -57,21 +57,22 @@ export class SolicitudesOnboardingComponent {
   /**
      * Metodo para cargar en tabla las sucursales
      */
-  spsSucurales() {
+  spsSolicitudes() {
     this.blockUI.start('Cargando datos...');
 
-    this.service.getListByObjet({ "datos": { "cveEstatusSolicitud": environment.generales.cveSolicitudRevision }, "accion": 2 }, 'listaSolicitudesOnboarding').subscribe(data => {
-      this.blockUI.stop();
-      this.listSolicitudes = data.info;
-      this.dataSourceSolicitudes = new MatTableDataSource(this.listSolicitudes);
-      this.dataSourceSolicitudes.paginator = this.paginator;
-      this.dataSourceSolicitudes.sort = this.sort;
+    this.service.getListByObjet(
+      { "datos": { "cveEstatusSolicitud": environment.generales.cveSolicitudRevision }, "accion": 1 }, 'listaSolicitudesOnboarding').subscribe(data => {
+        this.blockUI.stop();
+        this.listSolicitudes = data.info;
+        this.dataSourceSolicitudes = new MatTableDataSource(this.listSolicitudes);
+        this.dataSourceSolicitudes.paginator = this.paginator;
+        this.dataSourceSolicitudes.sort = this.sort;
 
-    }, error => {
-      this.blockUI.stop();
-      this.service.showNotification('top', 'rigth', 4, error.Message);
-    }
-    );
+      }, error => {
+        this.blockUI.stop();
+        this.service.showNotification('top', 'rigth', 4, error.Message);
+      }
+      );
   }
 
   /**
@@ -105,6 +106,9 @@ export class SolicitudesOnboardingComponent {
     // Se abre el modal y setean valores
     const dialogRef = this.dialog.open(AdministracionSolicitudesOnboardingComponent,
       {
+        width: '90%',
+        height: '90%',
+        disableClose: true,
         data: {
           accion: accion,
           cvEstatusSolicitud: cvEstatusSolicitud,
@@ -114,7 +118,7 @@ export class SolicitudesOnboardingComponent {
 
     //Este se usa para que cuando cerramos
     dialogRef.afterClosed().subscribe(result => {
-      this.spsSucurales();
+      this.spsSolicitudes();
     });
   }
 
@@ -126,6 +130,9 @@ export class SolicitudesOnboardingComponent {
     // Se abre el modal y setean valores
     const dialogRef = this.dialog.open(ExpedienteSolicitudesComponent,
       {
+        width: '90%',
+        height: '90%',
+        disableClose: true,
         data: {
           expediente: data
         }
@@ -133,7 +140,7 @@ export class SolicitudesOnboardingComponent {
 
     //Este se usa para que cuando cerramos
     dialogRef.afterClosed().subscribe(result => {
-      this.spsSucurales();
+      this.spsSolicitudes();
     });
   }
 }
