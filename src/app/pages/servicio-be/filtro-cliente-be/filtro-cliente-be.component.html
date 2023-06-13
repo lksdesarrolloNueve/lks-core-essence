@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="justify-content: center">
   <!-- Título de alta usuarios -->
   <div class="col-md-8">
     <div class="card card-body">
@@ -53,38 +53,52 @@
             <mat-icon matSuffix>house</mat-icon>
           </mat-form-field>
         </div>
-
+        
         <!--correo-->
-        <div class="col-md-12">
+        <div class="col-md-12" >
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>correo</mat-label>
-            <input formControlName="correo" type="email" matInput />
+            <mat-label>Correo</mat-label>
+            <input
+              formControlName="correo"
+              matInput
+            />
             <mat-icon matSuffix>email</mat-icon>
           </mat-form-field>
+          <ng-template
+              ngFor
+              let-error
+              [ngForOf]="validaciones.correo"
+              ngProjectAs="mat-error"
+            >
+              <mat-error
+                *ngIf="myForm.get('correo').hasError(error.type)"
+              >
+                <strong> {{ error.message }}</strong>
+              </mat-error>
+            </ng-template>
         </div>
 
         <!--telefono-->
-        <div class="col-md-12">
+        <div class="col-md-12" >
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>telefono .</mat-label>
-            <input formControlName="telefono" type="number" matInput />
+            <mat-label>Telefono .</mat-label>
+            <input
+              formControlName="telefono"
+              matInput
+            />
             <mat-icon matSuffix>phone</mat-icon>
-          </mat-form-field>
-        </div>
-
-        <!--rol id-->
-        <div class="col-md-12">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Rol .</mat-label>
-            <mat-select [(ngModel)]="selectedRole" formControlName="rol">
-              <mat-option
-                *ngFor="let rol of listaRolesBe"
-                [value]="rol.generales_id"
-                (click)="listaPermisosRol(rol)"
+            <ng-template
+              ngFor
+              let-error
+              [ngForOf]="validaciones.telefono"
+              ngProjectAs="mat-error"
+            >
+              <mat-error
+                *ngIf="myForm.get('telefono').hasError(error.type)"
               >
-                {{ rol.descripcion }}
-              </mat-option>
-            </mat-select>
+                <strong> {{ error.message }}</strong>
+              </mat-error>
+            </ng-template>
           </mat-form-field>
         </div>
 
@@ -123,23 +137,4 @@
     </div>
   </div>
 
-  <!--card del formulario de alta usuarios-->
-  <div class="col-md-4">
-    <div class="card card-body">
-      <h2 class="text-center">Permisos</h2>
-      <div class="text-center" *ngFor="let permiso of listaPermisos">
-        <h3
-          style="
-            justify-content: center;
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-            font-size: 100%;
-          "
-        >
-          {{ permiso.titulo }}
-        </h3>
-      </div>
-    </div>
-  </div>
-</div>
+
