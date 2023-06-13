@@ -12,7 +12,7 @@
   "crudCalidadesExtranjeros":"http://177.242.201.2:8481/catalogos/crudcaliextranjero",
 
   "spsActividadesPLD" : "http://177.242.201.2:8481/catalogos/listaActividadesPLD",
-  "crudActividadesPLD": "http://177.242.201.2:8481/catalogos/crudActividadesPLD", 
+  "crudActividadesPLD": "http://177.242.201.2:8481/catalogos/crudActividadesPLD",
 
   "listaBancoSat": "http://177.242.201.2:8481/catalogos/spsBancoSat",
   "crudBancoSat":"http://177.242.201.2:8481/catalogos/crudBancoSat",
@@ -228,7 +228,7 @@
 
   "listaCreditoRelacionado":"http://177.242.201.2:8481/catalogos/listaCreditoRel",
   "CrudCreditoRelacionado":"http://177.242.201.2:8481/catalogos/crudCredRel",
-  
+
 
   "crudUsuario": "http://177.242.201.2:8480/admin/realms/lks-core/users",
   "crudRol": "http://177.242.201.2:8480/admin/realms/lks-core/roles",
@@ -269,7 +269,7 @@
   "listaDirectivoFuncionarioById":"http://177.242.201.2:8481/catalogos/lista-directivoFuncionario-by-id",
   "listaDirectivoSucursalById":"http://177.242.201.2:8481/catalogos/lista-directivoSucursal-by-id",
   "listaDirectivoSujetoById":"http://177.242.201.2:8481/catalogos/lista-directivoSujeto-by-id",
-  
+
   "listaFamiliarDirFunSucById": "http://177.242.201.2:8481/catalogos/lista-direcFuncionariosFam-by-IdSucursal",
   "listaDirectivoFamiliarSujetoById": "http://177.242.201.2:8481/catalogos/lista-directivofamiliar-sujetoById",
   "crudDirectivoFuncionarioFamiliar": "http://177.242.201.2:8481/catalogos/crud-directivos-funcionarios-familiares",
@@ -305,24 +305,24 @@
   "detalleCredito" : "http://177.242.201.2:8054/creditos/detalleCredito",
   "listaAvaladosById":"http://177.242.201.2:8054/creditos/listaAvalados",
   "listaHistorialCred":"http://177.242.201.2:8056/tesoreria/listaCreditoCliente",
-  
+
   "spsCorreos": "http://177.242.201.2:8481/catalogos/spsCorreo",
   "spsCorreosBYCves" : "http://177.242.201.2:8481/catalogos/spsCorreosBYCves",
   "crudCorreos" : "http://177.242.201.2:8481/catalogos/crudCorreo",
   "enviarCorreo": "http://177.242.201.2:8481/catalogos/enviarCorreo",
   "enviarCorreoHTML" : "http://177.242.201.2:8481/catalogos/enviarCorreoHTML",
-  
+
   "spsSMS":"http://177.242.201.2:8481/catalogos/spsSMS",
   "spsSMSByCves": "http://177.242.201.2:8481/catalogos/spsSMSByCves",
   "crudSMS":"http://177.242.201.2:8481/catalogos/crudSMS",
 
   "crudCtasPermisos": "http://177.242.201.2:8481/catalogos/relacionar-permisos-usuarios",
   "listaCtasPermisos": "http://177.242.201.2:8481/catalogos/lista-permisosUsuarios",
-  
+
   "enviaSMS": "http://177.242.201.2:8481/catalogos/enviarSMS",
 
   "listavalorUma": "http://177.242.201.2:8481/catalogos/listaValoresUma",
-  "crudUma": "http://177.242.201.2:8481/catalogos/crudUma",  
+  "crudUma": "http://177.242.201.2:8481/catalogos/crudUma",
   "crudAval": "http://177.242.201.2:8052/clientes/crudAval",
   "listaAval": "http://177.242.201.2:8052/clientes/spsAvales",
 
@@ -335,7 +335,7 @@
   "spsIntegranteComite": "http://177.242.201.2:8481/catalogos/spsBuscarIntegrante",
   "crudRespuestaCredito": "http://177.242.201.2:8054/creditos/crudRespuestaCredito",
   "spsolcitudSucEst": "http://177.242.201.2:8054/creditos/listaSolicitudesByEstatus",
- 
+
   "spsRespuestSolicitud":"http://177.242.201.2:8054/creditos/listaRespuestaSolicitud",
   "crudAutorizacion":"http://177.242.201.2:8054/creditos/crudAutorizacion",
   "spsEvaluacionCinco":"http://177.242.201.2:8054/creditos/listaEvaluacionCinco",
@@ -345,7 +345,7 @@
   "reporte":"http://177.242.201.2:8055/contabilidad/reporte",
 
   "spsBloqueoClientes" : "http://177.242.201.2:8052/clientes/listaBloqueo",
-  
+
   "crudBloqueoCliente":"http://177.242.201.2:8052/clientes/crudBloqueoCliente",
 
   "listaSaldoCajaMov": "http://177.242.201.2:8056/tesoreria/spsSaldoCajaMov",
@@ -353,7 +353,7 @@
   "listaCajasDisponibles": "http://177.242.201.2:8056/tesoreria/listaCajasDisponibles",
   "listaDetallesMovSesion": "http://177.242.201.2:8056/tesoreria/listaDetallesMovSesion",
   "crudSesionesCajasPg": "http://177.242.201.2:8056/tesoreria/crudSesionesCajas",
-  
+
   "spsPerfilRiesgoFisico": "http://177.242.201.2:8052/clientes/spsPerfil",
   "spsEstadosNacionalidad": "http://177.242.201.2:8481/catalogos/spsEstadoNacionalidad",
   "spsHistoricoMov":"http://177.242.201.2:8052/clientes/spsHistoricoMov",
@@ -362,7 +362,7 @@
   "spsInvCliente": "http://177.242.201.2:8056/tesoreria/spsInvCliente",
   "crudInversion": "http://177.242.201.2:8056/tesoreria/crudInversion",
   "reembolsoInversion" : "http://177.242.201.2:8056/tesoreria/reembolsoInversion",
-  
+
   "spsMatrizRiesgos":"http://177.242.201.2:8052/clientes/spsMatrizRiesgos",
   "crudMatrizRiesgos":"http://177.242.201.2:8052/clientes/crudMatrizRiesgos",
   "spsValoracionRiesgos":"http://177.242.201.2:8052/clientes/spsValoracionRiesgos",
@@ -375,7 +375,7 @@
 
   "listaPeps": "http://177.242.201.2:8481/catalogos/listaPeps",
   "crudPeps": "http://177.242.201.2:8481/catalogos/crudPeps",
-  
+
   "spsOpRelevante":"http://177.242.201.2:8052/clientes/spsOperacionRelevante",
   "spsValorDolar": "http://177.242.201.2:8481/catalogos/spsDolar",
 
@@ -435,7 +435,7 @@
 
   "spsBalanza":"http://177.242.201.2:8055/contabilidad/spsBalanzaPDF",
   "spsBalanzaCSV":"http://177.242.201.2:8055/contabilidad/spsBalanza",
-  
+
   "spsCuentasPDF":"http://177.242.201.2:8055/contabilidad/spsCuentasPDF",
   "spsCuentasXML" :"http://177.242.201.2:8055/contabilidad/spsCuentasXML",
   "spsReporteBalanceCSV":"http://177.242.201.2:8055/contabilidad/spsReporteBalanceCSV",
@@ -457,18 +457,18 @@
   "spsReporteZonaCredito":"http://177.242.201.2:8053/digitalizacion/spsReporteZonaCred",
   "spsReporteActividadCredito":"http://177.242.201.2:8053/digitalizacion/spsReporteActiviadCred",
   "spsReporteMatrizTransicion":"http://177.242.201.2:8053/digitalizacion/spsMatrizTransicion",
-  
+
   "listaPrecierre": "http://177.242.201.2:8055/contabilidad/listaPrecierre",
   "crudPrecierre": "http://177.242.201.2:8055/contabilidad/crudPrecierre",
 
   "spsFondeoBancario": "http://177.242.201.2:8481/catalogos/spsFondeoBancario",
   "crudFondeoBancario":"http://177.242.201.2:8481/catalogos/crudFondeoBancario",
-  "crudVolatilidad":"http://177.242.201.2:8481/catalogos/crudVolatilidad", 
+  "crudVolatilidad":"http://177.242.201.2:8481/catalogos/crudVolatilidad",
   "spsVolatilidad": "http://177.242.201.2:8481/catalogos/spsVolatilidad",
   "spsFraccParam": "http://177.242.201.2:8481/catalogos/spsFraccParam",
   "crudFraccParametros": "http://177.242.201.2:8481/catalogos/crudFraccParam",
 
-  "crudPolInversion":"http://177.242.201.2:8056/tesoreria/crudPolInversion", 
+  "crudPolInversion":"http://177.242.201.2:8056/tesoreria/crudPolInversion",
   "spsPolInversion":"http://177.242.201.2:8056/tesoreria/spsPolInversion",
   "spsClasificacionInv": "http://177.242.201.2:8056/tesoreria/spsClasificacionC",
 
@@ -480,7 +480,7 @@
   "listaGastosPorSuc": "http://177.242.201.2:8481/catalogos/spsGastosBySuc",
   "crudDotacionesCaja": "http://177.242.201.2:8056/tesoreria/crudDotacionesCaja",
   "spsDotacionesCaja": "http://177.242.201.2:8056/tesoreria/spsDotacionesCaja",
-  
+
   "spsClabeCuentaCliente": "http://177.242.201.2:8056/tesoreria/cuentasClabeCliente",
   "crudClabeClienteCajas": "http://177.242.201.2:8056/tesoreria/crudClabeClienteCajas",
 
@@ -559,8 +559,7 @@
 
   "listaDocumentosOnboarding":"http://177.242.201.2:9080/banca/get-documentos-onboarding",
   "listaImagenesOnboarding": "http://177.242.201.2:9080/banca/get-imagenes-onboarding",
-  "listaSolicitudesOnboarding":"http://177.242.201.2:9080/banca/get-solicitudes-onboarding",
-  "revisionSolicitudesOnboarding":"http://177.242.201.2:9080/banca/revision-solicitudes-onboarding"
-
+  "revisionSolicitudesOnboarding":"http://177.242.201.2:9080/banca/revision-solicitudes-onboarding",
+  "listaSolicitudesOnboarding":"http://177.242.201.2:9080/onboarding/get-solicitudes-onboarding"
 
 }
